@@ -1,6 +1,6 @@
 "use strict";
 
-// Large-tier (bench/LARGE.md) end-to-end oracle. Each workload compiles in 20-180 s and needs
+// Large-tier (see bench/README.md) end-to-end oracle. Each workload compiles in 20-180 s and needs
 // up to 12 GB heap, so it runs one subprocess per workload and is gated behind FREEZEDRY_E2E_LARGE=1.
 
 const fs = require("node:fs");

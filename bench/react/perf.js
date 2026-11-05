@@ -2,7 +2,7 @@
 
 // Throughput + cold-start harness.
 //
-//   node react-bench/perf.js --impl <module> [--impl <module2> ...]
+//   node bench/react/perf.js --impl <module> [--impl <module2> ...]
 //        [--variants small,large] [--engines jit,jitless] [--time 3] [--warmup 1.5]
 //        [--cold-runs 7] [--no-cold] [--quick] [--out results/foo.json]
 //

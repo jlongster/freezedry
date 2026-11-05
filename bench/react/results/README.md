@@ -14,7 +14,7 @@ Details are in `check-*.json`.
 Full table: `perf-baseline-vs-handwritten.md` / `.json`. Measured 2026-11-05 on node v26.7.0,
 4 vCPU AMD EPYC 9554P.
 
-**Caveat:** this machine was shared with other agents during the run (load average about 11 on
+**Caveat:** this machine was shared with other jobs during the run (load average about 11 on
 4 CPUs). Absolute numbers swing by ±30% between rounds, so treat the speedup ratios as the
 result. They are medians of same-round ratios. Per-round ratios are listed in brackets.
 

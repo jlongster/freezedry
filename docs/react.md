@@ -1,8 +1,8 @@
-# React-Hybrid: trace-based template specialization of React SSR, with guards
+# React SSR specializer (`react/`): trace-based templates with guards
 
-React-Hybrid takes a **known** React app and **unknown** request data, and builds a specialized
+The React specializer takes a **known** React app and **unknown** request data, and builds a specialized
 `render(data)` that returns exactly the same bytes as `ReactDOMServer.renderToString(<App data={data}/>)`.
-It does this in the spirit of the hybrid architecture (`hybrid/DESIGN.md`):
+It applies freezedry's approach ([design.md](design.md)) to rendering:
 
 - **Run the real code in the real engine.** The app, React and ReactDOMServer all run in V8 while
   tracing. The specialized renderer still calls the app's own helper functions (`formatMoney`,
@@ -13,26 +13,26 @@ It does this in the spirit of the hybrid architecture (`hybrid/DESIGN.md`):
   self-check runs on the training inputs. Correctness is then measured on the 500-input corpus and
   on random fuzzing beyond it.
 
-It is an implementation module for `react-bench`: `{ name, prepare(appSource, opts) -> render }`.
+It is an implementation module for the React benchmark in [`bench/react/`](../bench/react/README.md): `{ name, prepare(appSource, opts) -> render }`. `bench/react/impl/freezedry.js` points at it.
 
 ```
-node /tmp/opencode/pp-wt/react-bench/react-bench/check.js --impl $PWD/hybrid/react/index.js
-node /tmp/opencode/pp-wt/react-bench/react-bench/perf.js  --impl $PWD/hybrid/react/index.js --impl handwritten
-node hybrid/react/fuzz.js --n 10000 --seed 1 --mutations 5      # guard fuzzer
-node --test hybrid/test/react-hybrid*.test.js
+node bench/react/check.js --impl freezedry
+node bench/react/perf.js  --impl freezedry --impl handwritten
+node react/fuzz.js --n 10000 --seed 1 --mutations 5      # guard fuzzer
+node --test test/react*.test.js
 ```
 
-## Results (react-bench, `app/app.js`, 30 components; Node 26; 4-vCPU shared box)
+## Results (`bench/react`, `app/app.js`, 30 components; Node 26; 4-vCPU shared box)
 
 **Correctness.** `check.js`: **500/500 byte-identical** (corpus fingerprint `4fafe7d601e3561d`).
 The fuzzer produced **0 mismatches on 50,000 mutated inputs** with the final code (seeds 21–25,
-`results/fuzz.jsonl`), plus 43,000 more on earlier development versions. Mutations go up to 6 per input:
+`react/results/fuzz.jsonl`), plus 43,000 more on earlier development versions. Mutations go up to 6 per input:
 deleted, nulled or retyped fields, special numbers, escaping-relevant strings, arrays truncated,
 duplicated or emptied, extra keys, objects replaced by arrays or strings). Inputs that make the
 app itself throw also throw the same error through the specialized renderer.
 
 **Fallback rate.** The default training set is 60 small + 10 large pages from `getTrainingCorpus`,
-whose seeds are disjoint from the check corpus. See `results/fallback-rate.jsonl`.
+whose seeds are disjoint from the check corpus. See `react/results/fallback-rate.jsonl`.
 
 | corpus | fallbacks | mismatches |
 |---|---:|---:|
@@ -47,16 +47,16 @@ produces, so the training set never traced them: `promo.minOrder === 0` and `spe
 With only 20 + 2 training pages the rate is about 30%: coverage comes from tracing.
 
 **Throughput.** From `perf.js`; the speedup is the median of per-round impl/baseline ratios.
-`results/perf.md` has the run used here: 5 rounds, under a load average of 5–12 from other agents.
+`react/results/perf.md` has the run used here: 5 rounds, under a load average of 5–12 from other jobs.
 An earlier quiet run gave the same ratios within about 10% (for example JIT small 5.1x, jitless large 14x).
 
 | | JIT small | JIT large | jitless small | jitless large |
 |---|---:|---:|---:|---:|
 | baseline `renderToString` | 1.0x | 1.0x | 1.0x | 1.0x |
-| **react-hybrid** | **5.8x** | **4.9x** | **11.9x** | **11.3x** |
+| **freezedry** | **5.8x** | **4.9x** | **11.9x** | **11.3x** |
 | handwritten upper bound | 9.1x | 8.0x | 21.4x | 18.3x |
-| hybrid / handwritten | 64% | 61% | 56% | 62% |
-| alloc KB/render (baseline → hybrid → handwritten) | 136 → 16 → 13 | 6,408 → 724 → 607 | | |
+| freezedry / handwritten | 64% | 61% | 56% | 62% |
+| alloc KB/render (baseline → freezedry → handwritten) | 136 → 16 → 13 | 6,408 → 724 → 607 | | |
 
 p50 latency: small pages take 0.014 ms (baseline 0.071, handwritten 0.009), large pages 0.69 ms
 (baseline 6.9, handwritten 0.47).
@@ -66,9 +66,9 @@ p50 latency: small pages take 0.014 ms (baseline 0.071, handwritten 0.009), larg
 | | load | prepare | 1st render | first HTML |
 |---|---:|---:|---:|---:|
 | baseline (JIT) | 10.5 ms | 0.7 | 4.8 | 16.2 ms |
-| **react-hybrid (JIT)** | 0.9 ms | 2.7 | 1.2 | **4.9 ms** |
+| **freezedry (JIT)** | 0.9 ms | 2.7 | 1.2 | **4.9 ms** |
 | baseline (jitless) | 7.6 | 0.7 | 4.8 | 14.9 |
-| **react-hybrid (jitless)** | 1.0 | 3.3 | 1.1 | **5.3** |
+| **freezedry (jitless)** | 1.0 | 3.3 | 1.1 | **5.3** |
 
 Three things keep the cached path cheap:
 
@@ -84,7 +84,7 @@ tracing: 22k frames.
 **Size.** The generated templates are 72.6 KB (13.2 KB gzip), including 4.2 KB of runtime helpers:
 48 template functions, 9 call-site specializations, 5 tabulated helper calls and 75 fallback sites.
 `render.code` (what `check.js` reports, 104.5 KB) is `app.js` plus the templates, because the
-templates call the app's helpers in the same module scope. See `results/generated-template.js`.
+templates call the app's helpers in the same module scope. See `react/results/generated-template.js`.
 
 ## How it works
 
@@ -179,7 +179,7 @@ At runtime, `render(data)` runs the template. A failed guard (`$fb`) or any exce
 to `renderToString` with the real app module, so app errors propagate unchanged.
 `render.stats.fallbackReasons` names the guard that failed. With `opts.collectFallbacks = N`, the
 renderer keeps copies of inputs that fell back, so the app can be rebuilt with them as extra
-training inputs (*offline relearning*, `results/relearn-demo.js`).
+training inputs (*offline relearning*, `react/results/relearn-demo.js`).
 
 ## Guards (what is checked at runtime)
 
@@ -233,7 +233,7 @@ training inputs (*offline relearning*, `results/relearn-demo.js`).
   on values whose type cannot be proven statically, escaping values a human knows are safe, and
   props and tree-context allocations.
 
-## Files
+## Files (in `react/` unless noted)
 
 | file | role |
 |---|---|
@@ -245,4 +245,11 @@ training inputs (*offline relearning*, `results/relearn-demo.js`).
 | `codegen.js` | tries → JS; runtime helpers; folding, specialization, tabulation; runtime-model verification |
 | `fuzz.js` | guard fuzzer |
 | `results/` | `check.json`, `perf.md`/`perf.json`, `fallback-rate.jsonl`, `fuzz.jsonl`, `relearn.json`, `build-stats.json`, `generated-template.js` |
-| `../test/react-hybrid*.test.js` | 17 tests: features, soundness boundaries, cache/stub, end-to-end on react-bench |
+| `test/react*.test.js` (repo root) | 17 tests: features, soundness boundaries, cache/stub, end-to-end on `bench/react` |
+
+## Next steps
+
+- Extend the instrumenter: destructuring, optional chaining, class components.
+- Static escape-safety from data provenance.
+- Cheaper tree-context handling.
+- Key the artifact cache by React version.

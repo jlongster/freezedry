@@ -1,6 +1,6 @@
 "use strict";
 
-// Correctness harness: node react-bench/check.js --impl <module> [--limit N] [--only small|large] [--json out.json] [--all-mismatches]
+// Correctness harness: node bench/react/check.js --impl <module> [--limit N] [--only small|large] [--json out.json] [--all-mismatches]
 //
 // For every input in the fixed 500-input corpus (data.js getCheckCorpus()), checks
 //   renderFn(data) === ReactDOMServer.renderToString(<App data={data} />)
@@ -32,7 +32,7 @@ function parseArgs(argv) {
     else if (a === "--quiet") args.quiet = true;
     else if (a === "-h" || a === "--help") {
       console.log(
-        "usage: node react-bench/check.js --impl <module> [--limit N] [--only small|large|all] [--json out.json] [--all-mismatches]"
+        "usage: node bench/react/check.js --impl <module> [--limit N] [--only small|large|all] [--json out.json] [--all-mismatches]"
       );
       process.exit(0);
     } else if (!args.impl && !a.startsWith("--")) args.impl = a;

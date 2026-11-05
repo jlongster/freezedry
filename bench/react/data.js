@@ -673,7 +673,7 @@ function corpusFingerprint(corpus) {
 }
 
 if (require.main === module) {
-  // node react-bench/data.js [--dump out.json]   (JSON drops undefined-valued keys)
+  // node bench/react/data.js [--dump out.json]   (JSON drops undefined-valued keys)
   const corpus = getCheckCorpus();
   const i = process.argv.indexOf("--dump");
   if (i !== -1) {

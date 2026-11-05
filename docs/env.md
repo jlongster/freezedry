@@ -1,32 +1,32 @@
-# Track H3: Environment Boundary & Runtime Guard (`hybrid/lib/env.js`)
+# Environment boundary and runtime guard (`lib/env.js`, `lib/guard.js`)
 
 ## Overview
 
-`hybrid/lib/env.js` isolates build-time VM execution from the Node build host so initialization never silently bakes host-specific globals, clocks, random numbers, locales, or timezones:
+`lib/env.js` isolates build-time VM execution from the Node build host so initialization never silently bakes host-specific globals, clocks, random numbers, locales, or timezones:
 
-1. **Target Environment Profiles (`hybrid/lib/env-profiles.js`)**: Defines six deployment profiles (`ecmascript`, `browser`, `worker`, `node`, `bun`, `hermes`), distinguishing:
+1. **Target Environment Profiles (`lib/env-profiles.js`)**: Defines deployment profiles (`ecmascript`, `browser`, `worker`, `node`, `bun`, `hermes`, and the default `universal`, with aliases `bench`, `ecma` and `bare`), distinguishing:
    - Pure ECMA-262 globals (shared across all targets).
    - Global aliases (`window` / `self` in `browser`, `self` in `worker`, `global` in `node` / `hermes`, `global` / `self` in `bun`) mapped directly to `globalThis` so captured closure references (e.g. Lodash/Underscore `var root = self`) remain genuine `{ "global": true }` references rather than `Proxy` objects.
    - Host globals that exist in the target with unknown values at build time (`document`, `navigator`, `location`, `localStorage`, `process`, `module`, `exports`, `require`, `fetch`, `setTimeout`, `performance`, `crypto`, `console`, `WebAssembly`, ...).
    - Absent globals (`typeof X === "undefined"`).
-2. **Global Prototype Membrane + Stand-ins (`hybrid/lib/env.js`)**:
+2. **Global Prototype Membrane + Stand-ins (`lib/env.js`)**:
    - Inserts a realm-local `Proxy` between `Object.getPrototypeOf(globalThis)` and `Object.prototype` inside `ctx` (plus detaching V8's default `console` and `WebAssembly` own properties during `run`).
-   - Avoids polluting `Reflect.ownKeys(globalThis)` so Track H1's global-root diffing sees only user-created globals, and adds zero trap overhead on standard ES globals (`Object`, `Array`, `Map`, ...) or ordinary objects (`{}.foo`).
+   - Avoids polluting `Reflect.ownKeys(globalThis)` so capture's global-root diffing sees only user-created globals, and adds zero trap overhead on standard ES globals (`Object`, `Array`, `Map`, ...) or ordinary objects (`{}.foo`).
    - `recorder.restore()` cleanly removes the `Proxy` and restores wrapped intrinsics (while preserving any user `intrinsicPatches` made during init) before heap capture.
-   - Registers all stand-ins and volatile wrappers in Track H1's `intrinsicsMap` (`Map<object, string>`, `WeakMap<object, string>`, or `Map<string, object>`), so closures caching references like `var st = setTimeout` or `var now = Date.now` capture as `{ "intrinsic": "setTimeout" }` / `{ "intrinsic": "Date.now" }`.
+   - Registers all stand-ins and volatile wrappers in the run's `intrinsicsMap` (`Map<object, string>`, `WeakMap<object, string>`, or `Map<string, object>`), so closures caching references like `var st = setTimeout` or `var now = Date.now` capture as `{ "intrinsic": "setTimeout" }` / `{ "intrinsic": "Date.now" }`.
 3. **Volatile & Host-Dependent APIs**:
    - `Math.random`: bails out by default (even if user code wraps it in `try/catch`, e.g. Redux `combineReducers`); `--seed` / `mathRandomSeed` is explicitly rejected; `--allow-volatile=Math.random` bakes and documents every call in `recorder.bakedVolatiles` and `recorder.diagnostics`.
    - `Date`: `Proxy` over `Date` preserving `Date.prototype` identity, `Date.prototype.constructor`, `instanceof Date`, `class extends Date`, and `[native code]` `Function.prototype.toString`. `Date.now()`, `new Date()` (0 args), and `Date()` bail out unless opted in via `--allow-volatile`.
    - Timezone-dependent `Date` operations (`new Date(y, m, ...)`, non-UTC `new Date(str)` / `Date.parse(str)`, and `Date.prototype` local getters/setters/`toString`/`toDateString`/`toTimeString`) bail out by default; `--assume-tz=UTC` (or named IANA zone) pins `process.env.TZ` during `run`, restores it on `recorder.restore()`, and emits a runtime timezone guard (`new Date(0).getTimezoneOffset() === 0` for UTC). Deterministic UTC operations (`new Date(ms)`, `Date.UTC(...)`, ISO `Z`/offset/date-only strings, `getUTC*`, `toISOString`) run with zero assumptions or bailouts.
    - `performance.now`, `crypto.getRandomValues`, `crypto.randomUUID`, `setTimeout`/`setInterval`/`setImmediate`/`requestAnimationFrame`, `Intl.*`, `*.prototype.toLocale*`, `String.prototype.localeCompare`, and `console.*` bail out when called during init (with `--allow-volatile` opt-ins where applicable). `queueMicrotask` is supported via `ctx`'s `Promise.resolve().then(...)`.
    - Error stack text is host/call-site dependent: formatting a stack during init (`new Error().stack`), assigning `Error.prepareStackTrace`, or reading it bails; `--allow-volatile=Error.stack` bakes the formatted text (verify replays it through `Error.prepareStackTrace`).
-4. **Runtime Guard & Fallback Emission (`hybrid/lib/guard.js`)**:
+4. **Runtime Guard & Fallback Emission (`lib/guard.js`)**:
    - Compiles recorded `{ kind, expr, observed }` assumptions into a short-circuit-safe `if (!(<cond>)) { <fallback> } else { <rebuilt> }` wrapper.
    - Preserves encounter order so `typeof X === "object" && X !== null` always guards downstream `X.prop` checks (preventing `ReferenceError` on undeclared globals and `TypeError` when `X === null`), handles non-identifier keys (`globalThis["__core-js_shared__"]`), and handles `NaN` (`Number.isNaN`), `-0` (`Object.is(x, -0)`), `Infinity`, and `bigint`.
    - Emits 0 bytes of guard/fallback when `assumptions` is empty.
    - Supports four fallback strategies:
-     - `"eval"` (default): `(0, eval)("<escaped>")` — preserves global `var`/`function` bindings without V8 direct-`eval` scope deopt; HTML `</script>` and U+2028/U+2029 safe.
-     - `"function"`: `(function () {\n<orig>\n}).call(this)` — CSP-safe (no `unsafe-eval`), V8 lazy-preparsed, CommonJS `module`/`exports` compatible, and compresses tightly with gzip via shared LZ77 backreferences.
+     - `"eval"`: `(0, eval)("<escaped>")` — preserves global `var`/`function` bindings without V8 direct-`eval` scope deopt; HTML `</script>` and U+2028/U+2029 safe.
+     - `"function"` (default in `freeze()` and the CLI): `(function () {\n<orig>\n}).call(this)` — CSP-safe (no `unsafe-eval`), V8 lazy-preparsed, CommonJS `module`/`exports` compatible, and compresses tightly with gzip via shared LZ77 backreferences.
      - `"throw"`: `throw new Error(...)` — ~215–660 B raw (~65–152 B gzip) overhead.
      - `"external"`: `require("<externalPath>")` / `import("<externalPath>")` for bundler code-splitting (~345–773 B raw, ~103–190 B gzip).
 
@@ -54,7 +54,7 @@ Measured under the `"browser"` profile (`window === globalThis`, `self === globa
 | **`handlebars-app`** | **BAIL** (`Math.random` at `1302:16`) | `exports`, `define`, `window`, `__g`, `__e`, `__core-js_shared__`, `Handlebars`, `global`, `self` | Calls `Math.random()` 1x in bundled `core-js` `Symbol` uid helper | `--allow-volatile=Math.random` |
 | **`d3-scale`** | **BAIL** (`new Date()` at `3086:12`) | `exports` (`undefined`), `define` (`undefined`), `d3` (`undefined`) | Allocates `const t0 = new Date, t1 = new Date` scratch `Date`s at top level of `d3-time` (`+new Date("2000-01-01T00:00:00.000Z")` is UTC-safe) | `--allow-volatile="new Date" --assume-tz=UTC` |
 
-Large workloads (`bench/LARGE.md`), measured under `universal`:
+Large workloads ([bench/README.md](../bench/README.md under `universal`:
 
 | Workload | Default | Volatile / Unknown Reads During Init | Opt-in to Unlock |
 |---|---|---|---|
@@ -78,14 +78,13 @@ Large workloads (`bench/LARGE.md`), measured under `universal`:
 
 ---
 
-## Integration Contract & Next Steps
+## Exports and next steps
 
-- **Owned exports (`hybrid/lib/env.js`)**:
+- **Exports (`lib/env.js`)**:
   - `installEnvironment(ctx, profile, assumptions, opts) -> recorder`
   - `createBeforeRunHook(profile, assumptions, opts) -> { beforeRun(ctx, intrinsicsMap), afterRun(), getRecorder() }`
   - `emitGuard(recordedAssumptions, originalSource, opts) -> { prelude, wrap(code), condition, fallbackCode }`
   - `measureGuardOverhead(recordedAssumptions, originalSource, rebuiltCode, opts)`
   - `parseEnvFlags(argv)` / `parseAssumeValue(raw)` / `PROFILES`
-- **Next steps (Phase 2)**:
-  - Wire `createBeforeRunHook` and `emitGuard` into `hybrid/index.js` (`prepackSources`) and `hybrid/bin/hybrid.js` once H1 (`run`/`capture`) and H2 (`emit`) merge.
-  - For libraries like `lodash` (`shortOut` `lastCalled` timestamp) and `d3-time` (`t0`/`t1` scratch `Date`s) where a build-time timestamp sits in a dead/scratch closure slot, add dead-value or scratch-state analysis so they don't even require `--allow-volatile`.
+- **Per-workload opt-ins** used for the benchmark's "opt-ins" mode live in one place, `getCorpusOptInForLibrary` in `lib/bench-adapter.js`, and match the "Opt-in to Unlock" columns above. They are applied only with `useCorpusOptIns: true` or `FREEZEDRY_OPTINS=corpus`.
+- **Next steps**: for libraries like `lodash` (`shortOut` `lastCalled` timestamp) and `d3-time` (`t0`/`t1` scratch `Date`s), where a build-time timestamp sits in a dead or scratch closure slot, dead-value or scratch-state analysis could remove the need for `--allow-volatile`.

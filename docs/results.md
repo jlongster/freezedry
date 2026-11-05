@@ -1,33 +1,32 @@
-# Hybrid Prepack — H5 Results (integration + tuning)
+# Results
 
-Branch `hybrid` @ worktree `/tmp/opencode/pp-wt/hybrid`. It includes the final `revive` @ `4cf07184` (with `bench2`) and the sibling `react-hybrid` track (`hybrid/react/`, see section 6).
-Host: Node v26.7.0 / V8 14.6 on linux/x64 (15 GB RAM, shared with other jobs, so timings are noisy at sub-ms scale).
+Measured on Node v26.7.0 / V8 14.6, linux/x64 (4 vCPUs, 15 GB RAM shared with other jobs, so timings are noisy at sub-ms scale), over the 22 real-world workloads in [`bench/`](../bench/README.md). These numbers come from the last run of the project under its working name "freezedry" (in the prepack-revived repository), which is why the raw files still say "freezedry" in places.
 
 Compared:
 
-- **Original**: unmodified `bench/libs/dist/*.js`.
-- **Prepack**: the final `/tmp/opencode/pp-work/lib/prepack-node.js`, rebuilt from revive `4cf07184` (all tracks merged) at 18:33 UTC. The Prepack side was measured with exactly this build at 19:00–19:17 UTC (`results/prepack-final.{json,md}`), using all 6 option profiles and reporting the best one. The `4cf07184` merge changed nothing under `bench/`, so the hybrid runs use the same harness and corpus.
-- **Hybrid**: `hybrid/index.js` (run → capture → emit → guard → verify), default `function` guard fallback. Zero-config (`results/hybrid-final-zeroconfig.*`) and with the documented per-library opt-ins (`HYBRID_OPTINS=corpus`, `results/hybrid-final-optins.*`). Hybrid ignores Prepack's profile flags, so it runs only the `default` profile.
+- **Original**: the unmodified `bench/libs/dist/*.js`.
+- **Prepack**: the final revived Prepack build ([jlongster/prepack-revived](https://github.com/jlongster/prepack-revived), `revive` @ `4cf07184`), measured with the same harness and corpus (`bench/results/prepack/prepack-final.{json,md}`), using all 6 option profiles and reporting the best one. This is reference data; the benchmark does not need Prepack to run.
+- **freezedry**: `index.js` (run → capture → emit → guard → verify) with the default `function` guard fallback, both zero-config (`bench/results/freezedry-final-zeroconfig.*`) and with the documented per-workload opt-ins (`FREEZEDRY_OPTINS=corpus`, `bench/results/freezedry-final-optins.*`). freezedry ignores Prepack's profile flags, so it runs only the `default` profile.
 
-All raw data, including the generated three-way reports (`results/comparison-final-{optins,zeroconfig}.md`) and per-workload oracle records (`results/oracle-{optins,zeroconfig}.jsonl`), is in `hybrid/results/`.
+All raw data, including the generated three-way reports (`bench/results/comparison-final-{optins,zeroconfig}.md`) and per-workload oracle records (`bench/results/oracle-{optins,zeroconfig}.jsonl`), is in `bench/results/`.
 
 ## Headline
 
-| | Prepack (best profile) | Hybrid zero-config | Hybrid opt-ins |
+| | Prepack (best profile) | freezedry zero-config | freezedry opt-ins |
 |---|---:|---:|---:|
 | Smoke OK (22 workloads) | 18 | 11 | 21 |
-| **H4 oracle verified** (heap + `[[Scopes]]` + context sharing + smoke) | n/a | **11** | **19** |
+| **Oracle verified** (heap + `[[Scopes]]` + context sharing + smoke) | n/a | **11** | **19** |
 | Clean bailout (original code kept) | 4 FAIL | 11 | 1 (prettier) |
 | Smoke OK but oracle could not finish (OOM) | — | — | 2 (mathjs, typescript) |
 | **WRONG (silent miscompile)** | **0** | **0** | **0** |
 
-Hard rule: a hybrid result only counts as correct when it passes the H4 oracle. mathjs and typescript compile and pass smoke in VM and fresh Node, but the oracle needs more than 12 GB RSS (two realms holding an 18–19 MB program plus a heap snapshot) and the kernel kills it on this host. They are reported as **UNVERIFIED**, not OK.
+Hard rule: a freezedry result only counts as correct when it passes the oracle. mathjs and typescript compile and pass smoke in VM and fresh Node, but the oracle needs more than 12 GB RSS (two realms holding an 18–19 MB program plus a heap snapshot) and the kernel kills it on this host. They are reported as **UNVERIFIED**, not OK.
 
 `ISO-OK†` = verified with baked volatiles (`--allow-volatile`). The oracle replays exactly the values recorded at build time, so it proves equivalence given those values.
 
 ## 1. Correctness (all 22 workloads)
 
-| Workload | Tier | Prepack | Hybrid zero-config (oracle) | Hybrid opt-ins (oracle) |
+| Workload | Tier | Prepack | freezedry zero-config (oracle) | freezedry opt-ins (oracle) |
 |---|:-:|---|---|---|
 | `lodash` | S | OK (browser-opt) | FAIL (BAIL) | OK (ISO-OK†) |
 | `underscore` | S | OK | OK (ISO-OK) | OK (ISO-OK) |
@@ -55,11 +54,11 @@ Hard rule: a hybrid result only counts as correct when it passes the H4 oracle. 
 
 How Prepack's numbers changed versus the stale build used in Phase B: crc-32, marked, d3-scale, underscore (default), redux (default), handlebars-app and highlight-js are now OK, and three and moment-timezone (best profile) compile. Prepack still fails prettier, mathjs, babel-standalone and typescript (`PP0001` abstract-value operations).
 
-## 2. Size, cold start, code cache, exec-only (hybrid = opt-ins build, default `function` fallback)
+## 2. Size, cold start, code cache, exec-only (freezedry = opt-ins build, default `function` fallback)
 
 The speedup in parentheses is the harness's paired-sample speedup versus the original (>1 = faster). "Cold node net" is a fresh `node` process minus the `node -e 0` baseline. "Code-cache" runs the script in a VM context with V8 cached data. "Exec-only" is the VM run with compilation excluded. Sizes: raw bytes, and gzip of the terser-minified output.
 
-| Workload | Raw KB (Orig / PP / Hyb) | Gzip of terser output (Orig / PP / Hyb) | Cold node net ms (Orig / PP / Hyb) | Code-cache ms (Orig / PP / Hyb) | Exec-only ms (Orig / PP / Hyb) |
+| Workload | Raw KB (Orig / PP / FD) | Gzip of terser output (Orig / PP / FD) | Cold node net ms (Orig / PP / FD) | Code-cache ms (Orig / PP / FD) | Exec-only ms (Orig / PP / FD) |
 |---|---|---|---|---|---|
 | `lodash` | 533.1 KB / 538.5 KB / 906.4 KB | 24.5 KB / 23.9 KB / 76.4 KB | 17.82 / 17.43 (0.95x) / 30.77 (0.58x) | 4.26 / 4.39 (0.80x) / 3.20 (1.33x) | 3.32 / 3.45 (1.01x) / 2.58 (1.29x) |
 | `underscore` | 67.3 KB / 68.6 KB / 99.1 KB | 7.2 KB / 8.1 KB / 14.0 KB | 2.76 / 1.54 (0.53x) / 4.92 (0.56x) | 0.87 / 0.63 (1.02x) / 0.89 (0.97x) | 0.80 / 0.59 (1.00x) / 0.83 (0.96x) |
@@ -87,16 +86,16 @@ The speedup in parentheses is the harness's paired-sample speedup versus the ori
 
 Reading the numbers:
 
-- **Code-cache and exec-only (what a warm app or a snapshot-backed startup pays)**: hybrid is faster than the original on 15 of 21 compiled workloads: yaml-router-app 3.3x, handlebars-app 3.3x, moment 2.9x, mathjs 1.8x, ramda 1.5x, lodash 1.3x, babel-standalone 1.3x, d3-scale 1.3x, redux 1.2x, moment-timezone 1.2x, react-ssr-app 1.2x; chroma-js, acorn, marked and highlight-js gain 1–12%. It is about level (0.93–1.00x) on underscore, immutable, preact-ssr-app and crc-32. It is slower on three (0.8x) and typescript (0.65x), where reconstructing the much larger heap (output about 2x raw) costs more than the init code it replaces.
-- **Against Prepack**, where Prepack compiles, Prepack is usually faster on code-cache/exec (moment 2.5 vs 4.0 ms, crc-32, d3-scale, react-ssr-app, highlight-js, three, moment-timezone) and smaller (gzip about 1.0x of the original versus about 2x for hybrid with the fallback). Hybrid beats it on lodash (3.2 vs 4.4 ms), chroma-js and marked, and ties on acorn, handlebars-app and yaml-router-app. Hybrid's advantages are coverage (it is the only one to produce code for mathjs, babel-standalone and typescript, with babel-standalone oracle-verified) and a machine-checked equivalence proof for every counted output.
-- **Cold `node` start** is worse for hybrid on most workloads (0.4–0.9x). The default `function` fallback embeds the whole original source behind the guard, so V8 scans about 2x the bytes. Section 3 separates the residual from the fallback.
-- **Size**: with the fallback, hybrid is 1.25–2.5x the original (gzip of terser output), with lodash at 3.1x (its 497 KB `runInContext` factory is retained) and mathjs at 5.8x (19 MB raw residual heap). Without the fallback the residual alone is close to the original: section 3.
+- **Code-cache and exec-only (what a warm app or a snapshot-backed startup pays)**: freezedry is faster than the original on 15 of 21 compiled workloads: yaml-router-app 3.3x, handlebars-app 3.3x, moment 2.9x, mathjs 1.8x, ramda 1.5x, lodash 1.3x, babel-standalone 1.3x, d3-scale 1.3x, redux 1.2x, moment-timezone 1.2x, react-ssr-app 1.2x; chroma-js, acorn, marked and highlight-js gain 1–12%. It is about level (0.93–1.00x) on underscore, immutable, preact-ssr-app and crc-32. It is slower on three (0.8x) and typescript (0.65x), where reconstructing the much larger heap (output about 2x raw) costs more than the init code it replaces.
+- **Against Prepack**, where Prepack compiles, Prepack is usually faster on code-cache/exec (moment 2.5 vs 4.0 ms, crc-32, d3-scale, react-ssr-app, highlight-js, three, moment-timezone) and smaller (gzip about 1.0x of the original versus about 2x for freezedry with the fallback). freezedry beats it on lodash (3.2 vs 4.4 ms), chroma-js and marked, and ties on acorn, handlebars-app and yaml-router-app. freezedry's advantages are coverage (it is the only one to produce code for mathjs, babel-standalone and typescript, with babel-standalone oracle-verified) and a machine-checked equivalence proof for every counted output.
+- **Cold `node` start** is worse for freezedry on most workloads (0.4–0.9x). The default `function` fallback embeds the whole original source behind the guard, so V8 scans about 2x the bytes. Section 3 separates the residual from the fallback.
+- **Size**: with the fallback, freezedry is 1.25–2.5x the original (gzip of terser output), with lodash at 3.1x (its 497 KB `runInContext` factory is retained) and mathjs at 5.8x (19 MB raw residual heap). Without the fallback the residual alone is close to the original: section 3.
 
-## 3. Residual-only reference (`HYBRID_FALLBACK=throw`, standard tier)
+## 3. Residual-only reference (`FREEZEDRY_FALLBACK=throw`, standard tier)
 
-`fallback: "throw"` keeps only the guard and residual (no embedded original). Use it when the deployment environment is known; it is not the safe default. Data: `results/hybrid-final-optins-throw.*`.
+`fallback: "throw"` keeps only the guard and residual (no embedded original). Use it when the deployment environment is known; it is not the safe default. Data: `bench/results/freezedry-final-optins-throw.*`.
 
-| Workload | Raw (Orig / Hyb function / Hyb throw) | Gzip terser (Orig / Hyb function / Hyb throw) | Cold node net ms (Orig / Hyb function / Hyb throw) |
+| Workload | Raw (Orig / FD function / FD throw) | Gzip terser (Orig / FD function / FD throw) | Cold node net ms (Orig / FD function / FD throw) |
 |---|---|---|---|
 | `lodash` | 533.1 KB / 906.4 KB / 755.9 KB | 24.5 KB / 76.4 KB / 52.7 KB | 18.00 / 30.77 / 22.45 (0.802x) |
 | `underscore` | 67.3 KB / 99.1 KB / 64.7 KB | 7.2 KB / 14.0 KB / 9.5 KB | 1.55 / 4.92 / 1.03 (1.511x) |
@@ -114,17 +113,17 @@ Reading the numbers:
 | `react-ssr-app` | — | — | WRONG (guard refuses in Node: profile asserts no performance/setImmediate) |
 | `yaml-router-app` | 157.1 KB / 249.7 KB / 154.4 KB | 17.2 KB / 33.4 KB / 18.1 KB | 6.73 / 6.91 / 3.92 (1.719x) |
 
-- Without the fallback, hybrid's gzip size is 0.94–1.33x the original (lodash 2.15x; ramda raw 0.43x). Cold start becomes faster than the original on underscore (1.5x), handlebars-app (2.0x) and yaml-router-app (1.7x), and about level on several others. Sub-millisecond "net" values (crc-32, redux, preact) are below the noise floor of the fresh-process measurement.
+- Without the fallback, freezedry's gzip size is 0.94–1.33x the original (lodash 2.15x; ramda raw 0.43x). Cold start becomes faster than the original on underscore (1.5x), handlebars-app (2.0x) and yaml-router-app (1.7x), and about level on several others. Sub-millisecond "net" values (crc-32, redux, preact) are below the noise floor of the fresh-process measurement.
 - **react-ssr-app in throw mode is the guard working as designed, not a miscompile.** The `universal` profile asserts `!("performance" in globalThis)` and `!("setImmediate" in globalThis)`, both false in real Node, so the guard refuses and throws. With the default `function` fallback, the same build falls back to the original and is OK (section 2). The bench harness labels any throw "WRONG"; with `fallback: "function"` (the default) there were 0 WRONG.
 
-## 4. What changed in H5
+## 4. Development notes (last integration and tuning round)
 
 Pipeline and integration:
 
-- `hybrid/index.js` is one coherent pipeline: H3 environment (through H1 `beforeRun`/`afterRun`) → capture → emit → H3 `emitGuard` → optional H4 `verify`. Bailouts fall back to the original code and are reported through `errorHandler`. Sync `prepackSources` captures in a `--capture-worker` subprocess, which now inherits the parent's heap limit (needed for mathjs and typescript). `prepackSourcesAsync` runs in-process.
-- The CLI (`bin/hybrid.js`) supports `--profile --assume --allow-volatile --assume-tz --verify --fallback`.
+- `index.js` is one pipeline: environment (through the run's `beforeRun`/`afterRun` hooks) → capture → emit → `emitGuard` → optional `verify`. Bailouts fall back to the original code and are reported through `errorHandler`. Synchronous `freeze` captures in a `--capture-worker` subprocess, which now inherits the parent's heap limit (needed for mathjs and typescript). `freezeAsync` runs in-process.
+- The CLI (`bin/freezedry.js`) supports `--profile --assume --allow-volatile --assume-tz --verify --fallback`.
 - `env-profiles.js` is the single source of truth for environments: a `universal` default profile and the aliases `bench`, `ecma` and `bare`.
-- Per-library opt-ins live in one place (`bench-adapter.js` `getCorpusOptInForLibrary`, documented in `docs/env.md`) and are used only with `useCorpusOptIns` / `HYBRID_OPTINS=corpus`. Seeding `Math.random` is rejected.
+- Per-library opt-ins live in one place (`bench-adapter.js` `getCorpusOptInForLibrary`, documented in `docs/env.md`) and are used only with `useCorpusOptIns` / `FREEZEDRY_OPTINS=corpus`. Seeding `Math.random` is rejected.
 - New volatile source: **Error stack text**. Formatting a stack during init (babel's `extendedTrace` stores one), assigning `Error.prepareStackTrace`, or reading it all bail by default. `--allow-volatile=Error.stack` bakes the text, and verify replays it through `Error.prepareStackTrace`.
 
 Capture:
@@ -156,8 +155,8 @@ Oracle (verify):
 
 Testing and benchmarks:
 
-- 148/148 tests (`npm test`): 131 hybrid unit and e2e tests plus 17 react-hybrid tests.
-- The e2e corpus suite covers all 15 standard bundles in-process. The 7 large bundles run in `test/pipeline-large-e2e.test.js`, one subprocess each (gated by `HYBRID_E2E_LARGE=1`).
+- 148/148 tests (`npm test`): 131 pipeline unit and e2e tests plus 17 React specializer tests.
+- The e2e corpus suite covers all 15 standard bundles in-process. The 7 large bundles run in `test/pipeline-large-e2e.test.js`, one subprocess each (gated by `FREEZEDRY_E2E_LARGE=1`).
 - `tools/oracle-one.js` and `bench-compare.js --oracle-jsonl` run the oracle one process per workload with incremental JSONL output.
 
 ## 5. What remains
@@ -169,6 +168,6 @@ Testing and benchmarks:
 - **Exec regressions** on three and typescript: emit cost is dominated by per-property definitions on very large heaps. Candidates: batch `Object.defineProperties`, more prototype literals, fewer Phase-3 fixups.
 - **Zero-config coverage**: 11 of 22 workloads read a clock or RNG during init. Dead/scratch-value analysis (for example lodash `shortOut`, d3-time scratch `Date`s) could unlock several without opt-ins.
 
-## 6. Sibling track: React-Hybrid (merged from `react-hybrid`)
+## 6. React SSR specializer
 
-`hybrid/react/` does trace-based template specialization of React SSR `renderToString` for a known app with unknown request data, guarded per request with a fallback to the real `renderToString`. On react-bench it is **500/500 byte-identical**, with 0 mismatches on 50,000 fuzzed inputs. Details and performance: `hybrid/react/README.md` and `hybrid/react/results/`. It touches only `hybrid/react/` and its own tests, so the main pipeline results above are unaffected.
+`react/` does trace-based template specialization of React SSR `renderToString` for a known app with unknown request data, guarded per request with a fallback to the real `renderToString`. On the React benchmark (`bench/react/`) it is **500/500 byte-identical**, with 0 mismatches on 50,000 fuzzed inputs. Details and performance: [react.md](react.md) and `react/results/`.

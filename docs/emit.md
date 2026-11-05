@@ -1,16 +1,17 @@
-# Hybrid Track H2: Heap Emitter (`hybrid/lib/emit.js`)
+# Emit (`lib/emit.js`)
 
 ## Overview
 
-`emit(captureGraph, opts) -> { code, bailouts, stats }` translates a V8 heap capture graph (per `hybrid/DESIGN.md`) into a portable, deterministic classic JavaScript script wrapped in a zero-leak IIFE that reconstructs the captured heap, applies `intrinsicPatches`, and binds `roots`.
+`emit(captureGraph, opts) -> { code, bailouts, stats }` translates a V8 heap capture graph (see [design.md](design.md#capture-graph-format)) into a portable, deterministic classic JavaScript script wrapped in a zero-leak IIFE that reconstructs the captured heap, applies `intrinsicPatches`, and binds `roots`.
 
 Modules:
-- `hybrid/lib/emit.js`: Reachability walk, prototype-tier topological sorting, single-use inlining, multi-phase heap emission, and `stats` measurement.
-- `hybrid/lib/scope-emitter.js`: Scope-tree factory generation, `let`/`const`/`var`/`param`/`fn` fidelity, strict/sloppy subtree handling, leaf scope-template deduplication, and cyclic scope variable setters.
-- `hybrid/lib/fn-source.js`: `acorn`-backed AST analyzer for function, arrow, concise method/getter/setter, generator, async, and `class` sources, plus safety/bailout checks.
-- `hybrid/lib/value-emitter.js`: Descriptor analysis (`freeze`/`seal`-aware literal fast paths, prototype-setter & `__proto__` safety), binary `ArrayBuffer`/`TypedArray` emission, and `RegExp` literal validation.
-- `hybrid/lib/intrinsics.js`: Portable intrinsic resolution & pristine-VM canonicalization (mapping aliases like `Object.getPrototypeOf(Symbol)` back to `Function.prototype` and `%GeneratorPrototype%` to standard expressions).
-- `hybrid/index.js`: Wires `prepackSources` (sync worker wrapper for `bench/run.js` compatibility) and `prepackSourcesAsync` across `capture -> emit -> [guard] -> [verify]`.
+- `lib/emit.js`: Reachability walk, prototype-tier topological sorting, single-use inlining, multi-phase heap emission, and `stats` measurement.
+- `lib/scope-emitter.js`: Scope-tree factory generation, `let`/`const`/`var`/`param`/`fn` fidelity, strict/sloppy subtree handling, leaf scope-template deduplication, and cyclic scope variable setters.
+- `lib/fn-source.js`: `acorn`-backed AST analyzer for function, arrow, concise method/getter/setter, generator, async, and `class` sources, plus safety/bailout checks.
+- `lib/value-emitter.js`: Descriptor analysis (`freeze`/`seal`-aware literal fast paths, prototype-setter & `__proto__` safety), binary `ArrayBuffer`/`TypedArray` emission, and `RegExp` literal validation.
+- `lib/intrinsics.js`: Portable intrinsic resolution & pristine-VM canonicalization (mapping aliases like `Object.getPrototypeOf(Symbol)` back to `Function.prototype` and `%GeneratorPrototype%` to standard expressions).
+- `lib/recompute-table.js`: Recomputes pure `ArrayBuffer` tables (for example CRC tables) instead of serializing their bytes.
+- `index.js`: Wires `freeze` (synchronous, capture in a worker process) and `freezeAsync` across `capture -> emit -> [guard] -> [verify]`.
 
 ## What Works
 
@@ -47,8 +48,21 @@ Modules:
 - Classes with static `#private` fields, or classes with instance `#private` fields when pre-existing instances exist in the captured heap (`Object.create(Cls.prototype)` cannot install V8 `[[PrivateElements]]`).
 - Non-empty `WeakMap` / `WeakSet` or unsupported internal-slot types (`Proxy`, `WeakRef`, suspended generators/iterators, native/host functions without an intrinsic path).
 
-## Next Steps
+## Later fixes found by the oracle on real workloads
 
-- **HomeObject reconstruction for standalone `super` methods**: if an object literal `{ __proto__: base, m() { return super.f(); } }` appears without an enclosing `class`, `m` can be emitted directly inside its owning object literal when `[[HomeObject]]` identity is recorded in the capture graph.
-- **Root-level leaf scope-template deduplication**: extend sibling leaf-scope template factoring from child scopes to top-level root scopes (`parent === null`) to further shrink flat CommonJS bundles.
-- **Minifier-friendly multi-var grouping**: group consecutive `var __h$0 = ..., __h$1 = ...;` declarations to trim raw unminified byte size.
+Each of these has a regression test:
+
+- The `class X extends Name` heritage reference keeps the shared scope binding instead of shadowing it with a wrapper parameter (three).
+- Hoisted FunctionDeclarations keep their binding until the scope subtree ends when another function later takes over the name (babel `getModuleName`).
+- Leaf-scope templates shared by several closures bake one name, and the other instances get `.name` reconciled (babel / gensync).
+- An anonymous function named by NamedEvaluation is only emitted inline when no strict wrapper is needed; otherwise it gets a slot and Phase-3 reconciliation (mathjs `parse`).
+- Grouped get/set member reconciliation, direct out-slot and omitted-slot guards, and leaf templates only when all captured values exist (three, babel).
+- Strict prologues, descriptor-exact prototype redefinition, source-faithful formatting, and intrinsic-identity keyed scope inputs.
+
+Size and speed work: demand-driven pruning of dead scope variables, lazy default `fn.prototype` elision, SetFunctionName via `const name = fn`, direct `res[i]` for single-use slots, root-hoisted leaf templates, single-use leaf IIFEs, and pure ArrayBuffer table recomputation (crc-32: 30 KB → 6.7 KB).
+
+## Next steps
+
+- **HomeObject reconstruction for standalone `super` methods**: an object literal `{ __proto__: base, m() { return super.f(); } }` outside a `class` could be emitted inside its owning object literal when `[[HomeObject]]` identity is recorded.
+- **Recompute-or-lazy emission** for large pure derived data (generalizing `recompute-table.js` beyond ArrayBuffers), and retention analysis to drop dead factories (lodash `runInContext`).
+- **Fewer per-property definitions** on very large heaps (batched `Object.defineProperties`, more prototype literals, fewer Phase-3 fixups).
