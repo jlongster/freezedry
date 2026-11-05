@@ -1,0 +1,3859 @@
+{
+  "timestamp": "2026-11-05T07:48:05.444Z",
+  "prepack": {
+    "path": "/tmp/opencode/pp-wt/hybrid-verify/hybrid/index.js",
+    "version": "0.0.1-hybrid"
+  },
+  "environment": {
+    "node": "v26.7.0",
+    "v8": "14.6.202.34-node.28",
+    "platform": "linux",
+    "arch": "x64",
+    "cpus": 4,
+    "cpuModel": "AMD EPYC 9554P 64-Core Processor",
+    "totalMemBytes": 16763228160
+  },
+  "config": {
+    "runs": 10,
+    "warmup": 3,
+    "timeout": 300000,
+    "maxOldSpaceMb": 4096,
+    "enableSnapshot": true,
+    "only": null
+  },
+  "nodeZeroBaseline": {
+    "n": 10,
+    "median": 35.638,
+    "p90": 66.957,
+    "mean": 48.688,
+    "min": 26.744,
+    "max": 102.27
+  },
+  "summary": {
+    "total": 15,
+    "librariesCount": 10,
+    "appsCount": 5,
+    "defaultOk": 15,
+    "bestOk": 15,
+    "wrong": 0,
+    "fail": 0,
+    "timeout": 0
+  },
+  "libraries": [
+    {
+      "id": "lodash",
+      "name": "Lodash",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Utility library; module init constructs LodashWrapper/LazyWrapper prototypes, 300+ methods, and lookup tables.",
+      "bytes": 545945,
+      "sha256": "f5465f55566bf544aad0a31c6135889ca1ed81eea8f53ec61c6cbe86926f07cf",
+      "packages": [
+        {
+          "name": "lodash",
+          "version": "4.18.1",
+          "license": "MIT",
+          "homepage": "https://lodash.com/"
+        }
+      ],
+      "expectedDigest": "e1d643c02fcccd4ddb7da3a6786777134682d3e929a08445e9864a54c3a7080d",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1,
+        "outBytes": 545945
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 545945,
+          "quickVmMs": 11.194,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 545945,
+          "quickVmMs": 11.186,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 545945,
+          "quickVmMs": 17.096,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 545945,
+          "quickVmMs": 16.97,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 545945,
+          "quickVmMs": 15.351,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 50.368,
+            "p90": 60.54,
+            "mean": 49.82,
+            "min": 30.015,
+            "max": 67.713
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 81.695,
+              "p90": 94.914,
+              "mean": 78.636,
+              "min": 43.108,
+              "max": 116.495
+            },
+            "net": {
+              "median": 31.327,
+              "p90": 44.546,
+              "mean": 28.268
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 77.11,
+              "p90": 112.342,
+              "mean": 82.323,
+              "min": 42.269,
+              "max": 156.762
+            },
+            "net": {
+              "median": 26.742,
+              "p90": 61.974,
+              "mean": 31.955
+            }
+          },
+          "speedupRaw": 1.059,
+          "speedupNet": 1.171
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 3.85,
+            "p90": 11.71,
+            "mean": 5.437,
+            "min": 3.039,
+            "max": 12.035,
+            "cachedDataBytes": 103752
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 4.332,
+            "p90": 6.306,
+            "mean": 6.79,
+            "min": 2.986,
+            "max": 30.291,
+            "cachedDataBytes": 103752
+          },
+          "speedup": 0.889
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 3.094,
+            "p90": 9.633,
+            "mean": 5.716,
+            "min": 2.826,
+            "max": 17.86
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 3.038,
+            "p90": 7.009,
+            "mean": 3.867,
+            "min": 2.816,
+            "max": 7.068
+          },
+          "speedup": 1.018
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 7558898,
+          "blobGzipBytes": 2490525,
+          "baseline": {
+            "n": 10,
+            "median": 65.817,
+            "p90": 93.647,
+            "mean": 65.989,
+            "min": 30.471,
+            "max": 100.382
+          },
+          "raw": {
+            "n": 10,
+            "median": 90.096,
+            "p90": 112.765,
+            "mean": 93.559,
+            "min": 62.398,
+            "max": 135.099
+          },
+          "net": {
+            "median": 24.279,
+            "p90": 46.948,
+            "mean": 27.742
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 545945,
+            "terser": 70684,
+            "gzip": 25079,
+            "brotli": 24135,
+            "rawGzip": 96951,
+            "rawBrotli": 82441
+          },
+          "prepacked": {
+            "raw": 545945,
+            "terser": 70684,
+            "gzip": 25079,
+            "brotli": 24135,
+            "rawGzip": 96951,
+            "rawBrotli": 82441
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "underscore",
+      "name": "Underscore",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Functional utility library; module init performs environment feature checks and mixes 100+ functions onto `_.prototype`.",
+      "bytes": 68916,
+      "sha256": "68613bd4f104eb2316b2c78b5705932bd1eaaaa5e00b49a796cb4d95c492d4fb",
+      "packages": [
+        {
+          "name": "underscore",
+          "version": "1.13.8",
+          "license": "MIT",
+          "homepage": "https://underscorejs.org"
+        }
+      ],
+      "expectedDigest": "a827860f401532bb2dd355bc38840895e7bdd7dd523a15d6c0eafe3701ee92a1",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 0,
+        "outBytes": 68916
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 68916,
+          "quickVmMs": 4.653,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2,
+          "outBytes": 68916,
+          "quickVmMs": 0.554,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 68916,
+          "quickVmMs": 2.986,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 68916,
+          "quickVmMs": 4.809,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 68916,
+          "quickVmMs": 0.663,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 55.517,
+            "p90": 70.551,
+            "mean": 54.951,
+            "min": 34.185,
+            "max": 76.217
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 62.368,
+              "p90": 83.265,
+              "mean": 62.947,
+              "min": 33.879,
+              "max": 112.096
+            },
+            "net": {
+              "median": 6.851,
+              "p90": 27.748,
+              "mean": 7.43
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 63.237,
+              "p90": 75.764,
+              "mean": 64.261,
+              "min": 48.133,
+              "max": 81.865
+            },
+            "net": {
+              "median": 7.72,
+              "p90": 20.247,
+              "mean": 8.744
+            }
+          },
+          "speedupRaw": 0.986,
+          "speedupNet": 0.887
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 0.523,
+            "p90": 0.551,
+            "mean": 0.579,
+            "min": 0.433,
+            "max": 1.276,
+            "cachedDataBytes": 25840
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 0.563,
+            "p90": 1.103,
+            "mean": 0.974,
+            "min": 0.47,
+            "max": 4.188,
+            "cachedDataBytes": 25840
+          },
+          "speedup": 0.929
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 0.543,
+            "p90": 0.824,
+            "mean": 1.373,
+            "min": 0.475,
+            "max": 8.69
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 0.532,
+            "p90": 4.645,
+            "mean": 1.579,
+            "min": 0.492,
+            "max": 5.018
+          },
+          "speedup": 1.021
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6451970,
+          "blobGzipBytes": 2340457,
+          "baseline": {
+            "n": 10,
+            "median": 55.985,
+            "p90": 81.594,
+            "mean": 62.355,
+            "min": 43.757,
+            "max": 83.245
+          },
+          "raw": {
+            "n": 10,
+            "median": 70.206,
+            "p90": 86.621,
+            "mean": 75.736,
+            "min": 52.168,
+            "max": 110.251
+          },
+          "net": {
+            "median": 14.221,
+            "p90": 30.636,
+            "mean": 19.751
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 68916,
+            "terser": 19351,
+            "gzip": 7378,
+            "brotli": 7211,
+            "rawGzip": 19371,
+            "rawBrotli": 18446
+          },
+          "prepacked": {
+            "raw": 68916,
+            "terser": 19351,
+            "gzip": 7378,
+            "brotli": 7211,
+            "rawGzip": 19371,
+            "rawBrotli": 18446
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "ramda",
+      "name": "Ramda",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Point-free curried functional library; module init wraps 250+ combinators in _curry1/_curry2/_curry3 dispatchers.",
+      "bytes": 351114,
+      "sha256": "f1b41513b80db800af76bb5498d0198ad4c915bab64d53189b0c8ac9fcf1eeb1",
+      "packages": [
+        {
+          "name": "ramda",
+          "version": "0.32.0",
+          "license": "MIT",
+          "homepage": "https://ramdajs.com/"
+        }
+      ],
+      "expectedDigest": "9ee3d696586d37609c4228cb5cd95753a6d24b472b9059827abf669793425c9a",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 0,
+        "outBytes": 351114
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 351114,
+          "quickVmMs": 0.938,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 351114,
+          "quickVmMs": 3,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 351114,
+          "quickVmMs": 2.824,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 351114,
+          "quickVmMs": 1.275,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 351114,
+          "quickVmMs": 1.036,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 58.612,
+            "p90": 66.033,
+            "mean": 54.786,
+            "min": 29.348,
+            "max": 73.65
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 67.927,
+              "p90": 80.146,
+              "mean": 63.538,
+              "min": 34.994,
+              "max": 92.504
+            },
+            "net": {
+              "median": 9.315,
+              "p90": 21.534,
+              "mean": 4.926
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 71.863,
+              "p90": 82.358,
+              "mean": 68.496,
+              "min": 33.542,
+              "max": 91.024
+            },
+            "net": {
+              "median": 13.251,
+              "p90": 23.746,
+              "mean": 9.884
+            }
+          },
+          "speedupRaw": 0.945,
+          "speedupNet": 0.703
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 0.697,
+            "p90": 5.665,
+            "mean": 2.083,
+            "min": 0.608,
+            "max": 6.938,
+            "cachedDataBytes": 67232
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 0.859,
+            "p90": 4.656,
+            "mean": 2.441,
+            "min": 0.618,
+            "max": 10.597,
+            "cachedDataBytes": 67232
+          },
+          "speedup": 0.811
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 0.674,
+            "p90": 0.861,
+            "mean": 0.835,
+            "min": 0.57,
+            "max": 2.384
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 0.602,
+            "p90": 0.798,
+            "mean": 0.799,
+            "min": 0.577,
+            "max": 2.375
+          },
+          "speedup": 1.12
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 7063538,
+          "blobGzipBytes": 2424633,
+          "baseline": {
+            "n": 10,
+            "median": 56.969,
+            "p90": 67.382,
+            "mean": 52.797,
+            "min": 28.992,
+            "max": 77.283
+          },
+          "raw": {
+            "n": 10,
+            "median": 46.702,
+            "p90": 73.139,
+            "mean": 55.385,
+            "min": 35.405,
+            "max": 95.169
+          },
+          "net": {
+            "median": 0,
+            "p90": 16.17,
+            "mean": 0
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 351114,
+            "terser": 53879,
+            "gzip": 14455,
+            "brotli": 13922,
+            "rawGzip": 77903,
+            "rawBrotli": 65267
+          },
+          "prepacked": {
+            "raw": 351114,
+            "terser": 53879,
+            "gzip": 14455,
+            "brotli": 13922,
+            "rawGzip": 77903,
+            "rawBrotli": 65267
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "immutable",
+      "name": "Immutable.js",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Persistent HAMT/trie collections (Map, List, Set, OrderedMap, Record); builds prototype hierarchies and sentinels at init.",
+      "bytes": 179561,
+      "sha256": "108ab02dce98946d0c9bdcecb9e3235575943e2a333e236643e9061de254dd7d",
+      "packages": [
+        {
+          "name": "immutable",
+          "version": "4.3.9",
+          "license": "MIT",
+          "homepage": "https://immutable-js.com"
+        }
+      ],
+      "expectedDigest": "fd731766e776855f639ad3e9c609ee040fa70a992a92368bb488e72680df77bf",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 0,
+        "outBytes": 179561
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 179561,
+          "quickVmMs": 5.805,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 179561,
+          "quickVmMs": 3.542,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 179561,
+          "quickVmMs": 5.602,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 179561,
+          "quickVmMs": 5.979,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 179561,
+          "quickVmMs": 4.918,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 57.875,
+            "p90": 72.564,
+            "mean": 58.732,
+            "min": 39.688,
+            "max": 79.478
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 76.887,
+              "p90": 87.661,
+              "mean": 75.584,
+              "min": 55.921,
+              "max": 88.652
+            },
+            "net": {
+              "median": 19.012,
+              "p90": 29.786,
+              "mean": 17.709
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 77.382,
+              "p90": 85.364,
+              "mean": 73.798,
+              "min": 55.106,
+              "max": 87.071
+            },
+            "net": {
+              "median": 19.507,
+              "p90": 27.489,
+              "mean": 15.923
+            }
+          },
+          "speedupRaw": 0.994,
+          "speedupNet": 0.975
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 2.41,
+            "p90": 4.738,
+            "mean": 2.834,
+            "min": 1.132,
+            "max": 5.519,
+            "cachedDataBytes": 73464
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 1.251,
+            "p90": 2.063,
+            "mean": 1.857,
+            "min": 1.162,
+            "max": 5.574,
+            "cachedDataBytes": 73464
+          },
+          "speedup": 1.926
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 1.296,
+            "p90": 2.793,
+            "mean": 1.817,
+            "min": 1.107,
+            "max": 4.228
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 1.14,
+            "p90": 1.299,
+            "mean": 1.171,
+            "min": 1.102,
+            "max": 1.307
+          },
+          "speedup": 1.137
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6704378,
+          "blobGzipBytes": 2370763,
+          "baseline": {
+            "n": 10,
+            "median": 57.97,
+            "p90": 67.276,
+            "mean": 59.815,
+            "min": 50.205,
+            "max": 73.405
+          },
+          "raw": {
+            "n": 10,
+            "median": 96.826,
+            "p90": 113.686,
+            "mean": 95.99,
+            "min": 69.661,
+            "max": 116.52
+          },
+          "net": {
+            "median": 38.856,
+            "p90": 55.716,
+            "mean": 38.02
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 179561,
+            "terser": 66413,
+            "gzip": 18446,
+            "brotli": 17677,
+            "rawGzip": 36784,
+            "rawBrotli": 33750
+          },
+          "prepacked": {
+            "raw": 179561,
+            "terser": 66413,
+            "gzip": 18446,
+            "brotli": 17677,
+            "rawGzip": 36784,
+            "rawBrotli": 33750
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "moment",
+      "name": "Moment.js (with locales)",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Init-heavy date/time library with 135+ bundled locales registered via defineLocale() and regex token tables built at load.",
+      "bytes": 653144,
+      "sha256": "6b4445e1ee801bdcc1d42196163ae745f71d3b52a12a50246999fd7067250496",
+      "packages": [
+        {
+          "name": "moment",
+          "version": "2.31.0",
+          "license": "MIT",
+          "homepage": "https://momentjs.com"
+        }
+      ],
+      "expectedDigest": "5eb06d4660574575aa524f26071df2869ec0207dd63520e73145fe877aaba76d",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1,
+        "outBytes": 653144
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 653144,
+          "quickVmMs": 32.247,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 653144,
+          "quickVmMs": 34.346,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 653144,
+          "quickVmMs": 33.77,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 653144,
+          "quickVmMs": 41.324,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 653144,
+          "quickVmMs": 16.345,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 59.81,
+            "p90": 91.489,
+            "mean": 62.943,
+            "min": 33.45,
+            "max": 92.508
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 103.794,
+              "p90": 138.568,
+              "mean": 108.318,
+              "min": 65.284,
+              "max": 146.406
+            },
+            "net": {
+              "median": 43.984,
+              "p90": 78.758,
+              "mean": 48.508
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 106.301,
+              "p90": 143.873,
+              "mean": 110.592,
+              "min": 58.058,
+              "max": 175.571
+            },
+            "net": {
+              "median": 46.491,
+              "p90": 84.063,
+              "mean": 50.782
+            }
+          },
+          "speedupRaw": 0.976,
+          "speedupNet": 0.946
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 17.892,
+            "p90": 24.633,
+            "mean": 18.11,
+            "min": 11.167,
+            "max": 25.808,
+            "cachedDataBytes": 394320
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 16.832,
+            "p90": 24.932,
+            "mean": 17.922,
+            "min": 11.414,
+            "max": 27.183,
+            "cachedDataBytes": 394320
+          },
+          "speedup": 1.063
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 17.667,
+            "p90": 26.9,
+            "mean": 19.615,
+            "min": 11.882,
+            "max": 37.875
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 18.487,
+            "p90": 23.778,
+            "mean": 18.568,
+            "min": 11.918,
+            "max": 27.373
+          },
+          "speedup": 0.956
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 8041274,
+          "blobGzipBytes": 2610809,
+          "baseline": {
+            "n": 10,
+            "median": 55.626,
+            "p90": 77.085,
+            "mean": 58.123,
+            "min": 30.932,
+            "max": 77.285
+          },
+          "raw": {
+            "n": 10,
+            "median": 99.853,
+            "p90": 116.071,
+            "mean": 89.739,
+            "min": 38.794,
+            "max": 135.231
+          },
+          "net": {
+            "median": 44.227,
+            "p90": 60.445,
+            "mean": 34.113
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 653144,
+            "terser": 299282,
+            "gzip": 76073,
+            "brotli": 64111,
+            "rawGzip": 107927,
+            "rawBrotli": 88811
+          },
+          "prepacked": {
+            "raw": 653144,
+            "terser": 299282,
+            "gzip": 76073,
+            "brotli": 64111,
+            "rawGzip": 107927,
+            "rawBrotli": 88811
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "chroma-js",
+      "name": "chroma.js",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Color conversion & scale library; module init registers RGB/HSL/Lab/LCH/CMYK color spaces, ColorBrewer palettes, and W3C named colors.",
+      "bytes": 111861,
+      "sha256": "26a2e532b90f6d97639cd96d5054dd0abc2fcd55554086cf11ae8c874ed66c6d",
+      "packages": [
+        {
+          "name": "chroma-js",
+          "version": "2.4.2",
+          "license": "(BSD-3-Clause AND Apache-2.0)",
+          "homepage": "https://github.com/gka/chroma.js"
+        }
+      ],
+      "expectedDigest": "b01b234de9a20138feec1b3e17395362a0b0bb07c4e32159bb1ef23596edd65b",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1,
+        "outBytes": 111861
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 111861,
+          "quickVmMs": 0.923,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 111861,
+          "quickVmMs": 0.97,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 111861,
+          "quickVmMs": 2.304,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 111861,
+          "quickVmMs": 2.593,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 111861,
+          "quickVmMs": 3.808,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 62.236,
+            "p90": 74.812,
+            "mean": 63.135,
+            "min": 36.884,
+            "max": 82.603
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 71.001,
+              "p90": 80.048,
+              "mean": 67.118,
+              "min": 44.063,
+              "max": 80.278
+            },
+            "net": {
+              "median": 8.765,
+              "p90": 17.812,
+              "mean": 4.882
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 67.605,
+              "p90": 74.882,
+              "mean": 67.397,
+              "min": 52.806,
+              "max": 98.529
+            },
+            "net": {
+              "median": 5.369,
+              "p90": 12.646,
+              "mean": 5.161
+            }
+          },
+          "speedupRaw": 1.05,
+          "speedupNet": 1.633
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 0.772,
+            "p90": 0.83,
+            "mean": 1.39,
+            "min": 0.7,
+            "max": 6.974,
+            "cachedDataBytes": 52888
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 0.77,
+            "p90": 4.796,
+            "mean": 2.603,
+            "min": 0.72,
+            "max": 8.511,
+            "cachedDataBytes": 52888
+          },
+          "speedup": 1.003
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 0.719,
+            "p90": 0.774,
+            "mean": 0.732,
+            "min": 0.707,
+            "max": 0.804
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 0.747,
+            "p90": 4.711,
+            "mean": 1.537,
+            "min": 0.708,
+            "max": 4.715
+          },
+          "speedup": 0.963
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6438682,
+          "blobGzipBytes": 2350654,
+          "baseline": {
+            "n": 10,
+            "median": 53.598,
+            "p90": 68.249,
+            "mean": 54.547,
+            "min": 37.304,
+            "max": 70.461
+          },
+          "raw": {
+            "n": 10,
+            "median": 75.648,
+            "p90": 87.983,
+            "mean": 73.2,
+            "min": 46.579,
+            "max": 92.121
+          },
+          "net": {
+            "median": 22.05,
+            "p90": 34.385,
+            "mean": 19.602
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 111861,
+            "terser": 43487,
+            "gzip": 15756,
+            "brotli": 15072,
+            "rawGzip": 26102,
+            "rawBrotli": 24073
+          },
+          "prepacked": {
+            "raw": 111861,
+            "terser": 43487,
+            "gzip": 15756,
+            "brotli": 15072,
+            "rawGzip": 26102,
+            "rawBrotli": 24073
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "acorn",
+      "name": "Acorn",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "ECMAScript parser; module init builds token types, keyword regexes, operator precedence tables, and Unicode identifier bitmaps.",
+      "bytes": 246643,
+      "sha256": "b95392d79457d0357555c5ed3e56302d074b92dff119bcf3b44179500b10e9df",
+      "packages": [
+        {
+          "name": "acorn",
+          "version": "8.19.0",
+          "license": "MIT",
+          "homepage": "https://github.com/acornjs/acorn"
+        }
+      ],
+      "expectedDigest": "4ce0f511963f7a8de7c1235e41632ba22a44efda335a3f1b5a268b4177187bc5",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 0,
+        "outBytes": 246643
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 246643,
+          "quickVmMs": 3.23,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2,
+          "outBytes": 246643,
+          "quickVmMs": 4.382,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 254,
+          "errorCode": "WORKER_CRASH",
+          "message": "Worker exited (null)",
+          "location": null
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 246643,
+          "quickVmMs": 3.838,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 246643,
+          "quickVmMs": 4.109,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 71.287,
+            "p90": 88.438,
+            "mean": 68.304,
+            "min": 41.509,
+            "max": 96.104
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 84.731,
+              "p90": 114.38,
+              "mean": 91.268,
+              "min": 69.769,
+              "max": 117.766
+            },
+            "net": {
+              "median": 13.444,
+              "p90": 43.093,
+              "mean": 19.981
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 90.821,
+              "p90": 113.234,
+              "mean": 94.826,
+              "min": 73.369,
+              "max": 117.98
+            },
+            "net": {
+              "median": 19.534,
+              "p90": 41.947,
+              "mean": 23.539
+            }
+          },
+          "speedupRaw": 0.933,
+          "speedupNet": 0.688
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 2.088,
+            "p90": 4.243,
+            "mean": 2.709,
+            "min": 1.479,
+            "max": 6.844,
+            "cachedDataBytes": 82600
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 4.585,
+            "p90": 16.395,
+            "mean": 8.687,
+            "min": 1.437,
+            "max": 38.409,
+            "cachedDataBytes": 82600
+          },
+          "speedup": 0.455
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 1.529,
+            "p90": 4.955,
+            "mean": 2.617,
+            "min": 1.473,
+            "max": 5.444
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 3.645,
+            "p90": 7.091,
+            "mean": 4.368,
+            "min": 1.509,
+            "max": 12.408
+          },
+          "speedup": 0.419
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6886506,
+          "blobGzipBytes": 2401868,
+          "baseline": {
+            "n": 10,
+            "median": 57.091,
+            "p90": 60.599,
+            "mean": 52.255,
+            "min": 30.757,
+            "max": 61.566
+          },
+          "raw": {
+            "n": 10,
+            "median": 79.176,
+            "p90": 93.725,
+            "mean": 78.051,
+            "min": 47.881,
+            "max": 96.122
+          },
+          "net": {
+            "median": 22.085,
+            "p90": 36.634,
+            "mean": 20.96
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 246643,
+            "terser": 118382,
+            "gzip": 34723,
+            "brotli": 32457,
+            "rawGzip": 57931,
+            "rawBrotli": 53000
+          },
+          "prepacked": {
+            "raw": 246643,
+            "terser": 118382,
+            "gzip": 34723,
+            "brotli": 32457,
+            "rawGzip": 57931,
+            "rawBrotli": 53000
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "crc-32",
+      "name": "SheetJS crc-32",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Lookup-table CRC-32 implementation; module init computes a 256-entry table and 16 slice-by-16 Int32Array subtables (4,096 entries).",
+      "bytes": 3702,
+      "sha256": "a28a8c436612ebe06a43f893dd5729392a59426f0a0cec0bb32f0879855f2c38",
+      "packages": [
+        {
+          "name": "crc-32",
+          "version": "1.2.2",
+          "license": "Apache-2.0",
+          "homepage": "https://sheetjs.com/"
+        }
+      ],
+      "expectedDigest": "8305c7857f3abf1b6a152f2484357a0dfbe0949384ebbf4179d15be59bf4eaba",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1,
+        "outBytes": 3702
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 3702,
+          "quickVmMs": 2.412,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 3702,
+          "quickVmMs": 3.765,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 7,
+          "outBytes": 3702,
+          "quickVmMs": 7.358,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 3702,
+          "quickVmMs": 1.907,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 3702,
+          "quickVmMs": 3.525,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 58.419,
+            "p90": 65.695,
+            "mean": 53.243,
+            "min": 21.855,
+            "max": 67.124
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 62.773,
+              "p90": 79.15,
+              "mean": 58.684,
+              "min": 29.932,
+              "max": 85.34
+            },
+            "net": {
+              "median": 4.354,
+              "p90": 20.731,
+              "mean": 0.265
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 55.543,
+              "p90": 79.685,
+              "mean": 54.453,
+              "min": 29.875,
+              "max": 82.929
+            },
+            "net": {
+              "median": 0,
+              "p90": 21.266,
+              "mean": 0
+            }
+          },
+          "speedupRaw": 1.13,
+          "speedupNet": null
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 0.209,
+            "p90": 4.307,
+            "mean": 1.383,
+            "min": 0.188,
+            "max": 4.391,
+            "cachedDataBytes": 2232
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 0.226,
+            "p90": 0.243,
+            "mean": 0.499,
+            "min": 0.191,
+            "max": 2.999,
+            "cachedDataBytes": 2232
+          },
+          "speedup": 0.925
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 0.197,
+            "p90": 0.469,
+            "mean": 0.378,
+            "min": 0.181,
+            "max": 1.74
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 0.191,
+            "p90": 1.019,
+            "mean": 0.57,
+            "min": 0.178,
+            "max": 3.143
+          },
+          "speedup": 1.031
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6291794,
+          "blobGzipBytes": 2321787,
+          "baseline": {
+            "n": 10,
+            "median": 29.064,
+            "p90": 43.76,
+            "mean": 33.144,
+            "min": 23.964,
+            "max": 62.123
+          },
+          "raw": {
+            "n": 10,
+            "median": 36.718,
+            "p90": 59.744,
+            "mean": 41.792,
+            "min": 31.713,
+            "max": 74.104
+          },
+          "net": {
+            "median": 7.654,
+            "p90": 30.68,
+            "mean": 12.728
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 3702,
+            "terser": 2047,
+            "gzip": 818,
+            "brotli": 786,
+            "rawGzip": 1222,
+            "rawBrotli": 1131
+          },
+          "prepacked": {
+            "raw": 3702,
+            "terser": 2047,
+            "gzip": 818,
+            "brotli": 786,
+            "rawGzip": 1222,
+            "rawBrotli": 1131
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "marked",
+      "name": "Marked",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Markdown parser & compiler; module init constructs GFM/pedantic/normal block and inline grammar regex tables.",
+      "bytes": 50548,
+      "sha256": "c34a221dc89e91833a88822e7717b8a0cf27118f8c9a8779dffb48a6be31f97a",
+      "packages": [
+        {
+          "name": "marked",
+          "version": "18.1.3",
+          "license": "MIT",
+          "homepage": "https://marked.js.org"
+        }
+      ],
+      "expectedDigest": "c92f2c0ca64839614ca45b811cd9c02f1590e68b8fd34e6dcf567329cc4f06b6",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 16,
+        "outBytes": 50548
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 16,
+          "outBytes": 50548,
+          "quickVmMs": 6.32,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 50548,
+          "quickVmMs": 1.654,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2,
+          "outBytes": 50548,
+          "quickVmMs": 4.585,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 50548,
+          "quickVmMs": 5.606,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 50548,
+          "quickVmMs": 1.421,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 7,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 57.039,
+            "p90": 63.312,
+            "mean": 56.471,
+            "min": 42.115,
+            "max": 69.14
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 138.227,
+              "p90": 150.088,
+              "mean": 137.56,
+              "min": 115.637,
+              "max": 162.388
+            },
+            "net": {
+              "median": 81.188,
+              "p90": 93.049,
+              "mean": 80.521
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 138.297,
+              "p90": 174.342,
+              "mean": 143.632,
+              "min": 104.638,
+              "max": 178.891
+            },
+            "net": {
+              "median": 81.258,
+              "p90": 117.303,
+              "mean": 86.593
+            }
+          },
+          "speedupRaw": 0.999,
+          "speedupNet": 0.999
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 1.37,
+            "p90": 2.724,
+            "mean": 2.269,
+            "min": 1.251,
+            "max": 8.983,
+            "cachedDataBytes": 3336
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 1.383,
+            "p90": 5.462,
+            "mean": 2.258,
+            "min": 1.295,
+            "max": 5.772,
+            "cachedDataBytes": 3336
+          },
+          "speedup": 0.991
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 5.167,
+            "p90": 19.041,
+            "mean": 8.688,
+            "min": 1.177,
+            "max": 28.318
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 1.541,
+            "p90": 5.364,
+            "mean": 2.652,
+            "min": 1.147,
+            "max": 5.876
+          },
+          "speedup": 3.353
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6386370,
+          "blobGzipBytes": 2333026,
+          "baseline": {
+            "n": 10,
+            "median": 42.821,
+            "p90": 61.858,
+            "mean": 45.375,
+            "min": 26.898,
+            "max": 67.366
+          },
+          "raw": {
+            "n": 10,
+            "median": 90.902,
+            "p90": 156.452,
+            "mean": 102.837,
+            "min": 52.539,
+            "max": 156.551
+          },
+          "net": {
+            "median": 48.081,
+            "p90": 113.631,
+            "mean": 60.016
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 50548,
+            "terser": 50124,
+            "gzip": 14820,
+            "brotli": 14355,
+            "rawGzip": 15363,
+            "rawBrotli": 14913
+          },
+          "prepacked": {
+            "raw": 50548,
+            "terser": 50124,
+            "gzip": 14820,
+            "brotli": 14355,
+            "rawGzip": 15363,
+            "rawBrotli": 14913
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "d3-scale",
+      "name": "D3 Scale + Array",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Data visualization quantitative/ordinal/time scales, array statistics, formatters, and color interpolators initialized on `d3`.",
+      "bytes": 152468,
+      "sha256": "5308348557b16b01fa8c3e77742d36df8a8d80a1bdc92fdaa62ee824e9cf0732",
+      "packages": [
+        {
+          "name": "d3-scale",
+          "version": "4.0.3",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-scale/"
+        },
+        {
+          "name": "d3-array",
+          "version": "3.2.5",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-array/"
+        },
+        {
+          "name": "d3-interpolate",
+          "version": "3.0.2",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-interpolate/"
+        },
+        {
+          "name": "d3-color",
+          "version": "3.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-color/"
+        },
+        {
+          "name": "d3-format",
+          "version": "3.1.3",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-format/"
+        },
+        {
+          "name": "d3-time",
+          "version": "3.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-time/"
+        },
+        {
+          "name": "d3-time-format",
+          "version": "4.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-time-format/"
+        },
+        {
+          "name": "internmap",
+          "version": "2.0.3",
+          "license": "ISC",
+          "homepage": "https://github.com/mbostock/internmap/"
+        }
+      ],
+      "expectedDigest": "a67ea8e596acde3a05183b09db9cd556d8d18555c52bc47abb8083231b945204",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1,
+        "outBytes": 152468
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 152468,
+          "quickVmMs": 3.453,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 152468,
+          "quickVmMs": 3.522,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 152468,
+          "quickVmMs": 3.335,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 152468,
+          "quickVmMs": 7.142,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 152468,
+          "quickVmMs": 5.075,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 46.653,
+            "p90": 63.006,
+            "mean": 44.884,
+            "min": 23.251,
+            "max": 69.063
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 62.324,
+              "p90": 78.181,
+              "mean": 57.091,
+              "min": 30.301,
+              "max": 91.587
+            },
+            "net": {
+              "median": 15.671,
+              "p90": 31.528,
+              "mean": 10.438
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 46.88,
+              "p90": 89.263,
+              "mean": 57.478,
+              "min": 29.453,
+              "max": 93.46
+            },
+            "net": {
+              "median": 0.227,
+              "p90": 42.61,
+              "mean": 10.825
+            }
+          },
+          "speedupRaw": 1.329,
+          "speedupNet": 69.035
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 0.955,
+            "p90": 2.074,
+            "mean": 1.61,
+            "min": 0.837,
+            "max": 5.945,
+            "cachedDataBytes": 76152
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 0.921,
+            "p90": 6.841,
+            "mean": 2.491,
+            "min": 0.849,
+            "max": 6.918,
+            "cachedDataBytes": 76152
+          },
+          "speedup": 1.037
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 0.905,
+            "p90": 3.378,
+            "mean": 1.6,
+            "min": 0.79,
+            "max": 3.943
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 0.914,
+            "p90": 1.977,
+            "mean": 1.326,
+            "min": 0.786,
+            "max": 3.356
+          },
+          "speedup": 0.99
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6691378,
+          "blobGzipBytes": 2387187,
+          "baseline": {
+            "n": 10,
+            "median": 58.545,
+            "p90": 67.572,
+            "mean": 55.283,
+            "min": 24.627,
+            "max": 71.175
+          },
+          "raw": {
+            "n": 10,
+            "median": 78.594,
+            "p90": 88.705,
+            "mean": 73.742,
+            "min": 37.666,
+            "max": 91.893
+          },
+          "net": {
+            "median": 20.049,
+            "p90": 30.16,
+            "mean": 15.197
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 152468,
+            "terser": 72757,
+            "gzip": 23583,
+            "brotli": 22699,
+            "rawGzip": 34358,
+            "rawBrotli": 32447
+          },
+          "prepacked": {
+            "raw": 152468,
+            "terser": 72757,
+            "gzip": 23583,
+            "brotli": 22699,
+            "rawGzip": 34358,
+            "rawBrotli": 32447
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "redux",
+      "name": "Redux (store + middleware init)",
+      "kind": "app-workload",
+      "buildType": "esbuild-iife",
+      "description": "Redux bundled into an ES2015 IIFE; module init composes reducers, applies logging/validation middleware, creates a store, and dispatches seed actions.",
+      "bytes": 18502,
+      "sha256": "8c87730f3d9266ff288dff4c3f0450358f7498908bd45cad6900e187738c7cd3",
+      "packages": [
+        {
+          "name": "redux",
+          "version": "5.0.1",
+          "license": "MIT",
+          "homepage": "http://redux.js.org"
+        }
+      ],
+      "expectedDigest": "a852447e6f5c405c365ecfbaac3f9c61332bcf22f16ef00f2bd6668dae8c8ae9",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1,
+        "outBytes": 18502
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 18502,
+          "quickVmMs": 3.723,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 18502,
+          "quickVmMs": 0.416,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 18502,
+          "quickVmMs": 0.94,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 18502,
+          "quickVmMs": 7.478,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 18502,
+          "quickVmMs": 8.282,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 68.103,
+            "p90": 80.866,
+            "mean": 69.273,
+            "min": 49.859,
+            "max": 90.881
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 68.142,
+              "p90": 73.522,
+              "mean": 68.392,
+              "min": 58.06,
+              "max": 76.557
+            },
+            "net": {
+              "median": 0.039,
+              "p90": 5.419,
+              "mean": 0.289
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 81.251,
+              "p90": 88.775,
+              "mean": 79.87,
+              "min": 60.049,
+              "max": 105.485
+            },
+            "net": {
+              "median": 13.148,
+              "p90": 20.672,
+              "mean": 11.767
+            }
+          },
+          "speedupRaw": 0.839,
+          "speedupNet": 0.003
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 0.197,
+            "p90": 0.215,
+            "mean": 0.199,
+            "min": 0.182,
+            "max": 0.22,
+            "cachedDataBytes": 4664
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 0.21,
+            "p90": 0.259,
+            "mean": 0.583,
+            "min": 0.18,
+            "max": 3.931,
+            "cachedDataBytes": 4664
+          },
+          "speedup": 0.938
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 0.201,
+            "p90": 0.234,
+            "mean": 0.207,
+            "min": 0.175,
+            "max": 0.256
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 0.203,
+            "p90": 0.672,
+            "mean": 0.429,
+            "min": 0.175,
+            "max": 2.061
+          },
+          "speedup": 0.99
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6299466,
+          "blobGzipBytes": 2310676,
+          "baseline": {
+            "n": 10,
+            "median": 54.222,
+            "p90": 74.296,
+            "mean": 58.729,
+            "min": 46.78,
+            "max": 82.812
+          },
+          "raw": {
+            "n": 10,
+            "median": 68.454,
+            "p90": 93.804,
+            "mean": 70.73,
+            "min": 46.36,
+            "max": 96.35
+          },
+          "net": {
+            "median": 14.232,
+            "p90": 39.582,
+            "mean": 16.508
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 18502,
+            "terser": 9055,
+            "gzip": 3414,
+            "brotli": 3257,
+            "rawGzip": 4907,
+            "rawBrotli": 4690
+          },
+          "prepacked": {
+            "raw": 18502,
+            "terser": 9055,
+            "gzip": 3414,
+            "brotli": 3257,
+            "rawGzip": 4907,
+            "rawBrotli": 4690
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "handlebars-app",
+      "name": "Handlebars (init template compile)",
+      "kind": "app-workload",
+      "buildType": "umd+app-init",
+      "description": "App workload: loads Handlebars compiler+runtime, registers helpers/partials, compiles an invoice template AST to JS, and renders a boot view at module init.",
+      "bytes": 217023,
+      "sha256": "989d3a40a1bf42e09115b43372dfd1f3ebe3c8a2dfe667b27bebee89ec61a1ea",
+      "packages": [
+        {
+          "name": "handlebars",
+          "version": "4.7.10",
+          "license": "MIT",
+          "homepage": "https://handlebarsjs.com/"
+        }
+      ],
+      "expectedDigest": "fdc9d4795ebcd542648a92a93dadd6328bbe209c203a10e7f153ee7a399ec39f",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1,
+        "outBytes": 217023
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 217023,
+          "quickVmMs": 18.748,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 9,
+          "outBytes": 217023,
+          "quickVmMs": 13.882,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 217023,
+          "quickVmMs": 16.817,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 217023,
+          "quickVmMs": 8.605,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 217023,
+          "quickVmMs": 4.582,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 50.91,
+            "p90": 63.059,
+            "mean": 48.928,
+            "min": 26.693,
+            "max": 70.119
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 73.061,
+              "p90": 91.187,
+              "mean": 74.028,
+              "min": 54.422,
+              "max": 111.063
+            },
+            "net": {
+              "median": 22.151,
+              "p90": 40.277,
+              "mean": 23.118
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 63.169,
+              "p90": 112.718,
+              "mean": 74.573,
+              "min": 52.421,
+              "max": 120.818
+            },
+            "net": {
+              "median": 12.259,
+              "p90": 61.808,
+              "mean": 23.663
+            }
+          },
+          "speedupRaw": 1.157,
+          "speedupNet": 1.807
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 9.64,
+            "p90": 14.125,
+            "mean": 11.446,
+            "min": 6.903,
+            "max": 25.762,
+            "cachedDataBytes": 7976
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 9.61,
+            "p90": 12.059,
+            "mean": 9.518,
+            "min": 3.212,
+            "max": 17.939,
+            "cachedDataBytes": 7976
+          },
+          "speedup": 1.003
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 3.032,
+            "p90": 3.147,
+            "mean": 3.471,
+            "min": 2.998,
+            "max": 7.28
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 3.051,
+            "p90": 3.985,
+            "mean": 3.609,
+            "min": 2.942,
+            "max": 7.151
+          },
+          "speedup": 0.994
+        },
+        "nodeSnapshot": {
+          "supported": false,
+          "error": "terminate called after throwing an instance of 'std::length_error' |   what():  vector::_M_range_insert"
+        },
+        "sizes": {
+          "orig": {
+            "raw": 217023,
+            "terser": 88523,
+            "gzip": 26899,
+            "brotli": 24992,
+            "rawGzip": 50546,
+            "rawBrotli": 46385
+          },
+          "prepacked": {
+            "raw": 217023,
+            "terser": 88523,
+            "gzip": 26899,
+            "brotli": 24992,
+            "rawGzip": 50546,
+            "rawBrotli": 46385
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "preact-ssr-app",
+      "name": "Preact SSR App (init + runtime renderToString)",
+      "kind": "app-workload",
+      "buildType": "umd+app-init",
+      "description": "App workload: Preact + preact-render-to-string renders a multi-component documentation dashboard at module init and exposes dynamic SSR at runtime.",
+      "bytes": 22477,
+      "sha256": "615ac42b96098766976af0e1ff0f408231eebfed31c81af0ebd5d7fc4df97de0",
+      "packages": [
+        {
+          "name": "preact",
+          "version": "10.29.0",
+          "license": "MIT",
+          "homepage": "https://preactjs.com"
+        },
+        {
+          "name": "preact-render-to-string",
+          "version": "6.6.7",
+          "license": "MIT",
+          "homepage": "https://github.com/preactjs/preact-render-to-string"
+        }
+      ],
+      "expectedDigest": "674899a26ea2bc86dd2fe9a2fddc159b82173a406b4e1132ac5adfc583b59959",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1,
+        "outBytes": 22477
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 22477,
+          "quickVmMs": 2.019,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 22477,
+          "quickVmMs": 1.923,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 22477,
+          "quickVmMs": 5.238,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2,
+          "outBytes": 22477,
+          "quickVmMs": 1.078,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 22477,
+          "quickVmMs": 0.388,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 50.342,
+            "p90": 60.887,
+            "mean": 47.701,
+            "min": 29.182,
+            "max": 61.828
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 46.096,
+              "p90": 60.982,
+              "mean": 45.085,
+              "min": 27.421,
+              "max": 61.053
+            },
+            "net": {
+              "median": 0,
+              "p90": 10.64,
+              "mean": 0
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 52.626,
+              "p90": 62.41,
+              "mean": 47.809,
+              "min": 30.158,
+              "max": 64.924
+            },
+            "net": {
+              "median": 2.284,
+              "p90": 12.068,
+              "mean": 0
+            }
+          },
+          "speedupRaw": 0.876,
+          "speedupNet": 0
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 0.248,
+            "p90": 0.261,
+            "mean": 0.25,
+            "min": 0.235,
+            "max": 0.274,
+            "cachedDataBytes": 5208
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 0.252,
+            "p90": 3.816,
+            "mean": 1.977,
+            "min": 0.234,
+            "max": 13.829,
+            "cachedDataBytes": 5208
+          },
+          "speedup": 0.984
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 0.306,
+            "p90": 0.347,
+            "mean": 0.31,
+            "min": 0.249,
+            "max": 0.362
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 0.304,
+            "p90": 0.351,
+            "mean": 0.311,
+            "min": 0.23,
+            "max": 0.374
+          },
+          "speedup": 1.007
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6314426,
+          "blobGzipBytes": 2319848,
+          "baseline": {
+            "n": 10,
+            "median": 43.252,
+            "p90": 67.049,
+            "mean": 46.751,
+            "min": 32.993,
+            "max": 79.06
+          },
+          "raw": {
+            "n": 10,
+            "median": 54.907,
+            "p90": 78.13,
+            "mean": 59.737,
+            "min": 35.502,
+            "max": 95.255
+          },
+          "net": {
+            "median": 11.655,
+            "p90": 34.878,
+            "mean": 16.485
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 22477,
+            "terser": 21712,
+            "gzip": 8850,
+            "brotli": 8666,
+            "rawGzip": 9133,
+            "rawBrotli": 8951
+          },
+          "prepacked": {
+            "raw": 22477,
+            "terser": 21712,
+            "gzip": 8850,
+            "brotli": 8666,
+            "rawGzip": 9133,
+            "rawBrotli": 8951
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "react-ssr-app",
+      "name": "React 18 SSR App (init + runtime renderToString)",
+      "kind": "app-workload",
+      "buildType": "umd+app-init",
+      "description": "App workload: React 18 + ReactDOMServer legacy browser bundle renders a multi-component storefront catalog at module init and serves runtime SSR.",
+      "bytes": 48145,
+      "sha256": "fa49335517c8b0262fd9ca79ee90946cae439a6619de1588a846e1dbcd931eb9",
+      "packages": [
+        {
+          "name": "react",
+          "version": "18.3.1",
+          "license": "MIT",
+          "homepage": "https://reactjs.org/"
+        },
+        {
+          "name": "react-dom",
+          "version": "18.3.1",
+          "license": "MIT",
+          "homepage": "https://reactjs.org/"
+        }
+      ],
+      "expectedDigest": "8fb06297245cf9cc8598fa7967fe7e9c974a99cb9319ddb7a634111963196ae3",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1,
+        "outBytes": 48145
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 48145,
+          "quickVmMs": 3.591,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 48145,
+          "quickVmMs": 3.494,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 48145,
+          "quickVmMs": 5.005,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 48145,
+          "quickVmMs": 1.627,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 48145,
+          "quickVmMs": 4.359,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 42.555,
+            "p90": 54.345,
+            "mean": 45.117,
+            "min": 28.403,
+            "max": 83.501
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 43.767,
+              "p90": 92.524,
+              "mean": 56.136,
+              "min": 31.235,
+              "max": 100.626
+            },
+            "net": {
+              "median": 1.212,
+              "p90": 49.969,
+              "mean": 13.581
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 41.514,
+              "p90": 62.743,
+              "mean": 52.63,
+              "min": 35.126,
+              "max": 115.979
+            },
+            "net": {
+              "median": 0,
+              "p90": 20.188,
+              "mean": 10.075
+            }
+          },
+          "speedupRaw": 1.054,
+          "speedupNet": null
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 1.554,
+            "p90": 5.204,
+            "mean": 2.892,
+            "min": 0.998,
+            "max": 10.046,
+            "cachedDataBytes": 6632
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 2.444,
+            "p90": 4.915,
+            "mean": 2.922,
+            "min": 1.048,
+            "max": 7.692,
+            "cachedDataBytes": 6632
+          },
+          "speedup": 0.636
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 1.631,
+            "p90": 5.879,
+            "mean": 2.905,
+            "min": 1.06,
+            "max": 7.859
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 1.739,
+            "p90": 8.513,
+            "mean": 3.689,
+            "min": 1.046,
+            "max": 9.558
+          },
+          "speedup": 0.938
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6551776,
+          "blobGzipBytes": 2408800,
+          "baseline": {
+            "n": 10,
+            "median": 36.342,
+            "p90": 67.071,
+            "mean": 44.478,
+            "min": 26.475,
+            "max": 79.722
+          },
+          "raw": {
+            "n": 10,
+            "median": 69.102,
+            "p90": 95.182,
+            "mean": 65.795,
+            "min": 35.964,
+            "max": 109.982
+          },
+          "net": {
+            "median": 32.76,
+            "p90": 58.84,
+            "mean": 29.453
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 48145,
+            "terser": 46203,
+            "gzip": 15568,
+            "brotli": 14716,
+            "rawGzip": 16183,
+            "rawBrotli": 15321
+          },
+          "prepacked": {
+            "raw": 48145,
+            "terser": 46203,
+            "gzip": 15568,
+            "brotli": 14716,
+            "rawGzip": 16183,
+            "rawBrotli": 15321
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "yaml-router-app",
+      "name": "YAML Config + Mustache + Router App",
+      "kind": "app-workload",
+      "buildType": "umd+app-init",
+      "description": "Init-heavy app workload: parses a 95-line YAML service/route manifest with js-yaml, compiles 10 parameterized REST routes into RegExps, and pre-parses Mustache views at module init.",
+      "bytes": 160859,
+      "sha256": "35307b56baa043503991dc35089e588861a1f5333935f90297eca01034f7d795",
+      "packages": [
+        {
+          "name": "js-yaml",
+          "version": "4.3.2",
+          "license": "MIT",
+          "homepage": null
+        },
+        {
+          "name": "mustache",
+          "version": "4.2.0",
+          "license": "MIT",
+          "homepage": "https://github.com/janl/mustache.js"
+        }
+      ],
+      "expectedDigest": "f8ff1c9fed0a12155379c9e9f9d39320af898a89c7907a9876980910a1e7999a",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1,
+        "outBytes": 160859
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1,
+          "outBytes": 160859,
+          "quickVmMs": 6.779,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 160859,
+          "quickVmMs": 7.082,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 160859,
+          "quickVmMs": 6.66,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 0,
+          "outBytes": 160859,
+          "quickVmMs": 3.714,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 5,
+          "outBytes": 160859,
+          "quickVmMs": 3.97,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_STANDIN"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 10,
+            "median": 58.148,
+            "p90": 82.495,
+            "mean": 61.191,
+            "min": 33.555,
+            "max": 91.792
+          },
+          "orig": {
+            "raw": {
+              "n": 10,
+              "median": 78.417,
+              "p90": 93.13,
+              "mean": 72.455,
+              "min": 43.2,
+              "max": 96.149
+            },
+            "net": {
+              "median": 20.269,
+              "p90": 34.982,
+              "mean": 14.307
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 10,
+              "median": 86.17,
+              "p90": 122.826,
+              "mean": 85.819,
+              "min": 40.003,
+              "max": 139.934
+            },
+            "net": {
+              "median": 28.022,
+              "p90": 64.678,
+              "mean": 27.671
+            }
+          },
+          "speedupRaw": 0.91,
+          "speedupNet": 0.723
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 10,
+            "median": 3.232,
+            "p90": 7.525,
+            "mean": 6.776,
+            "min": 1.807,
+            "max": 36.194,
+            "cachedDataBytes": 13736
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 2.3,
+            "p90": 3.609,
+            "mean": 3.117,
+            "min": 1.919,
+            "max": 8.696,
+            "cachedDataBytes": 13736
+          },
+          "speedup": 1.405
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 10,
+            "median": 4.234,
+            "p90": 5.145,
+            "mean": 3.797,
+            "min": 1.567,
+            "max": 5.719
+          },
+          "prepacked": {
+            "n": 10,
+            "median": 2.127,
+            "p90": 8.103,
+            "mean": 3.555,
+            "min": 1.501,
+            "max": 8.882
+          },
+          "speedup": 1.991
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6704218,
+          "blobGzipBytes": 2381836,
+          "baseline": {
+            "n": 10,
+            "median": 67.098,
+            "p90": 96.929,
+            "mean": 71.403,
+            "min": 50.18,
+            "max": 111.242
+          },
+          "raw": {
+            "n": 10,
+            "median": 90.18,
+            "p90": 114.262,
+            "mean": 91.669,
+            "min": 64.519,
+            "max": 120.671
+          },
+          "net": {
+            "median": 23.082,
+            "p90": 47.164,
+            "mean": 24.571
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 160859,
+            "terser": 53019,
+            "gzip": 17605,
+            "brotli": 16949,
+            "rawGzip": 30163,
+            "rawBrotli": 28148
+          },
+          "prepacked": {
+            "raw": 160859,
+            "terser": 53019,
+            "gzip": 17605,
+            "brotli": 16949,
+            "rawGzip": 30163,
+            "rawBrotli": 28148
+          },
+          "ratios": {
+            "raw": 1,
+            "terser": 1,
+            "gzip": 1,
+            "brotli": 1
+          }
+        }
+      }
+    }
+  ]
+}
