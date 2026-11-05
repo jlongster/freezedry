@@ -1,0 +1,19 @@
+{
+ "evalInputs": 2000,
+ "before": {
+  "fallbacks": 476,
+  "throwing": 281,
+  "mismatches": 0
+ },
+ "collected": 936,
+ "retrainedWith": 391,
+ "after": {
+  "fallbacks": 281,
+  "throwing": 281,
+  "mismatches": 0
+ },
+ "templateBytesBefore": 73056,
+ "templateBytesAfter": 116229,
+ "conflictsAfter": {},
+ "poisonedAfter": {}
+}

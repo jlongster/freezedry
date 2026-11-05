@@ -183,7 +183,7 @@ function build(appSource, opts = {}) {
   const runtimeSource = `${appSource}\n;__hyOut.t = ${gen.code};\n`;
   let rt;
   try {
-    rt = makeRenderer({ runtimeSource, sites: gen.sites, filename, req, rootProp, stats, React, RDS, checkPlain: !!opts.checkPlainData });
+    rt = makeRenderer({ runtimeSource, sites: gen.sites, filename, req, rootProp, stats, React, RDS, checkPlain: !!opts.checkPlainData, collect: opts.collectFallbacks || 0 });
   } catch (err) {
     return disable(`generated code failed to load: ${err.message}`);
   }
@@ -269,7 +269,8 @@ function makeReactStub() {
   });
 }
 
-function makeRenderer({ runtimeSource, sites, filename, req, rootProp, stats, React, RDS, checkPlain, codeCache, stubReact }) {
+function makeRenderer({ runtimeSource, sites, filename, req, rootProp, stats, React, RDS, checkPlain, codeCache, stubReact, collect }) {
+  const collected = [];
   const out = {};
   const cache = { data: codeCache || null };
   const stub = stubReact ? makeReactStub() : null;
@@ -302,11 +303,20 @@ function makeRenderer({ runtimeSource, sites, filename, req, rootProp, stats, Re
         reason = `error: ${e && e.message}`;
       }
       stats.fallbackReasons[reason] = (stats.fallbackReasons[reason] || 0) + 1;
+      // Offline learning: keep (copies of) inputs that fell back, to retrain with later.
+      if (collect && collected.length < collect) {
+        try {
+          collected.push(structuredClone(data));
+        } catch (_e) {
+          // not cloneable: skip
+        }
+      }
       return fallback(data);
     }
   };
   render.code = runtimeSource;
   render.stats = stats;
+  render.collected = collected;
   return { render, tpl, script: cache.script, cacheRejected: cache.rejected };
 }
 
@@ -442,6 +452,7 @@ module.exports = {
           rootProp: opts.rootProp || "data",
           stats,
           checkPlain: !!opts.checkPlainData,
+          collect: opts.collectFallbacks || 0,
         });
         mark("load");
         stats.codeCacheRejected = !!rr.cacheRejected;
