@@ -4,7 +4,6 @@
 const fs = require("fs");
 const path = require("path");
 const childProcess = require("child_process");
-const { prepackSources, verify } = require("./index");
 
 const HYBRID_DIR = __dirname;
 const REPO_ROOT = path.resolve(HYBRID_DIR, "..");
@@ -47,6 +46,8 @@ function parseArgs(argv) {
     else if (a === "--jobs") args.jobs = parseInt(argv[++i], 10);
     else if (a === "--no-snapshot") args.enableSnapshot = false;
     else if (a === "--no-verify") args.enableVerify = false;
+    else if (a === "--oracle-jsonl") args.oracleJsonl = path.resolve(argv[++i]);
+    else if (a === "--rerun-oracle") args.rerunOracle = true;
     else if (a === "--verify") args.enableVerify = true;
     else if (a === "--out-md") args.outMd = path.resolve(argv[++i]);
     else if (a === "--out-json") args.outJson = path.resolve(argv[++i]);
@@ -126,84 +127,54 @@ function runBenchSuite(prepackTarget, outJsonPath, outMdPath, opts) {
 
 function runOracleAudit(onlyIds = null, opts = {}) {
   const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, "utf8"));
-  const useOptIns = Boolean(opts.useOptIns);
-  const allow = onlyIds
-    ? new Set(
-        onlyIds
-          .split(",")
-          .map(s => s.trim())
-          .filter(Boolean)
-      )
-    : null;
-  const results = new Map();
-
+  const allow = onlyIds ? new Set(onlyIds.split(",").map(s => s.trim()).filter(Boolean)) : null;
+  const jsonl = opts.oracleJsonl || path.join(HYBRID_RESULTS_DIR, `oracle-${opts.useOptIns ? "optins" : "zeroconfig"}.jsonl`);
+  const records = new Map();
+  if (fs.existsSync(jsonl)) {
+    for (const line of fs.readFileSync(jsonl, "utf8").split("\n")) {
+      if (line.trim()) {
+        const r = JSON.parse(line);
+        records.set(r.id, r);
+      }
+    }
+  }
+  // One process per workload: large bundles (mathjs, typescript) can OOM/SIGSEGV when run back to back.
   for (const entry of manifest.libraries) {
     if (allow && !allow.has(entry.id)) continue;
-    const origCode = fs.readFileSync(path.join(BENCH_DIR, entry.file), "utf8");
-    let compiled;
-    try {
-      compiled = prepackSources([{ filePath: `${entry.id}.js`, fileContents: origCode }], {
-        compatibility: "browser",
-        useCorpusOptIns: useOptIns,
-        fallbackOnBailout: false,
-        verify: true,
-        verifySmokeSpecId: entry.id,
-      });
-    } catch (e) {
-      if (e && e.verifyResult) {
-        results.set(entry.id, {
-          compiledOk: true,
-          isStandIn: false,
-          strictIsoOk: false,
-          seededIsoOk: false,
-          firstDiff: e.verifyResult.firstDiff ? e.verifyResult.firstDiff.message : e.message,
-          stats: e.verifyResult.stats || {},
-        });
-      } else {
-        results.set(entry.id, {
-          compiledOk: false,
-          bailedOut: true,
-          error: e.message,
-        });
-      }
-      continue;
+    if (records.has(entry.id) && !opts.rerunOracle) continue;
+    const r = childProcess.spawnSync(
+      process.execPath,
+      ["--max-old-space-size=12288", path.join(HYBRID_DIR, "tools", "oracle-one.js"), entry.id, jsonl].concat(
+        opts.useOptIns ? [] : ["--zero-config"]
+      ),
+      { cwd: REPO_ROOT, stdio: "inherit", env: Object.assign({}, process.env, { TZ: "UTC" }) }
+    );
+    if (r.status !== 0) {
+      fs.appendFileSync(jsonl, JSON.stringify({ id: entry.id, status: "CRASH", error: `exit ${r.status} ${r.signal || ""}` }) + "\n");
     }
-
-    // Also check whether strict unseeded verify passes (distinguishes zero-volatile ISO-OK vs opt-in volatile ISO-SEEDED)
-    const strictIso = verify(origCode, compiled.code, {
-      profile: "bench",
-      ignoreErrorStack: true,
-      specId: entry.id,
-    });
-
-    if (strictIso.ok) {
-      results.set(entry.id, {
-        compiledOk: true,
-        isStandIn: Boolean(compiled.isStandIn),
-        strictIsoOk: true,
-        seededIsoOk: true,
-        volatileReason: null,
-        stats: compiled.verifyResult ? compiled.verifyResult.stats : strictIso.stats,
-      });
-      continue;
+  }
+  for (const line of fs.readFileSync(jsonl, "utf8").split("\n")) {
+    if (line.trim()) {
+      const r = JSON.parse(line);
+      records.set(r.id, r);
     }
-
-    results.set(entry.id, {
-      compiledOk: true,
-      isStandIn: Boolean(compiled.isStandIn),
-      strictIsoOk: false,
-      seededIsoOk: Boolean(compiled.verifyResult && compiled.verifyResult.ok),
-      volatileReason: strictIso.firstDiff ? strictIso.firstDiff.path : "volatile-init",
-      firstDiff:
-        compiled.verifyResult && compiled.verifyResult.ok
-          ? null
-          : strictIso.firstDiff
-            ? strictIso.firstDiff.message
-            : "mismatch",
-      stats: compiled.verifyResult ? compiled.verifyResult.stats : strictIso.stats,
-    });
   }
 
+  const results = new Map();
+  for (const [id, r] of records) {
+    if (allow && !allow.has(id)) continue;
+    const ok = r.status === "ISO-OK";
+    results.set(id, {
+      compiledOk: r.status === "ISO-OK" || r.status === "DIFF",
+      bailedOut: r.status === "BAIL",
+      strictIsoOk: ok && !r.bakedVolatiles,
+      seededIsoOk: ok,
+      volatileReason: ok && r.bakedVolatiles ? `${r.bakedVolatiles} baked volatile(s), replayed` : null,
+      firstDiff: ok ? null : r.error,
+      error: r.error,
+      stats: r.verifyStats || {},
+    });
+  }
   return results;
 }
 
@@ -398,7 +369,7 @@ function formatOracleCell(oracle) {
     return `ISO-OK (${oracle.stats.objectsCompared} obj / ${oracle.stats.functionsCompared} fn)`;
   }
   if (oracle.seededIsoOk) {
-    return `ISO-SEEDED (init reads volatile @ \`${oracle.volatileReason}\`)`;
+    return `ISO-SEEDED (${oracle.volatileReason})`;
   }
   return `DIFF (${oracle.firstDiff || "mismatch"})`;
 }
@@ -581,7 +552,11 @@ function main() {
   let oracleMap = new Map();
   if (args.enableVerify) {
     console.log("Running Heap Isomorphism Oracle audit across selected workloads...");
-    oracleMap = runOracleAudit(args.only, { useOptIns: args.useOptIns });
+    oracleMap = runOracleAudit(args.only, {
+      useOptIns: args.useOptIns,
+      oracleJsonl: args.oracleJsonl,
+      rerunOracle: args.rerunOracle,
+    });
   }
 
   const comparison = generateComparisonData(prepackReport, hybridReport, oracleMap);

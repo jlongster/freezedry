@@ -53,6 +53,18 @@ Measured under the `"browser"` profile (`window === globalThis`, `self === globa
 | **`handlebars-app`** | **BAIL** (`Math.random` at `1302:16`) | `exports`, `define`, `window`, `__g`, `__e`, `__core-js_shared__`, `Handlebars`, `global`, `self` | Calls `Math.random()` 1x in bundled `core-js` `Symbol` uid helper | `--allow-volatile=Math.random` |
 | **`d3-scale`** | **BAIL** (`new Date()` at `3086:12`) | `exports` (`undefined`), `define` (`undefined`), `d3` (`undefined`) | Allocates `const t0 = new Date, t1 = new Date` scratch `Date`s at top level of `d3-time` (`+new Date("2000-01-01T00:00:00.000Z")` is UTC-safe) | `--allow-volatile="new Date" --assume-tz=UTC` |
 
+Large workloads (`bench/LARGE.md`), measured under `universal`:
+
+| Workload | Default | Volatile / Unknown Reads During Init | Opt-in to Unlock |
+|---|---|---|---|
+| **`moment-timezone`** | **OK** | None | *(none)* |
+| **`highlight-js`** | **OK** | None | *(none)* |
+| **`prettier`** | **BAIL** (`Math.random` at `1:5250`) | `core-js` shared-store uid; with the opt-in it still bails on a non-empty `WeakMap` (`__core-js_shared__.state`), which cannot be emitted without approximating | `--allow-volatile=Math.random` (still bails, falls back to original) |
+| **`three`** | **BAIL** (`Math.random` at `162:21`) | `MathUtils` UUID lookup seed | `--allow-volatile=Math.random` |
+| **`mathjs`** | **BAIL** (`Math.random` at `43555:22`) | `Math.random` + `Date.now` in seeded-RNG / config setup | `--allow-volatile=Math.random,Date.now --assume-tz=UTC` |
+| **`babel-standalone`** | **BAIL** (`new Date()` at `603:19`) | `new Date()`, `Date.now`, `Math.random`; probes `console.firebug` / `console.exception` (debug feature detection) | `--allow-volatile="new Date,Date.now,Math.random" --assume-tz=UTC --assume console.firebug=undefined --assume console.exception=undefined` |
+| **`typescript`** | **BAIL** (`Date.now` at `5174:18`) | `Date.now` performance timestamp | `--allow-volatile=Date.now` |
+
 ---
 
 ## Guard Size & Startup Overhead

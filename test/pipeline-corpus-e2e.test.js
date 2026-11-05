@@ -8,7 +8,7 @@ const childProcess = require("node:child_process");
 const { describe, it } = require("node:test");
 const assert = require("node:assert/strict");
 
-const { SPECS } = require("../../bench/libs/specs");
+const SPECS = require("../../bench/libs/specs").SPECS.filter((s) => s.tier !== "large");
 const { prepackSources, prepackSourcesAsync, BailoutError } = require("../index");
 
 const REPO_ROOT = path.resolve(__dirname, "../..");

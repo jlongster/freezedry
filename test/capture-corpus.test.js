@@ -5,7 +5,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
-const { SPECS } = require("../../bench/libs/specs");
+const SPECS = require("../../bench/libs/specs").SPECS.filter((s) => s.tier !== "large");
 const { createEnvironment } = require("../lib/run");
 const { capture } = require("../lib/capture");
 const { rebuildInFreshContext } = require("./helpers/rebuild");
