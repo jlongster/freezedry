@@ -67,6 +67,12 @@ CLI: `node hybrid/bin/hybrid.js input.js --out out.js [--assume NAME=JSON] [--ve
 //       | { "symbol": "o12" }   (unique symbols are nodes too: { "type": "symbol", "description": "...", "registered": "key"|null })
 ```
 
+Compatible node/field details:
+- Property `<key>` is a plain string for string keys, or a symbol `<ref>` (`{ "intrinsic": "Symbol.iterator" }` or `{ "symbol": "y1" }`) for symbol keys.
+- `"function"` nodes also carry `"declaration": boolean` (`true` for `FunctionDeclaration`, which has no immutable inner self-name binding so self-overwriting helpers like `function _typeof() { _typeof = ... }` remain mutable) and optional `"homeObject": <ref>` when a concise method/getter/setter uses `super`.
+- `typedarray.buffer` (and `"dataview": { "type": "dataview", "byteOffset": 0, "byteLength": N, "buffer": <ref>, ...object fields }`) points to `"arraybuffer": { "type": "arraybuffer", "bytes": "<base64>", "byteLength": N, ...object fields }` so multiple views over one `ArrayBuffer` preserve shared buffer identity.
+- Empty `WeakMap` / `WeakSet` instances capture as `{ "type": "weakmap" | "weakset", ...object fields }`; non-empty ones bail out. Invalid `Date` (`isNaN(d.getTime())`) encodes `"time": "NaN"`.
+
 **Scope identity** comes from the heap snapshot. Two functions share a context exactly when their `context` edges point at the same Context node; contexts chain through `previous`. Per-function `[[Scopes]]` gives the values. A function's `scope` points at the innermost context that has captured variables.
 
 ## Hard rules
