@@ -101,6 +101,7 @@ function build(appSource, opts = {}) {
   const inputs = defaultTrainingInputs(opts);
   const t1 = process.hrtime.bigint();
   let traceFailures = 0;
+  const allFrames = [];
   for (const data of inputs) {
     tracer.reset();
     let html;
@@ -114,8 +115,10 @@ function build(appSource, opts = {}) {
       // Instrumentation must never change behaviour.
       return disable("instrumented app rendered differently from the original");
     }
-    learner.learnFrames(tracer.st.records);
+    for (const f of tracer.st.records) allFrames.push(f);
   }
+  tracer.poisonSharedReaders(allFrames);
+  learner.learnFrames(allFrames);
   const t2 = process.hrtime.bigint();
   stats.traceMs = ms(t1, t2);
 
@@ -167,7 +170,7 @@ function build(appSource, opts = {}) {
   const runtimeSource = `${appSource}\n;__hyOut.t = ${gen.code};\n`;
   let rt;
   try {
-    rt = makeRenderer({ runtimeSource, sites: gen.sites, filename, req, rootProp, stats, React, RDS });
+    rt = makeRenderer({ runtimeSource, sites: gen.sites, filename, req, rootProp, stats, React, RDS, checkPlain: !!opts.checkPlainData });
   } catch (err) {
     return disable(`generated code failed to load: ${err.message}`);
   }
@@ -232,7 +235,7 @@ function build(appSource, opts = {}) {
 
 // Loads app + generated template as one module; render() runs the template and falls back to the
 // real renderToString (react-dom/server is only loaded when first needed).
-function makeRenderer({ runtimeSource, sites, filename, req, rootProp, stats, React, RDS }) {
+function makeRenderer({ runtimeSource, sites, filename, req, rootProp, stats, React, RDS, checkPlain }) {
   const out = {};
   const rtApp = loadModule(runtimeSource, filename, req, ["__hyOut"], [out]);
   const tpl = out.t;
@@ -247,13 +250,14 @@ function makeRenderer({ runtimeSource, sites, filename, req, rootProp, stats, Re
   const render = (data) => {
     stats.renders++;
     try {
+      if (checkPlain && !isPlainData(data)) tpl.fallbackNow();
       return tpl.render(data);
     } catch (e) {
       stats.fallbacks++;
       let reason;
       if (tpl.isFallback(e)) {
         const site = tpl.lastFallbackSite();
-        reason = site >= 0 ? sites[site] : "fallback";
+        reason = site >= 0 ? sites[site] : site === -2 ? "data is not plain data" : "fallback";
       } else {
         stats.errors++;
         reason = `error: ${e && e.message}`;
@@ -265,6 +269,35 @@ function makeRenderer({ runtimeSource, sites, filename, req, rootProp, stats, Re
   render.code = runtimeSource;
   render.stats = stats;
   return { render, tpl };
+}
+
+// Precondition of the templates (see README): request data is plain data, i.e. property reads are
+// side-effect free and stable. Opt-in check (opts.checkPlainData): every reachable object is a
+// plain object or array without accessors, symbols or Proxies; otherwise render with React.
+const { isProxy } = require("util").types;
+function isPlainData(root) {
+  const stack = [root];
+  const seen = new Set();
+  while (stack.length) {
+    const v = stack.pop();
+    if (v === null || typeof v !== "object") {
+      if (typeof v === "function") return false;
+      continue;
+    }
+    if (seen.has(v)) continue;
+    seen.add(v);
+    if (isProxy(v)) return false;
+    const proto = Object.getPrototypeOf(v);
+    if (proto !== Object.prototype && proto !== Array.prototype && proto !== null) return false;
+    if (Object.getOwnPropertySymbols(v).length) return false;
+    const descs = Object.getOwnPropertyDescriptors(v);
+    for (const k in descs) {
+      const d = descs[k];
+      if (!("value" in d)) return false;
+      stack.push(d.value);
+    }
+  }
+  return true;
 }
 
 const IMPL_FILES = ["index.js", "instrument.js", "trace.js", "learn.js", "codegen.js", "expr.js"];
@@ -291,6 +324,7 @@ module.exports = {
   name: "react-hybrid (traced templates + guards)",
   build,
   makeRenderer,
+  isPlainData,
   // Builds (or loads from the on-disk cache, keyed by app source + implementation + training
   // config) the specialized renderer. Set opts.noCache / REACT_HYBRID_NO_CACHE to always build.
   prepare(appSource, opts = {}) {
@@ -308,6 +342,7 @@ module.exports = {
           req: opts.require || require,
           rootProp: opts.rootProp || "data",
           stats,
+          checkPlain: !!opts.checkPlainData,
         }).render;
       } catch (_e) {
         // rebuild below

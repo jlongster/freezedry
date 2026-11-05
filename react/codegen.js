@@ -157,6 +157,7 @@ function generate({ tries, fns, ctxNames, rootFid, evalCall, callConst }) {
   },
   isFallback(e) { return e === $FB; },
   lastFallbackSite() { return $fbSite; },
+  fallbackNow() { $fb(-2); },
 };`);
   return { code: `(function () {\n${parts.join("\n")}\n})()`, stats: g.stats, sites: g.sites };
 }

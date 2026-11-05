@@ -750,6 +750,7 @@ class Generator {
       case "Identifier": {
         const declFid = this.closureInfo(node);
         if (declFid !== null) return `${H}.cv(${declFid}, ${JSON.stringify(node.name)}, ${node.name})`;
+        if (this.mutableModuleRef(node)) return `${H}.mv(${node.name})`;
         return node.name;
       }
       case "Literal":
@@ -949,7 +950,18 @@ class Generator {
 
   writeMark(id) {
     const declFid = this.closureInfo(id);
-    return declFid !== null ? `${H}.cw(${declFid}), ` : "";
+    if (declFid !== null) return `${H}.cw(${declFid}), `;
+    return this.mutableModuleRef(id) ? `${H}.mw(), ` : "";
+  }
+
+  // A module-level binding that is reassigned somewhere, referenced from inside a function: its
+  // value is history-dependent state, so frames reading or writing it are not learned.
+  mutableModuleRef(id) {
+    const info = this.a.refs.get(id);
+    if (!info || !info.decl || info.decl.fid !== 0) return false;
+    if (this.fnStack[this.fnStack.length - 1].fid === 0) return false;
+    if (!this.constSet) this.constSet = new Set(this.a.constModuleBindings);
+    return !this.constSet.has(id.name);
   }
 
   fn(node) {

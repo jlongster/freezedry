@@ -346,6 +346,18 @@ function createTracer({ React, fns }) {
     Object.assign(target, src);
   }
 
+  // Objects not created by the current render that some traced code wrote to. A frame that read
+  // from such an object depends on history (or on another frame's side effect): not learned.
+  const mutatedShared = new WeakSet();
+  function noteSharedRead(o) {
+    if (!st.cur.sharedReads) st.cur.sharedReads = new Set();
+    st.cur.sharedReads.add(o);
+  }
+  function noteSharedWrite(o) {
+    const target = o instanceof Sym ? o.c : o;
+    if (target !== null && typeof target === "object") mutatedShared.add(target);
+  }
+
   function registerLocal(o) {
     locals.set(o, st.cur || MODULE);
     return o;
@@ -435,7 +447,10 @@ function createTracer({ React, fns }) {
     if (isLocal(o)) {
       if (Array.isArray(o) && fv === Array.prototype.map && isImpureFn(args[0])) return mapLoop(o, args);
       if (LOCAL_MUTATORS.has(key) && Array.isArray(o)) {
-        if (!canWrite(o)) poison("mutates non-local array");
+        if (!canWrite(o)) {
+          poison("mutates non-local array");
+          noteSharedWrite(o);
+        }
         return fv.apply(o, args);
       }
       if (hasSym(o) || anySym(args)) {
@@ -633,6 +648,7 @@ function createTracer({ React, fns }) {
       return target;
     }
     poison("Object.assign onto shared object");
+    noteSharedWrite(target);
     return Object.assign(target, ...sources.map((s) => unwrap(s)));
   });
 
@@ -755,6 +771,7 @@ function createTracer({ React, fns }) {
         const v = o.c[kc];
         return symResult(() => E.get(o.n, exprOf(k)), v);
       }
+      if (st.cur && o !== null && typeof o === "object" && locals.get(o) !== st.cur) noteSharedRead(o);
       if (k instanceof Sym) {
         if (!sameFrame(k)) return unwrap(unwrap(o)[k.c]);
         const v = unwrap(unwrap(o)[k.c]);
@@ -773,6 +790,7 @@ function createTracer({ React, fns }) {
         return v;
       }
       poison("writes shared object");
+      noteSharedWrite(o);
       (o instanceof Sym ? o.c : o)[k] = unwrap(v);
       return v;
     },
@@ -787,7 +805,10 @@ function createTracer({ React, fns }) {
     },
     del(o, k) {
       k = unwrap(k);
-      if (!canWrite(o)) poison("delete on shared object");
+      if (!canWrite(o)) {
+        poison("delete on shared object");
+        noteSharedWrite(o);
+      }
       return delete (o instanceof Sym ? o.c : o)[k];
     },
     c(f, args) {
@@ -868,6 +889,13 @@ function createTracer({ React, fns }) {
       }
       return s;
     },
+    mv(value) {
+      if (!st.cm) poison("reads mutable module state");
+      return value;
+    },
+    mw() {
+      if (!st.cm) poison("writes mutable module state");
+    },
     cw(declFid) {
       const cur = st.cur;
       if (!st.cm && cur && cur.kind === "cb" && !within(declFid, cur.fid)) poison("writes closure variable");
@@ -908,6 +936,19 @@ function createTracer({ React, fns }) {
     modValues,
     ctxNames,
     ctxIndex,
+    // Called after all training renders: frames that read shared objects which anything wrote to.
+    poisonSharedReaders(frames) {
+      for (const f of frames) {
+        if (f.poisoned || !f.sharedReads) continue;
+        for (const o of f.sharedReads) {
+          if (mutatedShared.has(o)) {
+            f.poisoned = "reads shared mutable object";
+            st.poisonCounts.set(f.poisoned, (st.poisonCounts.get(f.poisoned) || 0) + 1);
+            break;
+          }
+        }
+      }
+    },
     createRoot(type, props) {
       const el = realCE(type, props);
       propsToEl.set(el.props, el);
