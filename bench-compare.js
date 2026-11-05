@@ -167,6 +167,7 @@ function runOracleAudit(onlyIds = null, opts = {}) {
     results.set(id, {
       compiledOk: r.status === "ISO-OK" || r.status === "DIFF",
       bailedOut: r.status === "BAIL",
+      unverified: r.status === "CRASH",
       strictIsoOk: ok && !r.bakedVolatiles,
       seededIsoOk: ok,
       volatileReason: ok && r.bakedVolatiles ? `${r.bakedVolatiles} baked volatile(s), replayed` : null,
@@ -364,6 +365,7 @@ function formatHybStatus(hyb) {
 
 function formatOracleCell(oracle) {
   if (!oracle) return "—";
+  if (oracle.unverified) return `UNVERIFIED (oracle ${oracle.error || "crashed"})`;
   if (!oracle.compiledOk) return `BAIL (${oracle.error || "error"})`;
   if (oracle.strictIsoOk) {
     return `ISO-OK (${oracle.stats.objectsCompared} obj / ${oracle.stats.functionsCompared} fn)`;
@@ -439,7 +441,9 @@ function renderComparisonMarkdown(data) {
     const corr = `${formatPpStatus(r.prepack)} / ${formatHybStatus(r.hybrid)}${
       r.oracle
         ? ` / ${
-            !r.oracle.compiledOk
+            r.oracle.unverified
+              ? "UNVERIFIED"
+              : !r.oracle.compiledOk
               ? "BAIL"
               : r.oracle.strictIsoOk
                 ? "ISO-OK"

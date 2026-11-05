@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05T11:06:03.420Z",
+  "generatedAt": "2026-11-05T19:39:22.765Z",
   "environment": {
     "node": "v26.7.0",
     "v8": "14.6.202.34-node.28",
@@ -7,7 +7,7 @@
     "arch": "x64",
     "cpus": 4,
     "cpuModel": "AMD EPYC 9554P 64-Core Processor",
-    "totalMemBytes": 16763228160
+    "totalMemBytes": 16759189504
   },
   "prepackMeta": {
     "path": "/tmp/opencode/pp-work/lib/prepack-node.js",
@@ -21,17 +21,23 @@
   "prepackConfig": {
     "runs": 30,
     "warmup": 5,
+    "adaptRuns": true,
     "timeout": 300000,
-    "maxOldSpaceMb": 4096,
+    "largeTimeout": 900000,
+    "maxOldSpaceMb": 8192,
     "enableSnapshot": true,
+    "origOnly": false,
     "only": null
   },
   "hybridConfig": {
     "runs": 30,
     "warmup": 5,
+    "adaptRuns": true,
     "timeout": 300000,
-    "maxOldSpaceMb": 4096,
+    "largeTimeout": 900000,
+    "maxOldSpaceMb": 12288,
     "enableSnapshot": true,
+    "origOnly": false,
     "only": null
   },
   "rows": [
@@ -41,25 +47,26 @@
       "kind": "library",
       "rawInputBytes": 545945,
       "prepack": {
-        "defaultStatus": "OK",
+        "defaultStatus": "FAIL",
         "status": "OK",
-        "bestProfile": "default",
-        "compileMs": 11562,
-        "blocker": null
+        "bestProfile": "browser-opt",
+        "compileMs": 2773,
+        "blocker": "PP0012: member expression object abstract value   is unknown"
       },
       "hybrid": {
         "defaultStatus": "OK",
         "status": "OK",
         "isStandIn": false,
-        "compileMs": 4635,
+        "compileMs": 1891,
         "blocker": null
       },
       "oracle": {
         "compiledOk": true,
-        "isStandIn": false,
+        "bailedOut": false,
+        "unverified": false,
         "strictIsoOk": false,
         "seededIsoOk": true,
-        "volatileReason": "_.cond (scope var \"baseRest\") (scope var \"setToString\") (scope var \"lastCalled\")",
+        "volatileReason": "50 baked volatile(s), replayed",
         "firstDiff": null,
         "stats": {
           "rootsCompared": 1,
@@ -70,7 +77,7 @@
           "primitivesCompared": 2715,
           "smokeChecked": true,
           "mutationProbesRun": 0,
-          "durationMs": 1948
+          "durationMs": 3723
         }
       },
       "sizes": {
@@ -83,44 +90,44 @@
           "rawBrotli": 82441
         },
         "prepack": {
-          "raw": 548941,
-          "terser": 74085,
-          "gzip": 24255,
-          "brotli": 23368,
-          "rawGzip": 90322,
-          "rawBrotli": 77270
+          "raw": 551398,
+          "terser": 74965,
+          "gzip": 24510,
+          "brotli": 23539,
+          "rawGzip": 90581,
+          "rawBrotli": 77402
         },
         "hybrid": {
-          "raw": 1464320,
-          "terser": 307720,
-          "gzip": 93102,
-          "brotli": 63532,
-          "rawGzip": 259176,
-          "rawBrotli": 111259
+          "raw": 928151,
+          "terser": 246442,
+          "gzip": 78258,
+          "brotli": 54541,
+          "rawGzip": 175924,
+          "rawBrotli": 124323
         }
       },
       "timings": {
         "coldNetMs": {
-          "orig": 16.495,
-          "prepack": 14.33,
-          "prepackSpeedup": 0.975,
-          "hybrid": 29.295,
-          "hybridSpeedup": 0.563,
-          "v8Snapshot": 10.476
+          "orig": 17.825,
+          "prepack": 17.431,
+          "prepackSpeedup": 0.95,
+          "hybrid": 30.766,
+          "hybridSpeedup": 0.579,
+          "v8Snapshot": 15.538
         },
         "codeCacheMs": {
-          "orig": 3.845,
-          "prepack": 3.748,
-          "prepackSpeedup": 0.811,
-          "hybrid": 2.152,
-          "hybridSpeedup": 1.787
+          "orig": 4.264,
+          "prepack": 4.392,
+          "prepackSpeedup": 0.796,
+          "hybrid": 3.201,
+          "hybridSpeedup": 1.332
         },
         "execOnlyMs": {
-          "orig": 2.99,
-          "prepack": 2.878,
-          "prepackSpeedup": 1.03,
-          "hybrid": 1.827,
-          "hybridSpeedup": 1.637
+          "orig": 3.323,
+          "prepack": 3.449,
+          "prepackSpeedup": 1.009,
+          "hybrid": 2.58,
+          "hybridSpeedup": 1.288
         }
       }
     },
@@ -130,25 +137,27 @@
       "kind": "library",
       "rawInputBytes": 68916,
       "prepack": {
-        "defaultStatus": "FAIL",
+        "defaultStatus": "OK",
         "status": "OK",
-        "bestProfile": "jsc",
-        "compileMs": 1351,
-        "blocker": "PP0001: This operation is not yet supported on document at childNodes"
+        "bestProfile": "browser-opt",
+        "compileMs": 884,
+        "blocker": null
       },
       "hybrid": {
         "defaultStatus": "OK",
         "status": "OK",
         "isStandIn": false,
-        "compileMs": 2224,
+        "compileMs": 848,
         "blocker": null
       },
       "oracle": {
         "compiledOk": true,
-        "isStandIn": false,
+        "bailedOut": false,
+        "unverified": false,
         "strictIsoOk": true,
         "seededIsoOk": true,
         "volatileReason": null,
+        "firstDiff": null,
         "stats": {
           "rootsCompared": 1,
           "intrinsicPatchesCompared": 0,
@@ -158,7 +167,7 @@
           "primitivesCompared": 729,
           "smokeChecked": true,
           "mutationProbesRun": 0,
-          "durationMs": 732
+          "durationMs": 1321
         }
       },
       "sizes": {
@@ -171,44 +180,44 @@
           "rawBrotli": 18446
         },
         "prepack": {
-          "raw": 69209,
-          "terser": 33522,
-          "gzip": 8115,
-          "brotli": 7842,
-          "rawGzip": 13050,
-          "rawBrotli": 12233
+          "raw": 70200,
+          "terser": 34385,
+          "gzip": 8287,
+          "brotli": 8010,
+          "rawGzip": 13271,
+          "rawBrotli": 12454
         },
         "hybrid": {
-          "raw": 241521,
-          "terser": 84067,
-          "gzip": 25736,
-          "brotli": 15897,
-          "rawGzip": 59195,
-          "rawBrotli": 27832
+          "raw": 101518,
+          "terser": 46682,
+          "gzip": 14329,
+          "brotli": 13064,
+          "rawGzip": 24571,
+          "rawBrotli": 22344
         }
       },
       "timings": {
         "coldNetMs": {
-          "orig": 4.279,
-          "prepack": 1.187,
-          "prepackSpeedup": 0.904,
-          "hybrid": 7.899,
-          "hybridSpeedup": 0.542,
-          "v8Snapshot": 7.488
+          "orig": 2.763,
+          "prepack": 1.544,
+          "prepackSpeedup": 0.532,
+          "hybrid": 4.922,
+          "hybridSpeedup": 0.561,
+          "v8Snapshot": 7.357
         },
         "codeCacheMs": {
-          "orig": 0.442,
-          "prepack": 0.439,
-          "prepackSpeedup": 1.014,
-          "hybrid": 0.706,
-          "hybridSpeedup": 0.626
+          "orig": 0.867,
+          "prepack": 0.631,
+          "prepackSpeedup": 1.025,
+          "hybrid": 0.892,
+          "hybridSpeedup": 0.972
         },
         "execOnlyMs": {
-          "orig": 0.434,
-          "prepack": 0.377,
-          "prepackSpeedup": 1.011,
-          "hybrid": 0.713,
-          "hybridSpeedup": 0.609
+          "orig": 0.801,
+          "prepack": 0.586,
+          "prepackSpeedup": 1.005,
+          "hybrid": 0.83,
+          "hybridSpeedup": 0.965
         }
       }
     },
@@ -220,23 +229,25 @@
       "prepack": {
         "defaultStatus": "OK",
         "status": "OK",
-        "bestProfile": "default",
-        "compileMs": 2036,
+        "bestProfile": "browser-opt",
+        "compileMs": 842,
         "blocker": null
       },
       "hybrid": {
         "defaultStatus": "OK",
         "status": "OK",
         "isStandIn": false,
-        "compileMs": 2941,
+        "compileMs": 1651,
         "blocker": null
       },
       "oracle": {
         "compiledOk": true,
-        "isStandIn": false,
+        "bailedOut": false,
+        "unverified": false,
         "strictIsoOk": true,
         "seededIsoOk": true,
         "volatileReason": null,
+        "firstDiff": null,
         "stats": {
           "rootsCompared": 1,
           "intrinsicPatchesCompared": 0,
@@ -246,7 +257,7 @@
           "primitivesCompared": 1610,
           "smokeChecked": true,
           "mutationProbesRun": 0,
-          "durationMs": 1470
+          "durationMs": 3266
         }
       },
       "sizes": {
@@ -259,44 +270,44 @@
           "rawBrotli": 65267
         },
         "prepack": {
-          "raw": 138551,
-          "terser": 66390,
-          "gzip": 15564,
-          "brotli": 14573,
-          "rawGzip": 24856,
-          "rawBrotli": 22073
+          "raw": 140664,
+          "terser": 67284,
+          "gzip": 15932,
+          "brotli": 14788,
+          "rawGzip": 25191,
+          "rawBrotli": 22437
         },
         "hybrid": {
-          "raw": 558134,
-          "terser": 153783,
-          "gzip": 41020,
-          "brotli": 30244,
-          "rawGzip": 119779,
-          "rawBrotli": 81227
+          "raw": 238441,
+          "terser": 124321,
+          "gzip": 32731,
+          "brotli": 25336,
+          "rawGzip": 49458,
+          "rawBrotli": 42459
         }
       },
       "timings": {
         "coldNetMs": {
-          "orig": 2.228,
-          "prepack": 3.695,
-          "prepackSpeedup": 1.143,
-          "hybrid": 10.647,
-          "hybridSpeedup": 0.209,
-          "v8Snapshot": 5.804
+          "orig": 5.083,
+          "prepack": 4.031,
+          "prepackSpeedup": 0.978,
+          "hybrid": 8.038,
+          "hybridSpeedup": 0.632,
+          "v8Snapshot": 6.776
         },
         "codeCacheMs": {
-          "orig": 0.687,
-          "prepack": 0.286,
-          "prepackSpeedup": 2.234,
-          "hybrid": 0.81,
-          "hybridSpeedup": 0.848
+          "orig": 0.844,
+          "prepack": 0.469,
+          "prepackSpeedup": 1.763,
+          "hybrid": 0.549,
+          "hybridSpeedup": 1.537
         },
         "execOnlyMs": {
-          "orig": 0.73,
-          "prepack": 0.257,
-          "prepackSpeedup": 2.284,
-          "hybrid": 0.884,
-          "hybridSpeedup": 0.826
+          "orig": 0.847,
+          "prepack": 0.555,
+          "prepackSpeedup": 1.78,
+          "hybrid": 0.538,
+          "hybridSpeedup": 1.574
         }
       }
     },
@@ -308,23 +319,24 @@
       "prepack": {
         "defaultStatus": "OK",
         "status": "OK",
-        "bestProfile": "default",
-        "compileMs": 1866,
+        "bestProfile": "browser-opt",
+        "compileMs": 781,
         "blocker": null
       },
       "hybrid": {
         "defaultStatus": "OK",
         "status": "OK",
         "isStandIn": false,
-        "compileMs": 2338,
+        "compileMs": 1163,
         "blocker": null
       },
       "oracle": {
         "compiledOk": true,
-        "isStandIn": false,
+        "bailedOut": false,
+        "unverified": false,
         "strictIsoOk": false,
         "seededIsoOk": true,
-        "volatileReason": "Immutable.Map.prototype.set (scope var \"updateMap\") (scope var \"updateNode\") (scope var \"ValueNode\").prototype.update (scope var \"mergeIntoNode\") (scope var \"HashCollisionNode\").prototype._positionOf (scope var \"hashCollisionKey\") (scope var \"COLLISION_HASH_BASE\")",
+        "volatileReason": "1 baked volatile(s), replayed",
         "firstDiff": null,
         "stats": {
           "rootsCompared": 1,
@@ -335,7 +347,7 @@
           "primitivesCompared": 1041,
           "smokeChecked": true,
           "mutationProbesRun": 0,
-          "durationMs": 1027
+          "durationMs": 2460
         }
       },
       "sizes": {
@@ -348,44 +360,44 @@
           "rawBrotli": 33750
         },
         "prepack": {
-          "raw": 147252,
-          "terser": 64406,
-          "gzip": 18306,
-          "brotli": 17601,
-          "rawGzip": 29459,
-          "rawBrotli": 27331
+          "raw": 148024,
+          "terser": 64734,
+          "gzip": 18344,
+          "brotli": 17627,
+          "rawGzip": 29521,
+          "rawBrotli": 27351
         },
         "hybrid": {
-          "raw": 393370,
-          "terser": 153517,
-          "gzip": 43060,
-          "brotli": 32781,
-          "rawGzip": 79195,
-          "rawBrotli": 46734
+          "raw": 297813,
+          "terser": 134888,
+          "gzip": 37814,
+          "brotli": 28571,
+          "rawGzip": 60164,
+          "rawBrotli": 53393
         }
       },
       "timings": {
         "coldNetMs": {
-          "orig": 7.003,
-          "prepack": 5.609,
-          "prepackSpeedup": 1.014,
-          "hybrid": 12.455,
-          "hybridSpeedup": 0.562,
-          "v8Snapshot": 8.734
+          "orig": 5.703,
+          "prepack": 6.336,
+          "prepackSpeedup": 0.906,
+          "hybrid": 11.334,
+          "hybridSpeedup": 0.503,
+          "v8Snapshot": 10.75
         },
         "codeCacheMs": {
-          "orig": 1.137,
-          "prepack": 1.024,
-          "prepackSpeedup": 1.118,
-          "hybrid": 1.484,
-          "hybridSpeedup": 0.766
+          "orig": 1.598,
+          "prepack": 1.334,
+          "prepackSpeedup": 1.123,
+          "hybrid": 1.715,
+          "hybridSpeedup": 0.932
         },
         "execOnlyMs": {
-          "orig": 1.241,
-          "prepack": 0.983,
-          "prepackSpeedup": 1.117,
-          "hybrid": 1.654,
-          "hybridSpeedup": 0.75
+          "orig": 1.342,
+          "prepack": 1.156,
+          "prepackSpeedup": 1.134,
+          "hybrid": 1.433,
+          "hybridSpeedup": 0.936
         }
       }
     },
@@ -397,23 +409,25 @@
       "prepack": {
         "defaultStatus": "OK",
         "status": "OK",
-        "bestProfile": "default",
-        "compileMs": 17770,
+        "bestProfile": "browser-opt",
+        "compileMs": 5137,
         "blocker": null
       },
       "hybrid": {
         "defaultStatus": "OK",
         "status": "OK",
         "isStandIn": false,
-        "compileMs": 4823,
+        "compileMs": 2567,
         "blocker": null
       },
       "oracle": {
         "compiledOk": true,
-        "isStandIn": false,
+        "bailedOut": false,
+        "unverified": false,
         "strictIsoOk": true,
         "seededIsoOk": true,
         "volatileReason": null,
+        "firstDiff": null,
         "stats": {
           "rootsCompared": 1,
           "intrinsicPatchesCompared": 0,
@@ -423,7 +437,7 @@
           "primitivesCompared": 15895,
           "smokeChecked": true,
           "mutationProbesRun": 0,
-          "durationMs": 2173
+          "durationMs": 4280
         }
       },
       "sizes": {
@@ -436,44 +450,44 @@
           "rawBrotli": 88811
         },
         "prepack": {
-          "raw": 647740,
-          "terser": 355688,
-          "gzip": 101443,
-          "brotli": 84828,
-          "rawGzip": 129966,
-          "rawBrotli": 111581
+          "raw": 685363,
+          "terser": 346782,
+          "gzip": 100741,
+          "brotli": 85563,
+          "rawGzip": 131483,
+          "rawBrotli": 111471
         },
         "hybrid": {
-          "raw": 1477588,
-          "terser": 759600,
-          "gzip": 186118,
-          "brotli": 116179,
-          "rawGzip": 250259,
-          "rawBrotli": 152955
+          "raw": 1082171,
+          "terser": 691238,
+          "gzip": 171460,
+          "brotli": 107438,
+          "rawGzip": 208025,
+          "rawBrotli": 158000
         }
       },
       "timings": {
         "coldNetMs": {
-          "orig": 24.125,
-          "prepack": 23.72,
-          "prepackSpeedup": 1.047,
-          "hybrid": 41.564,
-          "hybridSpeedup": 0.58,
-          "v8Snapshot": 14.593
+          "orig": 26.707,
+          "prepack": 25.204,
+          "prepackSpeedup": 1.014,
+          "hybrid": 39.449,
+          "hybridSpeedup": 0.677,
+          "v8Snapshot": 15.466
         },
         "codeCacheMs": {
-          "orig": 11.554,
-          "prepack": 2.367,
-          "prepackSpeedup": 4.575,
-          "hybrid": 4.836,
-          "hybridSpeedup": 2.389
+          "orig": 11.654,
+          "prepack": 2.485,
+          "prepackSpeedup": 4.561,
+          "hybrid": 4.009,
+          "hybridSpeedup": 2.907
         },
         "execOnlyMs": {
-          "orig": 11.162,
-          "prepack": 2.506,
-          "prepackSpeedup": 4.435,
-          "hybrid": 4.917,
-          "hybridSpeedup": 2.27
+          "orig": 12.836,
+          "prepack": 2.467,
+          "prepackSpeedup": 4.488,
+          "hybrid": 4.321,
+          "hybridSpeedup": 2.971
         }
       }
     },
@@ -485,23 +499,25 @@
       "prepack": {
         "defaultStatus": "OK",
         "status": "OK",
-        "bestProfile": "default",
-        "compileMs": 990,
+        "bestProfile": "browser-opt",
+        "compileMs": 572,
         "blocker": null
       },
       "hybrid": {
         "defaultStatus": "OK",
         "status": "OK",
         "isStandIn": false,
-        "compileMs": 1926,
+        "compileMs": 924,
         "blocker": null
       },
       "oracle": {
         "compiledOk": true,
-        "isStandIn": false,
+        "bailedOut": false,
+        "unverified": false,
         "strictIsoOk": true,
         "seededIsoOk": true,
         "volatileReason": null,
+        "firstDiff": null,
         "stats": {
           "rootsCompared": 1,
           "intrinsicPatchesCompared": 0,
@@ -511,7 +527,7 @@
           "primitivesCompared": 924,
           "smokeChecked": true,
           "mutationProbesRun": 0,
-          "durationMs": 760
+          "durationMs": 1587
         }
       },
       "sizes": {
@@ -524,44 +540,44 @@
           "rawBrotli": 24073
         },
         "prepack": {
-          "raw": 86029,
-          "terser": 40958,
-          "gzip": 14592,
-          "brotli": 13955,
-          "rawGzip": 20966,
-          "rawBrotli": 19595
+          "raw": 87462,
+          "terser": 41591,
+          "gzip": 14809,
+          "brotli": 14328,
+          "rawGzip": 21201,
+          "rawBrotli": 19803
         },
         "hybrid": {
-          "raw": 241807,
-          "terser": 102628,
-          "gzip": 32730,
-          "brotli": 22478,
-          "rawGzip": 53521,
-          "rawBrotli": 32851
+          "raw": 177159,
+          "terser": 90392,
+          "gzip": 30780,
+          "brotli": 20611,
+          "rawGzip": 43564,
+          "rawBrotli": 37866
         }
       },
       "timings": {
         "coldNetMs": {
-          "orig": 2.235,
-          "prepack": 4.821,
-          "prepackSpeedup": 0.985,
-          "hybrid": 6.393,
-          "hybridSpeedup": 0.35,
-          "v8Snapshot": 7.827
+          "orig": 4.869,
+          "prepack": 4.341,
+          "prepackSpeedup": 0.472,
+          "hybrid": 7.637,
+          "hybridSpeedup": 0.638,
+          "v8Snapshot": 11.694
         },
         "codeCacheMs": {
-          "orig": 0.695,
-          "prepack": 0.663,
-          "prepackSpeedup": 1.077,
-          "hybrid": 0.823,
-          "hybridSpeedup": 0.844
+          "orig": 0.856,
+          "prepack": 0.974,
+          "prepackSpeedup": 1.095,
+          "hybrid": 0.804,
+          "hybridSpeedup": 1.065
         },
         "execOnlyMs": {
-          "orig": 0.665,
-          "prepack": 0.648,
-          "prepackSpeedup": 1.085,
+          "orig": 0.864,
+          "prepack": 0.887,
+          "prepackSpeedup": 1.114,
           "hybrid": 0.781,
-          "hybridSpeedup": 0.851
+          "hybridSpeedup": 1.106
         }
       }
     },
@@ -573,23 +589,25 @@
       "prepack": {
         "defaultStatus": "OK",
         "status": "OK",
-        "bestProfile": "default",
-        "compileMs": 1684,
+        "bestProfile": "browser-opt",
+        "compileMs": 1024,
         "blocker": null
       },
       "hybrid": {
         "defaultStatus": "OK",
         "status": "OK",
         "isStandIn": false,
-        "compileMs": 1368,
+        "compileMs": 1220,
         "blocker": null
       },
       "oracle": {
         "compiledOk": true,
-        "isStandIn": false,
+        "bailedOut": false,
+        "unverified": false,
         "strictIsoOk": true,
         "seededIsoOk": true,
         "volatileReason": null,
+        "firstDiff": null,
         "stats": {
           "rootsCompared": 1,
           "intrinsicPatchesCompared": 0,
@@ -599,7 +617,7 @@
           "primitivesCompared": 2575,
           "smokeChecked": true,
           "mutationProbesRun": 0,
-          "durationMs": 962
+          "durationMs": 2125
         }
       },
       "sizes": {
@@ -612,44 +630,44 @@
           "rawBrotli": 53000
         },
         "prepack": {
-          "raw": 273159,
-          "terser": 167013,
-          "gzip": 39650,
-          "brotli": 34557,
-          "rawGzip": 54715,
-          "rawBrotli": 47815
+          "raw": 258011,
+          "terser": 156482,
+          "gzip": 37328,
+          "brotli": 33753,
+          "rawGzip": 53343,
+          "rawBrotli": 46812
         },
         "hybrid": {
-          "raw": 569812,
-          "terser": 321437,
-          "gzip": 79750,
-          "brotli": 46852,
-          "rawGzip": 120872,
-          "rawBrotli": 67910
+          "raw": 439353,
+          "terser": 287659,
+          "gzip": 74297,
+          "brotli": 43541,
+          "rawGzip": 94026,
+          "rawBrotli": 77958
         }
       },
       "timings": {
         "coldNetMs": {
-          "orig": 8.565,
-          "prepack": 8.929,
-          "prepackSpeedup": 0.919,
-          "hybrid": 13.041,
-          "hybridSpeedup": 0.657,
-          "v8Snapshot": 10.971
+          "orig": 10.014,
+          "prepack": 9.06,
+          "prepackSpeedup": 0.985,
+          "hybrid": 17.383,
+          "hybridSpeedup": 0.576,
+          "v8Snapshot": 14.551
         },
         "codeCacheMs": {
-          "orig": 1.426,
-          "prepack": 1.254,
-          "prepackSpeedup": 1.174,
-          "hybrid": 1.508,
-          "hybridSpeedup": 0.946
+          "orig": 1.64,
+          "prepack": 1.597,
+          "prepackSpeedup": 1.206,
+          "hybrid": 1.567,
+          "hybridSpeedup": 1.047
         },
         "execOnlyMs": {
-          "orig": 1.399,
-          "prepack": 1.242,
-          "prepackSpeedup": 1.206,
-          "hybrid": 1.486,
-          "hybridSpeedup": 0.941
+          "orig": 1.586,
+          "prepack": 1.419,
+          "prepackSpeedup": 1.211,
+          "hybrid": 1.552,
+          "hybridSpeedup": 1.022
         }
       }
     },
@@ -659,25 +677,27 @@
       "kind": "library",
       "rawInputBytes": 3702,
       "prepack": {
-        "defaultStatus": "FAIL",
-        "status": "FAIL",
-        "bestProfile": null,
-        "compileMs": 210,
-        "blocker": "PP0037: failed to emit a residual loop: the loop calls an unknown or unsupported functio"
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "browser-opt",
+        "compileMs": 524,
+        "blocker": null
       },
       "hybrid": {
         "defaultStatus": "OK",
         "status": "OK",
         "isStandIn": false,
-        "compileMs": 538,
+        "compileMs": 588,
         "blocker": null
       },
       "oracle": {
         "compiledOk": true,
-        "isStandIn": false,
+        "bailedOut": false,
+        "unverified": false,
         "strictIsoOk": true,
         "seededIsoOk": true,
         "volatileReason": null,
+        "firstDiff": null,
         "stats": {
           "rootsCompared": 1,
           "intrinsicPatchesCompared": 0,
@@ -687,7 +707,7 @@
           "primitivesCompared": 7,
           "smokeChecked": true,
           "mutationProbesRun": 0,
-          "durationMs": 473
+          "durationMs": 1032
         }
       },
       "sizes": {
@@ -699,38 +719,45 @@
           "rawGzip": 1222,
           "rawBrotli": 1131
         },
-        "prepack": null,
+        "prepack": {
+          "raw": 107475,
+          "terser": 95943,
+          "gzip": 45090,
+          "brotli": 22591,
+          "rawGzip": 48472,
+          "rawBrotli": 23739
+        },
         "hybrid": {
-          "raw": 30711,
-          "terser": 27648,
-          "gzip": 18592,
-          "brotli": 18203,
-          "rawGzip": 19060,
-          "rawBrotli": 18572
+          "raw": 6816,
+          "terser": 4616,
+          "gzip": 1237,
+          "brotli": 1148,
+          "rawGzip": 1748,
+          "rawBrotli": 1623
         }
       },
       "timings": {
         "coldNetMs": {
-          "orig": 0.292,
-          "prepack": null,
-          "prepackSpeedup": null,
-          "hybrid": 0,
-          "hybridSpeedup": null,
-          "v8Snapshot": 5.137
+          "orig": 3.431,
+          "prepack": 1.402,
+          "prepackSpeedup": 1.676,
+          "hybrid": 2.636,
+          "hybridSpeedup": 1.302,
+          "v8Snapshot": 5.818
         },
         "codeCacheMs": {
-          "orig": 0.186,
-          "prepack": null,
-          "prepackSpeedup": null,
-          "hybrid": 0.08,
-          "hybridSpeedup": 2.325
+          "orig": 0.457,
+          "prepack": 0.25,
+          "prepackSpeedup": 1.312,
+          "hybrid": 0.455,
+          "hybridSpeedup": 1.004
         },
         "execOnlyMs": {
-          "orig": 0.177,
-          "prepack": null,
-          "prepackSpeedup": null,
-          "hybrid": 0.07,
-          "hybridSpeedup": 2.529
+          "orig": 0.631,
+          "prepack": 0.231,
+          "prepackSpeedup": 1.494,
+          "hybrid": 0.407,
+          "hybridSpeedup": 1.55
         }
       }
     },
@@ -740,27 +767,753 @@
       "kind": "library",
       "rawInputBytes": 50548,
       "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "browser-opt",
+        "compileMs": 486,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 1005,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "bailedOut": false,
+        "unverified": false,
+        "strictIsoOk": true,
+        "seededIsoOk": true,
+        "volatileReason": null,
+        "firstDiff": null,
+        "stats": {
+          "rootsCompared": 1,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 332,
+          "functionsCompared": 168,
+          "scopesCompared": 82,
+          "primitivesCompared": 540,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 3098
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 50548,
+          "terser": 50124,
+          "gzip": 14820,
+          "brotli": 14355,
+          "rawGzip": 15363,
+          "rawBrotli": 14913
+        },
+        "prepack": {
+          "raw": 75969,
+          "terser": 49954,
+          "gzip": 14753,
+          "brotli": 14278,
+          "rawGzip": 17121,
+          "rawBrotli": 16398
+        },
+        "hybrid": {
+          "raw": 116015,
+          "terser": 109142,
+          "gzip": 28460,
+          "brotli": 18026,
+          "rawGzip": 31203,
+          "rawBrotli": 18548
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 35.218,
+          "prepack": 35.421,
+          "prepackSpeedup": 1.052,
+          "hybrid": 40.585,
+          "hybridSpeedup": 0.868,
+          "v8Snapshot": 33.756
+        },
+        "codeCacheMs": {
+          "orig": 1.32,
+          "prepack": 1.303,
+          "prepackSpeedup": 1.021,
+          "hybrid": 1.177,
+          "hybridSpeedup": 1.121
+        },
+        "execOnlyMs": {
+          "orig": 1.278,
+          "prepack": 1.219,
+          "prepackSpeedup": 0.991,
+          "hybrid": 1.141,
+          "hybridSpeedup": 1.12
+        }
+      }
+    },
+    {
+      "id": "d3-scale",
+      "name": "D3 Scale + Array",
+      "kind": "library",
+      "rawInputBytes": 152468,
+      "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "browser-opt",
+        "compileMs": 914,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 3158,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "bailedOut": false,
+        "unverified": false,
+        "strictIsoOk": false,
+        "seededIsoOk": true,
+        "volatileReason": "2 baked volatile(s), replayed",
+        "firstDiff": null,
+        "stats": {
+          "rootsCompared": 2,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 1307,
+          "functionsCompared": 795,
+          "scopesCompared": 566,
+          "primitivesCompared": 2114,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 4314
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 152468,
+          "terser": 72757,
+          "gzip": 23583,
+          "brotli": 22699,
+          "rawGzip": 34358,
+          "rawBrotli": 32447
+        },
+        "prepack": {
+          "raw": 188529,
+          "terser": 91915,
+          "gzip": 29461,
+          "brotli": 26825,
+          "rawGzip": 39333,
+          "rawBrotli": 35934
+        },
+        "hybrid": {
+          "raw": 372621,
+          "terser": 187094,
+          "gzip": 54581,
+          "brotli": 37579,
+          "rawGzip": 70359,
+          "rawBrotli": 62350
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 6.07,
+          "prepack": 6.172,
+          "prepackSpeedup": 0.589,
+          "hybrid": 13.839,
+          "hybridSpeedup": 0.439,
+          "v8Snapshot": 14.155
+        },
+        "codeCacheMs": {
+          "orig": 1.191,
+          "prepack": 0.761,
+          "prepackSpeedup": 1.622,
+          "hybrid": 0.919,
+          "hybridSpeedup": 1.296
+        },
+        "execOnlyMs": {
+          "orig": 1.068,
+          "prepack": 0.563,
+          "prepackSpeedup": 1.709,
+          "hybrid": 0.837,
+          "hybridSpeedup": 1.276
+        }
+      }
+    },
+    {
+      "id": "redux",
+      "name": "Redux (store + middleware init)",
+      "kind": "app-workload",
+      "rawInputBytes": 18502,
+      "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "default",
+        "compileMs": 363,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 607,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "bailedOut": false,
+        "unverified": false,
+        "strictIsoOk": false,
+        "seededIsoOk": true,
+        "volatileReason": "4 baked volatile(s), replayed",
+        "firstDiff": null,
+        "stats": {
+          "rootsCompared": 1,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 47,
+          "functionsCompared": 21,
+          "scopesCompared": 29,
+          "primitivesCompared": 58,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 1120
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 18502,
+          "terser": 9055,
+          "gzip": 3414,
+          "brotli": 3257,
+          "rawGzip": 4907,
+          "rawBrotli": 4690
+        },
+        "prepack": {
+          "raw": 14745,
+          "terser": 7682,
+          "gzip": 2968,
+          "brotli": 2827,
+          "rawGzip": 4198,
+          "rawBrotli": 3985
+        },
+        "hybrid": {
+          "raw": 30941,
+          "terser": 16959,
+          "gzip": 4257,
+          "brotli": 3932,
+          "rawGzip": 7188,
+          "rawBrotli": 6857
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 0.882,
+          "prepack": 0.109,
+          "prepackSpeedup": 4.972,
+          "hybrid": 0,
+          "hybridSpeedup": null,
+          "v8Snapshot": 7.043
+        },
+        "codeCacheMs": {
+          "orig": 0.32,
+          "prepack": 0.317,
+          "prepackSpeedup": 1.262,
+          "hybrid": 0.259,
+          "hybridSpeedup": 1.236
+        },
+        "execOnlyMs": {
+          "orig": 0.307,
+          "prepack": 0.247,
+          "prepackSpeedup": 1.215,
+          "hybrid": 0.239,
+          "hybridSpeedup": 1.285
+        }
+      }
+    },
+    {
+      "id": "handlebars-app",
+      "name": "Handlebars (init template compile)",
+      "kind": "app-workload",
+      "rawInputBytes": 217023,
+      "prepack": {
+        "defaultStatus": "FAIL",
+        "status": "OK",
+        "bestProfile": "browser-opt",
+        "compileMs": 3627,
+        "blocker": "INVARIANT: "
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 1545,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "bailedOut": false,
+        "unverified": false,
+        "strictIsoOk": false,
+        "seededIsoOk": true,
+        "volatileReason": "1 baked volatile(s), replayed",
+        "firstDiff": null,
+        "stats": {
+          "rootsCompared": 3,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 2072,
+          "functionsCompared": 335,
+          "scopesCompared": 194,
+          "primitivesCompared": 4656,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 1891
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 217023,
+          "terser": 88523,
+          "gzip": 26899,
+          "brotli": 24992,
+          "rawGzip": 50546,
+          "rawBrotli": 46385
+        },
+        "prepack": {
+          "raw": 206910,
+          "terser": 97474,
+          "gzip": 27371,
+          "brotli": 25332,
+          "rawGzip": 42679,
+          "rawBrotli": 38662
+        },
+        "hybrid": {
+          "raw": 354746,
+          "terser": 188914,
+          "gzip": 54009,
+          "brotli": 33605,
+          "rawGzip": 76831,
+          "rawBrotli": 65279
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 18.494,
+          "prepack": 5.624,
+          "prepackSpeedup": 3.029,
+          "hybrid": 10.806,
+          "hybridSpeedup": 1.711,
+          "v8Snapshot": null
+        },
+        "codeCacheMs": {
+          "orig": 3.697,
+          "prepack": 1.107,
+          "prepackSpeedup": 3.044,
+          "hybrid": 1.139,
+          "hybridSpeedup": 3.246
+        },
+        "execOnlyMs": {
+          "orig": 3.502,
+          "prepack": 1.113,
+          "prepackSpeedup": 3.212,
+          "hybrid": 1.165,
+          "hybridSpeedup": 3.006
+        }
+      }
+    },
+    {
+      "id": "preact-ssr-app",
+      "name": "Preact SSR App (init + runtime renderToString)",
+      "kind": "app-workload",
+      "rawInputBytes": 22477,
+      "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "browser-opt",
+        "compileMs": 489,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 668,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "bailedOut": false,
+        "unverified": false,
+        "strictIsoOk": true,
+        "seededIsoOk": true,
+        "volatileReason": null,
+        "firstDiff": null,
+        "stats": {
+          "rootsCompared": 3,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 145,
+          "functionsCompared": 62,
+          "scopesCompared": 99,
+          "primitivesCompared": 215,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 732
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 22477,
+          "terser": 21712,
+          "gzip": 8850,
+          "brotli": 8666,
+          "rawGzip": 9133,
+          "rawBrotli": 8951
+        },
+        "prepack": {
+          "raw": 36719,
+          "terser": 22655,
+          "gzip": 8984,
+          "brotli": 8767,
+          "rawGzip": 10762,
+          "rawBrotli": 10423
+        },
+        "hybrid": {
+          "raw": 47273,
+          "terser": 44237,
+          "gzip": 13153,
+          "brotli": 11717,
+          "rawGzip": 11476,
+          "rawBrotli": 10828
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 1.834,
+          "prepack": 1.305,
+          "prepackSpeedup": 1.584,
+          "hybrid": 1.311,
+          "hybridSpeedup": 1.399,
+          "v8Snapshot": 6.691
+        },
+        "codeCacheMs": {
+          "orig": 0.471,
+          "prepack": 0.341,
+          "prepackSpeedup": 1.202,
+          "hybrid": 0.475,
+          "hybridSpeedup": 0.992
+        },
+        "execOnlyMs": {
+          "orig": 0.414,
+          "prepack": 0.335,
+          "prepackSpeedup": 1.206,
+          "hybrid": 0.474,
+          "hybridSpeedup": 0.873
+        }
+      }
+    },
+    {
+      "id": "react-ssr-app",
+      "name": "React 18 SSR App (init + runtime renderToString)",
+      "kind": "app-workload",
+      "rawInputBytes": 48145,
+      "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "browser-opt",
+        "compileMs": 1576,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 826,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "bailedOut": false,
+        "unverified": false,
+        "strictIsoOk": false,
+        "seededIsoOk": true,
+        "volatileReason": "1 baked volatile(s), replayed",
+        "firstDiff": null,
+        "stats": {
+          "rootsCompared": 3,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 497,
+          "functionsCompared": 160,
+          "scopesCompared": 179,
+          "primitivesCompared": 1797,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 1687
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 48145,
+          "terser": 46203,
+          "gzip": 15568,
+          "brotli": 14716,
+          "rawGzip": 16183,
+          "rawBrotli": 15321
+        },
+        "prepack": {
+          "raw": 97226,
+          "terser": 57930,
+          "gzip": 18239,
+          "brotli": 17207,
+          "rawGzip": 21684,
+          "rawBrotli": 20190
+        },
+        "hybrid": {
+          "raw": 135277,
+          "terser": 120826,
+          "gzip": 32319,
+          "brotli": 23690,
+          "rawGzip": 34014,
+          "rawBrotli": 22267
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 6.174,
+          "prepack": 5.41,
+          "prepackSpeedup": 0.892,
+          "hybrid": 9.278,
+          "hybridSpeedup": 0.665,
+          "v8Snapshot": 7.577
+        },
+        "codeCacheMs": {
+          "orig": 0.97,
+          "prepack": 0.678,
+          "prepackSpeedup": 1.524,
+          "hybrid": 0.82,
+          "hybridSpeedup": 1.183
+        },
+        "execOnlyMs": {
+          "orig": 0.921,
+          "prepack": 0.614,
+          "prepackSpeedup": 1.511,
+          "hybrid": 0.786,
+          "hybridSpeedup": 1.172
+        }
+      }
+    },
+    {
+      "id": "yaml-router-app",
+      "name": "YAML Config + Mustache + Router App",
+      "kind": "app-workload",
+      "rawInputBytes": 160859,
+      "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "browser-opt",
+        "compileMs": 2482,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 986,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "bailedOut": false,
+        "unverified": false,
+        "strictIsoOk": true,
+        "seededIsoOk": true,
+        "volatileReason": null,
+        "firstDiff": null,
+        "stats": {
+          "rootsCompared": 3,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 587,
+          "functionsCompared": 192,
+          "scopesCompared": 197,
+          "primitivesCompared": 1437,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 1589
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 160859,
+          "terser": 53019,
+          "gzip": 17605,
+          "brotli": 16949,
+          "rawGzip": 30163,
+          "rawBrotli": 28148
+        },
+        "prepack": {
+          "raw": 127892,
+          "terser": 59098,
+          "gzip": 18025,
+          "brotli": 17490,
+          "rawGzip": 25983,
+          "rawBrotli": 24466
+        },
+        "hybrid": {
+          "raw": 255686,
+          "terser": 113429,
+          "gzip": 34179,
+          "brotli": 23313,
+          "rawGzip": 51042,
+          "rawBrotli": 43898
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 10.674,
+          "prepack": 3.75,
+          "prepackSpeedup": 2.577,
+          "hybrid": 6.906,
+          "hybridSpeedup": 1.546,
+          "v8Snapshot": 12.031
+        },
+        "codeCacheMs": {
+          "orig": 2.785,
+          "prepack": 0.828,
+          "prepackSpeedup": 2.821,
+          "hybrid": 0.841,
+          "hybridSpeedup": 3.312
+        },
+        "execOnlyMs": {
+          "orig": 2.401,
+          "prepack": 0.669,
+          "prepackSpeedup": 2.62,
+          "hybrid": 0.787,
+          "hybridSpeedup": 3.051
+        }
+      }
+    },
+    {
+      "id": "moment-timezone",
+      "name": "Moment Timezone (full IANA data)",
+      "kind": "library",
+      "rawInputBytes": 935184,
+      "prepack": {
+        "defaultStatus": "FAIL",
+        "status": "OK",
+        "bestProfile": "browser-opt",
+        "compileMs": 2937,
+        "blocker": "PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive met"
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 2038,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "bailedOut": false,
+        "unverified": false,
+        "strictIsoOk": true,
+        "seededIsoOk": true,
+        "volatileReason": null,
+        "firstDiff": null,
+        "stats": {
+          "rootsCompared": 1,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 2176,
+          "functionsCompared": 561,
+          "scopesCompared": 552,
+          "primitivesCompared": 5310,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 2335
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 935184,
+          "terser": 797417,
+          "gzip": 56292,
+          "brotli": 47645,
+          "rawGzip": 78282,
+          "rawBrotli": 66393
+        },
+        "prepack": {
+          "raw": 1025248,
+          "terser": 877919,
+          "gzip": 75618,
+          "brotli": 60781,
+          "rawGzip": 92666,
+          "rawBrotli": 76363
+        },
+        "hybrid": {
+          "raw": 1867744,
+          "terser": 1671549,
+          "gzip": 131019,
+          "brotli": 76880,
+          "rawGzip": 158535,
+          "rawBrotli": 108330
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 38.051,
+          "prepack": 21.843,
+          "prepackSpeedup": 1.104,
+          "hybrid": 41.643,
+          "hybridSpeedup": 0.914,
+          "v8Snapshot": 23.079
+        },
+        "codeCacheMs": {
+          "orig": 10.967,
+          "prepack": 6.407,
+          "prepackSpeedup": 1.52,
+          "hybrid": 9.051,
+          "hybridSpeedup": 1.212
+        },
+        "execOnlyMs": {
+          "orig": 9.611,
+          "prepack": 5.636,
+          "prepackSpeedup": 1.38,
+          "hybrid": 7.748,
+          "hybridSpeedup": 1.24
+        }
+      }
+    },
+    {
+      "id": "prettier",
+      "name": "Prettier Standalone (+ Babel, PostCSS, HTML parsers)",
+      "kind": "library",
+      "rawInputBytes": 1091154,
+      "prepack": {
         "defaultStatus": "FAIL",
         "status": "FAIL",
         "bestProfile": null,
-        "compileMs": 35,
-        "blocker": "PP1004: Syntax error: This experimental syntax requires enabling the parser plugin: 'opt"
+        "compileMs": 2756,
+        "blocker": "PP0001: This operation is not yet supported on abstract value global "
       },
       "hybrid": {
         "defaultStatus": "FAIL",
         "status": "FAIL",
         "isStandIn": false,
-        "compileMs": 762,
-        "blocker": "HYB_BAILOUT: class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:"
+        "compileMs": 4571,
+        "blocker": "HYB_BAILOUT: WeakMap with contents (1 entries) (global[\"__core-js_shared__\"].state)"
       },
       "oracle": {
         "compiledOk": false,
         "bailedOut": true,
-        "error": "Hybrid bailout: class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:s20]].O)"
+        "unverified": false,
+        "strictIsoOk": false,
+        "seededIsoOk": false,
+        "volatileReason": null,
+        "firstDiff": "Hybrid bailout: WeakMap with contents (1 entries) (global[\"__core-js_shared__\"].state)",
+        "error": "Hybrid bailout: WeakMap with contents (1 entries) (global[\"__core-js_shared__\"].state)",
+        "stats": {}
       },
       "sizes": {
         "orig": {
-          "raw": 50548,
+          "raw": 1091154,
           "terser": null,
           "gzip": null
         },
@@ -793,519 +1546,413 @@
       }
     },
     {
-      "id": "d3-scale",
-      "name": "D3 Scale + Array",
+      "id": "highlight-js",
+      "name": "Highlight.js (all 190+ languages)",
       "kind": "library",
-      "rawInputBytes": 152468,
+      "rawInputBytes": 1878500,
       "prepack": {
-        "defaultStatus": "FAIL",
-        "status": "FAIL",
-        "bestProfile": null,
-        "compileMs": 1021,
-        "blocker": "INVARIANT: serialized 1339 of 1341"
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "default",
+        "compileMs": 11520,
+        "blocker": null
       },
       "hybrid": {
         "defaultStatus": "OK",
         "status": "OK",
         "isStandIn": false,
-        "compileMs": 3349,
+        "compileMs": 4067,
         "blocker": null
       },
       "oracle": {
         "compiledOk": true,
-        "isStandIn": false,
-        "strictIsoOk": false,
+        "bailedOut": false,
+        "unverified": false,
+        "strictIsoOk": true,
         "seededIsoOk": true,
-        "volatileReason": "d3.timeInterval (scope var \"t0\")",
-        "firstDiff": null,
-        "stats": {
-          "rootsCompared": 2,
-          "intrinsicPatchesCompared": 0,
-          "objectsCompared": 1307,
-          "functionsCompared": 795,
-          "scopesCompared": 574,
-          "primitivesCompared": 2114,
-          "smokeChecked": true,
-          "mutationProbesRun": 0,
-          "durationMs": 2400
-        }
-      },
-      "sizes": {
-        "orig": {
-          "raw": 152468,
-          "terser": 72757,
-          "gzip": 23583,
-          "brotli": 22699,
-          "rawGzip": 34358,
-          "rawBrotli": 32447
-        },
-        "prepack": null,
-        "hybrid": {
-          "raw": 450417,
-          "terser": 207098,
-          "gzip": 61636,
-          "brotli": 42545,
-          "rawGzip": 85962,
-          "rawBrotli": 51045
-        }
-      },
-      "timings": {
-        "coldNetMs": {
-          "orig": 6.32,
-          "prepack": null,
-          "prepackSpeedup": null,
-          "hybrid": 14.113,
-          "hybridSpeedup": 0.448,
-          "v8Snapshot": 7.476
-        },
-        "codeCacheMs": {
-          "orig": 0.834,
-          "prepack": null,
-          "prepackSpeedup": null,
-          "hybrid": 0.882,
-          "hybridSpeedup": 0.946
-        },
-        "execOnlyMs": {
-          "orig": 0.796,
-          "prepack": null,
-          "prepackSpeedup": null,
-          "hybrid": 0.835,
-          "hybridSpeedup": 0.953
-        }
-      }
-    },
-    {
-      "id": "redux",
-      "name": "Redux (store + middleware init)",
-      "kind": "app-workload",
-      "rawInputBytes": 18502,
-      "prepack": {
-        "defaultStatus": "FAIL",
-        "status": "OK",
-        "bestProfile": "browser-seed",
-        "compileMs": 336,
-        "blocker": "PP0031: property access on unknown object"
-      },
-      "hybrid": {
-        "defaultStatus": "OK",
-        "status": "OK",
-        "isStandIn": false,
-        "compileMs": 796,
-        "blocker": null
-      },
-      "oracle": {
-        "compiledOk": true,
-        "isStandIn": false,
-        "strictIsoOk": false,
-        "seededIsoOk": true,
-        "volatileReason": "ReduxBench.runScenario (scope var \"createStore\") (scope var \"actionTypes_default\").INIT",
+        "volatileReason": null,
         "firstDiff": null,
         "stats": {
           "rootsCompared": 1,
           "intrinsicPatchesCompared": 0,
-          "objectsCompared": 47,
-          "functionsCompared": 21,
-          "scopesCompared": 29,
-          "primitivesCompared": 58,
+          "objectsCompared": 9050,
+          "functionsCompared": 551,
+          "scopesCompared": 166,
+          "primitivesCompared": 47276,
           "smokeChecked": true,
           "mutationProbesRun": 0,
-          "durationMs": 646
+          "durationMs": 5216
         }
       },
       "sizes": {
         "orig": {
-          "raw": 18502,
-          "terser": 9055,
-          "gzip": 3414,
-          "brotli": 3257,
-          "rawGzip": 4907,
-          "rawBrotli": 4690
+          "raw": 1878500,
+          "terser": 980184,
+          "gzip": 306497,
+          "brotli": 263361,
+          "rawGzip": 396304,
+          "rawBrotli": 332802
         },
         "prepack": {
-          "raw": 14901,
-          "terser": 7845,
-          "gzip": 3027,
-          "brotli": 2876,
-          "rawGzip": 4183,
-          "rawBrotli": 3941
+          "raw": 2638975,
+          "terser": 1970314,
+          "gzip": 609805,
+          "brotli": 316738,
+          "rawGzip": 677261,
+          "rawBrotli": 375585
         },
         "hybrid": {
-          "raw": 41493,
-          "terser": 20214,
-          "gzip": 5018,
-          "brotli": 4560,
-          "rawGzip": 6445,
-          "rawBrotli": 5823
+          "raw": 4232255,
+          "terser": 3062179,
+          "gzip": 775971,
+          "brotli": 317851,
+          "rawGzip": 1033437,
+          "rawBrotli": 563675
         }
       },
       "timings": {
         "coldNetMs": {
-          "orig": 0.474,
-          "prepack": 0,
-          "prepackSpeedup": null,
-          "hybrid": 1.02,
-          "hybridSpeedup": 0.465,
-          "v8Snapshot": 4.961
-        },
-        "codeCacheMs": {
-          "orig": 0.193,
-          "prepack": 0.16,
-          "prepackSpeedup": 1.438,
-          "hybrid": 0.155,
-          "hybridSpeedup": 1.245
-        },
-        "execOnlyMs": {
-          "orig": 0.172,
-          "prepack": 0.15,
-          "prepackSpeedup": 1.473,
-          "hybrid": 0.138,
-          "hybridSpeedup": 1.246
-        }
-      }
-    },
-    {
-      "id": "handlebars-app",
-      "name": "Handlebars (init template compile)",
-      "kind": "app-workload",
-      "rawInputBytes": 217023,
-      "prepack": {
-        "defaultStatus": "WRONG",
-        "status": "WRONG",
-        "bestProfile": null,
-        "compileMs": 858,
-        "blocker": "PP0023: VM runtime threw: TypeError: not an object"
-      },
-      "hybrid": {
-        "defaultStatus": "OK",
-        "status": "OK",
-        "isStandIn": false,
-        "compileMs": 1563,
-        "blocker": null
-      },
-      "oracle": {
-        "compiledOk": true,
-        "isStandIn": false,
-        "strictIsoOk": true,
-        "seededIsoOk": true,
-        "volatileReason": null,
-        "stats": {
-          "rootsCompared": 3,
-          "intrinsicPatchesCompared": 0,
-          "objectsCompared": 2072,
-          "functionsCompared": 335,
-          "scopesCompared": 194,
-          "primitivesCompared": 4656,
-          "smokeChecked": true,
-          "mutationProbesRun": 0,
-          "durationMs": 1175
-        }
-      },
-      "sizes": {
-        "orig": {
-          "raw": 217023,
-          "terser": 88523,
-          "gzip": 26899,
-          "brotli": 24992,
-          "rawGzip": 50546,
-          "rawBrotli": 46385
-        },
-        "prepack": null,
-        "hybrid": {
-          "raw": 472790,
-          "terser": 207309,
-          "gzip": 60004,
-          "brotli": 37536,
-          "rawGzip": 102059,
-          "rawBrotli": 60273
-        }
-      },
-      "timings": {
-        "coldNetMs": {
-          "orig": 17.614,
-          "prepack": null,
-          "prepackSpeedup": null,
-          "hybrid": 10.49,
-          "hybridSpeedup": 1.679,
+          "orig": 94.173,
+          "prepack": 83.404,
+          "prepackSpeedup": 1.075,
+          "hybrid": 112.038,
+          "hybridSpeedup": 0.841,
           "v8Snapshot": null
         },
         "codeCacheMs": {
-          "orig": 3.64,
-          "prepack": null,
-          "prepackSpeedup": null,
-          "hybrid": 1.362,
-          "hybridSpeedup": 2.673
+          "orig": 16.246,
+          "prepack": 12.729,
+          "prepackSpeedup": 1.236,
+          "hybrid": 16.1,
+          "hybridSpeedup": 1.009
         },
         "execOnlyMs": {
-          "orig": 3.355,
-          "prepack": null,
-          "prepackSpeedup": null,
-          "hybrid": 1.291,
-          "hybridSpeedup": 2.599
+          "orig": 17.315,
+          "prepack": 13.062,
+          "prepackSpeedup": 1.29,
+          "hybrid": 14.104,
+          "hybridSpeedup": 1.228
         }
       }
     },
     {
-      "id": "preact-ssr-app",
-      "name": "Preact SSR App (init + runtime renderToString)",
-      "kind": "app-workload",
-      "rawInputBytes": 22477,
+      "id": "three",
+      "name": "Three.js (math + scene graph)",
+      "kind": "library",
+      "rawInputBytes": 1960313,
       "prepack": {
         "defaultStatus": "OK",
         "status": "OK",
         "bestProfile": "default",
-        "compileMs": 642,
+        "compileMs": 6080,
         "blocker": null
       },
       "hybrid": {
         "defaultStatus": "OK",
         "status": "OK",
         "isStandIn": false,
-        "compileMs": 657,
+        "compileMs": 61732,
         "blocker": null
       },
       "oracle": {
         "compiledOk": true,
-        "isStandIn": false,
-        "strictIsoOk": true,
-        "seededIsoOk": true,
-        "volatileReason": null,
-        "stats": {
-          "rootsCompared": 3,
-          "intrinsicPatchesCompared": 0,
-          "objectsCompared": 145,
-          "functionsCompared": 62,
-          "scopesCompared": 99,
-          "primitivesCompared": 215,
-          "smokeChecked": true,
-          "mutationProbesRun": 0,
-          "durationMs": 628
-        }
-      },
-      "sizes": {
-        "orig": {
-          "raw": 22477,
-          "terser": 21712,
-          "gzip": 8850,
-          "brotli": 8666,
-          "rawGzip": 9133,
-          "rawBrotli": 8951
-        },
-        "prepack": {
-          "raw": 35494,
-          "terser": 22254,
-          "gzip": 8862,
-          "brotli": 8643,
-          "rawGzip": 10538,
-          "rawBrotli": 10244
-        },
-        "hybrid": {
-          "raw": 53449,
-          "terser": 46897,
-          "gzip": 13647,
-          "brotli": 12081,
-          "rawGzip": 12929,
-          "rawBrotli": 11391
-        }
-      },
-      "timings": {
-        "coldNetMs": {
-          "orig": 0,
-          "prepack": 2.212,
-          "prepackSpeedup": 1.063,
-          "hybrid": 1.62,
-          "hybridSpeedup": 0,
-          "v8Snapshot": 5.283
-        },
-        "codeCacheMs": {
-          "orig": 0.276,
-          "prepack": 0.251,
-          "prepackSpeedup": 1.319,
-          "hybrid": 0.268,
-          "hybridSpeedup": 1.03
-        },
-        "execOnlyMs": {
-          "orig": 0.26,
-          "prepack": 0.177,
-          "prepackSpeedup": 1.345,
-          "hybrid": 0.256,
-          "hybridSpeedup": 1.016
-        }
-      }
-    },
-    {
-      "id": "react-ssr-app",
-      "name": "React 18 SSR App (init + runtime renderToString)",
-      "kind": "app-workload",
-      "rawInputBytes": 48145,
-      "prepack": {
-        "defaultStatus": "OK",
-        "status": "OK",
-        "bestProfile": "default",
-        "compileMs": 1799,
-        "blocker": null
-      },
-      "hybrid": {
-        "defaultStatus": "OK",
-        "status": "OK",
-        "isStandIn": false,
-        "compileMs": 1225,
-        "blocker": null
-      },
-      "oracle": {
-        "compiledOk": true,
-        "isStandIn": false,
+        "bailedOut": false,
+        "unverified": false,
         "strictIsoOk": false,
         "seededIsoOk": true,
-        "volatileReason": "React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.Scheduler.unstable_scheduleCallback (scope var \"v\") (scope var \"Ca\")",
+        "volatileReason": "80 baked volatile(s), replayed",
         "firstDiff": null,
         "stats": {
-          "rootsCompared": 3,
+          "rootsCompared": 2,
           "intrinsicPatchesCompared": 0,
-          "objectsCompared": 497,
-          "functionsCompared": 160,
-          "scopesCompared": 179,
-          "primitivesCompared": 1797,
+          "objectsCompared": 4698,
+          "functionsCompared": 2455,
+          "scopesCompared": 1039,
+          "primitivesCompared": 10298,
           "smokeChecked": true,
           "mutationProbesRun": 0,
-          "durationMs": 874
+          "durationMs": 12555
         }
       },
       "sizes": {
         "orig": {
-          "raw": 48145,
-          "terser": 46203,
-          "gzip": 15568,
-          "brotli": 14716,
-          "rawGzip": 16183,
-          "rawBrotli": 15321
+          "raw": 1960313,
+          "terser": 760780,
+          "gzip": 187601,
+          "brotli": 167474,
+          "rawGzip": 321124,
+          "rawBrotli": 268490
         },
         "prepack": {
-          "raw": 121661,
-          "terser": 78444,
-          "gzip": 21475,
-          "brotli": 18886,
-          "rawGzip": 25083,
-          "rawBrotli": 21738
+          "raw": 1514892,
+          "terser": 860909,
+          "gzip": 211389,
+          "brotli": 179000,
+          "rawGzip": 272148,
+          "rawBrotli": 227543
         },
         "hybrid": {
-          "raw": 154044,
-          "terser": 130518,
-          "gzip": 35626,
-          "brotli": 25499,
-          "rawGzip": 38846,
-          "rawBrotli": 23841
+          "raw": 3318836,
+          "terser": 1721630,
+          "gzip": 409404,
+          "brotli": 213576,
+          "rawGzip": 586037,
+          "rawBrotli": 450039
         }
       },
       "timings": {
         "coldNetMs": {
-          "orig": 3.299,
-          "prepack": 4.04,
-          "prepackSpeedup": 1.871,
-          "hybrid": 5.571,
-          "hybridSpeedup": 0.592,
-          "v8Snapshot": 6.111
+          "orig": 38.241,
+          "prepack": 36.77,
+          "prepackSpeedup": 0.992,
+          "hybrid": 61.167,
+          "hybridSpeedup": 0.625,
+          "v8Snapshot": 27.397
         },
         "codeCacheMs": {
-          "orig": 0.784,
-          "prepack": 0.45,
-          "prepackSpeedup": 1.633,
-          "hybrid": 0.773,
-          "hybridSpeedup": 1.014
+          "orig": 4.827,
+          "prepack": 4.819,
+          "prepackSpeedup": 0.972,
+          "hybrid": 6.132,
+          "hybridSpeedup": 0.787
         },
         "execOnlyMs": {
-          "orig": 0.782,
-          "prepack": 0.438,
-          "prepackSpeedup": 1.658,
-          "hybrid": 0.772,
-          "hybridSpeedup": 1.013
+          "orig": 4.608,
+          "prepack": 5.041,
+          "prepackSpeedup": 0.921,
+          "hybrid": 5.75,
+          "hybridSpeedup": 0.801
         }
       }
     },
     {
-      "id": "yaml-router-app",
-      "name": "YAML Config + Mustache + Router App",
-      "kind": "app-workload",
-      "rawInputBytes": 160859,
+      "id": "mathjs",
+      "name": "mathjs (eager typed-function registry)",
+      "kind": "library",
+      "rawInputBytes": 2168744,
       "prepack": {
-        "defaultStatus": "OK",
-        "status": "OK",
-        "bestProfile": "default",
-        "compileMs": 4648,
-        "blocker": null
+        "defaultStatus": "FAIL",
+        "status": "FAIL",
+        "bestProfile": null,
+        "compileMs": 5525,
+        "blocker": "PP0001: This operation is not yet supported on abstract value  "
       },
       "hybrid": {
         "defaultStatus": "OK",
         "status": "OK",
         "isStandIn": false,
-        "compileMs": 1010,
+        "compileMs": 115477,
         "blocker": null
       },
       "oracle": {
-        "compiledOk": true,
-        "isStandIn": false,
-        "strictIsoOk": true,
-        "seededIsoOk": true,
+        "compiledOk": false,
+        "bailedOut": false,
+        "unverified": true,
+        "strictIsoOk": false,
+        "seededIsoOk": false,
         "volatileReason": null,
-        "stats": {
-          "rootsCompared": 3,
-          "intrinsicPatchesCompared": 0,
-          "objectsCompared": 587,
-          "functionsCompared": 192,
-          "scopesCompared": 197,
-          "primitivesCompared": 1437,
-          "smokeChecked": true,
-          "mutationProbesRun": 0,
-          "durationMs": 1095
-        }
+        "firstDiff": "killed (OOM)",
+        "error": "killed (OOM)",
+        "stats": {}
       },
       "sizes": {
         "orig": {
-          "raw": 160859,
-          "terser": 53019,
-          "gzip": 17605,
-          "brotli": 16949,
-          "rawGzip": 30163,
-          "rawBrotli": 28148
+          "raw": 2168744,
+          "terser": 859776,
+          "gzip": 217580,
+          "brotli": 192373,
+          "rawGzip": 320474,
+          "rawBrotli": 277966
         },
-        "prepack": {
-          "raw": 129190,
-          "terser": 60042,
-          "gzip": 18440,
-          "brotli": 17673,
-          "rawGzip": 26507,
-          "rawBrotli": 24890
-        },
+        "prepack": null,
         "hybrid": {
-          "raw": 469155,
-          "terser": 164271,
-          "gzip": 50998,
-          "brotli": 26976,
-          "rawGzip": 83625,
-          "rawBrotli": 36971
+          "raw": 19686361,
+          "terser": 9131259,
+          "gzip": 1268528,
+          "brotli": 940056,
+          "rawGzip": 1651323,
+          "rawBrotli": 1143202
         }
       },
       "timings": {
         "coldNetMs": {
-          "orig": 8.829,
-          "prepack": 4.051,
-          "prepackSpeedup": 2.004,
-          "hybrid": 9.974,
-          "hybridSpeedup": 0.885,
-          "v8Snapshot": 6.744
+          "orig": 291.591,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": 905.484,
+          "hybridSpeedup": 0.322,
+          "v8Snapshot": null
         },
         "codeCacheMs": {
-          "orig": 1.542,
-          "prepack": 0.511,
-          "prepackSpeedup": 3.084,
-          "hybrid": 0.698,
-          "hybridSpeedup": 2.209
+          "orig": 211.117,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": 115.22,
+          "hybridSpeedup": 1.832
         },
         "execOnlyMs": {
-          "orig": 1.49,
-          "prepack": 0.47,
-          "prepackSpeedup": 3.174,
-          "hybrid": 0.677,
-          "hybridSpeedup": 2.201
+          "orig": 164.767,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": 95.149,
+          "hybridSpeedup": 1.732
+        }
+      }
+    },
+    {
+      "id": "babel-standalone",
+      "name": "@babel/standalone (preset-env + preset-react)",
+      "kind": "library",
+      "rawInputBytes": 5374865,
+      "prepack": {
+        "defaultStatus": "FAIL",
+        "status": "FAIL",
+        "bestProfile": null,
+        "compileMs": 7462,
+        "blocker": "PP0001: This operation is not yet supported on abstract value  "
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 18351,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "bailedOut": false,
+        "unverified": false,
+        "strictIsoOk": false,
+        "seededIsoOk": true,
+        "volatileReason": "33 baked volatile(s), replayed",
+        "firstDiff": null,
+        "stats": {
+          "rootsCompared": 1,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 26174,
+          "functionsCompared": 7494,
+          "scopesCompared": 8902,
+          "primitivesCompared": 101255,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 42000
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 5374865,
+          "terser": 3022531,
+          "gzip": 659811,
+          "brotli": 477794,
+          "rawGzip": 874273,
+          "rawBrotli": 630957
+        },
+        "prepack": null,
+        "hybrid": {
+          "raw": 10533789,
+          "terser": 6722111,
+          "gzip": 1435872,
+          "brotli": 761653,
+          "rawGzip": 1793145,
+          "rawBrotli": 1281329
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 199.276,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": 325.353,
+          "hybridSpeedup": 0.612,
+          "v8Snapshot": null
+        },
+        "codeCacheMs": {
+          "orig": 71.063,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": 54.8,
+          "hybridSpeedup": 1.297
+        },
+        "execOnlyMs": {
+          "orig": 69.764,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": 54.836,
+          "hybridSpeedup": 1.272
+        }
+      }
+    },
+    {
+      "id": "typescript",
+      "name": "TypeScript Compiler (lib/typescript.js)",
+      "kind": "library",
+      "rawInputBytes": 9112699,
+      "prepack": {
+        "defaultStatus": "FAIL",
+        "status": "FAIL",
+        "bestProfile": null,
+        "compileMs": 8693,
+        "blocker": "PP0001: This operation is not yet supported on abstract value  "
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 128595,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": false,
+        "bailedOut": false,
+        "unverified": true,
+        "strictIsoOk": false,
+        "seededIsoOk": false,
+        "volatileReason": null,
+        "firstDiff": "killed (OOM)",
+        "error": "killed (OOM)",
+        "stats": {}
+      },
+      "sizes": {
+        "orig": {
+          "raw": 9112699,
+          "terser": 3513177,
+          "gzip": 967463,
+          "brotli": 804422,
+          "rawGzip": 1633623,
+          "rawBrotli": 1302219
+        },
+        "prepack": null,
+        "hybrid": {
+          "raw": 18883618,
+          "terser": 8623293,
+          "gzip": 2171464,
+          "brotli": 1337044,
+          "rawGzip": 3353856,
+          "rawBrotli": 2528455
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 197.198,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": 403.065,
+          "hybridSpeedup": 0.489,
+          "v8Snapshot": 86.786
+        },
+        "codeCacheMs": {
+          "orig": 22.88,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": 35.057,
+          "hybridSpeedup": 0.653
+        },
+        "execOnlyMs": {
+          "orig": 21.576,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": 32.562,
+          "hybridSpeedup": 0.663
         }
       }
     }

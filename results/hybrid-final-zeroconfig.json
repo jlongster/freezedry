@@ -1,0 +1,4933 @@
+{
+  "timestamp": "2026-11-05T19:22:28.590Z",
+  "prepack": {
+    "path": "/tmp/opencode/pp-wt/hybrid/hybrid/index.js",
+    "version": "0.0.1-hybrid"
+  },
+  "environment": {
+    "node": "v26.7.0",
+    "v8": "14.6.202.34-node.28",
+    "platform": "linux",
+    "arch": "x64",
+    "cpus": 4,
+    "cpuModel": "AMD EPYC 9554P 64-Core Processor",
+    "totalMemBytes": 16759189504
+  },
+  "config": {
+    "runs": 30,
+    "warmup": 5,
+    "adaptRuns": true,
+    "timeout": 300000,
+    "largeTimeout": 900000,
+    "maxOldSpaceMb": 12288,
+    "enableSnapshot": true,
+    "origOnly": false,
+    "only": null
+  },
+  "nodeZeroBaseline": {
+    "n": 30,
+    "median": 26.848,
+    "p90": 33.838,
+    "mean": 28.604,
+    "min": 23.993,
+    "max": 42.338
+  },
+  "summary": {
+    "total": 22,
+    "standardCount": 15,
+    "largeCount": 7,
+    "librariesCount": 17,
+    "appsCount": 5,
+    "defaultOk": 11,
+    "bestOk": 11,
+    "wrong": 0,
+    "fail": 11,
+    "timeout": 0
+  },
+  "libraries": [
+    {
+      "id": "lodash",
+      "name": "Lodash",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Utility library; module init constructs LodashWrapper/LazyWrapper prototypes, 300+ methods, and lookup tables.",
+      "bytes": 545945,
+      "sha256": "f5465f55566bf544aad0a31c6135889ca1ed81eea8f53ec61c6cbe86926f07cf",
+      "packages": [
+        {
+          "name": "lodash",
+          "version": "4.18.1",
+          "license": "MIT",
+          "homepage": "https://lodash.com/"
+        }
+      ],
+      "expectedDigest": "e1d643c02fcccd4ddb7da3a6786777134682d3e929a08445e9864a54c3a7080d",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 84,
+        "peakRssMb": 79.7,
+        "heapUsedMb": 9.1,
+        "errorCode": "HYB_VOLATILE_BAILOUT",
+        "message": "volatile API \"Date.now()\" called during initialization (lodash.js:6783:21)",
+        "location": {
+          "line": 6783,
+          "column": 21,
+          "snippet": "var stamp = nativeNow(),"
+        },
+        "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+        "diagnosticsCount": 2,
+        "errorCodes": [
+          "HYB_VOLATILE_BAILOUT"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile API \"Date.now()\" called during initialization (lodash.js:6783:21)",
+            "location": {
+              "line": 6783,
+              "column": 21,
+              "snippet": "var stamp = nativeNow(),"
+            }
+          },
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+            "location": null
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 84,
+          "peakRssMb": 79.7,
+          "heapUsedMb": 9.1,
+          "errorCode": "HYB_VOLATILE_BAILOUT",
+          "message": "volatile API \"Date.now()\" called during initialization (lodash.js:6783:21)",
+          "location": {
+            "line": 6783,
+            "column": 21,
+            "snippet": "var stamp = nativeNow(),"
+          },
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+          "diagnosticsCount": 2,
+          "errorCodes": [
+            "HYB_VOLATILE_BAILOUT"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile API \"Date.now()\" called during initialization (lodash.js:6783:21)",
+              "location": {
+                "line": 6783,
+                "column": 21,
+                "snippet": "var stamp = nativeNow(),"
+              }
+            },
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 26.503,
+            "p90": 28.695,
+            "mean": 26.883,
+            "min": 24.574,
+            "max": 32.123
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 44.038,
+              "p90": 46.36,
+              "mean": 44.342,
+              "min": 41.414,
+              "max": 51.912
+            },
+            "net": {
+              "median": 17.535,
+              "p90": 19.857,
+              "mean": 17.839
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 3.288,
+          "p90": 8.681,
+          "mean": 4.4,
+          "min": 3.085,
+          "max": 11.412,
+          "cachedDataBytes": 103728
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 3.137,
+          "p90": 4.328,
+          "mean": 3.716,
+          "min": 3.031,
+          "max": 9.4
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 7559298,
+          "blobGzipBytes": 2491293,
+          "baseline": {
+            "n": 30,
+            "median": 27.507,
+            "p90": 30.227,
+            "mean": 28.014,
+            "min": 24.437,
+            "max": 35.55
+          },
+          "raw": {
+            "n": 30,
+            "median": 38.741,
+            "p90": 44.701,
+            "mean": 39.294,
+            "min": 34.582,
+            "max": 48.61
+          },
+          "net": {
+            "median": 11.234,
+            "p90": 17.194,
+            "mean": 11.787
+          }
+        },
+        "adaptedRuns": false,
+        "sizes": {
+          "raw": 545945,
+          "terser": 70684,
+          "gzip": 25079,
+          "brotli": 24135,
+          "rawGzip": 96951,
+          "rawBrotli": 82441
+        }
+      },
+      "perf": null
+    },
+    {
+      "id": "underscore",
+      "name": "Underscore",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Functional utility library; module init performs environment feature checks and mixes 100+ functions onto `_.prototype`.",
+      "bytes": 68916,
+      "sha256": "68613bd4f104eb2316b2c78b5705932bd1eaaaa5e00b49a796cb4d95c492d4fb",
+      "packages": [
+        {
+          "name": "underscore",
+          "version": "1.13.8",
+          "license": "MIT",
+          "homepage": "https://underscorejs.org"
+        }
+      ],
+      "expectedDigest": "a827860f401532bb2dd355bc38840895e7bdd7dd523a15d6c0eafe3701ee92a1",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 831,
+        "peakRssMb": 85,
+        "heapUsedMb": 15.8,
+        "outBytes": 101517
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 831,
+          "peakRssMb": 85,
+          "heapUsedMb": 15.8,
+          "outBytes": 101517,
+          "quickVmMs": 0.589,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "adaptedRuns": false,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 26.559,
+            "p90": 29.366,
+            "mean": 27.056,
+            "min": 23.255,
+            "max": 37.503
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 29.475,
+              "p90": 31.863,
+              "mean": 29.63,
+              "min": 25.846,
+              "max": 36.424
+            },
+            "net": {
+              "median": 2.916,
+              "p90": 5.304,
+              "mean": 3.071
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 0.574,
+          "p90": 0.957,
+          "mean": 0.715,
+          "min": 0.531,
+          "max": 2.581,
+          "cachedDataBytes": 25856
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 0.55,
+          "p90": 0.58,
+          "mean": 0.555,
+          "min": 0.504,
+          "max": 0.778
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6451850,
+          "blobGzipBytes": 2340736,
+          "baseline": {
+            "n": 30,
+            "median": 25.49,
+            "p90": 31.915,
+            "mean": 26.812,
+            "min": 22.588,
+            "max": 33.632
+          },
+          "raw": {
+            "n": 30,
+            "median": 33.272,
+            "p90": 40.326,
+            "mean": 34.403,
+            "min": 30.33,
+            "max": 44.534
+          },
+          "net": {
+            "median": 7.782,
+            "p90": 14.836,
+            "mean": 8.913
+          }
+        },
+        "sizes": {
+          "raw": 68916,
+          "terser": 19351,
+          "gzip": 7378,
+          "brotli": 7211,
+          "rawGzip": 19371,
+          "rawBrotli": 18446
+        }
+      },
+      "perf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 26.559,
+            "p90": 29.366,
+            "mean": 27.056,
+            "min": 23.255,
+            "max": 37.503
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 29.475,
+              "p90": 31.863,
+              "mean": 29.63,
+              "min": 25.846,
+              "max": 36.424
+            },
+            "net": {
+              "median": 2.916,
+              "p90": 5.304,
+              "mean": 3.071
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 30.002,
+              "p90": 33.796,
+              "mean": 30.523,
+              "min": 26.693,
+              "max": 38.01
+            },
+            "net": {
+              "median": 3.443,
+              "p90": 7.237,
+              "mean": 3.964
+            }
+          },
+          "speedupRaw": 0.982,
+          "speedupNet": 0.847
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.574,
+            "p90": 0.957,
+            "mean": 0.715,
+            "min": 0.531,
+            "max": 2.581,
+            "cachedDataBytes": 25856
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.583,
+            "p90": 1.062,
+            "mean": 1.053,
+            "min": 0.553,
+            "max": 11.59,
+            "cachedDataBytes": 84728
+          },
+          "speedup": 0.985
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.55,
+            "p90": 0.58,
+            "mean": 0.555,
+            "min": 0.504,
+            "max": 0.778
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.552,
+            "p90": 0.595,
+            "mean": 0.56,
+            "min": 0.522,
+            "max": 0.676
+          },
+          "speedup": 0.996
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6451850,
+          "blobGzipBytes": 2340736,
+          "baseline": {
+            "n": 30,
+            "median": 25.49,
+            "p90": 31.915,
+            "mean": 26.812,
+            "min": 22.588,
+            "max": 33.632
+          },
+          "raw": {
+            "n": 30,
+            "median": 33.272,
+            "p90": 40.326,
+            "mean": 34.403,
+            "min": 30.33,
+            "max": 44.534
+          },
+          "net": {
+            "median": 7.782,
+            "p90": 14.836,
+            "mean": 8.913
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 68916,
+            "terser": 19351,
+            "gzip": 7378,
+            "brotli": 7211,
+            "rawGzip": 19371,
+            "rawBrotli": 18446
+          },
+          "prepacked": {
+            "raw": 101517,
+            "terser": 46683,
+            "gzip": 14302,
+            "brotli": 13026,
+            "rawGzip": 24565,
+            "rawBrotli": 22335
+          },
+          "ratios": {
+            "raw": 1.473,
+            "terser": 2.412,
+            "gzip": 1.938,
+            "brotli": 1.806
+          }
+        }
+      }
+    },
+    {
+      "id": "ramda",
+      "name": "Ramda",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Point-free curried functional library; module init wraps 250+ combinators in _curry1/_curry2/_curry3 dispatchers.",
+      "bytes": 351114,
+      "sha256": "f1b41513b80db800af76bb5498d0198ad4c915bab64d53189b0c8ac9fcf1eeb1",
+      "packages": [
+        {
+          "name": "ramda",
+          "version": "0.32.0",
+          "license": "MIT",
+          "homepage": "https://ramdajs.com/"
+        }
+      ],
+      "expectedDigest": "9ee3d696586d37609c4228cb5cd95753a6d24b472b9059827abf669793425c9a",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1166,
+        "peakRssMb": 102.8,
+        "heapUsedMb": 15.4,
+        "outBytes": 238441
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1166,
+          "peakRssMb": 102.8,
+          "heapUsedMb": 15.4,
+          "outBytes": 238441,
+          "quickVmMs": 0.499,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "adaptedRuns": false,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 26.957,
+            "p90": 32.225,
+            "mean": 27.916,
+            "min": 23.778,
+            "max": 35.19
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 31.785,
+              "p90": 36.626,
+              "mean": 32.653,
+              "min": 28.979,
+              "max": 41.173
+            },
+            "net": {
+              "median": 4.828,
+              "p90": 9.669,
+              "mean": 5.696
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 0.749,
+          "p90": 1.138,
+          "mean": 0.84,
+          "min": 0.717,
+          "max": 1.185,
+          "cachedDataBytes": 67224
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 0.742,
+          "p90": 0.791,
+          "mean": 0.89,
+          "min": 0.7,
+          "max": 4.879
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 7062226,
+          "blobGzipBytes": 2424612,
+          "baseline": {
+            "n": 30,
+            "median": 29.044,
+            "p90": 33.277,
+            "mean": 29.451,
+            "min": 24.44,
+            "max": 39.874
+          },
+          "raw": {
+            "n": 30,
+            "median": 37.892,
+            "p90": 41.629,
+            "mean": 38.095,
+            "min": 32.346,
+            "max": 49.284
+          },
+          "net": {
+            "median": 8.848,
+            "p90": 12.585,
+            "mean": 9.051
+          }
+        },
+        "sizes": {
+          "raw": 351114,
+          "terser": 53879,
+          "gzip": 14455,
+          "brotli": 13922,
+          "rawGzip": 77903,
+          "rawBrotli": 65267
+        }
+      },
+      "perf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 26.957,
+            "p90": 32.225,
+            "mean": 27.916,
+            "min": 23.778,
+            "max": 35.19
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 31.785,
+              "p90": 36.626,
+              "mean": 32.653,
+              "min": 28.979,
+              "max": 41.173
+            },
+            "net": {
+              "median": 4.828,
+              "p90": 9.669,
+              "mean": 5.696
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 35.43,
+              "p90": 40.428,
+              "mean": 36.203,
+              "min": 32.27,
+              "max": 46.126
+            },
+            "net": {
+              "median": 8.473,
+              "p90": 13.471,
+              "mean": 9.246
+            }
+          },
+          "speedupRaw": 0.897,
+          "speedupNet": 0.57
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.749,
+            "p90": 1.138,
+            "mean": 0.84,
+            "min": 0.717,
+            "max": 1.185,
+            "cachedDataBytes": 67224
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.498,
+            "p90": 0.707,
+            "mean": 0.55,
+            "min": 0.453,
+            "max": 1.095,
+            "cachedDataBytes": 236728
+          },
+          "speedup": 1.504
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.742,
+            "p90": 0.791,
+            "mean": 0.89,
+            "min": 0.7,
+            "max": 4.879
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.467,
+            "p90": 0.541,
+            "mean": 1.098,
+            "min": 0.444,
+            "max": 11.375
+          },
+          "speedup": 1.589
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 7062226,
+          "blobGzipBytes": 2424612,
+          "baseline": {
+            "n": 30,
+            "median": 29.044,
+            "p90": 33.277,
+            "mean": 29.451,
+            "min": 24.44,
+            "max": 39.874
+          },
+          "raw": {
+            "n": 30,
+            "median": 37.892,
+            "p90": 41.629,
+            "mean": 38.095,
+            "min": 32.346,
+            "max": 49.284
+          },
+          "net": {
+            "median": 8.848,
+            "p90": 12.585,
+            "mean": 9.051
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 351114,
+            "terser": 53879,
+            "gzip": 14455,
+            "brotli": 13922,
+            "rawGzip": 77903,
+            "rawBrotli": 65267
+          },
+          "prepacked": {
+            "raw": 238441,
+            "terser": 124340,
+            "gzip": 32733,
+            "brotli": 25365,
+            "rawGzip": 49451,
+            "rawBrotli": 42455
+          },
+          "ratios": {
+            "raw": 0.679,
+            "terser": 2.308,
+            "gzip": 2.264,
+            "brotli": 1.822
+          }
+        }
+      }
+    },
+    {
+      "id": "immutable",
+      "name": "Immutable.js",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Persistent HAMT/trie collections (Map, List, Set, OrderedMap, Record); builds prototype hierarchies and sentinels at init.",
+      "bytes": 179561,
+      "sha256": "108ab02dce98946d0c9bdcecb9e3235575943e2a333e236643e9061de254dd7d",
+      "packages": [
+        {
+          "name": "immutable",
+          "version": "4.3.9",
+          "license": "MIT",
+          "homepage": "https://immutable-js.com"
+        }
+      ],
+      "expectedDigest": "fd731766e776855f639ad3e9c609ee040fa70a992a92368bb488e72680df77bf",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 71,
+        "peakRssMb": 79.7,
+        "heapUsedMb": 7.9,
+        "errorCode": "HYB_VOLATILE_BAILOUT",
+        "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (immutable.js:893:12)",
+        "location": {
+          "line": 893,
+          "column": 12,
+          "snippet": "((Math.random() * 0x100000) | 1) % 0x100000 || 0x9e37;"
+        },
+        "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+        "diagnosticsCount": 2,
+        "errorCodes": [
+          "HYB_VOLATILE_BAILOUT"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (immutable.js:893:12)",
+            "location": {
+              "line": 893,
+              "column": 12,
+              "snippet": "((Math.random() * 0x100000) | 1) % 0x100000 || 0x9e37;"
+            }
+          },
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+            "location": null
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 71,
+          "peakRssMb": 79.7,
+          "heapUsedMb": 7.9,
+          "errorCode": "HYB_VOLATILE_BAILOUT",
+          "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (immutable.js:893:12)",
+          "location": {
+            "line": 893,
+            "column": 12,
+            "snippet": "((Math.random() * 0x100000) | 1) % 0x100000 || 0x9e37;"
+          },
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+          "diagnosticsCount": 2,
+          "errorCodes": [
+            "HYB_VOLATILE_BAILOUT"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (immutable.js:893:12)",
+              "location": {
+                "line": 893,
+                "column": 12,
+                "snippet": "((Math.random() * 0x100000) | 1) % 0x100000 || 0x9e37;"
+              }
+            },
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 29.571,
+            "p90": 34.116,
+            "mean": 29.263,
+            "min": 23.87,
+            "max": 35.264
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 33.57,
+              "p90": 36.772,
+              "mean": 34.268,
+              "min": 30.967,
+              "max": 40.638
+            },
+            "net": {
+              "median": 3.999,
+              "p90": 7.201,
+              "mean": 4.697
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 1.352,
+          "p90": 1.806,
+          "mean": 1.68,
+          "min": 1.273,
+          "max": 6.782,
+          "cachedDataBytes": 73440
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 1.302,
+          "p90": 1.631,
+          "mean": 1.672,
+          "min": 1.238,
+          "max": 10.69
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6705418,
+          "blobGzipBytes": 2371483,
+          "baseline": {
+            "n": 30,
+            "median": 26.59,
+            "p90": 30.085,
+            "mean": 26.931,
+            "min": 23.023,
+            "max": 33.455
+          },
+          "raw": {
+            "n": 30,
+            "median": 36.091,
+            "p90": 38.802,
+            "mean": 36.433,
+            "min": 32.982,
+            "max": 43.527
+          },
+          "net": {
+            "median": 9.501,
+            "p90": 12.212,
+            "mean": 9.843
+          }
+        },
+        "adaptedRuns": false,
+        "sizes": {
+          "raw": 179561,
+          "terser": 66413,
+          "gzip": 18446,
+          "brotli": 17677,
+          "rawGzip": 36784,
+          "rawBrotli": 33750
+        }
+      },
+      "perf": null
+    },
+    {
+      "id": "moment",
+      "name": "Moment.js (with locales)",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Init-heavy date/time library with 135+ bundled locales registered via defineLocale() and regex token tables built at load.",
+      "bytes": 653144,
+      "sha256": "6b4445e1ee801bdcc1d42196163ae745f71d3b52a12a50246999fd7067250496",
+      "packages": [
+        {
+          "name": "moment",
+          "version": "2.31.0",
+          "license": "MIT",
+          "homepage": "https://momentjs.com"
+        }
+      ],
+      "expectedDigest": "5eb06d4660574575aa524f26071df2869ec0207dd63520e73145fe877aaba76d",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1965,
+        "peakRssMb": 155,
+        "heapUsedMb": 41.8,
+        "outBytes": 1081929
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1965,
+          "peakRssMb": 155,
+          "heapUsedMb": 41.8,
+          "outBytes": 1081929,
+          "quickVmMs": 4.029,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "adaptedRuns": false,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 25.855,
+            "p90": 27.905,
+            "mean": 26.463,
+            "min": 23.685,
+            "max": 34.512
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 52.05,
+              "p90": 55.942,
+              "mean": 54.924,
+              "min": 46.56,
+              "max": 128.324
+            },
+            "net": {
+              "median": 26.195,
+              "p90": 30.087,
+              "mean": 29.069
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 11.924,
+          "p90": 13.006,
+          "mean": 12.826,
+          "min": 11.361,
+          "max": 22.528,
+          "cachedDataBytes": 394328
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 11.382,
+          "p90": 16.251,
+          "mean": 12.39,
+          "min": 10.755,
+          "max": 18.306
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 8040778,
+          "blobGzipBytes": 2611332,
+          "baseline": {
+            "n": 30,
+            "median": 27.366,
+            "p90": 31.591,
+            "mean": 27.738,
+            "min": 23.3,
+            "max": 33.426
+          },
+          "raw": {
+            "n": 30,
+            "median": 42.337,
+            "p90": 46.526,
+            "mean": 42.939,
+            "min": 37.905,
+            "max": 56.333
+          },
+          "net": {
+            "median": 14.971,
+            "p90": 19.16,
+            "mean": 15.573
+          }
+        },
+        "sizes": {
+          "raw": 653144,
+          "terser": 299282,
+          "gzip": 76073,
+          "brotli": 64111,
+          "rawGzip": 107927,
+          "rawBrotli": 88811
+        }
+      },
+      "perf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 25.855,
+            "p90": 27.905,
+            "mean": 26.463,
+            "min": 23.685,
+            "max": 34.512
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 52.05,
+              "p90": 55.942,
+              "mean": 54.924,
+              "min": 46.56,
+              "max": 128.324
+            },
+            "net": {
+              "median": 26.195,
+              "p90": 30.087,
+              "mean": 29.069
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 64.147,
+              "p90": 71.197,
+              "mean": 67.323,
+              "min": 60.432,
+              "max": 114.375
+            },
+            "net": {
+              "median": 38.292,
+              "p90": 45.342,
+              "mean": 41.468
+            }
+          },
+          "speedupRaw": 0.811,
+          "speedupNet": 0.684
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 11.924,
+            "p90": 13.006,
+            "mean": 12.826,
+            "min": 11.361,
+            "max": 22.528,
+            "cachedDataBytes": 394328
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 4.111,
+            "p90": 4.496,
+            "mean": 4.229,
+            "min": 3.939,
+            "max": 6.186,
+            "cachedDataBytes": 1006064
+          },
+          "speedup": 2.901
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 11.382,
+            "p90": 16.251,
+            "mean": 12.39,
+            "min": 10.755,
+            "max": 18.306
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 3.997,
+            "p90": 5.711,
+            "mean": 4.402,
+            "min": 3.75,
+            "max": 10.946
+          },
+          "speedup": 2.848
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 8040778,
+          "blobGzipBytes": 2611332,
+          "baseline": {
+            "n": 30,
+            "median": 27.366,
+            "p90": 31.591,
+            "mean": 27.738,
+            "min": 23.3,
+            "max": 33.426
+          },
+          "raw": {
+            "n": 30,
+            "median": 42.337,
+            "p90": 46.526,
+            "mean": 42.939,
+            "min": 37.905,
+            "max": 56.333
+          },
+          "net": {
+            "median": 14.971,
+            "p90": 19.16,
+            "mean": 15.573
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 653144,
+            "terser": 299282,
+            "gzip": 76073,
+            "brotli": 64111,
+            "rawGzip": 107927,
+            "rawBrotli": 88811
+          },
+          "prepacked": {
+            "raw": 1081929,
+            "terser": 691240,
+            "gzip": 171527,
+            "brotli": 107425,
+            "rawGzip": 208000,
+            "rawBrotli": 157819
+          },
+          "ratios": {
+            "raw": 1.656,
+            "terser": 2.31,
+            "gzip": 2.255,
+            "brotli": 1.676
+          }
+        }
+      }
+    },
+    {
+      "id": "chroma-js",
+      "name": "chroma.js",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Color conversion & scale library; module init registers RGB/HSL/Lab/LCH/CMYK color spaces, ColorBrewer palettes, and W3C named colors.",
+      "bytes": 111861,
+      "sha256": "26a2e532b90f6d97639cd96d5054dd0abc2fcd55554086cf11ae8c874ed66c6d",
+      "packages": [
+        {
+          "name": "chroma-js",
+          "version": "2.4.2",
+          "license": "(BSD-3-Clause AND Apache-2.0)",
+          "homepage": "https://github.com/gka/chroma.js"
+        }
+      ],
+      "expectedDigest": "b01b234de9a20138feec1b3e17395362a0b0bb07c4e32159bb1ef23596edd65b",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 700,
+        "peakRssMb": 82,
+        "heapUsedMb": 14.9,
+        "outBytes": 177165
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 700,
+          "peakRssMb": 82,
+          "heapUsedMb": 14.9,
+          "outBytes": 177165,
+          "quickVmMs": 0.805,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "adaptedRuns": false,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 26.576,
+            "p90": 30.191,
+            "mean": 27.27,
+            "min": 23.358,
+            "max": 32.833
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 31.525,
+              "p90": 35.677,
+              "mean": 32.146,
+              "min": 28.916,
+              "max": 40.202
+            },
+            "net": {
+              "median": 4.949,
+              "p90": 9.101,
+              "mean": 5.57
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 0.859,
+          "p90": 1.133,
+          "mean": 1.06,
+          "min": 0.79,
+          "max": 4.279,
+          "cachedDataBytes": 52864
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 0.804,
+          "p90": 0.829,
+          "mean": 0.807,
+          "min": 0.774,
+          "max": 0.872
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6437562,
+          "blobGzipBytes": 2350421,
+          "baseline": {
+            "n": 30,
+            "median": 30.064,
+            "p90": 36.387,
+            "mean": 30.716,
+            "min": 25.006,
+            "max": 39.62
+          },
+          "raw": {
+            "n": 30,
+            "median": 37.589,
+            "p90": 42.661,
+            "mean": 38.155,
+            "min": 33.396,
+            "max": 48.114
+          },
+          "net": {
+            "median": 7.525,
+            "p90": 12.597,
+            "mean": 8.091
+          }
+        },
+        "sizes": {
+          "raw": 111861,
+          "terser": 43487,
+          "gzip": 15756,
+          "brotli": 15072,
+          "rawGzip": 26102,
+          "rawBrotli": 24073
+        }
+      },
+      "perf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 26.576,
+            "p90": 30.191,
+            "mean": 27.27,
+            "min": 23.358,
+            "max": 32.833
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 31.525,
+              "p90": 35.677,
+              "mean": 32.146,
+              "min": 28.916,
+              "max": 40.202
+            },
+            "net": {
+              "median": 4.949,
+              "p90": 9.101,
+              "mean": 5.57
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 33.536,
+              "p90": 37.269,
+              "mean": 33.942,
+              "min": 30.671,
+              "max": 39.965
+            },
+            "net": {
+              "median": 6.96,
+              "p90": 10.693,
+              "mean": 7.366
+            }
+          },
+          "speedupRaw": 0.94,
+          "speedupNet": 0.711
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.859,
+            "p90": 1.133,
+            "mean": 1.06,
+            "min": 0.79,
+            "max": 4.279,
+            "cachedDataBytes": 52864
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.802,
+            "p90": 1.132,
+            "mean": 1.326,
+            "min": 0.743,
+            "max": 14.268,
+            "cachedDataBytes": 160240
+          },
+          "speedup": 1.071
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.804,
+            "p90": 0.829,
+            "mean": 0.807,
+            "min": 0.774,
+            "max": 0.872
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.757,
+            "p90": 0.792,
+            "mean": 0.767,
+            "min": 0.724,
+            "max": 0.913
+          },
+          "speedup": 1.062
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6437562,
+          "blobGzipBytes": 2350421,
+          "baseline": {
+            "n": 30,
+            "median": 30.064,
+            "p90": 36.387,
+            "mean": 30.716,
+            "min": 25.006,
+            "max": 39.62
+          },
+          "raw": {
+            "n": 30,
+            "median": 37.589,
+            "p90": 42.661,
+            "mean": 38.155,
+            "min": 33.396,
+            "max": 48.114
+          },
+          "net": {
+            "median": 7.525,
+            "p90": 12.597,
+            "mean": 8.091
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 111861,
+            "terser": 43487,
+            "gzip": 15756,
+            "brotli": 15072,
+            "rawGzip": 26102,
+            "rawBrotli": 24073
+          },
+          "prepacked": {
+            "raw": 177165,
+            "terser": 90390,
+            "gzip": 30781,
+            "brotli": 20679,
+            "rawGzip": 43563,
+            "rawBrotli": 37882
+          },
+          "ratios": {
+            "raw": 1.584,
+            "terser": 2.079,
+            "gzip": 1.954,
+            "brotli": 1.372
+          }
+        }
+      }
+    },
+    {
+      "id": "acorn",
+      "name": "Acorn",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "ECMAScript parser; module init builds token types, keyword regexes, operator precedence tables, and Unicode identifier bitmaps.",
+      "bytes": 246643,
+      "sha256": "b95392d79457d0357555c5ed3e56302d074b92dff119bcf3b44179500b10e9df",
+      "packages": [
+        {
+          "name": "acorn",
+          "version": "8.19.0",
+          "license": "MIT",
+          "homepage": "https://github.com/acornjs/acorn"
+        }
+      ],
+      "expectedDigest": "4ce0f511963f7a8de7c1235e41632ba22a44efda335a3f1b5a268b4177187bc5",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 845,
+        "peakRssMb": 101.1,
+        "heapUsedMb": 21.2,
+        "outBytes": 439349
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 845,
+          "peakRssMb": 101.1,
+          "heapUsedMb": 21.2,
+          "outBytes": 439349,
+          "quickVmMs": 1.551,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "adaptedRuns": false,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 31.21,
+            "p90": 33.514,
+            "mean": 31.374,
+            "min": 26.179,
+            "max": 40.348
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 38.376,
+              "p90": 44.033,
+              "mean": 39.875,
+              "min": 34.165,
+              "max": 53.569
+            },
+            "net": {
+              "median": 7.166,
+              "p90": 12.823,
+              "mean": 8.665
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 1.755,
+          "p90": 2.399,
+          "mean": 2.332,
+          "min": 1.632,
+          "max": 11.404,
+          "cachedDataBytes": 82608
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 1.752,
+          "p90": 2.186,
+          "mean": 2.087,
+          "min": 1.607,
+          "max": 9.944
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6886842,
+          "blobGzipBytes": 2401046,
+          "baseline": {
+            "n": 30,
+            "median": 29.445,
+            "p90": 31.956,
+            "mean": 29.074,
+            "min": 25.172,
+            "max": 36.423
+          },
+          "raw": {
+            "n": 30,
+            "median": 39.356,
+            "p90": 45.115,
+            "mean": 40.217,
+            "min": 36.931,
+            "max": 46.074
+          },
+          "net": {
+            "median": 9.911,
+            "p90": 15.67,
+            "mean": 10.772
+          }
+        },
+        "sizes": {
+          "raw": 246643,
+          "terser": 118382,
+          "gzip": 34723,
+          "brotli": 32457,
+          "rawGzip": 57931,
+          "rawBrotli": 53000
+        }
+      },
+      "perf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 31.21,
+            "p90": 33.514,
+            "mean": 31.374,
+            "min": 26.179,
+            "max": 40.348
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 38.376,
+              "p90": 44.033,
+              "mean": 39.875,
+              "min": 34.165,
+              "max": 53.569
+            },
+            "net": {
+              "median": 7.166,
+              "p90": 12.823,
+              "mean": 8.665
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 41.87,
+              "p90": 49.987,
+              "mean": 43.714,
+              "min": 39.708,
+              "max": 51.995
+            },
+            "net": {
+              "median": 10.66,
+              "p90": 18.777,
+              "mean": 12.504
+            }
+          },
+          "speedupRaw": 0.917,
+          "speedupNet": 0.672
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 1.755,
+            "p90": 2.399,
+            "mean": 2.332,
+            "min": 1.632,
+            "max": 11.404,
+            "cachedDataBytes": 82608
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.625,
+            "p90": 2.281,
+            "mean": 2.262,
+            "min": 1.477,
+            "max": 11.058,
+            "cachedDataBytes": 247976
+          },
+          "speedup": 1.08
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 1.752,
+            "p90": 2.186,
+            "mean": 2.087,
+            "min": 1.607,
+            "max": 9.944
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.613,
+            "p90": 2.027,
+            "mean": 1.847,
+            "min": 1.478,
+            "max": 6.456
+          },
+          "speedup": 1.086
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6886842,
+          "blobGzipBytes": 2401046,
+          "baseline": {
+            "n": 30,
+            "median": 29.445,
+            "p90": 31.956,
+            "mean": 29.074,
+            "min": 25.172,
+            "max": 36.423
+          },
+          "raw": {
+            "n": 30,
+            "median": 39.356,
+            "p90": 45.115,
+            "mean": 40.217,
+            "min": 36.931,
+            "max": 46.074
+          },
+          "net": {
+            "median": 9.911,
+            "p90": 15.67,
+            "mean": 10.772
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 246643,
+            "terser": 118382,
+            "gzip": 34723,
+            "brotli": 32457,
+            "rawGzip": 57931,
+            "rawBrotli": 53000
+          },
+          "prepacked": {
+            "raw": 439349,
+            "terser": 287659,
+            "gzip": 74270,
+            "brotli": 42961,
+            "rawGzip": 93966,
+            "rawBrotli": 77964
+          },
+          "ratios": {
+            "raw": 1.781,
+            "terser": 2.43,
+            "gzip": 2.139,
+            "brotli": 1.324
+          }
+        }
+      }
+    },
+    {
+      "id": "crc-32",
+      "name": "SheetJS crc-32",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Lookup-table CRC-32 implementation; module init computes a 256-entry table and 16 slice-by-16 Int32Array subtables (4,096 entries).",
+      "bytes": 3702,
+      "sha256": "a28a8c436612ebe06a43f893dd5729392a59426f0a0cec0bb32f0879855f2c38",
+      "packages": [
+        {
+          "name": "crc-32",
+          "version": "1.2.2",
+          "license": "Apache-2.0",
+          "homepage": "https://sheetjs.com/"
+        }
+      ],
+      "expectedDigest": "8305c7857f3abf1b6a152f2484357a0dfbe0949384ebbf4179d15be59bf4eaba",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 396,
+        "peakRssMb": 79.7,
+        "heapUsedMb": 10.3,
+        "outBytes": 6816
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 396,
+          "peakRssMb": 79.7,
+          "heapUsedMb": 10.3,
+          "outBytes": 6816,
+          "quickVmMs": 0.376,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "adaptedRuns": false,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 26.896,
+            "p90": 31.877,
+            "mean": 27.386,
+            "min": 23.764,
+            "max": 34.829
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 26.95,
+              "p90": 30.17,
+              "mean": 27.568,
+              "min": 24.137,
+              "max": 34.667
+            },
+            "net": {
+              "median": 0.054,
+              "p90": 3.274,
+              "mean": 0.672
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 0.335,
+          "p90": 0.387,
+          "mean": 0.352,
+          "min": 0.31,
+          "max": 0.646,
+          "cachedDataBytes": 2232
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 0.316,
+          "p90": 0.343,
+          "mean": 0.325,
+          "min": 0.294,
+          "max": 0.465
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6293858,
+          "blobGzipBytes": 2322325,
+          "baseline": {
+            "n": 30,
+            "median": 27.023,
+            "p90": 30.518,
+            "mean": 27.311,
+            "min": 23.245,
+            "max": 32.167
+          },
+          "raw": {
+            "n": 30,
+            "median": 33.472,
+            "p90": 38.4,
+            "mean": 34.588,
+            "min": 29.672,
+            "max": 44.995
+          },
+          "net": {
+            "median": 6.449,
+            "p90": 11.377,
+            "mean": 7.565
+          }
+        },
+        "sizes": {
+          "raw": 3702,
+          "terser": 2047,
+          "gzip": 818,
+          "brotli": 786,
+          "rawGzip": 1222,
+          "rawBrotli": 1131
+        }
+      },
+      "perf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 26.896,
+            "p90": 31.877,
+            "mean": 27.386,
+            "min": 23.764,
+            "max": 34.829
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 26.95,
+              "p90": 30.17,
+              "mean": 27.568,
+              "min": 24.137,
+              "max": 34.667
+            },
+            "net": {
+              "median": 0.054,
+              "p90": 3.274,
+              "mean": 0.672
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 27.094,
+              "p90": 29.228,
+              "mean": 27.312,
+              "min": 24.392,
+              "max": 32.014
+            },
+            "net": {
+              "median": 0.198,
+              "p90": 2.332,
+              "mean": 0.416
+            }
+          },
+          "speedupRaw": 0.995,
+          "speedupNet": 0.273
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.335,
+            "p90": 0.387,
+            "mean": 0.352,
+            "min": 0.31,
+            "max": 0.646,
+            "cachedDataBytes": 2232
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.348,
+            "p90": 0.383,
+            "mean": 0.359,
+            "min": 0.328,
+            "max": 0.507,
+            "cachedDataBytes": 7864
+          },
+          "speedup": 0.963
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.316,
+            "p90": 0.343,
+            "mean": 0.325,
+            "min": 0.294,
+            "max": 0.465
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.334,
+            "p90": 0.365,
+            "mean": 0.349,
+            "min": 0.309,
+            "max": 0.678
+          },
+          "speedup": 0.946
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6293858,
+          "blobGzipBytes": 2322325,
+          "baseline": {
+            "n": 30,
+            "median": 27.023,
+            "p90": 30.518,
+            "mean": 27.311,
+            "min": 23.245,
+            "max": 32.167
+          },
+          "raw": {
+            "n": 30,
+            "median": 33.472,
+            "p90": 38.4,
+            "mean": 34.588,
+            "min": 29.672,
+            "max": 44.995
+          },
+          "net": {
+            "median": 6.449,
+            "p90": 11.377,
+            "mean": 7.565
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 3702,
+            "terser": 2047,
+            "gzip": 818,
+            "brotli": 786,
+            "rawGzip": 1222,
+            "rawBrotli": 1131
+          },
+          "prepacked": {
+            "raw": 6816,
+            "terser": 4616,
+            "gzip": 1237,
+            "brotli": 1148,
+            "rawGzip": 1748,
+            "rawBrotli": 1623
+          },
+          "ratios": {
+            "raw": 1.841,
+            "terser": 2.255,
+            "gzip": 1.512,
+            "brotli": 1.461
+          }
+        }
+      }
+    },
+    {
+      "id": "marked",
+      "name": "Marked",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Markdown parser & compiler; module init constructs GFM/pedantic/normal block and inline grammar regex tables.",
+      "bytes": 50548,
+      "sha256": "c34a221dc89e91833a88822e7717b8a0cf27118f8c9a8779dffb48a6be31f97a",
+      "packages": [
+        {
+          "name": "marked",
+          "version": "18.1.3",
+          "license": "MIT",
+          "homepage": "https://marked.js.org"
+        }
+      ],
+      "expectedDigest": "c92f2c0ca64839614ca45b811cd9c02f1590e68b8fd34e6dcf567329cc4f06b6",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 834,
+        "peakRssMb": 98.7,
+        "heapUsedMb": 21.2,
+        "outBytes": 116015
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 834,
+          "peakRssMb": 98.7,
+          "heapUsedMb": 21.2,
+          "outBytes": 116015,
+          "quickVmMs": 3.539,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "adaptedRuns": false,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 29.134,
+            "p90": 31.418,
+            "mean": 28.741,
+            "min": 24.472,
+            "max": 34.819
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 61.903,
+              "p90": 66.881,
+              "mean": 63.005,
+              "min": 58.552,
+              "max": 75.138
+            },
+            "net": {
+              "median": 32.769,
+              "p90": 37.747,
+              "mean": 33.871
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 1.474,
+          "p90": 1.668,
+          "mean": 1.756,
+          "min": 1.26,
+          "max": 9.159,
+          "cachedDataBytes": 3336
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 1.232,
+          "p90": 1.32,
+          "mean": 1.247,
+          "min": 1.193,
+          "max": 1.39
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6386546,
+          "blobGzipBytes": 2333029,
+          "baseline": {
+            "n": 30,
+            "median": 28.167,
+            "p90": 30.229,
+            "mean": 27.954,
+            "min": 23.631,
+            "max": 33.225
+          },
+          "raw": {
+            "n": 30,
+            "median": 57.379,
+            "p90": 61.346,
+            "mean": 58.103,
+            "min": 53.819,
+            "max": 67.498
+          },
+          "net": {
+            "median": 29.212,
+            "p90": 33.179,
+            "mean": 29.936
+          }
+        },
+        "sizes": {
+          "raw": 50548,
+          "terser": 50124,
+          "gzip": 14820,
+          "brotli": 14355,
+          "rawGzip": 15363,
+          "rawBrotli": 14913
+        }
+      },
+      "perf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 29.134,
+            "p90": 31.418,
+            "mean": 28.741,
+            "min": 24.472,
+            "max": 34.819
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 61.903,
+              "p90": 66.881,
+              "mean": 63.005,
+              "min": 58.552,
+              "max": 75.138
+            },
+            "net": {
+              "median": 32.769,
+              "p90": 37.747,
+              "mean": 33.871
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 66.704,
+              "p90": 72.492,
+              "mean": 67.658,
+              "min": 64.432,
+              "max": 74.541
+            },
+            "net": {
+              "median": 37.57,
+              "p90": 43.358,
+              "mean": 38.524
+            }
+          },
+          "speedupRaw": 0.928,
+          "speedupNet": 0.872
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 1.474,
+            "p90": 1.668,
+            "mean": 1.756,
+            "min": 1.26,
+            "max": 9.159,
+            "cachedDataBytes": 3336
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.277,
+            "p90": 1.431,
+            "mean": 1.375,
+            "min": 1.093,
+            "max": 4.192,
+            "cachedDataBytes": 57400
+          },
+          "speedup": 1.154
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 1.232,
+            "p90": 1.32,
+            "mean": 1.247,
+            "min": 1.193,
+            "max": 1.39
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.107,
+            "p90": 1.17,
+            "mean": 1.117,
+            "min": 1.058,
+            "max": 1.213
+          },
+          "speedup": 1.113
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6386546,
+          "blobGzipBytes": 2333029,
+          "baseline": {
+            "n": 30,
+            "median": 28.167,
+            "p90": 30.229,
+            "mean": 27.954,
+            "min": 23.631,
+            "max": 33.225
+          },
+          "raw": {
+            "n": 30,
+            "median": 57.379,
+            "p90": 61.346,
+            "mean": 58.103,
+            "min": 53.819,
+            "max": 67.498
+          },
+          "net": {
+            "median": 29.212,
+            "p90": 33.179,
+            "mean": 29.936
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 50548,
+            "terser": 50124,
+            "gzip": 14820,
+            "brotli": 14355,
+            "rawGzip": 15363,
+            "rawBrotli": 14913
+          },
+          "prepacked": {
+            "raw": 116015,
+            "terser": 109142,
+            "gzip": 28460,
+            "brotli": 18026,
+            "rawGzip": 31203,
+            "rawBrotli": 18548
+          },
+          "ratios": {
+            "raw": 2.295,
+            "terser": 2.177,
+            "gzip": 1.92,
+            "brotli": 1.256
+          }
+        }
+      }
+    },
+    {
+      "id": "d3-scale",
+      "name": "D3 Scale + Array",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Data visualization quantitative/ordinal/time scales, array statistics, formatters, and color interpolators initialized on `d3`.",
+      "bytes": 152468,
+      "sha256": "5308348557b16b01fa8c3e77742d36df8a8d80a1bdc92fdaa62ee824e9cf0732",
+      "packages": [
+        {
+          "name": "d3-scale",
+          "version": "4.0.3",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-scale/"
+        },
+        {
+          "name": "d3-array",
+          "version": "3.2.5",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-array/"
+        },
+        {
+          "name": "d3-interpolate",
+          "version": "3.0.2",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-interpolate/"
+        },
+        {
+          "name": "d3-color",
+          "version": "3.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-color/"
+        },
+        {
+          "name": "d3-format",
+          "version": "3.1.3",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-format/"
+        },
+        {
+          "name": "d3-time",
+          "version": "3.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-time/"
+        },
+        {
+          "name": "d3-time-format",
+          "version": "4.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-time-format/"
+        },
+        {
+          "name": "internmap",
+          "version": "2.0.3",
+          "license": "ISC",
+          "homepage": "https://github.com/mbostock/internmap/"
+        }
+      ],
+      "expectedDigest": "a67ea8e596acde3a05183b09db9cd556d8d18555c52bc47abb8083231b945204",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 69,
+        "peakRssMb": 79.7,
+        "heapUsedMb": 7.8,
+        "errorCode": "HYB_VOLATILE_BAILOUT",
+        "message": "volatile API \"new Date()\" without arguments called during initialization (d3-scale.js:3086:12)",
+        "location": {
+          "line": 3086,
+          "column": 12,
+          "snippet": "const t0 = new Date, t1 = new Date;"
+        },
+        "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+        "diagnosticsCount": 2,
+        "errorCodes": [
+          "HYB_VOLATILE_BAILOUT"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile API \"new Date()\" without arguments called during initialization (d3-scale.js:3086:12)",
+            "location": {
+              "line": 3086,
+              "column": 12,
+              "snippet": "const t0 = new Date, t1 = new Date;"
+            }
+          },
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+            "location": null
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 69,
+          "peakRssMb": 79.7,
+          "heapUsedMb": 7.8,
+          "errorCode": "HYB_VOLATILE_BAILOUT",
+          "message": "volatile API \"new Date()\" without arguments called during initialization (d3-scale.js:3086:12)",
+          "location": {
+            "line": 3086,
+            "column": 12,
+            "snippet": "const t0 = new Date, t1 = new Date;"
+          },
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+          "diagnosticsCount": 2,
+          "errorCodes": [
+            "HYB_VOLATILE_BAILOUT"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile API \"new Date()\" without arguments called during initialization (d3-scale.js:3086:12)",
+              "location": {
+                "line": 3086,
+                "column": 12,
+                "snippet": "const t0 = new Date, t1 = new Date;"
+              }
+            },
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 27.632,
+            "p90": 31.182,
+            "mean": 28.073,
+            "min": 24.491,
+            "max": 36.672
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 34.032,
+              "p90": 37.044,
+              "mean": 34.415,
+              "min": 31.011,
+              "max": 40.335
+            },
+            "net": {
+              "median": 6.4,
+              "p90": 9.412,
+              "mean": 6.783
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 0.943,
+          "p90": 1.017,
+          "mean": 0.978,
+          "min": 0.908,
+          "max": 1.539,
+          "cachedDataBytes": 76152
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 0.961,
+          "p90": 1.226,
+          "mean": 1.542,
+          "min": 0.908,
+          "max": 12.367
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6685074,
+          "blobGzipBytes": 2381582,
+          "baseline": {
+            "n": 30,
+            "median": 26.773,
+            "p90": 31.204,
+            "mean": 27.713,
+            "min": 24.189,
+            "max": 35.689
+          },
+          "raw": {
+            "n": 30,
+            "median": 35.918,
+            "p90": 40.471,
+            "mean": 36.727,
+            "min": 32.876,
+            "max": 49.601
+          },
+          "net": {
+            "median": 9.145,
+            "p90": 13.698,
+            "mean": 9.954
+          }
+        },
+        "adaptedRuns": false,
+        "sizes": {
+          "raw": 152468,
+          "terser": 72757,
+          "gzip": 23583,
+          "brotli": 22699,
+          "rawGzip": 34358,
+          "rawBrotli": 32447
+        }
+      },
+      "perf": null
+    },
+    {
+      "id": "redux",
+      "name": "Redux (store + middleware init)",
+      "kind": "app-workload",
+      "tier": "standard",
+      "buildType": "esbuild-iife",
+      "description": "Redux bundled into an ES2015 IIFE; module init composes reducers, applies logging/validation middleware, creates a store, and dispatches seed actions.",
+      "bytes": 18502,
+      "sha256": "8c87730f3d9266ff288dff4c3f0450358f7498908bd45cad6900e187738c7cd3",
+      "packages": [
+        {
+          "name": "redux",
+          "version": "5.0.1",
+          "license": "MIT",
+          "homepage": "http://redux.js.org"
+        }
+      ],
+      "expectedDigest": "a852447e6f5c405c365ecfbaac3f9c61332bcf22f16ef00f2bd6668dae8c8ae9",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 74,
+        "peakRssMb": 79.7,
+        "heapUsedMb": 7.4,
+        "errorCode": "HYB_VOLATILE_BAILOUT",
+        "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (redux.js:366:33)",
+        "location": {
+          "line": 366,
+          "column": 33,
+          "snippet": "randomString = () => Math.random().toString(36).substring(7).split(\"\").join(\".\");"
+        },
+        "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+        "diagnosticsCount": 2,
+        "errorCodes": [
+          "HYB_VOLATILE_BAILOUT"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (redux.js:366:33)",
+            "location": {
+              "line": 366,
+              "column": 33,
+              "snippet": "randomString = () => Math.random().toString(36).substring(7).split(\"\").join(\".\");"
+            }
+          },
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+            "location": null
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 74,
+          "peakRssMb": 79.7,
+          "heapUsedMb": 7.4,
+          "errorCode": "HYB_VOLATILE_BAILOUT",
+          "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (redux.js:366:33)",
+          "location": {
+            "line": 366,
+            "column": 33,
+            "snippet": "randomString = () => Math.random().toString(36).substring(7).split(\"\").join(\".\");"
+          },
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+          "diagnosticsCount": 2,
+          "errorCodes": [
+            "HYB_VOLATILE_BAILOUT"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (redux.js:366:33)",
+              "location": {
+                "line": 366,
+                "column": 33,
+                "snippet": "randomString = () => Math.random().toString(36).substring(7).split(\"\").join(\".\");"
+              }
+            },
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 26.985,
+            "p90": 32.215,
+            "mean": 27.533,
+            "min": 23.47,
+            "max": 32.911
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 27.799,
+              "p90": 31.072,
+              "mean": 28.007,
+              "min": 24.707,
+              "max": 37.085
+            },
+            "net": {
+              "median": 0.814,
+              "p90": 4.087,
+              "mean": 1.022
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 0.316,
+          "p90": 0.351,
+          "mean": 0.322,
+          "min": 0.292,
+          "max": 0.367,
+          "cachedDataBytes": 4664
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 0.302,
+          "p90": 0.374,
+          "mean": 0.358,
+          "min": 0.285,
+          "max": 1.323
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6299898,
+          "blobGzipBytes": 2310431,
+          "baseline": {
+            "n": 30,
+            "median": 27.316,
+            "p90": 31.725,
+            "mean": 28.235,
+            "min": 23.765,
+            "max": 52.275
+          },
+          "raw": {
+            "n": 30,
+            "median": 32.336,
+            "p90": 35.499,
+            "mean": 33.984,
+            "min": 30.122,
+            "max": 57.892
+          },
+          "net": {
+            "median": 5.02,
+            "p90": 8.183,
+            "mean": 6.668
+          }
+        },
+        "adaptedRuns": false,
+        "sizes": {
+          "raw": 18502,
+          "terser": 9055,
+          "gzip": 3414,
+          "brotli": 3257,
+          "rawGzip": 4907,
+          "rawBrotli": 4690
+        }
+      },
+      "perf": null
+    },
+    {
+      "id": "handlebars-app",
+      "name": "Handlebars (init template compile)",
+      "kind": "app-workload",
+      "tier": "standard",
+      "buildType": "umd+app-init",
+      "description": "App workload: loads Handlebars compiler+runtime, registers helpers/partials, compiles an invoice template AST to JS, and renders a boot view at module init.",
+      "bytes": 217023,
+      "sha256": "989d3a40a1bf42e09115b43372dfd1f3ebe3c8a2dfe667b27bebee89ec61a1ea",
+      "packages": [
+        {
+          "name": "handlebars",
+          "version": "4.7.10",
+          "license": "MIT",
+          "homepage": "https://handlebarsjs.com/"
+        }
+      ],
+      "expectedDigest": "fdc9d4795ebcd542648a92a93dadd6328bbe209c203a10e7f153ee7a399ec39f",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 70,
+        "peakRssMb": 79.8,
+        "heapUsedMb": 8,
+        "errorCode": "HYB_VOLATILE_BAILOUT",
+        "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (handlebars-app.js:1302:16)",
+        "location": {
+          "line": 1302,
+          "column": 16,
+          "snippet": ", px = Math.random();"
+        },
+        "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+        "diagnosticsCount": 2,
+        "errorCodes": [
+          "HYB_VOLATILE_BAILOUT"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (handlebars-app.js:1302:16)",
+            "location": {
+              "line": 1302,
+              "column": 16,
+              "snippet": ", px = Math.random();"
+            }
+          },
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+            "location": null
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 70,
+          "peakRssMb": 79.8,
+          "heapUsedMb": 8,
+          "errorCode": "HYB_VOLATILE_BAILOUT",
+          "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (handlebars-app.js:1302:16)",
+          "location": {
+            "line": 1302,
+            "column": 16,
+            "snippet": ", px = Math.random();"
+          },
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+          "diagnosticsCount": 2,
+          "errorCodes": [
+            "HYB_VOLATILE_BAILOUT"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (handlebars-app.js:1302:16)",
+              "location": {
+                "line": 1302,
+                "column": 16,
+                "snippet": ", px = Math.random();"
+              }
+            },
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 26.692,
+            "p90": 30.293,
+            "mean": 27.223,
+            "min": 23.317,
+            "max": 35.77
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 43.858,
+              "p90": 46.19,
+              "mean": 43.959,
+              "min": 40.524,
+              "max": 49.839
+            },
+            "net": {
+              "median": 17.166,
+              "p90": 19.498,
+              "mean": 17.267
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 3.456,
+          "p90": 3.916,
+          "mean": 3.817,
+          "min": 3.108,
+          "max": 9.584,
+          "cachedDataBytes": 7976
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 3.221,
+          "p90": 3.421,
+          "mean": 3.394,
+          "min": 3.089,
+          "max": 7
+        },
+        "nodeSnapshot": {
+          "supported": false,
+          "error": "terminate called after throwing an instance of 'std::length_error' |   what():  vector::_M_range_insert"
+        },
+        "adaptedRuns": false,
+        "sizes": {
+          "raw": 217023,
+          "terser": 88523,
+          "gzip": 26899,
+          "brotli": 24992,
+          "rawGzip": 50546,
+          "rawBrotli": 46385
+        }
+      },
+      "perf": null
+    },
+    {
+      "id": "preact-ssr-app",
+      "name": "Preact SSR App (init + runtime renderToString)",
+      "kind": "app-workload",
+      "tier": "standard",
+      "buildType": "umd+app-init",
+      "description": "App workload: Preact + preact-render-to-string renders a multi-component documentation dashboard at module init and exposes dynamic SSR at runtime.",
+      "bytes": 22477,
+      "sha256": "615ac42b96098766976af0e1ff0f408231eebfed31c81af0ebd5d7fc4df97de0",
+      "packages": [
+        {
+          "name": "preact",
+          "version": "10.29.0",
+          "license": "MIT",
+          "homepage": "https://preactjs.com"
+        },
+        {
+          "name": "preact-render-to-string",
+          "version": "6.6.7",
+          "license": "MIT",
+          "homepage": "https://github.com/preactjs/preact-render-to-string"
+        }
+      ],
+      "expectedDigest": "674899a26ea2bc86dd2fe9a2fddc159b82173a406b4e1132ac5adfc583b59959",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 524,
+        "peakRssMb": 80,
+        "heapUsedMb": 13.5,
+        "outBytes": 47273
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 524,
+          "peakRssMb": 80,
+          "heapUsedMb": 13.5,
+          "outBytes": 47273,
+          "quickVmMs": 0.396,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "adaptedRuns": false,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 24.946,
+            "p90": 27.921,
+            "mean": 25.31,
+            "min": 22.75,
+            "max": 28.655
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 26.802,
+              "p90": 28.651,
+              "mean": 27.541,
+              "min": 24.969,
+              "max": 40.184
+            },
+            "net": {
+              "median": 1.856,
+              "p90": 3.705,
+              "mean": 2.595
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 0.426,
+          "p90": 0.478,
+          "mean": 0.428,
+          "min": 0.375,
+          "max": 0.54,
+          "cachedDataBytes": 5208
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 0.427,
+          "p90": 0.666,
+          "mean": 0.475,
+          "min": 0.373,
+          "max": 0.75
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6314506,
+          "blobGzipBytes": 2319238,
+          "baseline": {
+            "n": 30,
+            "median": 28.655,
+            "p90": 30.593,
+            "mean": 28.335,
+            "min": 24.938,
+            "max": 31.922
+          },
+          "raw": {
+            "n": 30,
+            "median": 34.734,
+            "p90": 38.441,
+            "mean": 35.207,
+            "min": 30.61,
+            "max": 45.71
+          },
+          "net": {
+            "median": 6.079,
+            "p90": 9.786,
+            "mean": 6.552
+          }
+        },
+        "sizes": {
+          "raw": 22477,
+          "terser": 21712,
+          "gzip": 8850,
+          "brotli": 8666,
+          "rawGzip": 9133,
+          "rawBrotli": 8951
+        }
+      },
+      "perf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 24.946,
+            "p90": 27.921,
+            "mean": 25.31,
+            "min": 22.75,
+            "max": 28.655
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 26.802,
+              "p90": 28.651,
+              "mean": 27.541,
+              "min": 24.969,
+              "max": 40.184
+            },
+            "net": {
+              "median": 1.856,
+              "p90": 3.705,
+              "mean": 2.595
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 27.172,
+              "p90": 29.299,
+              "mean": 27.372,
+              "min": 25.201,
+              "max": 30.127
+            },
+            "net": {
+              "median": 2.226,
+              "p90": 4.353,
+              "mean": 2.426
+            }
+          },
+          "speedupRaw": 0.986,
+          "speedupNet": 0.834
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.426,
+            "p90": 0.478,
+            "mean": 0.428,
+            "min": 0.375,
+            "max": 0.54,
+            "cachedDataBytes": 5208
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.381,
+            "p90": 0.412,
+            "mean": 0.395,
+            "min": 0.337,
+            "max": 0.791,
+            "cachedDataBytes": 23568
+          },
+          "speedup": 1.118
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.427,
+            "p90": 0.666,
+            "mean": 0.475,
+            "min": 0.373,
+            "max": 0.75
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.386,
+            "p90": 0.579,
+            "mean": 0.447,
+            "min": 0.33,
+            "max": 1.261
+          },
+          "speedup": 1.106
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6314506,
+          "blobGzipBytes": 2319238,
+          "baseline": {
+            "n": 30,
+            "median": 28.655,
+            "p90": 30.593,
+            "mean": 28.335,
+            "min": 24.938,
+            "max": 31.922
+          },
+          "raw": {
+            "n": 30,
+            "median": 34.734,
+            "p90": 38.441,
+            "mean": 35.207,
+            "min": 30.61,
+            "max": 45.71
+          },
+          "net": {
+            "median": 6.079,
+            "p90": 9.786,
+            "mean": 6.552
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 22477,
+            "terser": 21712,
+            "gzip": 8850,
+            "brotli": 8666,
+            "rawGzip": 9133,
+            "rawBrotli": 8951
+          },
+          "prepacked": {
+            "raw": 47273,
+            "terser": 44237,
+            "gzip": 13153,
+            "brotli": 11717,
+            "rawGzip": 11476,
+            "rawBrotli": 10828
+          },
+          "ratios": {
+            "raw": 2.103,
+            "terser": 2.037,
+            "gzip": 1.486,
+            "brotli": 1.352
+          }
+        }
+      }
+    },
+    {
+      "id": "react-ssr-app",
+      "name": "React 18 SSR App (init + runtime renderToString)",
+      "kind": "app-workload",
+      "tier": "standard",
+      "buildType": "umd+app-init",
+      "description": "App workload: React 18 + ReactDOMServer legacy browser bundle renders a multi-component storefront catalog at module init and serves runtime SSR.",
+      "bytes": 48145,
+      "sha256": "fa49335517c8b0262fd9ca79ee90946cae439a6619de1588a846e1dbcd931eb9",
+      "packages": [
+        {
+          "name": "react",
+          "version": "18.3.1",
+          "license": "MIT",
+          "homepage": "https://reactjs.org/"
+        },
+        {
+          "name": "react-dom",
+          "version": "18.3.1",
+          "license": "MIT",
+          "homepage": "https://reactjs.org/"
+        }
+      ],
+      "expectedDigest": "8fb06297245cf9cc8598fa7967fe7e9c974a99cb9319ddb7a634111963196ae3",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 72,
+        "peakRssMb": 79.7,
+        "heapUsedMb": 7.6,
+        "errorCode": "HYB_VOLATILE_BAILOUT",
+        "message": "volatile API \"Date.now()\" called during initialization (react-ssr-app.js:20:236)",
+        "location": {
+          "line": 20,
+          "column": 236,
+          "snippet": "...unction(){return Ba.now()}}else{var ma=Date,Ca=ma.now();v=function(){return ma.now()-Ca}}var q=[],r=[],Da=1,n=null,k=3,F=!1,u=!1,z=!1,ja=\"fu..."
+        },
+        "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+        "diagnosticsCount": 2,
+        "errorCodes": [
+          "HYB_VOLATILE_BAILOUT"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile API \"Date.now()\" called during initialization (react-ssr-app.js:20:236)",
+            "location": {
+              "line": 20,
+              "column": 236,
+              "snippet": "...unction(){return Ba.now()}}else{var ma=Date,Ca=ma.now();v=function(){return ma.now()-Ca}}var q=[],r=[],Da=1,n=null,k=3,F=!1,u=!1,z=!1,ja=\"fu..."
+            }
+          },
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+            "location": null
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 72,
+          "peakRssMb": 79.7,
+          "heapUsedMb": 7.6,
+          "errorCode": "HYB_VOLATILE_BAILOUT",
+          "message": "volatile API \"Date.now()\" called during initialization (react-ssr-app.js:20:236)",
+          "location": {
+            "line": 20,
+            "column": 236,
+            "snippet": "...unction(){return Ba.now()}}else{var ma=Date,Ca=ma.now();v=function(){return ma.now()-Ca}}var q=[],r=[],Da=1,n=null,k=3,F=!1,u=!1,z=!1,ja=\"fu..."
+          },
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+          "diagnosticsCount": 2,
+          "errorCodes": [
+            "HYB_VOLATILE_BAILOUT"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile API \"Date.now()\" called during initialization (react-ssr-app.js:20:236)",
+              "location": {
+                "line": 20,
+                "column": 236,
+                "snippet": "...unction(){return Ba.now()}}else{var ma=Date,Ca=ma.now();v=function(){return ma.now()-Ca}}var q=[],r=[],Da=1,n=null,k=3,F=!1,u=!1,z=!1,ja=\"fu..."
+              }
+            },
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 29.302,
+            "p90": 33.618,
+            "mean": 29.689,
+            "min": 23.402,
+            "max": 41.704
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 32.798,
+              "p90": 36.609,
+              "mean": 33.497,
+              "min": 28.568,
+              "max": 44.045
+            },
+            "net": {
+              "median": 3.496,
+              "p90": 7.307,
+              "mean": 4.195
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 1.021,
+          "p90": 1.267,
+          "mean": 1.703,
+          "min": 0.855,
+          "max": 14.434,
+          "cachedDataBytes": 6632
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 0.887,
+          "p90": 0.936,
+          "mean": 0.899,
+          "min": 0.845,
+          "max": 1.099
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6563992,
+          "blobGzipBytes": 2416442,
+          "baseline": {
+            "n": 30,
+            "median": 29.938,
+            "p90": 31.934,
+            "mean": 29.833,
+            "min": 26.544,
+            "max": 36.502
+          },
+          "raw": {
+            "n": 30,
+            "median": 35.707,
+            "p90": 39.245,
+            "mean": 36.205,
+            "min": 33.627,
+            "max": 41.905
+          },
+          "net": {
+            "median": 5.769,
+            "p90": 9.307,
+            "mean": 6.267
+          }
+        },
+        "adaptedRuns": false,
+        "sizes": {
+          "raw": 48145,
+          "terser": 46203,
+          "gzip": 15568,
+          "brotli": 14716,
+          "rawGzip": 16183,
+          "rawBrotli": 15321
+        }
+      },
+      "perf": null
+    },
+    {
+      "id": "yaml-router-app",
+      "name": "YAML Config + Mustache + Router App",
+      "kind": "app-workload",
+      "tier": "standard",
+      "buildType": "umd+app-init",
+      "description": "Init-heavy app workload: parses a 95-line YAML service/route manifest with js-yaml, compiles 10 parameterized REST routes into RegExps, and pre-parses Mustache views at module init.",
+      "bytes": 160859,
+      "sha256": "35307b56baa043503991dc35089e588861a1f5333935f90297eca01034f7d795",
+      "packages": [
+        {
+          "name": "js-yaml",
+          "version": "4.3.2",
+          "license": "MIT",
+          "homepage": null
+        },
+        {
+          "name": "mustache",
+          "version": "4.2.0",
+          "license": "MIT",
+          "homepage": "https://github.com/janl/mustache.js"
+        }
+      ],
+      "expectedDigest": "f8ff1c9fed0a12155379c9e9f9d39320af898a89c7907a9876980910a1e7999a",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 749,
+        "peakRssMb": 88.6,
+        "heapUsedMb": 16.4,
+        "outBytes": 255686
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 749,
+          "peakRssMb": 88.6,
+          "heapUsedMb": 16.4,
+          "outBytes": 255686,
+          "quickVmMs": 0.744,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "origPerf": {
+        "runs": 30,
+        "warmup": 5,
+        "adaptedRuns": false,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 29.76,
+            "p90": 32.929,
+            "mean": 29.654,
+            "min": 25.606,
+            "max": 36.742
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 35.671,
+              "p90": 41.245,
+              "mean": 37.029,
+              "min": 33.126,
+              "max": 52.666
+            },
+            "net": {
+              "median": 5.911,
+              "p90": 11.485,
+              "mean": 7.269
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 30,
+          "median": 1.748,
+          "p90": 2.075,
+          "mean": 1.868,
+          "min": 1.58,
+          "max": 3.634,
+          "cachedDataBytes": 13736
+        },
+        "vmExecOnly": {
+          "n": 30,
+          "median": 1.617,
+          "p90": 2.16,
+          "mean": 2.261,
+          "min": 1.567,
+          "max": 13.559
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6704858,
+          "blobGzipBytes": 2382870,
+          "baseline": {
+            "n": 30,
+            "median": 28.77,
+            "p90": 32.674,
+            "mean": 28.936,
+            "min": 23.044,
+            "max": 34.394
+          },
+          "raw": {
+            "n": 30,
+            "median": 37.528,
+            "p90": 40.036,
+            "mean": 37.709,
+            "min": 32.323,
+            "max": 52.3
+          },
+          "net": {
+            "median": 8.758,
+            "p90": 11.266,
+            "mean": 8.939
+          }
+        },
+        "sizes": {
+          "raw": 160859,
+          "terser": 53019,
+          "gzip": 17605,
+          "brotli": 16949,
+          "rawGzip": 30163,
+          "rawBrotli": 28148
+        }
+      },
+      "perf": {
+        "runs": 30,
+        "warmup": 5,
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 29.76,
+            "p90": 32.929,
+            "mean": 29.654,
+            "min": 25.606,
+            "max": 36.742
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 35.671,
+              "p90": 41.245,
+              "mean": 37.029,
+              "min": 33.126,
+              "max": 52.666
+            },
+            "net": {
+              "median": 5.911,
+              "p90": 11.485,
+              "mean": 7.269
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 34.794,
+              "p90": 36.383,
+              "mean": 34.949,
+              "min": 31.278,
+              "max": 43.324
+            },
+            "net": {
+              "median": 5.034,
+              "p90": 6.623,
+              "mean": 5.189
+            }
+          },
+          "speedupRaw": 1.025,
+          "speedupNet": 1.174
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 1.748,
+            "p90": 2.075,
+            "mean": 1.868,
+            "min": 1.58,
+            "max": 3.634,
+            "cachedDataBytes": 13736
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.724,
+            "p90": 0.749,
+            "mean": 0.727,
+            "min": 0.683,
+            "max": 0.833,
+            "cachedDataBytes": 101808
+          },
+          "speedup": 2.414
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 1.617,
+            "p90": 2.16,
+            "mean": 2.261,
+            "min": 1.567,
+            "max": 13.559
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.709,
+            "p90": 0.777,
+            "mean": 0.734,
+            "min": 0.659,
+            "max": 1.201
+          },
+          "speedup": 2.281
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6704858,
+          "blobGzipBytes": 2382870,
+          "baseline": {
+            "n": 30,
+            "median": 28.77,
+            "p90": 32.674,
+            "mean": 28.936,
+            "min": 23.044,
+            "max": 34.394
+          },
+          "raw": {
+            "n": 30,
+            "median": 37.528,
+            "p90": 40.036,
+            "mean": 37.709,
+            "min": 32.323,
+            "max": 52.3
+          },
+          "net": {
+            "median": 8.758,
+            "p90": 11.266,
+            "mean": 8.939
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 160859,
+            "terser": 53019,
+            "gzip": 17605,
+            "brotli": 16949,
+            "rawGzip": 30163,
+            "rawBrotli": 28148
+          },
+          "prepacked": {
+            "raw": 255686,
+            "terser": 113429,
+            "gzip": 34179,
+            "brotli": 23313,
+            "rawGzip": 51042,
+            "rawBrotli": 43898
+          },
+          "ratios": {
+            "raw": 1.59,
+            "terser": 2.139,
+            "gzip": 1.941,
+            "brotli": 1.375
+          }
+        }
+      }
+    },
+    {
+      "id": "moment-timezone",
+      "name": "Moment Timezone (full IANA data)",
+      "kind": "library",
+      "tier": "large",
+      "buildType": "umd",
+      "description": "Moment core + full Moment Timezone data (~0.91 MB); module init unpacks base-60 IANA transition tables and links for 590+ timezones.",
+      "bytes": 935184,
+      "sha256": "0ea838ff86d1210433ee4a06deb970eaa3428cd96152c20df7346cdd21e96548",
+      "packages": [
+        {
+          "name": "moment",
+          "version": "2.31.0",
+          "license": "MIT",
+          "homepage": "https://momentjs.com"
+        },
+        {
+          "name": "moment-timezone",
+          "version": "0.6.6",
+          "license": "MIT",
+          "homepage": "http://momentjs.com/timezone/"
+        }
+      ],
+      "expectedDigest": "691c1c533a28bd8eda4c9904563283448e64b848f5dc23958a651d188baec988",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1291,
+        "peakRssMb": 130.5,
+        "heapUsedMb": 35.5,
+        "outBytes": 1867746
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1291,
+          "peakRssMb": 130.5,
+          "heapUsedMb": 35.5,
+          "outBytes": 1867746,
+          "quickVmMs": 6.538,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "origPerf": {
+        "runs": 15,
+        "warmup": 3,
+        "adaptedRuns": true,
+        "coldProcess": {
+          "baseline": {
+            "n": 15,
+            "median": 26.628,
+            "p90": 32.428,
+            "mean": 27.792,
+            "min": 23.881,
+            "max": 37.271
+          },
+          "orig": {
+            "raw": {
+              "n": 15,
+              "median": 50.8,
+              "p90": 60.764,
+              "mean": 53.254,
+              "min": 48.544,
+              "max": 64.327
+            },
+            "net": {
+              "median": 24.172,
+              "p90": 34.136,
+              "mean": 26.626
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 15,
+          "median": 8.252,
+          "p90": 8.571,
+          "mean": 8.578,
+          "min": 7.861,
+          "max": 13.623,
+          "cachedDataBytes": 68528
+        },
+        "vmExecOnly": {
+          "n": 15,
+          "median": 8.127,
+          "p90": 12.235,
+          "mean": 8.742,
+          "min": 7.76,
+          "max": 12.759
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 9166330,
+          "blobGzipBytes": 2531644,
+          "baseline": {
+            "n": 15,
+            "median": 26.904,
+            "p90": 33.906,
+            "mean": 27.766,
+            "min": 24.254,
+            "max": 34.573
+          },
+          "raw": {
+            "n": 15,
+            "median": 50.602,
+            "p90": 57.85,
+            "mean": 51.296,
+            "min": 46.904,
+            "max": 58.578
+          },
+          "net": {
+            "median": 23.698,
+            "p90": 30.946,
+            "mean": 24.392
+          }
+        },
+        "sizes": {
+          "raw": 935184,
+          "terser": 797417,
+          "gzip": 56292,
+          "brotli": 47645,
+          "rawGzip": 78282,
+          "rawBrotli": 66393
+        }
+      },
+      "perf": {
+        "runs": 15,
+        "warmup": 3,
+        "coldProcess": {
+          "baseline": {
+            "n": 15,
+            "median": 26.628,
+            "p90": 32.428,
+            "mean": 27.792,
+            "min": 23.881,
+            "max": 37.271
+          },
+          "orig": {
+            "raw": {
+              "n": 15,
+              "median": 50.8,
+              "p90": 60.764,
+              "mean": 53.254,
+              "min": 48.544,
+              "max": 64.327
+            },
+            "net": {
+              "median": 24.172,
+              "p90": 34.136,
+              "mean": 26.626
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 15,
+              "median": 57.644,
+              "p90": 64.914,
+              "mean": 58.883,
+              "min": 53.849,
+              "max": 70.711
+            },
+            "net": {
+              "median": 31.016,
+              "p90": 38.286,
+              "mean": 32.255
+            }
+          },
+          "speedupRaw": 0.881,
+          "speedupNet": 0.779
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 15,
+            "median": 8.252,
+            "p90": 8.571,
+            "mean": 8.578,
+            "min": 7.861,
+            "max": 13.623,
+            "cachedDataBytes": 68528
+          },
+          "prepacked": {
+            "n": 15,
+            "median": 6.504,
+            "p90": 6.748,
+            "mean": 6.789,
+            "min": 6.211,
+            "max": 10.759,
+            "cachedDataBytes": 1021720
+          },
+          "speedup": 1.269
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 15,
+            "median": 8.127,
+            "p90": 12.235,
+            "mean": 8.742,
+            "min": 7.76,
+            "max": 12.759
+          },
+          "prepacked": {
+            "n": 15,
+            "median": 6.421,
+            "p90": 6.716,
+            "mean": 6.752,
+            "min": 6.179,
+            "max": 11.651
+          },
+          "speedup": 1.266
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 9166330,
+          "blobGzipBytes": 2531644,
+          "baseline": {
+            "n": 15,
+            "median": 26.904,
+            "p90": 33.906,
+            "mean": 27.766,
+            "min": 24.254,
+            "max": 34.573
+          },
+          "raw": {
+            "n": 15,
+            "median": 50.602,
+            "p90": 57.85,
+            "mean": 51.296,
+            "min": 46.904,
+            "max": 58.578
+          },
+          "net": {
+            "median": 23.698,
+            "p90": 30.946,
+            "mean": 24.392
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 935184,
+            "terser": 797417,
+            "gzip": 56292,
+            "brotli": 47645,
+            "rawGzip": 78282,
+            "rawBrotli": 66393
+          },
+          "prepacked": {
+            "raw": 1867746,
+            "terser": 1671548,
+            "gzip": 131044,
+            "brotli": 76919,
+            "rawGzip": 158536,
+            "rawBrotli": 108325
+          },
+          "ratios": {
+            "raw": 1.997,
+            "terser": 2.096,
+            "gzip": 2.328,
+            "brotli": 1.614
+          }
+        }
+      }
+    },
+    {
+      "id": "prettier",
+      "name": "Prettier Standalone (+ Babel, PostCSS, HTML parsers)",
+      "kind": "library",
+      "tier": "large",
+      "buildType": "umd",
+      "description": "Prettier standalone formatter bundled with Babel, PostCSS, and HTML parser plugins (~1.07 MB); builds printer AST dispatchers and parser grammars at init.",
+      "bytes": 1091154,
+      "sha256": "57052068ad0765e318560e3733505f7b467713a8ba7d5c9604bd890ee46f4073",
+      "packages": [
+        {
+          "name": "prettier",
+          "version": "2.8.8",
+          "license": "MIT",
+          "homepage": "https://prettier.io"
+        }
+      ],
+      "expectedDigest": "3543f56ddc74997fd2da5caedc1d1b1c50518669180c64510db2f987f220836a",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 99,
+        "peakRssMb": 79.7,
+        "heapUsedMb": 7.4,
+        "errorCode": "HYB_VOLATILE_BAILOUT",
+        "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (prettier.js:1:5250)",
+        "location": {
+          "line": 1,
+          "column": 5250,
+          "snippet": "...)}});var un=xe((L0,Ds)=>{var _l=mt(),Pl=0,Il=Math.random(),kl=_l(1 .toString);Ds.exports=function(e){return\"Symbol(\"+(e===void 0?\"\":e)+\")_\"+..."
+        },
+        "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+        "diagnosticsCount": 2,
+        "errorCodes": [
+          "HYB_VOLATILE_BAILOUT"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (prettier.js:1:5250)",
+            "location": {
+              "line": 1,
+              "column": 5250,
+              "snippet": "...)}});var un=xe((L0,Ds)=>{var _l=mt(),Pl=0,Il=Math.random(),kl=_l(1 .toString);Ds.exports=function(e){return\"Symbol(\"+(e===void 0?\"\":e)+\")_\"+..."
+            }
+          },
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+            "location": null
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 99,
+          "peakRssMb": 79.7,
+          "heapUsedMb": 7.4,
+          "errorCode": "HYB_VOLATILE_BAILOUT",
+          "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (prettier.js:1:5250)",
+          "location": {
+            "line": 1,
+            "column": 5250,
+            "snippet": "...)}});var un=xe((L0,Ds)=>{var _l=mt(),Pl=0,Il=Math.random(),kl=_l(1 .toString);Ds.exports=function(e){return\"Symbol(\"+(e===void 0?\"\":e)+\")_\"+..."
+          },
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+          "diagnosticsCount": 2,
+          "errorCodes": [
+            "HYB_VOLATILE_BAILOUT"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (prettier.js:1:5250)",
+              "location": {
+                "line": 1,
+                "column": 5250,
+                "snippet": "...)}});var un=xe((L0,Ds)=>{var _l=mt(),Pl=0,Il=Math.random(),kl=_l(1 .toString);Ds.exports=function(e){return\"Symbol(\"+(e===void 0?\"\":e)+\")_\"+..."
+              }
+            },
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "origPerf": {
+        "runs": 15,
+        "warmup": 3,
+        "coldProcess": {
+          "baseline": {
+            "n": 15,
+            "median": 27.754,
+            "p90": 29.268,
+            "mean": 27.667,
+            "min": 24.015,
+            "max": 32.053
+          },
+          "orig": {
+            "raw": {
+              "n": 15,
+              "median": 155.772,
+              "p90": 162.08,
+              "mean": 157.6,
+              "min": 152.499,
+              "max": 169.48
+            },
+            "net": {
+              "median": 128.018,
+              "p90": 134.326,
+              "mean": 129.846
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 15,
+          "median": 19.602,
+          "p90": 29.12,
+          "mean": 20.576,
+          "min": 17.018,
+          "max": 30.486,
+          "cachedDataBytes": 54952
+        },
+        "vmExecOnly": {
+          "n": 15,
+          "median": 18.826,
+          "p90": 27.849,
+          "mean": 20.61,
+          "min": 17.765,
+          "max": 28.284
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 8400892,
+          "blobGzipBytes": 2962009,
+          "baseline": {
+            "n": 15,
+            "median": 27.374,
+            "p90": 32.489,
+            "mean": 28.68,
+            "min": 23.787,
+            "max": 34.005
+          },
+          "raw": {
+            "n": 15,
+            "median": 96.268,
+            "p90": 102.427,
+            "mean": 97.257,
+            "min": 93.047,
+            "max": 103.469
+          },
+          "net": {
+            "median": 68.894,
+            "p90": 75.053,
+            "mean": 69.883
+          }
+        },
+        "adaptedRuns": true,
+        "sizes": {
+          "raw": 1091154,
+          "terser": 1054142,
+          "gzip": 297389,
+          "brotli": 234616,
+          "rawGzip": 317771,
+          "rawBrotli": 266775
+        }
+      },
+      "perf": null
+    },
+    {
+      "id": "highlight-js",
+      "name": "Highlight.js (all 190+ languages)",
+      "kind": "library",
+      "tier": "large",
+      "buildType": "esbuild-iife",
+      "description": "Full Highlight.js syntax highlighter (~1.72 MB ES2015 IIFE); module init registers all 193 language grammar factories and freezes core tables.",
+      "bytes": 1878500,
+      "sha256": "592d0303a6a14458765bba68e1938db467d9a2ea31ee116a336f3ecc6ec68f8a",
+      "packages": [
+        {
+          "name": "highlight.js",
+          "version": "11.12.0",
+          "license": "BSD-3-Clause",
+          "homepage": "https://highlightjs.org/"
+        }
+      ],
+      "expectedDigest": "602a65ad2637d1ce89d5151cc155d6a1ec39317b29b08813bfb43bf4345a50b4",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 3751,
+        "peakRssMb": 269.2,
+        "heapUsedMb": 102.5,
+        "outBytes": 4232255
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 3751,
+          "peakRssMb": 269.2,
+          "heapUsedMb": 102.5,
+          "outBytes": 4232255,
+          "quickVmMs": 13.718,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "origPerf": {
+        "runs": 15,
+        "warmup": 3,
+        "adaptedRuns": true,
+        "coldProcess": {
+          "baseline": {
+            "n": 15,
+            "median": 26.826,
+            "p90": 29.612,
+            "mean": 27.481,
+            "min": 25.047,
+            "max": 31.477
+          },
+          "orig": {
+            "raw": {
+              "n": 15,
+              "median": 119.343,
+              "p90": 123.261,
+              "mean": 120.47,
+              "min": 113.551,
+              "max": 150.603
+            },
+            "net": {
+              "median": 92.517,
+              "p90": 96.435,
+              "mean": 93.644
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 15,
+          "median": 19.124,
+          "p90": 25.516,
+          "mean": 20.357,
+          "min": 15.715,
+          "max": 28.219,
+          "cachedDataBytes": 60592
+        },
+        "vmExecOnly": {
+          "n": 15,
+          "median": 15.955,
+          "p90": 22.726,
+          "mean": 17.108,
+          "min": 15.493,
+          "max": 23.747
+        },
+        "nodeSnapshot": {
+          "supported": false,
+          "error": "terminate called after throwing an instance of 'std::length_error' |   what():  vector::_M_range_insert"
+        },
+        "sizes": {
+          "raw": 1878500,
+          "terser": 980184,
+          "gzip": 306497,
+          "brotli": 263361,
+          "rawGzip": 396304,
+          "rawBrotli": 332802
+        }
+      },
+      "perf": {
+        "runs": 15,
+        "warmup": 3,
+        "coldProcess": {
+          "baseline": {
+            "n": 15,
+            "median": 26.826,
+            "p90": 29.612,
+            "mean": 27.481,
+            "min": 25.047,
+            "max": 31.477
+          },
+          "orig": {
+            "raw": {
+              "n": 15,
+              "median": 119.343,
+              "p90": 123.261,
+              "mean": 120.47,
+              "min": 113.551,
+              "max": 150.603
+            },
+            "net": {
+              "median": 92.517,
+              "p90": 96.435,
+              "mean": 93.644
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 15,
+              "median": 133.324,
+              "p90": 140.096,
+              "mean": 134.93,
+              "min": 129.364,
+              "max": 149.144
+            },
+            "net": {
+              "median": 106.498,
+              "p90": 113.27,
+              "mean": 108.104
+            }
+          },
+          "speedupRaw": 0.895,
+          "speedupNet": 0.869
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 15,
+            "median": 19.124,
+            "p90": 25.516,
+            "mean": 20.357,
+            "min": 15.715,
+            "max": 28.219,
+            "cachedDataBytes": 60592
+          },
+          "prepacked": {
+            "n": 15,
+            "median": 13.993,
+            "p90": 22.304,
+            "mean": 15.284,
+            "min": 13.211,
+            "max": 22.698,
+            "cachedDataBytes": 2480624
+          },
+          "speedup": 1.367
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 15,
+            "median": 15.955,
+            "p90": 22.726,
+            "mean": 17.108,
+            "min": 15.493,
+            "max": 23.747
+          },
+          "prepacked": {
+            "n": 15,
+            "median": 13.85,
+            "p90": 20.666,
+            "mean": 15.839,
+            "min": 13.179,
+            "max": 20.677
+          },
+          "speedup": 1.152
+        },
+        "nodeSnapshot": {
+          "supported": false,
+          "error": "terminate called after throwing an instance of 'std::length_error' |   what():  vector::_M_range_insert"
+        },
+        "sizes": {
+          "orig": {
+            "raw": 1878500,
+            "terser": 980184,
+            "gzip": 306497,
+            "brotli": 263361,
+            "rawGzip": 396304,
+            "rawBrotli": 332802
+          },
+          "prepacked": {
+            "raw": 4232255,
+            "terser": 3062179,
+            "gzip": 775971,
+            "brotli": 317851,
+            "rawGzip": 1033437,
+            "rawBrotli": 563675
+          },
+          "ratios": {
+            "raw": 2.253,
+            "terser": 3.124,
+            "gzip": 2.532,
+            "brotli": 1.207
+          }
+        }
+      }
+    },
+    {
+      "id": "three",
+      "name": "Three.js (math + scene graph)",
+      "kind": "library",
+      "tier": "large",
+      "buildType": "esbuild-iife",
+      "description": "Three.js 3D engine (~1.90 MB ES2015 IIFE); module init constructs math LUTs, color management spaces, shader chunks, uniform libraries, and geometry/material classes.",
+      "bytes": 1960313,
+      "sha256": "68c8ed5011094b796fedda390d969ba8913b9d34cc7575b166ae97ff4203081c",
+      "packages": [
+        {
+          "name": "three",
+          "version": "0.187.0",
+          "license": "MIT",
+          "homepage": "https://threejs.org/"
+        }
+      ],
+      "expectedDigest": "e62c48c0a428d1007f56203a2d2682428ea30c9ea42f99d5960a5810ac2c092a",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 106,
+        "peakRssMb": 79.7,
+        "heapUsedMb": 8.5,
+        "errorCode": "HYB_VOLATILE_BAILOUT",
+        "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (three.js:162:21)",
+        "location": {
+          "line": 162,
+          "column": 21,
+          "snippet": "const d0 = Math.random() * 4294967295 | 0;"
+        },
+        "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+        "diagnosticsCount": 2,
+        "errorCodes": [
+          "HYB_VOLATILE_BAILOUT"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (three.js:162:21)",
+            "location": {
+              "line": 162,
+              "column": 21,
+              "snippet": "const d0 = Math.random() * 4294967295 | 0;"
+            }
+          },
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+            "location": null
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 106,
+          "peakRssMb": 79.7,
+          "heapUsedMb": 8.5,
+          "errorCode": "HYB_VOLATILE_BAILOUT",
+          "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (three.js:162:21)",
+          "location": {
+            "line": 162,
+            "column": 21,
+            "snippet": "const d0 = Math.random() * 4294967295 | 0;"
+          },
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+          "diagnosticsCount": 2,
+          "errorCodes": [
+            "HYB_VOLATILE_BAILOUT"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (three.js:162:21)",
+              "location": {
+                "line": 162,
+                "column": 21,
+                "snippet": "const d0 = Math.random() * 4294967295 | 0;"
+              }
+            },
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "origPerf": {
+        "runs": 15,
+        "warmup": 3,
+        "coldProcess": {
+          "baseline": {
+            "n": 15,
+            "median": 26.784,
+            "p90": 29.979,
+            "mean": 27.076,
+            "min": 24.894,
+            "max": 32.063
+          },
+          "orig": {
+            "raw": {
+              "n": 15,
+              "median": 63.636,
+              "p90": 71.364,
+              "mean": 64.787,
+              "min": 58.023,
+              "max": 76.316
+            },
+            "net": {
+              "median": 36.852,
+              "p90": 44.58,
+              "mean": 38.003
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 15,
+          "median": 4.701,
+          "p90": 12.053,
+          "mean": 6.012,
+          "min": 4.528,
+          "max": 16.121,
+          "cachedDataBytes": 154224
+        },
+        "vmExecOnly": {
+          "n": 15,
+          "median": 4.522,
+          "p90": 4.633,
+          "mean": 4.941,
+          "min": 4.427,
+          "max": 10.894
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 10945114,
+          "blobGzipBytes": 2904434,
+          "baseline": {
+            "n": 15,
+            "median": 25.402,
+            "p90": 27.48,
+            "mean": 25.754,
+            "min": 24.553,
+            "max": 28.375
+          },
+          "raw": {
+            "n": 15,
+            "median": 46.65,
+            "p90": 53.696,
+            "mean": 47.753,
+            "min": 42.443,
+            "max": 62.141
+          },
+          "net": {
+            "median": 21.248,
+            "p90": 28.294,
+            "mean": 22.351
+          }
+        },
+        "adaptedRuns": true,
+        "sizes": {
+          "raw": 1960313,
+          "terser": 760780,
+          "gzip": 187601,
+          "brotli": 167474,
+          "rawGzip": 321124,
+          "rawBrotli": 268490
+        }
+      },
+      "perf": null
+    },
+    {
+      "id": "mathjs",
+      "name": "mathjs (eager typed-function registry)",
+      "kind": "library",
+      "tier": "large",
+      "buildType": "esbuild-iife",
+      "description": "Init-heavy math engine (~2.11 MB IIFE); module init constructs 300+ multi-signature functions via typed-function, unit tables, physical constants, and expression algebra.",
+      "bytes": 2168744,
+      "sha256": "9d344d84dc97a3bffef20aadd98677430c2136bccd4aa38a2c51260f3ac9257d",
+      "packages": [
+        {
+          "name": "mathjs",
+          "version": "15.2.0",
+          "license": "Apache-2.0",
+          "homepage": "https://mathjs.org"
+        }
+      ],
+      "expectedDigest": "7b0e0441c745c31eb916ab1290639fdd181e86de0291de1efe3f534166bdecc5",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 135,
+        "peakRssMb": 79.7,
+        "heapUsedMb": 9.3,
+        "errorCode": "HYB_VOLATILE_BAILOUT",
+        "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (mathjs.js:43555:22)",
+        "location": {
+          "line": 43555,
+          "column": 22,
+          "snippet": "mixkey(math2.random(), pool);"
+        },
+        "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+        "diagnosticsCount": 2,
+        "errorCodes": [
+          "HYB_VOLATILE_BAILOUT"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (mathjs.js:43555:22)",
+            "location": {
+              "line": 43555,
+              "column": 22,
+              "snippet": "mixkey(math2.random(), pool);"
+            }
+          },
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+            "location": null
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 135,
+          "peakRssMb": 79.7,
+          "heapUsedMb": 9.3,
+          "errorCode": "HYB_VOLATILE_BAILOUT",
+          "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (mathjs.js:43555:22)",
+          "location": {
+            "line": 43555,
+            "column": 22,
+            "snippet": "mixkey(math2.random(), pool);"
+          },
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+          "diagnosticsCount": 2,
+          "errorCodes": [
+            "HYB_VOLATILE_BAILOUT"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (mathjs.js:43555:22)",
+              "location": {
+                "line": 43555,
+                "column": 22,
+                "snippet": "mixkey(math2.random(), pool);"
+              }
+            },
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "origPerf": {
+        "runs": 15,
+        "warmup": 3,
+        "coldProcess": {
+          "baseline": {
+            "n": 15,
+            "median": 27.713,
+            "p90": 32.943,
+            "mean": 28.346,
+            "min": 24.244,
+            "max": 36.638
+          },
+          "orig": {
+            "raw": {
+              "n": 15,
+              "median": 255.637,
+              "p90": 266.82,
+              "mean": 255.235,
+              "min": 235.955,
+              "max": 267.664
+            },
+            "net": {
+              "median": 227.924,
+              "p90": 239.107,
+              "mean": 227.522
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 15,
+          "median": 175.361,
+          "p90": 203.391,
+          "mean": 181.234,
+          "min": 160.153,
+          "max": 235.812,
+          "cachedDataBytes": 661176
+        },
+        "vmExecOnly": {
+          "n": 15,
+          "median": 169.129,
+          "p90": 197.774,
+          "mean": 173.123,
+          "min": 157.464,
+          "max": 197.903
+        },
+        "nodeSnapshot": {
+          "supported": false,
+          "error": "terminate called after throwing an instance of 'std::length_error' |   what():  vector::_M_range_insert"
+        },
+        "adaptedRuns": true,
+        "sizes": {
+          "raw": 2168744,
+          "terser": 859776,
+          "gzip": 217580,
+          "brotli": 192373,
+          "rawGzip": 320474,
+          "rawBrotli": 277966
+        }
+      },
+      "perf": null
+    },
+    {
+      "id": "babel-standalone",
+      "name": "@babel/standalone (preset-env + preset-react)",
+      "kind": "library",
+      "tier": "large",
+      "buildType": "umd",
+      "description": "Standalone Babel 7 compiler (~5.25 MB UMD); module init registers @babel/parser, @babel/traverse, @babel/generator, core-js compat tables, 100+ plugins, and built-in presets.",
+      "bytes": 5374865,
+      "sha256": "6a650cbcef54f6088df4cd3154803872a02908298a65b755c3da8ca327dd1291",
+      "packages": [
+        {
+          "name": "@babel/standalone",
+          "version": "7.29.13",
+          "license": "MIT",
+          "homepage": "https://babel.dev/docs/en/next/babel-standalone"
+        }
+      ],
+      "expectedDigest": "da602d47888edc2efe52f20b9fa2c65dfd56f367c6d06c5662e5674894e8d3ac",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 170,
+        "peakRssMb": 79.7,
+        "heapUsedMb": 11.8,
+        "errorCode": "HYB_VOLATILE_BAILOUT",
+        "message": "volatile API \"new Date()\" without arguments called during initialization (babel-standalone.js:603:19)",
+        "location": {
+          "line": 603,
+          "column": 19,
+          "snippet": "var startTime = new Date();"
+        },
+        "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+        "diagnosticsCount": 2,
+        "errorCodes": [
+          "HYB_VOLATILE_BAILOUT"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile API \"new Date()\" without arguments called during initialization (babel-standalone.js:603:19)",
+            "location": {
+              "line": 603,
+              "column": 19,
+              "snippet": "var startTime = new Date();"
+            }
+          },
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+            "location": null
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 170,
+          "peakRssMb": 79.7,
+          "heapUsedMb": 11.8,
+          "errorCode": "HYB_VOLATILE_BAILOUT",
+          "message": "volatile API \"new Date()\" without arguments called during initialization (babel-standalone.js:603:19)",
+          "location": {
+            "line": 603,
+            "column": 19,
+            "snippet": "var startTime = new Date();"
+          },
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+          "diagnosticsCount": 2,
+          "errorCodes": [
+            "HYB_VOLATILE_BAILOUT"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile API \"new Date()\" without arguments called during initialization (babel-standalone.js:603:19)",
+              "location": {
+                "line": 603,
+                "column": 19,
+                "snippet": "var startTime = new Date();"
+              }
+            },
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "origPerf": {
+        "runs": 12,
+        "warmup": 3,
+        "coldProcess": {
+          "baseline": {
+            "n": 12,
+            "median": 32.277,
+            "p90": 36.117,
+            "mean": 32.031,
+            "min": 27.371,
+            "max": 36.853
+          },
+          "orig": {
+            "raw": {
+              "n": 12,
+              "median": 244.26,
+              "p90": 253.723,
+              "mean": 242.364,
+              "min": 224.743,
+              "max": 263.434
+            },
+            "net": {
+              "median": 211.983,
+              "p90": 221.446,
+              "mean": 210.087
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 12,
+          "median": 64.923,
+          "p90": 67.121,
+          "mean": 64.367,
+          "min": 58.71,
+          "max": 70.03,
+          "cachedDataBytes": 1935544
+        },
+        "vmExecOnly": {
+          "n": 12,
+          "median": 65.221,
+          "p90": 67.727,
+          "mean": 63.81,
+          "min": 58.538,
+          "max": 70.621
+        },
+        "nodeSnapshot": {
+          "supported": false,
+          "error": "Unknown external reference 0x5588f55477f0. | <unresolved>"
+        },
+        "adaptedRuns": true,
+        "sizes": {
+          "raw": 5374865,
+          "terser": 3022531,
+          "gzip": 659811,
+          "brotli": 477794,
+          "rawGzip": 874273,
+          "rawBrotli": 630957
+        }
+      },
+      "perf": null
+    },
+    {
+      "id": "typescript",
+      "name": "TypeScript Compiler (lib/typescript.js)",
+      "kind": "library",
+      "tier": "large",
+      "buildType": "standalone-script",
+      "description": "Full TypeScript 5.9 compiler (~8.90 MB standalone script); module init constructs scanner/parser/binder/checker/emitter dispatch tables, token maps, and diagnostic catalogs.",
+      "bytes": 9112699,
+      "sha256": "4bfc15ec1258183715454a83c9ab3da9a5665a93da7b2ce79c6799abd9dc00d0",
+      "packages": [
+        {
+          "name": "typescript",
+          "version": "5.9.3",
+          "license": "Apache-2.0",
+          "homepage": "https://www.typescriptlang.org/"
+        }
+      ],
+      "expectedDigest": "f715c524a3830172417e2084570c603e1678c3095a76c4959d8bc0820ca9f0df",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 248,
+        "peakRssMb": 90.1,
+        "heapUsedMb": 14.2,
+        "errorCode": "HYB_VOLATILE_BAILOUT",
+        "message": "volatile API \"Date.now()\" called during initialization (typescript.js:5174:18)",
+        "location": {
+          "line": 5174,
+          "column": 18,
+          "snippet": "var timeorigin = timestamp();"
+        },
+        "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+        "diagnosticsCount": 2,
+        "errorCodes": [
+          "HYB_VOLATILE_BAILOUT"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile API \"Date.now()\" called during initialization (typescript.js:5174:18)",
+            "location": {
+              "line": 5174,
+              "column": 18,
+              "snippet": "var timeorigin = timestamp();"
+            }
+          },
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_VOLATILE_BAILOUT",
+            "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+            "location": null
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 248,
+          "peakRssMb": 90.1,
+          "heapUsedMb": 14.2,
+          "errorCode": "HYB_VOLATILE_BAILOUT",
+          "message": "volatile API \"Date.now()\" called during initialization (typescript.js:5174:18)",
+          "location": {
+            "line": 5174,
+            "column": 18,
+            "snippet": "var timeorigin = timestamp();"
+          },
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:262:11)",
+          "diagnosticsCount": 2,
+          "errorCodes": [
+            "HYB_VOLATILE_BAILOUT"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile API \"Date.now()\" called during initialization (typescript.js:5174:18)",
+              "location": {
+                "line": 5174,
+                "column": 18,
+                "snippet": "var timeorigin = timestamp();"
+              }
+            },
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_VOLATILE_BAILOUT",
+              "message": "volatile Error stack trace formatted during initialization (host/call-site dependent); pass --allow-volatile=Error.stack to bake it",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "origPerf": {
+        "runs": 12,
+        "warmup": 3,
+        "coldProcess": {
+          "baseline": {
+            "n": 12,
+            "median": 29.824,
+            "p90": 34.042,
+            "mean": 30.523,
+            "min": 25.563,
+            "max": 39.45
+          },
+          "orig": {
+            "raw": {
+              "n": 12,
+              "median": 225.34,
+              "p90": 236.279,
+              "mean": 225.993,
+              "min": 215.718,
+              "max": 239.597
+            },
+            "net": {
+              "median": 195.516,
+              "p90": 206.455,
+              "mean": 196.169
+            }
+          }
+        },
+        "vmCodeCache": {
+          "n": 12,
+          "median": 21.706,
+          "p90": 32.557,
+          "mean": 25.387,
+          "min": 20.562,
+          "max": 50.293,
+          "cachedDataBytes": 2554504
+        },
+        "vmExecOnly": {
+          "n": 12,
+          "median": 23.391,
+          "p90": 31.787,
+          "mean": 25.372,
+          "min": 20.799,
+          "max": 31.908
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 19690702,
+          "blobGzipBytes": 5407819,
+          "baseline": {
+            "n": 12,
+            "median": 28.207,
+            "p90": 31.866,
+            "mean": 29.863,
+            "min": 25.516,
+            "max": 47.489
+          },
+          "raw": {
+            "n": 12,
+            "median": 118.107,
+            "p90": 124.479,
+            "mean": 118.92,
+            "min": 113.573,
+            "max": 130.289
+          },
+          "net": {
+            "median": 89.9,
+            "p90": 96.272,
+            "mean": 90.713
+          }
+        },
+        "adaptedRuns": true,
+        "sizes": {
+          "raw": 9112699,
+          "terser": 3513177,
+          "gzip": 967463,
+          "brotli": 804422,
+          "rawGzip": 1633623,
+          "rawBrotli": 1302219
+        }
+      },
+      "perf": null
+    }
+  ]
+}
