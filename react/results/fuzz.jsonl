@@ -1,0 +1,5 @@
+{"inputs":10000,"identical":7172,"bothThrow":2828,"mismatches":0,"fallbacks":4491,"fallbackRate":0.449,"seconds":4.269}
+{"inputs":10000,"identical":7135,"bothThrow":2865,"mismatches":0,"fallbacks":4494,"fallbackRate":0.449,"seconds":4.36}
+{"inputs":10000,"identical":7167,"bothThrow":2833,"mismatches":0,"fallbacks":4506,"fallbackRate":0.451,"seconds":3.889}
+{"inputs":10000,"identical":7188,"bothThrow":2812,"mismatches":0,"fallbacks":4434,"fallbackRate":0.443,"seconds":4.426}
+{"inputs":10000,"identical":7154,"bothThrow":2846,"mismatches":0,"fallbacks":4466,"fallbackRate":0.447,"seconds":4.829}
