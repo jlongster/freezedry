@@ -1,12 +1,12 @@
 # Hybrid Prepack — H5 Results (integration + tuning)
 
-Branch `hybrid` @ worktree `/tmp/opencode/pp-wt/hybrid` (includes `revive` @ `7419257e` and `bench2`).
+Branch `hybrid` @ worktree `/tmp/opencode/pp-wt/hybrid`. It includes the final `revive` @ `4cf07184` (with `bench2`) and the sibling `react-hybrid` track (`hybrid/react/`, see section 6).
 Host: Node v26.7.0 / V8 14.6 on linux/x64 (15 GB RAM, shared with other jobs, so timings are noisy at sub-ms scale).
 
 Compared:
 
 - **Original**: unmodified `bench/libs/dist/*.js`.
-- **Prepack**: the rebuilt `/tmp/opencode/pp-work/lib/prepack-node.js` (revive `7419257e`: environment + Z3 tracks), all 6 option profiles, best one reported. Fresh run: `results/prepack-final.{json,md}`.
+- **Prepack**: the final `/tmp/opencode/pp-work/lib/prepack-node.js`, rebuilt from revive `4cf07184` (all tracks merged) at 18:33 UTC. The Prepack side was measured with exactly this build at 19:00–19:17 UTC (`results/prepack-final.{json,md}`), using all 6 option profiles and reporting the best one. The `4cf07184` merge changed nothing under `bench/`, so the hybrid runs use the same harness and corpus.
 - **Hybrid**: `hybrid/index.js` (run → capture → emit → guard → verify), default `function` guard fallback. Zero-config (`results/hybrid-final-zeroconfig.*`) and with the documented per-library opt-ins (`HYBRID_OPTINS=corpus`, `results/hybrid-final-optins.*`). Hybrid ignores Prepack's profile flags, so it runs only the `default` profile.
 
 All raw data, including the generated three-way reports (`results/comparison-final-{optins,zeroconfig}.md`) and per-workload oracle records (`results/oracle-{optins,zeroconfig}.jsonl`), is in `hybrid/results/`.
@@ -156,7 +156,7 @@ Oracle (verify):
 
 Testing and benchmarks:
 
-- 131/131 unit and e2e tests (`npm test`).
+- 148/148 tests (`npm test`): 131 hybrid unit and e2e tests plus 17 react-hybrid tests.
 - The e2e corpus suite covers all 15 standard bundles in-process. The 7 large bundles run in `test/pipeline-large-e2e.test.js`, one subprocess each (gated by `HYBRID_E2E_LARGE=1`).
 - `tools/oracle-one.js` and `bench-compare.js --oracle-jsonl` run the oracle one process per workload with incremental JSONL output.
 
@@ -168,3 +168,7 @@ Testing and benchmarks:
 - **Cold start**: the safe `function` fallback roughly doubles bytes to scan. Possible paths: an external fallback file (`fallback: "external"`), a lazily compiled fallback (V8 already pre-parses lazily, but scanning still costs), or a per-deployment `throw` mode when the environment is pinned.
 - **Exec regressions** on three and typescript: emit cost is dominated by per-property definitions on very large heaps. Candidates: batch `Object.defineProperties`, more prototype literals, fewer Phase-3 fixups.
 - **Zero-config coverage**: 11 of 22 workloads read a clock or RNG during init. Dead/scratch-value analysis (for example lodash `shortOut`, d3-time scratch `Date`s) could unlock several without opt-ins.
+
+## 6. Sibling track: React-Hybrid (merged from `react-hybrid`)
+
+`hybrid/react/` does trace-based template specialization of React SSR `renderToString` for a known app with unknown request data, guarded per request with a fallback to the real `renderToString`. On react-bench it is **500/500 byte-identical**, with 0 mismatches on 50,000 fuzzed inputs. Details and performance: `hybrid/react/README.md` and `hybrid/react/results/`. It touches only `hybrid/react/` and its own tests, so the main pipeline results above are unaffected.
