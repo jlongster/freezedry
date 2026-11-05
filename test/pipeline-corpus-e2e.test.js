@@ -287,6 +287,42 @@ describe("End-to-End Integrated Pipeline over bench/libs/dist (run -> capture ->
     assert.equal(vm.runInContext("const v = new VaultPkg.Vault(10); v.bump(5) + '|' + v.reveal('ok')", ctx), "35|ok:35");
   });
 
+  it("keeps the shared scope binding for `class X extends Name` when Name is also captured by closures (three)", async () => {
+    const src = `(function(){ "use strict"; class Curve { c(){return 0} } class Path extends Curve { a(){return 1} } class Shape extends Path { b(){ return new Path(); } } globalThis.T = { get Path(){return Path}, get Shape(){return Shape} }; })();`;
+    const res = await prepackSourcesAsync([{ filePath: "shapes.js", fileContents: src }], {
+      profile: "ecmascript",
+      fallbackOnBailout: false,
+      verify: true,
+    });
+    assert.equal(res.stats.verified, true);
+  });
+
+  it("treats Error stack formatting during init as volatile; bakes and verifies it only with --allow-volatile=Error.stack", async () => {
+    const src = `(function(){ var rootStack = ""; try { throw new Error(); } catch (e) { rootStack = e.stack.split("\\n").slice(1).join("\\n"); } globalThis.Traced = { get: function() { return rootStack; } }; })();`;
+    const sources = [{ filePath: "traced.js", fileContents: src }];
+    const diags = [];
+    await assert.rejects(
+      () =>
+        prepackSourcesAsync(sources, {
+          profile: "ecmascript",
+          errorHandler(d) {
+            diags.push(d);
+            return "Fail";
+          },
+        }),
+      BailoutError
+    );
+    assert.equal(diags[0].errorCode, "HYB_VOLATILE_BAILOUT");
+    const res = await prepackSourcesAsync(sources, {
+      profile: "ecmascript",
+      allowVolatile: ["Error.stack"],
+      fallbackOnBailout: false,
+      verify: true,
+    });
+    assert.equal(res.stats.verified, true);
+    assert.equal(res.stats.bakedVolatiles, 1);
+  });
+
   it("recomputes pure deterministic TypedArray/ArrayBuffer tables instead of emitting multi-KB base64 (crc-32)", async () => {
     const crcSrc = fs.readFileSync(path.join(DIST_DIR, "crc-32.js"), "utf8");
     const res = await prepackSourcesAsync([{ filePath: "crc-32.js", fileContents: crcSrc }], {

@@ -232,7 +232,10 @@ function prepackSources(sources, options = {}) {
 
   try {
     const timeoutMs = adapted.timeout + 15000;
-    const proc = childProcess.spawnSync(process.execPath, [__filename, "--capture-worker", reqFile, resFile], {
+    // Large bundles (mathjs, typescript) exceed V8's default old-space; inherit the parent's heap limit.
+    const heapMb = Math.max(4096, Math.ceil(v8.getHeapStatistics().heap_size_limit / (1024 * 1024)));
+    const workerArgs = [`--max-old-space-size=${heapMb}`, __filename, "--capture-worker", reqFile, resFile];
+    const proc = childProcess.spawnSync(process.execPath, workerArgs, {
       timeout: timeoutMs,
       maxBuffer: 64 * 1024 * 1024,
       encoding: "utf8",
