@@ -1,0 +1,1182 @@
+{
+  "generatedAt": "2026-11-05T11:04:59.537Z",
+  "environment": {
+    "node": "v26.7.0",
+    "v8": "14.6.202.34-node.28",
+    "platform": "linux",
+    "arch": "x64",
+    "cpus": 4,
+    "cpuModel": "AMD EPYC 9554P 64-Core Processor",
+    "totalMemBytes": 16763228160
+  },
+  "prepackMeta": {
+    "path": "/tmp/opencode/pp-work/lib/prepack-node.js",
+    "version": "0.2.55-alpha.0"
+  },
+  "hybridMeta": {
+    "path": "/tmp/opencode/pp-wt/hybrid/hybrid/index.js",
+    "version": "0.0.1-hybrid",
+    "standInMode": false
+  },
+  "prepackConfig": {
+    "runs": 30,
+    "warmup": 5,
+    "timeout": 300000,
+    "maxOldSpaceMb": 4096,
+    "enableSnapshot": true,
+    "only": null
+  },
+  "hybridConfig": {
+    "runs": 30,
+    "warmup": 5,
+    "timeout": 300000,
+    "maxOldSpaceMb": 4096,
+    "enableSnapshot": true,
+    "only": null
+  },
+  "rows": [
+    {
+      "id": "lodash",
+      "name": "Lodash",
+      "kind": "library",
+      "rawInputBytes": 545945,
+      "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "default",
+        "compileMs": 11562,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "FAIL",
+        "status": "FAIL",
+        "isStandIn": false,
+        "compileMs": 209,
+        "blocker": "HYB_VOLATILE_BAILOUT: volatile API \"Date.now()\" called during initialization (lodash.js:6783:21)"
+      },
+      "oracle": {
+        "compiledOk": false,
+        "bailedOut": true,
+        "error": "Hybrid bailout: volatile API \"Date.now()\" called during initialization (lodash.js:6783:21)"
+      },
+      "sizes": {
+        "orig": {
+          "raw": 545945,
+          "terser": 70684,
+          "gzip": 25079,
+          "brotli": 24135,
+          "rawGzip": 96951,
+          "rawBrotli": 82441
+        },
+        "prepack": {
+          "raw": 548941,
+          "terser": 74085,
+          "gzip": 24255,
+          "brotli": 23368,
+          "rawGzip": 90322,
+          "rawBrotli": 77270
+        },
+        "hybrid": null
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 13.971,
+          "prepack": 14.33,
+          "prepackSpeedup": 0.975,
+          "hybrid": null,
+          "hybridSpeedup": null,
+          "v8Snapshot": 9.406
+        },
+        "codeCacheMs": {
+          "orig": 3.04,
+          "prepack": 3.748,
+          "prepackSpeedup": 0.811,
+          "hybrid": null,
+          "hybridSpeedup": null
+        },
+        "execOnlyMs": {
+          "orig": 2.964,
+          "prepack": 2.878,
+          "prepackSpeedup": 1.03,
+          "hybrid": null,
+          "hybridSpeedup": null
+        }
+      }
+    },
+    {
+      "id": "underscore",
+      "name": "Underscore",
+      "kind": "library",
+      "rawInputBytes": 68916,
+      "prepack": {
+        "defaultStatus": "FAIL",
+        "status": "OK",
+        "bestProfile": "jsc",
+        "compileMs": 1351,
+        "blocker": "PP0001: This operation is not yet supported on document at childNodes"
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 2708,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "isStandIn": false,
+        "strictIsoOk": true,
+        "seededIsoOk": true,
+        "volatileReason": null,
+        "stats": {
+          "rootsCompared": 1,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 653,
+          "functionsCompared": 317,
+          "scopesCompared": 338,
+          "primitivesCompared": 729,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 743
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 68916,
+          "terser": 19351,
+          "gzip": 7378,
+          "brotli": 7211,
+          "rawGzip": 19371,
+          "rawBrotli": 18446
+        },
+        "prepack": {
+          "raw": 69209,
+          "terser": 33522,
+          "gzip": 8115,
+          "brotli": 7842,
+          "rawGzip": 13050,
+          "rawBrotli": 12233
+        },
+        "hybrid": {
+          "raw": 241515,
+          "terser": 84066,
+          "gzip": 25794,
+          "brotli": 16074,
+          "rawGzip": 59158,
+          "rawBrotli": 27831
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 2.273,
+          "prepack": 1.187,
+          "prepackSpeedup": 0.904,
+          "hybrid": 6.71,
+          "hybridSpeedup": 0.339,
+          "v8Snapshot": 7.063
+        },
+        "codeCacheMs": {
+          "orig": 0.47,
+          "prepack": 0.439,
+          "prepackSpeedup": 1.014,
+          "hybrid": 0.779,
+          "hybridSpeedup": 0.603
+        },
+        "execOnlyMs": {
+          "orig": 0.503,
+          "prepack": 0.377,
+          "prepackSpeedup": 1.011,
+          "hybrid": 0.82,
+          "hybridSpeedup": 0.613
+        }
+      }
+    },
+    {
+      "id": "ramda",
+      "name": "Ramda",
+      "kind": "library",
+      "rawInputBytes": 351114,
+      "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "default",
+        "compileMs": 2036,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 3562,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "isStandIn": false,
+        "strictIsoOk": true,
+        "seededIsoOk": true,
+        "volatileReason": null,
+        "stats": {
+          "rootsCompared": 1,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 1554,
+          "functionsCompared": 753,
+          "scopesCompared": 622,
+          "primitivesCompared": 1610,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 1376
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 351114,
+          "terser": 53879,
+          "gzip": 14455,
+          "brotli": 13922,
+          "rawGzip": 77903,
+          "rawBrotli": 65267
+        },
+        "prepack": {
+          "raw": 138551,
+          "terser": 66390,
+          "gzip": 15564,
+          "brotli": 14573,
+          "rawGzip": 24856,
+          "rawBrotli": 22073
+        },
+        "hybrid": {
+          "raw": 558030,
+          "terser": 153759,
+          "gzip": 41133,
+          "brotli": 29730,
+          "rawGzip": 119826,
+          "rawBrotli": 81031
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 4.084,
+          "prepack": 3.695,
+          "prepackSpeedup": 1.143,
+          "hybrid": 10.126,
+          "hybridSpeedup": 0.403,
+          "v8Snapshot": 19.858
+        },
+        "codeCacheMs": {
+          "orig": 0.644,
+          "prepack": 0.286,
+          "prepackSpeedup": 2.234,
+          "hybrid": 0.798,
+          "hybridSpeedup": 0.807
+        },
+        "execOnlyMs": {
+          "orig": 0.736,
+          "prepack": 0.257,
+          "prepackSpeedup": 2.284,
+          "hybrid": 0.883,
+          "hybridSpeedup": 0.834
+        }
+      }
+    },
+    {
+      "id": "immutable",
+      "name": "Immutable.js",
+      "kind": "library",
+      "rawInputBytes": 179561,
+      "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "default",
+        "compileMs": 1866,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "FAIL",
+        "status": "FAIL",
+        "isStandIn": false,
+        "compileMs": 94,
+        "blocker": "HYB_VOLATILE_BAILOUT: volatile API \"Math.random()\" called during initialization; pass --allow-volatile"
+      },
+      "oracle": {
+        "compiledOk": false,
+        "bailedOut": true,
+        "error": "Hybrid bailout: volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (immutable.js:893:12)"
+      },
+      "sizes": {
+        "orig": {
+          "raw": 179561,
+          "terser": 66413,
+          "gzip": 18446,
+          "brotli": 17677,
+          "rawGzip": 36784,
+          "rawBrotli": 33750
+        },
+        "prepack": {
+          "raw": 147252,
+          "terser": 64406,
+          "gzip": 18306,
+          "brotli": 17601,
+          "rawGzip": 29459,
+          "rawBrotli": 27331
+        },
+        "hybrid": null
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 5.689,
+          "prepack": 5.609,
+          "prepackSpeedup": 1.014,
+          "hybrid": null,
+          "hybridSpeedup": null,
+          "v8Snapshot": 9.051
+        },
+        "codeCacheMs": {
+          "orig": 1.145,
+          "prepack": 1.024,
+          "prepackSpeedup": 1.118,
+          "hybrid": null,
+          "hybridSpeedup": null
+        },
+        "execOnlyMs": {
+          "orig": 1.098,
+          "prepack": 0.983,
+          "prepackSpeedup": 1.117,
+          "hybrid": null,
+          "hybridSpeedup": null
+        }
+      }
+    },
+    {
+      "id": "moment",
+      "name": "Moment.js (with locales)",
+      "kind": "library",
+      "rawInputBytes": 653144,
+      "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "default",
+        "compileMs": 17770,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 4089,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "isStandIn": false,
+        "strictIsoOk": true,
+        "seededIsoOk": true,
+        "volatileReason": null,
+        "stats": {
+          "rootsCompared": 1,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 4350,
+          "functionsCompared": 941,
+          "scopesCompared": 636,
+          "primitivesCompared": 15895,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 1930
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 653144,
+          "terser": 299282,
+          "gzip": 76073,
+          "brotli": 64111,
+          "rawGzip": 107927,
+          "rawBrotli": 88811
+        },
+        "prepack": {
+          "raw": 647740,
+          "terser": 355688,
+          "gzip": 101443,
+          "brotli": 84828,
+          "rawGzip": 129966,
+          "rawBrotli": 111581
+        },
+        "hybrid": {
+          "raw": 1477386,
+          "terser": 759377,
+          "gzip": 186236,
+          "brotli": 116149,
+          "rawGzip": 250868,
+          "rawBrotli": 152873
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 42.401,
+          "prepack": 23.72,
+          "prepackSpeedup": 1.047,
+          "hybrid": 90.878,
+          "hybridSpeedup": 0.467,
+          "v8Snapshot": 30.152
+        },
+        "codeCacheMs": {
+          "orig": 12.221,
+          "prepack": 2.367,
+          "prepackSpeedup": 4.575,
+          "hybrid": 4.689,
+          "hybridSpeedup": 2.606
+        },
+        "execOnlyMs": {
+          "orig": 13.378,
+          "prepack": 2.506,
+          "prepackSpeedup": 4.435,
+          "hybrid": 4.75,
+          "hybridSpeedup": 2.816
+        }
+      }
+    },
+    {
+      "id": "chroma-js",
+      "name": "chroma.js",
+      "kind": "library",
+      "rawInputBytes": 111861,
+      "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "default",
+        "compileMs": 990,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 1472,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "isStandIn": false,
+        "strictIsoOk": true,
+        "seededIsoOk": true,
+        "volatileReason": null,
+        "stats": {
+          "rootsCompared": 1,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 402,
+          "functionsCompared": 167,
+          "scopesCompared": 267,
+          "primitivesCompared": 924,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 805
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 111861,
+          "terser": 43487,
+          "gzip": 15756,
+          "brotli": 15072,
+          "rawGzip": 26102,
+          "rawBrotli": 24073
+        },
+        "prepack": {
+          "raw": 86029,
+          "terser": 40958,
+          "gzip": 14592,
+          "brotli": 13955,
+          "rawGzip": 20966,
+          "rawBrotli": 19595
+        },
+        "hybrid": {
+          "raw": 241861,
+          "terser": 102728,
+          "gzip": 32748,
+          "brotli": 22523,
+          "rawGzip": 53480,
+          "rawBrotli": 32831
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 10.594,
+          "prepack": 4.821,
+          "prepackSpeedup": 0.985,
+          "hybrid": 11.941,
+          "hybridSpeedup": 0.887,
+          "v8Snapshot": 6.896
+        },
+        "codeCacheMs": {
+          "orig": 0.709,
+          "prepack": 0.663,
+          "prepackSpeedup": 1.077,
+          "hybrid": 1.157,
+          "hybridSpeedup": 0.613
+        },
+        "execOnlyMs": {
+          "orig": 0.651,
+          "prepack": 0.648,
+          "prepackSpeedup": 1.085,
+          "hybrid": 0.771,
+          "hybridSpeedup": 0.844
+        }
+      }
+    },
+    {
+      "id": "acorn",
+      "name": "Acorn",
+      "kind": "library",
+      "rawInputBytes": 246643,
+      "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "default",
+        "compileMs": 1684,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 1573,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "isStandIn": false,
+        "strictIsoOk": true,
+        "seededIsoOk": true,
+        "volatileReason": null,
+        "stats": {
+          "rootsCompared": 1,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 833,
+          "functionsCompared": 348,
+          "scopesCompared": 95,
+          "primitivesCompared": 2575,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 1048
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 246643,
+          "terser": 118382,
+          "gzip": 34723,
+          "brotli": 32457,
+          "rawGzip": 57931,
+          "rawBrotli": 53000
+        },
+        "prepack": {
+          "raw": 273159,
+          "terser": 167013,
+          "gzip": 39650,
+          "brotli": 34557,
+          "rawGzip": 54715,
+          "rawBrotli": 47815
+        },
+        "hybrid": {
+          "raw": 569967,
+          "terser": 321496,
+          "gzip": 79509,
+          "brotli": 44939,
+          "rawGzip": 121149,
+          "rawBrotli": 67874
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 9.404,
+          "prepack": 8.929,
+          "prepackSpeedup": 0.919,
+          "hybrid": 15.343,
+          "hybridSpeedup": 0.613,
+          "v8Snapshot": 17.797
+        },
+        "codeCacheMs": {
+          "orig": 1.466,
+          "prepack": 1.254,
+          "prepackSpeedup": 1.174,
+          "hybrid": 1.557,
+          "hybridSpeedup": 0.942
+        },
+        "execOnlyMs": {
+          "orig": 1.434,
+          "prepack": 1.242,
+          "prepackSpeedup": 1.206,
+          "hybrid": 1.544,
+          "hybridSpeedup": 0.929
+        }
+      }
+    },
+    {
+      "id": "crc-32",
+      "name": "SheetJS crc-32",
+      "kind": "library",
+      "rawInputBytes": 3702,
+      "prepack": {
+        "defaultStatus": "FAIL",
+        "status": "FAIL",
+        "bestProfile": null,
+        "compileMs": 210,
+        "blocker": "PP0037: failed to emit a residual loop: the loop calls an unknown or unsupported functio"
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 757,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "isStandIn": false,
+        "strictIsoOk": true,
+        "seededIsoOk": true,
+        "volatileReason": null,
+        "stats": {
+          "rootsCompared": 1,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 25,
+          "functionsCompared": 3,
+          "scopesCompared": 16,
+          "primitivesCompared": 7,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 456
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 3702,
+          "terser": 2047,
+          "gzip": 818,
+          "brotli": 786,
+          "rawGzip": 1222,
+          "rawBrotli": 1131
+        },
+        "prepack": null,
+        "hybrid": {
+          "raw": 30711,
+          "terser": 27648,
+          "gzip": 18592,
+          "brotli": 18203,
+          "rawGzip": 19060,
+          "rawBrotli": 18572
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 2.822,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": 2.038,
+          "hybridSpeedup": 1.385,
+          "v8Snapshot": 5.69
+        },
+        "codeCacheMs": {
+          "orig": 0.401,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": 0.121,
+          "hybridSpeedup": 3.314
+        },
+        "execOnlyMs": {
+          "orig": 0.201,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": 0.086,
+          "hybridSpeedup": 2.337
+        }
+      }
+    },
+    {
+      "id": "marked",
+      "name": "Marked",
+      "kind": "library",
+      "rawInputBytes": 50548,
+      "prepack": {
+        "defaultStatus": "FAIL",
+        "status": "FAIL",
+        "bestProfile": null,
+        "compileMs": 35,
+        "blocker": "PP1004: Syntax error: This experimental syntax requires enabling the parser plugin: 'opt"
+      },
+      "hybrid": {
+        "defaultStatus": "FAIL",
+        "status": "FAIL",
+        "isStandIn": false,
+        "compileMs": 1005,
+        "blocker": "HYB_BAILOUT: class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:"
+      },
+      "oracle": {
+        "compiledOk": false,
+        "bailedOut": true,
+        "error": "Hybrid bailout: class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:s20]].O)"
+      },
+      "sizes": {
+        "orig": {
+          "raw": 50548,
+          "terser": null,
+          "gzip": null
+        },
+        "prepack": null,
+        "hybrid": null
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": null,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": null,
+          "hybridSpeedup": null,
+          "v8Snapshot": null
+        },
+        "codeCacheMs": {
+          "orig": null,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": null,
+          "hybridSpeedup": null
+        },
+        "execOnlyMs": {
+          "orig": null,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": null,
+          "hybridSpeedup": null
+        }
+      }
+    },
+    {
+      "id": "d3-scale",
+      "name": "D3 Scale + Array",
+      "kind": "library",
+      "rawInputBytes": 152468,
+      "prepack": {
+        "defaultStatus": "FAIL",
+        "status": "FAIL",
+        "bestProfile": null,
+        "compileMs": 1021,
+        "blocker": "INVARIANT: serialized 1339 of 1341"
+      },
+      "hybrid": {
+        "defaultStatus": "FAIL",
+        "status": "FAIL",
+        "isStandIn": false,
+        "compileMs": 135,
+        "blocker": "HYB_VOLATILE_BAILOUT: volatile API \"new Date()\" without arguments called during initialization (d3-sca"
+      },
+      "oracle": {
+        "compiledOk": false,
+        "bailedOut": true,
+        "error": "Hybrid bailout: volatile API \"new Date()\" without arguments called during initialization (d3-scale.js:3086:12)"
+      },
+      "sizes": {
+        "orig": {
+          "raw": 152468,
+          "terser": null,
+          "gzip": null
+        },
+        "prepack": null,
+        "hybrid": null
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": null,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": null,
+          "hybridSpeedup": null,
+          "v8Snapshot": null
+        },
+        "codeCacheMs": {
+          "orig": null,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": null,
+          "hybridSpeedup": null
+        },
+        "execOnlyMs": {
+          "orig": null,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": null,
+          "hybridSpeedup": null
+        }
+      }
+    },
+    {
+      "id": "redux",
+      "name": "Redux (store + middleware init)",
+      "kind": "app-workload",
+      "rawInputBytes": 18502,
+      "prepack": {
+        "defaultStatus": "FAIL",
+        "status": "OK",
+        "bestProfile": "browser-seed",
+        "compileMs": 336,
+        "blocker": "PP0031: property access on unknown object"
+      },
+      "hybrid": {
+        "defaultStatus": "FAIL",
+        "status": "FAIL",
+        "isStandIn": false,
+        "compileMs": 117,
+        "blocker": "HYB_VOLATILE_BAILOUT: volatile API \"Math.random()\" called during initialization; pass --allow-volatile"
+      },
+      "oracle": {
+        "compiledOk": false,
+        "bailedOut": true,
+        "error": "Hybrid bailout: volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (redux.js:366:33)"
+      },
+      "sizes": {
+        "orig": {
+          "raw": 18502,
+          "terser": 9055,
+          "gzip": 3414,
+          "brotli": 3257,
+          "rawGzip": 4907,
+          "rawBrotli": 4690
+        },
+        "prepack": {
+          "raw": 14901,
+          "terser": 7845,
+          "gzip": 3027,
+          "brotli": 2876,
+          "rawGzip": 4183,
+          "rawBrotli": 3941
+        },
+        "hybrid": null
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 0.818,
+          "prepack": 0,
+          "prepackSpeedup": null,
+          "hybrid": null,
+          "hybridSpeedup": null,
+          "v8Snapshot": 4.657
+        },
+        "codeCacheMs": {
+          "orig": 0.23,
+          "prepack": 0.16,
+          "prepackSpeedup": 1.438,
+          "hybrid": null,
+          "hybridSpeedup": null
+        },
+        "execOnlyMs": {
+          "orig": 0.221,
+          "prepack": 0.15,
+          "prepackSpeedup": 1.473,
+          "hybrid": null,
+          "hybridSpeedup": null
+        }
+      }
+    },
+    {
+      "id": "handlebars-app",
+      "name": "Handlebars (init template compile)",
+      "kind": "app-workload",
+      "rawInputBytes": 217023,
+      "prepack": {
+        "defaultStatus": "WRONG",
+        "status": "WRONG",
+        "bestProfile": null,
+        "compileMs": 858,
+        "blocker": "PP0023: VM runtime threw: TypeError: not an object"
+      },
+      "hybrid": {
+        "defaultStatus": "FAIL",
+        "status": "FAIL",
+        "isStandIn": false,
+        "compileMs": 178,
+        "blocker": "HYB_VOLATILE_BAILOUT: volatile API \"Math.random()\" called during initialization; pass --allow-volatile"
+      },
+      "oracle": {
+        "compiledOk": false,
+        "bailedOut": true,
+        "error": "Hybrid bailout: volatile API \"Math.random()\" called during initialization; pass --allow-volatile=Math.random to bake and document it (handlebars-app.js:1302:16)"
+      },
+      "sizes": {
+        "orig": {
+          "raw": 217023,
+          "terser": null,
+          "gzip": null
+        },
+        "prepack": null,
+        "hybrid": null
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": null,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": null,
+          "hybridSpeedup": null,
+          "v8Snapshot": null
+        },
+        "codeCacheMs": {
+          "orig": null,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": null,
+          "hybridSpeedup": null
+        },
+        "execOnlyMs": {
+          "orig": null,
+          "prepack": null,
+          "prepackSpeedup": null,
+          "hybrid": null,
+          "hybridSpeedup": null
+        }
+      }
+    },
+    {
+      "id": "preact-ssr-app",
+      "name": "Preact SSR App (init + runtime renderToString)",
+      "kind": "app-workload",
+      "rawInputBytes": 22477,
+      "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "default",
+        "compileMs": 642,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 817,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "isStandIn": false,
+        "strictIsoOk": true,
+        "seededIsoOk": true,
+        "volatileReason": null,
+        "stats": {
+          "rootsCompared": 3,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 145,
+          "functionsCompared": 62,
+          "scopesCompared": 99,
+          "primitivesCompared": 215,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 563
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 22477,
+          "terser": 21712,
+          "gzip": 8850,
+          "brotli": 8666,
+          "rawGzip": 9133,
+          "rawBrotli": 8951
+        },
+        "prepack": {
+          "raw": 35494,
+          "terser": 22254,
+          "gzip": 8862,
+          "brotli": 8643,
+          "rawGzip": 10538,
+          "rawBrotli": 10244
+        },
+        "hybrid": {
+          "raw": 53449,
+          "terser": 46897,
+          "gzip": 13647,
+          "brotli": 12081,
+          "rawGzip": 12929,
+          "rawBrotli": 11391
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 1.422,
+          "prepack": 2.212,
+          "prepackSpeedup": 1.063,
+          "hybrid": 2.436,
+          "hybridSpeedup": 0.584,
+          "v8Snapshot": 4.699
+        },
+        "codeCacheMs": {
+          "orig": 0.268,
+          "prepack": 0.251,
+          "prepackSpeedup": 1.319,
+          "hybrid": 0.266,
+          "hybridSpeedup": 1.008
+        },
+        "execOnlyMs": {
+          "orig": 0.24,
+          "prepack": 0.177,
+          "prepackSpeedup": 1.345,
+          "hybrid": 0.229,
+          "hybridSpeedup": 1.048
+        }
+      }
+    },
+    {
+      "id": "react-ssr-app",
+      "name": "React 18 SSR App (init + runtime renderToString)",
+      "kind": "app-workload",
+      "rawInputBytes": 48145,
+      "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "default",
+        "compileMs": 1799,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "FAIL",
+        "status": "FAIL",
+        "isStandIn": false,
+        "compileMs": 133,
+        "blocker": "HYB_VOLATILE_BAILOUT: volatile API \"Date.now()\" called during initialization (react-ssr-app.js:20:236)"
+      },
+      "oracle": {
+        "compiledOk": false,
+        "bailedOut": true,
+        "error": "Hybrid bailout: volatile API \"Date.now()\" called during initialization (react-ssr-app.js:20:236)"
+      },
+      "sizes": {
+        "orig": {
+          "raw": 48145,
+          "terser": 46203,
+          "gzip": 15568,
+          "brotli": 14716,
+          "rawGzip": 16183,
+          "rawBrotli": 15321
+        },
+        "prepack": {
+          "raw": 121661,
+          "terser": 78444,
+          "gzip": 21475,
+          "brotli": 18886,
+          "rawGzip": 25083,
+          "rawBrotli": 21738
+        },
+        "hybrid": null
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 7.56,
+          "prepack": 4.04,
+          "prepackSpeedup": 1.871,
+          "hybrid": null,
+          "hybridSpeedup": null,
+          "v8Snapshot": 11.052
+        },
+        "codeCacheMs": {
+          "orig": 0.735,
+          "prepack": 0.45,
+          "prepackSpeedup": 1.633,
+          "hybrid": null,
+          "hybridSpeedup": null
+        },
+        "execOnlyMs": {
+          "orig": 0.726,
+          "prepack": 0.438,
+          "prepackSpeedup": 1.658,
+          "hybrid": null,
+          "hybridSpeedup": null
+        }
+      }
+    },
+    {
+      "id": "yaml-router-app",
+      "name": "YAML Config + Mustache + Router App",
+      "kind": "app-workload",
+      "rawInputBytes": 160859,
+      "prepack": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "bestProfile": "default",
+        "compileMs": 4648,
+        "blocker": null
+      },
+      "hybrid": {
+        "defaultStatus": "OK",
+        "status": "OK",
+        "isStandIn": false,
+        "compileMs": 1007,
+        "blocker": null
+      },
+      "oracle": {
+        "compiledOk": true,
+        "isStandIn": false,
+        "strictIsoOk": true,
+        "seededIsoOk": true,
+        "volatileReason": null,
+        "stats": {
+          "rootsCompared": 3,
+          "intrinsicPatchesCompared": 0,
+          "objectsCompared": 587,
+          "functionsCompared": 192,
+          "scopesCompared": 197,
+          "primitivesCompared": 1437,
+          "smokeChecked": true,
+          "mutationProbesRun": 0,
+          "durationMs": 1366
+        }
+      },
+      "sizes": {
+        "orig": {
+          "raw": 160859,
+          "terser": 53019,
+          "gzip": 17605,
+          "brotli": 16949,
+          "rawGzip": 30163,
+          "rawBrotli": 28148
+        },
+        "prepack": {
+          "raw": 129190,
+          "terser": 60042,
+          "gzip": 18440,
+          "brotli": 17673,
+          "rawGzip": 26507,
+          "rawBrotli": 24890
+        },
+        "hybrid": {
+          "raw": 469155,
+          "terser": 164271,
+          "gzip": 50998,
+          "brotli": 26976,
+          "rawGzip": 83625,
+          "rawBrotli": 36971
+        }
+      },
+      "timings": {
+        "coldNetMs": {
+          "orig": 9.223,
+          "prepack": 4.051,
+          "prepackSpeedup": 2.004,
+          "hybrid": 6.538,
+          "hybridSpeedup": 1.411,
+          "v8Snapshot": 7.872
+        },
+        "codeCacheMs": {
+          "orig": 1.804,
+          "prepack": 0.511,
+          "prepackSpeedup": 3.084,
+          "hybrid": 0.88,
+          "hybridSpeedup": 2.05
+        },
+        "execOnlyMs": {
+          "orig": 1.705,
+          "prepack": 0.47,
+          "prepackSpeedup": 3.174,
+          "hybrid": 0.815,
+          "hybridSpeedup": 2.092
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,4232 @@
+{
+  "timestamp": "2026-11-05T11:03:32.414Z",
+  "prepack": {
+    "path": "/tmp/opencode/pp-wt/hybrid/hybrid/index.js",
+    "version": "0.0.1-hybrid"
+  },
+  "environment": {
+    "node": "v26.7.0",
+    "v8": "14.6.202.34-node.28",
+    "platform": "linux",
+    "arch": "x64",
+    "cpus": 4,
+    "cpuModel": "AMD EPYC 9554P 64-Core Processor",
+    "totalMemBytes": 16763228160
+  },
+  "config": {
+    "runs": 30,
+    "warmup": 5,
+    "timeout": 300000,
+    "maxOldSpaceMb": 4096,
+    "enableSnapshot": true,
+    "only": null
+  },
+  "nodeZeroBaseline": {
+    "n": 30,
+    "median": 31.444,
+    "p90": 39.811,
+    "mean": 32.069,
+    "min": 20.568,
+    "max": 66.657
+  },
+  "summary": {
+    "total": 15,
+    "librariesCount": 10,
+    "appsCount": 5,
+    "defaultOk": 14,
+    "bestOk": 14,
+    "wrong": 0,
+    "fail": 1,
+    "timeout": 0
+  },
+  "libraries": [
+    {
+      "id": "lodash",
+      "name": "Lodash",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Utility library; module init constructs LodashWrapper/LazyWrapper prototypes, 300+ methods, and lookup tables.",
+      "bytes": 545945,
+      "sha256": "f5465f55566bf544aad0a31c6135889ca1ed81eea8f53ec61c6cbe86926f07cf",
+      "packages": [
+        {
+          "name": "lodash",
+          "version": "4.18.1",
+          "license": "MIT",
+          "homepage": "https://lodash.com/"
+        }
+      ],
+      "expectedDigest": "e1d643c02fcccd4ddb7da3a6786777134682d3e929a08445e9864a54c3a7080d",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 4635,
+        "outBytes": 1464320
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 4635,
+          "outBytes": 1464320,
+          "quickVmMs": 4.025,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_VOLATILE_BAKED"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 4342,
+          "outBytes": 1464948,
+          "quickVmMs": 5.875,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_VOLATILE_BAKED"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 29.451,
+            "p90": 40.575,
+            "mean": 32.048,
+            "min": 21.286,
+            "max": 61.058
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 45.946,
+              "p90": 57.445,
+              "mean": 48.537,
+              "min": 35.226,
+              "max": 90.687
+            },
+            "net": {
+              "median": 16.495,
+              "p90": 27.994,
+              "mean": 19.086
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 58.746,
+              "p90": 68.785,
+              "mean": 61.694,
+              "min": 47.099,
+              "max": 119.233
+            },
+            "net": {
+              "median": 29.295,
+              "p90": 39.334,
+              "mean": 32.243
+            }
+          },
+          "speedupRaw": 0.782,
+          "speedupNet": 0.563
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 3.845,
+            "p90": 8.017,
+            "mean": 5.004,
+            "min": 2.96,
+            "max": 14.236,
+            "cachedDataBytes": 103736
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 2.152,
+            "p90": 2.797,
+            "mean": 2.593,
+            "min": 1.804,
+            "max": 10.484,
+            "cachedDataBytes": 493208
+          },
+          "speedup": 1.787
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 2.99,
+            "p90": 14.237,
+            "mean": 5.467,
+            "min": 2.852,
+            "max": 21.838
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.827,
+            "p90": 4.171,
+            "mean": 3.036,
+            "min": 1.722,
+            "max": 17.358
+          },
+          "speedup": 1.637
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 7558554,
+          "blobGzipBytes": 2491212,
+          "baseline": {
+            "n": 30,
+            "median": 33.633,
+            "p90": 48.887,
+            "mean": 35.465,
+            "min": 23.206,
+            "max": 55.704
+          },
+          "raw": {
+            "n": 30,
+            "median": 44.109,
+            "p90": 51.923,
+            "mean": 46.161,
+            "min": 30.85,
+            "max": 78.071
+          },
+          "net": {
+            "median": 10.476,
+            "p90": 18.29,
+            "mean": 12.528
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 545945,
+            "terser": 70684,
+            "gzip": 25079,
+            "brotli": 24135,
+            "rawGzip": 96951,
+            "rawBrotli": 82441
+          },
+          "prepacked": {
+            "raw": 1464320,
+            "terser": 307720,
+            "gzip": 93102,
+            "brotli": 63532,
+            "rawGzip": 259176,
+            "rawBrotli": 111259
+          },
+          "ratios": {
+            "raw": 2.682,
+            "terser": 4.353,
+            "gzip": 3.712,
+            "brotli": 2.632
+          }
+        }
+      }
+    },
+    {
+      "id": "underscore",
+      "name": "Underscore",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Functional utility library; module init performs environment feature checks and mixes 100+ functions onto `_.prototype`.",
+      "bytes": 68916,
+      "sha256": "68613bd4f104eb2316b2c78b5705932bd1eaaaa5e00b49a796cb4d95c492d4fb",
+      "packages": [
+        {
+          "name": "underscore",
+          "version": "1.13.8",
+          "license": "MIT",
+          "homepage": "https://underscorejs.org"
+        }
+      ],
+      "expectedDigest": "a827860f401532bb2dd355bc38840895e7bdd7dd523a15d6c0eafe3701ee92a1",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 2224,
+        "outBytes": 241521
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2224,
+          "outBytes": 241521,
+          "quickVmMs": 3.524,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2454,
+          "outBytes": 241525,
+          "quickVmMs": 7.384,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 35.99,
+            "p90": 49.385,
+            "mean": 39.238,
+            "min": 24.473,
+            "max": 88.009
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 40.269,
+              "p90": 57.751,
+              "mean": 42.234,
+              "min": 24.76,
+              "max": 73.416
+            },
+            "net": {
+              "median": 4.279,
+              "p90": 21.761,
+              "mean": 6.244
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 43.889,
+              "p90": 77.409,
+              "mean": 48.616,
+              "min": 29.073,
+              "max": 88.992
+            },
+            "net": {
+              "median": 7.899,
+              "p90": 41.419,
+              "mean": 12.626
+            }
+          },
+          "speedupRaw": 0.918,
+          "speedupNet": 0.542
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.442,
+            "p90": 0.485,
+            "mean": 0.445,
+            "min": 0.393,
+            "max": 0.56,
+            "cachedDataBytes": 25848
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.706,
+            "p90": 0.791,
+            "mean": 0.724,
+            "min": 0.64,
+            "max": 0.923,
+            "cachedDataBytes": 144224
+          },
+          "speedup": 0.626
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.434,
+            "p90": 0.51,
+            "mean": 0.631,
+            "min": 0.379,
+            "max": 5.196
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.713,
+            "p90": 0.968,
+            "mean": 0.893,
+            "min": 0.632,
+            "max": 3.054
+          },
+          "speedup": 0.609
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6452122,
+          "blobGzipBytes": 2340834,
+          "baseline": {
+            "n": 30,
+            "median": 41.242,
+            "p90": 47.936,
+            "mean": 38.281,
+            "min": 22.897,
+            "max": 56.586
+          },
+          "raw": {
+            "n": 30,
+            "median": 48.73,
+            "p90": 63.92,
+            "mean": 49.053,
+            "min": 29.448,
+            "max": 92.722
+          },
+          "net": {
+            "median": 7.488,
+            "p90": 22.678,
+            "mean": 7.811
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 68916,
+            "terser": 19351,
+            "gzip": 7378,
+            "brotli": 7211,
+            "rawGzip": 19371,
+            "rawBrotli": 18446
+          },
+          "prepacked": {
+            "raw": 241521,
+            "terser": 84067,
+            "gzip": 25736,
+            "brotli": 15897,
+            "rawGzip": 59195,
+            "rawBrotli": 27832
+          },
+          "ratios": {
+            "raw": 3.505,
+            "terser": 4.344,
+            "gzip": 3.488,
+            "brotli": 2.205
+          }
+        }
+      }
+    },
+    {
+      "id": "ramda",
+      "name": "Ramda",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Point-free curried functional library; module init wraps 250+ combinators in _curry1/_curry2/_curry3 dispatchers.",
+      "bytes": 351114,
+      "sha256": "f1b41513b80db800af76bb5498d0198ad4c915bab64d53189b0c8ac9fcf1eeb1",
+      "packages": [
+        {
+          "name": "ramda",
+          "version": "0.32.0",
+          "license": "MIT",
+          "homepage": "https://ramdajs.com/"
+        }
+      ],
+      "expectedDigest": "9ee3d696586d37609c4228cb5cd95753a6d24b472b9059827abf669793425c9a",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "browser-opt",
+        "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+        "compileMs": 2941,
+        "outBytes": 558134
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2799,
+          "outBytes": 558144,
+          "quickVmMs": 7.561,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2941,
+          "outBytes": 558134,
+          "quickVmMs": 5.223,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 5,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 32.442,
+            "p90": 43.495,
+            "mean": 32.618,
+            "min": 21.346,
+            "max": 66.775
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 34.67,
+              "p90": 58.552,
+              "mean": 38.704,
+              "min": 26.911,
+              "max": 67.312
+            },
+            "net": {
+              "median": 2.228,
+              "p90": 26.11,
+              "mean": 6.262
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 43.089,
+              "p90": 51.5,
+              "mean": 43.361,
+              "min": 33.97,
+              "max": 60.758
+            },
+            "net": {
+              "median": 10.647,
+              "p90": 19.058,
+              "mean": 10.919
+            }
+          },
+          "speedupRaw": 0.805,
+          "speedupNet": 0.209
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.687,
+            "p90": 1.053,
+            "mean": 0.835,
+            "min": 0.605,
+            "max": 2.356,
+            "cachedDataBytes": 67232
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.81,
+            "p90": 0.909,
+            "mean": 0.873,
+            "min": 0.711,
+            "max": 1.592,
+            "cachedDataBytes": 295504
+          },
+          "speedup": 0.848
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.73,
+            "p90": 1.03,
+            "mean": 1.464,
+            "min": 0.631,
+            "max": 21.236
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.884,
+            "p90": 1.331,
+            "mean": 1.182,
+            "min": 0.737,
+            "max": 5.064
+          },
+          "speedup": 0.826
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 7063114,
+          "blobGzipBytes": 2424546,
+          "baseline": {
+            "n": 30,
+            "median": 24.635,
+            "p90": 30.768,
+            "mean": 25.9,
+            "min": 19.745,
+            "max": 39.105
+          },
+          "raw": {
+            "n": 30,
+            "median": 30.439,
+            "p90": 38.219,
+            "mean": 32.244,
+            "min": 28.044,
+            "max": 55.216
+          },
+          "net": {
+            "median": 5.804,
+            "p90": 13.584,
+            "mean": 7.609
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 351114,
+            "terser": 53879,
+            "gzip": 14455,
+            "brotli": 13922,
+            "rawGzip": 77903,
+            "rawBrotli": 65267
+          },
+          "prepacked": {
+            "raw": 558134,
+            "terser": 153783,
+            "gzip": 41020,
+            "brotli": 30244,
+            "rawGzip": 119779,
+            "rawBrotli": 81227
+          },
+          "ratios": {
+            "raw": 1.59,
+            "terser": 2.854,
+            "gzip": 2.838,
+            "brotli": 2.172
+          }
+        }
+      }
+    },
+    {
+      "id": "immutable",
+      "name": "Immutable.js",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Persistent HAMT/trie collections (Map, List, Set, OrderedMap, Record); builds prototype hierarchies and sentinels at init.",
+      "bytes": 179561,
+      "sha256": "108ab02dce98946d0c9bdcecb9e3235575943e2a333e236643e9061de254dd7d",
+      "packages": [
+        {
+          "name": "immutable",
+          "version": "4.3.9",
+          "license": "MIT",
+          "homepage": "https://immutable-js.com"
+        }
+      ],
+      "expectedDigest": "fd731766e776855f639ad3e9c609ee040fa70a992a92368bb488e72680df77bf",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "browser-opt",
+        "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+        "compileMs": 2338,
+        "outBytes": 393370
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1866,
+          "outBytes": 393468,
+          "quickVmMs": 7.534,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_VOLATILE_BAKED"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2338,
+          "outBytes": 393370,
+          "quickVmMs": 2.237,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_VOLATILE_BAKED"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 3,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 21.019,
+            "p90": 25.486,
+            "mean": 22.337,
+            "min": 19.425,
+            "max": 38.537
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 28.022,
+              "p90": 30.187,
+              "mean": 28.162,
+              "min": 25.428,
+              "max": 35.018
+            },
+            "net": {
+              "median": 7.003,
+              "p90": 9.168,
+              "mean": 7.143
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 33.474,
+              "p90": 36.495,
+              "mean": 33.934,
+              "min": 31.853,
+              "max": 40.111
+            },
+            "net": {
+              "median": 12.455,
+              "p90": 15.476,
+              "mean": 12.915
+            }
+          },
+          "speedupRaw": 0.837,
+          "speedupNet": 0.562
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 1.137,
+            "p90": 1.188,
+            "mean": 2.366,
+            "min": 1.111,
+            "max": 37.158,
+            "cachedDataBytes": 73496
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.484,
+            "p90": 1.548,
+            "mean": 1.933,
+            "min": 1.435,
+            "max": 14.671,
+            "cachedDataBytes": 259840
+          },
+          "speedup": 0.766
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 1.241,
+            "p90": 1.356,
+            "mean": 1.664,
+            "min": 1.097,
+            "max": 13.994
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.654,
+            "p90": 1.916,
+            "mean": 2.126,
+            "min": 1.44,
+            "max": 14.242
+          },
+          "speedup": 0.75
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6706250,
+          "blobGzipBytes": 2370799,
+          "baseline": {
+            "n": 30,
+            "median": 23.074,
+            "p90": 26.176,
+            "mean": 23.872,
+            "min": 21.102,
+            "max": 37.033
+          },
+          "raw": {
+            "n": 30,
+            "median": 31.808,
+            "p90": 36.746,
+            "mean": 32.72,
+            "min": 29.098,
+            "max": 38.995
+          },
+          "net": {
+            "median": 8.734,
+            "p90": 13.672,
+            "mean": 9.646
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 179561,
+            "terser": 66413,
+            "gzip": 18446,
+            "brotli": 17677,
+            "rawGzip": 36784,
+            "rawBrotli": 33750
+          },
+          "prepacked": {
+            "raw": 393370,
+            "terser": 153517,
+            "gzip": 43060,
+            "brotli": 32781,
+            "rawGzip": 79195,
+            "rawBrotli": 46734
+          },
+          "ratios": {
+            "raw": 2.191,
+            "terser": 2.312,
+            "gzip": 2.334,
+            "brotli": 1.854
+          }
+        }
+      }
+    },
+    {
+      "id": "moment",
+      "name": "Moment.js (with locales)",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Init-heavy date/time library with 135+ bundled locales registered via defineLocale() and regex token tables built at load.",
+      "bytes": 653144,
+      "sha256": "6b4445e1ee801bdcc1d42196163ae745f71d3b52a12a50246999fd7067250496",
+      "packages": [
+        {
+          "name": "moment",
+          "version": "2.31.0",
+          "license": "MIT",
+          "homepage": "https://momentjs.com"
+        }
+      ],
+      "expectedDigest": "5eb06d4660574575aa524f26071df2869ec0207dd63520e73145fe877aaba76d",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 4823,
+        "outBytes": 1477588
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 4823,
+          "outBytes": 1477588,
+          "quickVmMs": 11.046,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 4436,
+          "outBytes": 1477805,
+          "quickVmMs": 15.473,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 26.294,
+            "p90": 37.59,
+            "mean": 29.48,
+            "min": 20.465,
+            "max": 66.13
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 50.419,
+              "p90": 75.395,
+              "mean": 56.928,
+              "min": 44.361,
+              "max": 111.856
+            },
+            "net": {
+              "median": 24.125,
+              "p90": 49.101,
+              "mean": 30.634
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 67.858,
+              "p90": 75.597,
+              "mean": 74.752,
+              "min": 61.888,
+              "max": 161.812
+            },
+            "net": {
+              "median": 41.564,
+              "p90": 49.303,
+              "mean": 48.458
+            }
+          },
+          "speedupRaw": 0.743,
+          "speedupNet": 0.58
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 11.554,
+            "p90": 12.806,
+            "mean": 13.895,
+            "min": 10.666,
+            "max": 53.683,
+            "cachedDataBytes": 394080
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 4.836,
+            "p90": 5.603,
+            "mean": 5.487,
+            "min": 4.483,
+            "max": 20.414,
+            "cachedDataBytes": 1138608
+          },
+          "speedup": 2.389
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 11.162,
+            "p90": 11.639,
+            "mean": 11.851,
+            "min": 10.616,
+            "max": 30.581
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 4.917,
+            "p90": 5.177,
+            "mean": 5.822,
+            "min": 4.544,
+            "max": 19.025
+          },
+          "speedup": 2.27
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 8041066,
+          "blobGzipBytes": 2611319,
+          "baseline": {
+            "n": 30,
+            "median": 23.195,
+            "p90": 28.374,
+            "mean": 24.211,
+            "min": 20.729,
+            "max": 31.22
+          },
+          "raw": {
+            "n": 30,
+            "median": 37.788,
+            "p90": 40.309,
+            "mean": 37.587,
+            "min": 33.424,
+            "max": 46.856
+          },
+          "net": {
+            "median": 14.593,
+            "p90": 17.114,
+            "mean": 14.392
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 653144,
+            "terser": 299282,
+            "gzip": 76073,
+            "brotli": 64111,
+            "rawGzip": 107927,
+            "rawBrotli": 88811
+          },
+          "prepacked": {
+            "raw": 1477588,
+            "terser": 759600,
+            "gzip": 186118,
+            "brotli": 116179,
+            "rawGzip": 250259,
+            "rawBrotli": 152955
+          },
+          "ratios": {
+            "raw": 2.262,
+            "terser": 2.538,
+            "gzip": 2.447,
+            "brotli": 1.812
+          }
+        }
+      }
+    },
+    {
+      "id": "chroma-js",
+      "name": "chroma.js",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Color conversion & scale library; module init registers RGB/HSL/Lab/LCH/CMYK color spaces, ColorBrewer palettes, and W3C named colors.",
+      "bytes": 111861,
+      "sha256": "26a2e532b90f6d97639cd96d5054dd0abc2fcd55554086cf11ae8c874ed66c6d",
+      "packages": [
+        {
+          "name": "chroma-js",
+          "version": "2.4.2",
+          "license": "(BSD-3-Clause AND Apache-2.0)",
+          "homepage": "https://github.com/gka/chroma.js"
+        }
+      ],
+      "expectedDigest": "b01b234de9a20138feec1b3e17395362a0b0bb07c4e32159bb1ef23596edd65b",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "browser-opt",
+        "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+        "compileMs": 1926,
+        "outBytes": 241807
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1606,
+          "outBytes": 241808,
+          "quickVmMs": 5.101,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1926,
+          "outBytes": 241807,
+          "quickVmMs": 0.982,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 25.76,
+            "p90": 27.976,
+            "mean": 25.744,
+            "min": 21.646,
+            "max": 29.836
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 27.995,
+              "p90": 35.373,
+              "mean": 29.303,
+              "min": 26.039,
+              "max": 38.193
+            },
+            "net": {
+              "median": 2.235,
+              "p90": 9.613,
+              "mean": 3.543
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 32.153,
+              "p90": 37.765,
+              "mean": 33.266,
+              "min": 29.197,
+              "max": 46.26
+            },
+            "net": {
+              "median": 6.393,
+              "p90": 12.005,
+              "mean": 7.506
+            }
+          },
+          "speedupRaw": 0.871,
+          "speedupNet": 0.35
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.695,
+            "p90": 0.742,
+            "mean": 0.724,
+            "min": 0.671,
+            "max": 1.203,
+            "cachedDataBytes": 52880
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.823,
+            "p90": 0.909,
+            "mean": 0.909,
+            "min": 0.791,
+            "max": 2.506,
+            "cachedDataBytes": 143000
+          },
+          "speedup": 0.844
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.665,
+            "p90": 0.698,
+            "mean": 0.665,
+            "min": 0.629,
+            "max": 0.704
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.781,
+            "p90": 0.812,
+            "mean": 0.783,
+            "min": 0.752,
+            "max": 0.82
+          },
+          "speedup": 0.851
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6438050,
+          "blobGzipBytes": 2350643,
+          "baseline": {
+            "n": 30,
+            "median": 24.372,
+            "p90": 27.763,
+            "mean": 24.635,
+            "min": 21.211,
+            "max": 29.768
+          },
+          "raw": {
+            "n": 30,
+            "median": 32.199,
+            "p90": 35.616,
+            "mean": 33.053,
+            "min": 28.436,
+            "max": 44.962
+          },
+          "net": {
+            "median": 7.827,
+            "p90": 11.244,
+            "mean": 8.681
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 111861,
+            "terser": 43487,
+            "gzip": 15756,
+            "brotli": 15072,
+            "rawGzip": 26102,
+            "rawBrotli": 24073
+          },
+          "prepacked": {
+            "raw": 241807,
+            "terser": 102628,
+            "gzip": 32730,
+            "brotli": 22478,
+            "rawGzip": 53521,
+            "rawBrotli": 32851
+          },
+          "ratios": {
+            "raw": 2.162,
+            "terser": 2.36,
+            "gzip": 2.077,
+            "brotli": 1.491
+          }
+        }
+      }
+    },
+    {
+      "id": "acorn",
+      "name": "Acorn",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "ECMAScript parser; module init builds token types, keyword regexes, operator precedence tables, and Unicode identifier bitmaps.",
+      "bytes": 246643,
+      "sha256": "b95392d79457d0357555c5ed3e56302d074b92dff119bcf3b44179500b10e9df",
+      "packages": [
+        {
+          "name": "acorn",
+          "version": "8.19.0",
+          "license": "MIT",
+          "homepage": "https://github.com/acornjs/acorn"
+        }
+      ],
+      "expectedDigest": "4ce0f511963f7a8de7c1235e41632ba22a44efda335a3f1b5a268b4177187bc5",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "browser-opt",
+        "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+        "compileMs": 1368,
+        "outBytes": 569812
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1599,
+          "outBytes": 569894,
+          "quickVmMs": 1.753,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1368,
+          "outBytes": 569812,
+          "quickVmMs": 1.914,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 3,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 24.527,
+            "p90": 28.067,
+            "mean": 25.078,
+            "min": 21.373,
+            "max": 34.659
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 33.092,
+              "p90": 40.451,
+              "mean": 34.311,
+              "min": 30.11,
+              "max": 48.608
+            },
+            "net": {
+              "median": 8.565,
+              "p90": 15.924,
+              "mean": 9.784
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 37.568,
+              "p90": 43.576,
+              "mean": 39.78,
+              "min": 34.395,
+              "max": 58.043
+            },
+            "net": {
+              "median": 13.041,
+              "p90": 19.049,
+              "mean": 15.253
+            }
+          },
+          "speedupRaw": 0.881,
+          "speedupNet": 0.657
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 1.426,
+            "p90": 1.98,
+            "mean": 1.917,
+            "min": 1.367,
+            "max": 9.145,
+            "cachedDataBytes": 82608
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.508,
+            "p90": 1.596,
+            "mean": 1.547,
+            "min": 1.455,
+            "max": 1.972,
+            "cachedDataBytes": 368232
+          },
+          "speedup": 0.946
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 1.399,
+            "p90": 1.426,
+            "mean": 1.413,
+            "min": 1.358,
+            "max": 1.927
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.486,
+            "p90": 1.585,
+            "mean": 1.595,
+            "min": 1.449,
+            "max": 3.567
+          },
+          "speedup": 0.941
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6886034,
+          "blobGzipBytes": 2400703,
+          "baseline": {
+            "n": 30,
+            "median": 20.866,
+            "p90": 24.117,
+            "mean": 21.586,
+            "min": 19.004,
+            "max": 26.561
+          },
+          "raw": {
+            "n": 30,
+            "median": 31.837,
+            "p90": 35.395,
+            "mean": 33.14,
+            "min": 29.492,
+            "max": 58.607
+          },
+          "net": {
+            "median": 10.971,
+            "p90": 14.529,
+            "mean": 12.274
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 246643,
+            "terser": 118382,
+            "gzip": 34723,
+            "brotli": 32457,
+            "rawGzip": 57931,
+            "rawBrotli": 53000
+          },
+          "prepacked": {
+            "raw": 569812,
+            "terser": 321437,
+            "gzip": 79750,
+            "brotli": 46852,
+            "rawGzip": 120872,
+            "rawBrotli": 67910
+          },
+          "ratios": {
+            "raw": 2.31,
+            "terser": 2.715,
+            "gzip": 2.297,
+            "brotli": 1.444
+          }
+        }
+      }
+    },
+    {
+      "id": "crc-32",
+      "name": "SheetJS crc-32",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Lookup-table CRC-32 implementation; module init computes a 256-entry table and 16 slice-by-16 Int32Array subtables (4,096 entries).",
+      "bytes": 3702,
+      "sha256": "a28a8c436612ebe06a43f893dd5729392a59426f0a0cec0bb32f0879855f2c38",
+      "packages": [
+        {
+          "name": "crc-32",
+          "version": "1.2.2",
+          "license": "Apache-2.0",
+          "homepage": "https://sheetjs.com/"
+        }
+      ],
+      "expectedDigest": "8305c7857f3abf1b6a152f2484357a0dfbe0949384ebbf4179d15be59bf4eaba",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 538,
+        "outBytes": 30711
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 538,
+          "outBytes": 30711,
+          "quickVmMs": 0.657,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 479,
+          "outBytes": 30711,
+          "quickVmMs": 0.233,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 6,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 22.553,
+            "p90": 25.79,
+            "mean": 22.559,
+            "min": 18.879,
+            "max": 28.53
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 22.845,
+              "p90": 28.629,
+              "mean": 24.005,
+              "min": 19.788,
+              "max": 32.523
+            },
+            "net": {
+              "median": 0.292,
+              "p90": 6.076,
+              "mean": 1.452
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 20.755,
+              "p90": 25.325,
+              "mean": 22.124,
+              "min": 19.136,
+              "max": 27.098
+            },
+            "net": {
+              "median": 0,
+              "p90": 2.772,
+              "mean": 0
+            }
+          },
+          "speedupRaw": 1.101,
+          "speedupNet": null
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.186,
+            "p90": 0.197,
+            "mean": 0.187,
+            "min": 0.178,
+            "max": 0.203,
+            "cachedDataBytes": 2232
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.08,
+            "p90": 0.086,
+            "mean": 0.082,
+            "min": 0.07,
+            "max": 0.139,
+            "cachedDataBytes": 30824
+          },
+          "speedup": 2.325
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.177,
+            "p90": 0.193,
+            "mean": 0.182,
+            "min": 0.166,
+            "max": 0.216
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.07,
+            "p90": 0.081,
+            "mean": 0.072,
+            "min": 0.062,
+            "max": 0.103
+          },
+          "speedup": 2.529
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6284514,
+          "blobGzipBytes": 2315105,
+          "baseline": {
+            "n": 30,
+            "median": 22.681,
+            "p90": 24.289,
+            "mean": 22.71,
+            "min": 20.539,
+            "max": 26.068
+          },
+          "raw": {
+            "n": 30,
+            "median": 27.818,
+            "p90": 30.576,
+            "mean": 27.837,
+            "min": 23.138,
+            "max": 32.432
+          },
+          "net": {
+            "median": 5.137,
+            "p90": 7.895,
+            "mean": 5.156
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 3702,
+            "terser": 2047,
+            "gzip": 818,
+            "brotli": 786,
+            "rawGzip": 1222,
+            "rawBrotli": 1131
+          },
+          "prepacked": {
+            "raw": 30711,
+            "terser": 27648,
+            "gzip": 18592,
+            "brotli": 18203,
+            "rawGzip": 19060,
+            "rawBrotli": 18572
+          },
+          "ratios": {
+            "raw": 8.296,
+            "terser": 13.507,
+            "gzip": 22.729,
+            "brotli": 23.159
+          }
+        }
+      }
+    },
+    {
+      "id": "marked",
+      "name": "Marked",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Markdown parser & compiler; module init constructs GFM/pedantic/normal block and inline grammar regex tables.",
+      "bytes": 50548,
+      "sha256": "c34a221dc89e91833a88822e7717b8a0cf27118f8c9a8779dffb48a6be31f97a",
+      "packages": [
+        {
+          "name": "marked",
+          "version": "18.1.3",
+          "license": "MIT",
+          "homepage": "https://marked.js.org"
+        }
+      ],
+      "expectedDigest": "c92f2c0ca64839614ca45b811cd9c02f1590e68b8fd34e6dcf567329cc4f06b6",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 762,
+        "errorCode": "HYB_BAILOUT",
+        "message": "class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:s20]].O)",
+        "location": null,
+        "internalFrame": "handleBailoutList (lib/bench-adapter.js:249:11)",
+        "diagnosticsCount": 1,
+        "errorCodes": [
+          "HYB_BAILOUT"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_BAILOUT",
+            "message": "class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:s20]].O)",
+            "location": null
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 762,
+          "errorCode": "HYB_BAILOUT",
+          "message": "class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:s20]].O)",
+          "location": null,
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:249:11)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_BAILOUT"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_BAILOUT",
+              "message": "class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:s20]].O)",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1256,
+          "errorCode": "HYB_BAILOUT",
+          "message": "class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:s20]].O)",
+          "location": null,
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:249:11)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_BAILOUT"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_BAILOUT",
+              "message": "class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:s20]].O)",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": null
+    },
+    {
+      "id": "d3-scale",
+      "name": "D3 Scale + Array",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Data visualization quantitative/ordinal/time scales, array statistics, formatters, and color interpolators initialized on `d3`.",
+      "bytes": 152468,
+      "sha256": "5308348557b16b01fa8c3e77742d36df8a8d80a1bdc92fdaa62ee824e9cf0732",
+      "packages": [
+        {
+          "name": "d3-scale",
+          "version": "4.0.3",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-scale/"
+        },
+        {
+          "name": "d3-array",
+          "version": "3.2.5",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-array/"
+        },
+        {
+          "name": "d3-interpolate",
+          "version": "3.0.2",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-interpolate/"
+        },
+        {
+          "name": "d3-color",
+          "version": "3.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-color/"
+        },
+        {
+          "name": "d3-format",
+          "version": "3.1.3",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-format/"
+        },
+        {
+          "name": "d3-time",
+          "version": "3.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-time/"
+        },
+        {
+          "name": "d3-time-format",
+          "version": "4.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-time-format/"
+        },
+        {
+          "name": "internmap",
+          "version": "2.0.3",
+          "license": "ISC",
+          "homepage": "https://github.com/mbostock/internmap/"
+        }
+      ],
+      "expectedDigest": "a67ea8e596acde3a05183b09db9cd556d8d18555c52bc47abb8083231b945204",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 3349,
+        "outBytes": 450417
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 3349,
+          "outBytes": 450417,
+          "quickVmMs": 1.283,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_VOLATILE_BAKED"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2999,
+          "outBytes": 450417,
+          "quickVmMs": 1.1,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_VOLATILE_BAKED"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 2,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 21.27,
+            "p90": 26.092,
+            "mean": 21.795,
+            "min": 18.82,
+            "max": 28.212
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 27.59,
+              "p90": 29.974,
+              "mean": 28.273,
+              "min": 24.986,
+              "max": 36.004
+            },
+            "net": {
+              "median": 6.32,
+              "p90": 8.704,
+              "mean": 7.003
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 35.383,
+              "p90": 38.492,
+              "mean": 36.16,
+              "min": 32.343,
+              "max": 50.457
+            },
+            "net": {
+              "median": 14.113,
+              "p90": 17.222,
+              "mean": 14.89
+            }
+          },
+          "speedupRaw": 0.78,
+          "speedupNet": 0.448
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.834,
+            "p90": 1.061,
+            "mean": 1.076,
+            "min": 0.784,
+            "max": 7.281,
+            "cachedDataBytes": 76160
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.882,
+            "p90": 1.102,
+            "mean": 0.924,
+            "min": 0.83,
+            "max": 1.292,
+            "cachedDataBytes": 293632
+          },
+          "speedup": 0.946
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.796,
+            "p90": 0.821,
+            "mean": 0.796,
+            "min": 0.758,
+            "max": 0.925
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.835,
+            "p90": 0.854,
+            "mean": 0.837,
+            "min": 0.81,
+            "max": 0.871
+          },
+          "speedup": 0.953
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6685138,
+          "blobGzipBytes": 2381855,
+          "baseline": {
+            "n": 30,
+            "median": 21.262,
+            "p90": 23.566,
+            "mean": 21.621,
+            "min": 19.316,
+            "max": 26.264
+          },
+          "raw": {
+            "n": 30,
+            "median": 28.738,
+            "p90": 31.566,
+            "mean": 29.278,
+            "min": 25.634,
+            "max": 40.238
+          },
+          "net": {
+            "median": 7.476,
+            "p90": 10.304,
+            "mean": 8.016
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 152468,
+            "terser": 72757,
+            "gzip": 23583,
+            "brotli": 22699,
+            "rawGzip": 34358,
+            "rawBrotli": 32447
+          },
+          "prepacked": {
+            "raw": 450417,
+            "terser": 207098,
+            "gzip": 61636,
+            "brotli": 42545,
+            "rawGzip": 85962,
+            "rawBrotli": 51045
+          },
+          "ratios": {
+            "raw": 2.954,
+            "terser": 2.846,
+            "gzip": 2.614,
+            "brotli": 1.874
+          }
+        }
+      }
+    },
+    {
+      "id": "redux",
+      "name": "Redux (store + middleware init)",
+      "kind": "app-workload",
+      "buildType": "esbuild-iife",
+      "description": "Redux bundled into an ES2015 IIFE; module init composes reducers, applies logging/validation middleware, creates a store, and dispatches seed actions.",
+      "bytes": 18502,
+      "sha256": "8c87730f3d9266ff288dff4c3f0450358f7498908bd45cad6900e187738c7cd3",
+      "packages": [
+        {
+          "name": "redux",
+          "version": "5.0.1",
+          "license": "MIT",
+          "homepage": "http://redux.js.org"
+        }
+      ],
+      "expectedDigest": "a852447e6f5c405c365ecfbaac3f9c61332bcf22f16ef00f2bd6668dae8c8ae9",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 796,
+        "outBytes": 41493
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 796,
+          "outBytes": 41493,
+          "quickVmMs": 0.284,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_VOLATILE_BAKED"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 623,
+          "outBytes": 41493,
+          "quickVmMs": 1.792,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_VOLATILE_BAKED"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 21.562,
+            "p90": 25.387,
+            "mean": 22.258,
+            "min": 19.969,
+            "max": 26.814
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 22.036,
+              "p90": 24.324,
+              "mean": 23.273,
+              "min": 20.89,
+              "max": 43.835
+            },
+            "net": {
+              "median": 0.474,
+              "p90": 2.762,
+              "mean": 1.711
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 22.582,
+              "p90": 24.733,
+              "mean": 22.805,
+              "min": 20.407,
+              "max": 28.135
+            },
+            "net": {
+              "median": 1.02,
+              "p90": 3.171,
+              "mean": 1.243
+            }
+          },
+          "speedupRaw": 0.976,
+          "speedupNet": 0.465
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.193,
+            "p90": 0.301,
+            "mean": 0.45,
+            "min": 0.173,
+            "max": 4.282,
+            "cachedDataBytes": 4664
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.155,
+            "p90": 0.204,
+            "mean": 0.315,
+            "min": 0.137,
+            "max": 2.702,
+            "cachedDataBytes": 14872
+          },
+          "speedup": 1.245
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.172,
+            "p90": 0.191,
+            "mean": 0.178,
+            "min": 0.162,
+            "max": 0.26
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.138,
+            "p90": 0.144,
+            "mean": 0.14,
+            "min": 0.127,
+            "max": 0.173
+          },
+          "speedup": 1.246
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6300378,
+          "blobGzipBytes": 2309939,
+          "baseline": {
+            "n": 30,
+            "median": 23.681,
+            "p90": 29.087,
+            "mean": 24.814,
+            "min": 20.751,
+            "max": 43.132
+          },
+          "raw": {
+            "n": 30,
+            "median": 28.642,
+            "p90": 34.677,
+            "mean": 29.934,
+            "min": 24.54,
+            "max": 41.095
+          },
+          "net": {
+            "median": 4.961,
+            "p90": 10.996,
+            "mean": 6.253
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 18502,
+            "terser": 9055,
+            "gzip": 3414,
+            "brotli": 3257,
+            "rawGzip": 4907,
+            "rawBrotli": 4690
+          },
+          "prepacked": {
+            "raw": 41493,
+            "terser": 20214,
+            "gzip": 5018,
+            "brotli": 4560,
+            "rawGzip": 6445,
+            "rawBrotli": 5823
+          },
+          "ratios": {
+            "raw": 2.243,
+            "terser": 2.232,
+            "gzip": 1.47,
+            "brotli": 1.4
+          }
+        }
+      }
+    },
+    {
+      "id": "handlebars-app",
+      "name": "Handlebars (init template compile)",
+      "kind": "app-workload",
+      "buildType": "umd+app-init",
+      "description": "App workload: loads Handlebars compiler+runtime, registers helpers/partials, compiles an invoice template AST to JS, and renders a boot view at module init.",
+      "bytes": 217023,
+      "sha256": "989d3a40a1bf42e09115b43372dfd1f3ebe3c8a2dfe667b27bebee89ec61a1ea",
+      "packages": [
+        {
+          "name": "handlebars",
+          "version": "4.7.10",
+          "license": "MIT",
+          "homepage": "https://handlebarsjs.com/"
+        }
+      ],
+      "expectedDigest": "fdc9d4795ebcd542648a92a93dadd6328bbe209c203a10e7f153ee7a399ec39f",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1563,
+        "outBytes": 472790
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1563,
+          "outBytes": 472790,
+          "quickVmMs": 6.525,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_VOLATILE_BAKED"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1702,
+          "outBytes": 472790,
+          "quickVmMs": 5.431,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_VOLATILE_BAKED"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 25.113,
+            "p90": 28.127,
+            "mean": 26.045,
+            "min": 22.527,
+            "max": 41.641
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 42.727,
+              "p90": 46.222,
+              "mean": 42.936,
+              "min": 38.31,
+              "max": 49.639
+            },
+            "net": {
+              "median": 17.614,
+              "p90": 21.109,
+              "mean": 17.823
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 35.603,
+              "p90": 39.947,
+              "mean": 36.492,
+              "min": 34.478,
+              "max": 44.268
+            },
+            "net": {
+              "median": 10.49,
+              "p90": 14.834,
+              "mean": 11.379
+            }
+          },
+          "speedupRaw": 1.2,
+          "speedupNet": 1.679
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 3.64,
+            "p90": 8.149,
+            "mean": 4.877,
+            "min": 3.081,
+            "max": 17.972,
+            "cachedDataBytes": 7976
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.362,
+            "p90": 1.554,
+            "mean": 1.642,
+            "min": 1.135,
+            "max": 6.612,
+            "cachedDataBytes": 303760
+          },
+          "speedup": 2.673
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 3.355,
+            "p90": 4.162,
+            "mean": 3.651,
+            "min": 3.022,
+            "max": 10.483
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.291,
+            "p90": 1.983,
+            "mean": 2.23,
+            "min": 1.167,
+            "max": 18.461
+          },
+          "speedup": 2.599
+        },
+        "nodeSnapshot": {
+          "supported": false,
+          "error": "terminate called after throwing an instance of 'std::length_error' |   what():  vector::_M_range_insert"
+        },
+        "sizes": {
+          "orig": {
+            "raw": 217023,
+            "terser": 88523,
+            "gzip": 26899,
+            "brotli": 24992,
+            "rawGzip": 50546,
+            "rawBrotli": 46385
+          },
+          "prepacked": {
+            "raw": 472790,
+            "terser": 207309,
+            "gzip": 60004,
+            "brotli": 37536,
+            "rawGzip": 102059,
+            "rawBrotli": 60273
+          },
+          "ratios": {
+            "raw": 2.179,
+            "terser": 2.342,
+            "gzip": 2.231,
+            "brotli": 1.502
+          }
+        }
+      }
+    },
+    {
+      "id": "preact-ssr-app",
+      "name": "Preact SSR App (init + runtime renderToString)",
+      "kind": "app-workload",
+      "buildType": "umd+app-init",
+      "description": "App workload: Preact + preact-render-to-string renders a multi-component documentation dashboard at module init and exposes dynamic SSR at runtime.",
+      "bytes": 22477,
+      "sha256": "615ac42b96098766976af0e1ff0f408231eebfed31c81af0ebd5d7fc4df97de0",
+      "packages": [
+        {
+          "name": "preact",
+          "version": "10.29.0",
+          "license": "MIT",
+          "homepage": "https://preactjs.com"
+        },
+        {
+          "name": "preact-render-to-string",
+          "version": "6.6.7",
+          "license": "MIT",
+          "homepage": "https://github.com/preactjs/preact-render-to-string"
+        }
+      ],
+      "expectedDigest": "674899a26ea2bc86dd2fe9a2fddc159b82173a406b4e1132ac5adfc583b59959",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 657,
+        "outBytes": 53449
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 657,
+          "outBytes": 53449,
+          "quickVmMs": 3.136,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 747,
+          "outBytes": 53449,
+          "quickVmMs": 0.387,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 25.113,
+            "p90": 28.332,
+            "mean": 25.173,
+            "min": 21.38,
+            "max": 30.61
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 24.984,
+              "p90": 28.714,
+              "mean": 25.916,
+              "min": 22.351,
+              "max": 39.748
+            },
+            "net": {
+              "median": 0,
+              "p90": 3.601,
+              "mean": 0.803
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 26.733,
+              "p90": 30.705,
+              "mean": 27.199,
+              "min": 23.898,
+              "max": 34.605
+            },
+            "net": {
+              "median": 1.62,
+              "p90": 5.592,
+              "mean": 2.086
+            }
+          },
+          "speedupRaw": 0.935,
+          "speedupNet": 0
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.276,
+            "p90": 0.324,
+            "mean": 0.291,
+            "min": 0.246,
+            "max": 0.568,
+            "cachedDataBytes": 5208
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.268,
+            "p90": 0.356,
+            "mean": 0.289,
+            "min": 0.24,
+            "max": 0.427,
+            "cachedDataBytes": 27344
+          },
+          "speedup": 1.03
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.26,
+            "p90": 0.281,
+            "mean": 0.262,
+            "min": 0.236,
+            "max": 0.3
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.256,
+            "p90": 0.278,
+            "mean": 0.27,
+            "min": 0.245,
+            "max": 0.524
+          },
+          "speedup": 1.016
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6313634,
+          "blobGzipBytes": 2319347,
+          "baseline": {
+            "n": 30,
+            "median": 23.973,
+            "p90": 27.099,
+            "mean": 24.394,
+            "min": 22.145,
+            "max": 29.095
+          },
+          "raw": {
+            "n": 30,
+            "median": 29.256,
+            "p90": 32.735,
+            "mean": 29.71,
+            "min": 26.696,
+            "max": 39.938
+          },
+          "net": {
+            "median": 5.283,
+            "p90": 8.762,
+            "mean": 5.737
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 22477,
+            "terser": 21712,
+            "gzip": 8850,
+            "brotli": 8666,
+            "rawGzip": 9133,
+            "rawBrotli": 8951
+          },
+          "prepacked": {
+            "raw": 53449,
+            "terser": 46897,
+            "gzip": 13647,
+            "brotli": 12081,
+            "rawGzip": 12929,
+            "rawBrotli": 11391
+          },
+          "ratios": {
+            "raw": 2.378,
+            "terser": 2.16,
+            "gzip": 1.542,
+            "brotli": 1.394
+          }
+        }
+      }
+    },
+    {
+      "id": "react-ssr-app",
+      "name": "React 18 SSR App (init + runtime renderToString)",
+      "kind": "app-workload",
+      "buildType": "umd+app-init",
+      "description": "App workload: React 18 + ReactDOMServer legacy browser bundle renders a multi-component storefront catalog at module init and serves runtime SSR.",
+      "bytes": 48145,
+      "sha256": "fa49335517c8b0262fd9ca79ee90946cae439a6619de1588a846e1dbcd931eb9",
+      "packages": [
+        {
+          "name": "react",
+          "version": "18.3.1",
+          "license": "MIT",
+          "homepage": "https://reactjs.org/"
+        },
+        {
+          "name": "react-dom",
+          "version": "18.3.1",
+          "license": "MIT",
+          "homepage": "https://reactjs.org/"
+        }
+      ],
+      "expectedDigest": "8fb06297245cf9cc8598fa7967fe7e9c974a99cb9319ddb7a634111963196ae3",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1225,
+        "outBytes": 154044
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1225,
+          "outBytes": 154044,
+          "quickVmMs": 3.589,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_VOLATILE_BAKED"
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 878,
+          "outBytes": 154044,
+          "quickVmMs": 6.837,
+          "warningCodes": [],
+          "infoCodes": [
+            "HYB_VOLATILE_BAKED"
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 25.245,
+            "p90": 27.638,
+            "mean": 24.789,
+            "min": 20.189,
+            "max": 29.623
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 28.544,
+              "p90": 32.445,
+              "mean": 29.547,
+              "min": 25.448,
+              "max": 45.964
+            },
+            "net": {
+              "median": 3.299,
+              "p90": 7.2,
+              "mean": 4.302
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 30.816,
+              "p90": 37.158,
+              "mean": 31.798,
+              "min": 26.725,
+              "max": 40.218
+            },
+            "net": {
+              "median": 5.571,
+              "p90": 11.913,
+              "mean": 6.553
+            }
+          },
+          "speedupRaw": 0.926,
+          "speedupNet": 0.592
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.784,
+            "p90": 0.87,
+            "mean": 0.802,
+            "min": 0.728,
+            "max": 1.052,
+            "cachedDataBytes": 6632
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.773,
+            "p90": 0.835,
+            "mean": 0.881,
+            "min": 0.728,
+            "max": 3.77,
+            "cachedDataBytes": 97584
+          },
+          "speedup": 1.014
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.782,
+            "p90": 0.888,
+            "mean": 0.801,
+            "min": 0.726,
+            "max": 1.031
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.772,
+            "p90": 0.817,
+            "mean": 0.782,
+            "min": 0.73,
+            "max": 0.869
+          },
+          "speedup": 1.013
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6552584,
+          "blobGzipBytes": 2409810,
+          "baseline": {
+            "n": 30,
+            "median": 21.935,
+            "p90": 25.598,
+            "mean": 22.849,
+            "min": 20.102,
+            "max": 28.987
+          },
+          "raw": {
+            "n": 30,
+            "median": 28.046,
+            "p90": 31.118,
+            "mean": 28.726,
+            "min": 25.029,
+            "max": 39.03
+          },
+          "net": {
+            "median": 6.111,
+            "p90": 9.183,
+            "mean": 6.791
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 48145,
+            "terser": 46203,
+            "gzip": 15568,
+            "brotli": 14716,
+            "rawGzip": 16183,
+            "rawBrotli": 15321
+          },
+          "prepacked": {
+            "raw": 154044,
+            "terser": 130518,
+            "gzip": 35626,
+            "brotli": 25499,
+            "rawGzip": 38846,
+            "rawBrotli": 23841
+          },
+          "ratios": {
+            "raw": 3.2,
+            "terser": 2.825,
+            "gzip": 2.288,
+            "brotli": 1.733
+          }
+        }
+      }
+    },
+    {
+      "id": "yaml-router-app",
+      "name": "YAML Config + Mustache + Router App",
+      "kind": "app-workload",
+      "buildType": "umd+app-init",
+      "description": "Init-heavy app workload: parses a 95-line YAML service/route manifest with js-yaml, compiles 10 parameterized REST routes into RegExps, and pre-parses Mustache views at module init.",
+      "bytes": 160859,
+      "sha256": "35307b56baa043503991dc35089e588861a1f5333935f90297eca01034f7d795",
+      "packages": [
+        {
+          "name": "js-yaml",
+          "version": "4.3.2",
+          "license": "MIT",
+          "homepage": null
+        },
+        {
+          "name": "mustache",
+          "version": "4.2.0",
+          "license": "MIT",
+          "homepage": "https://github.com/janl/mustache.js"
+        }
+      ],
+      "expectedDigest": "f8ff1c9fed0a12155379c9e9f9d39320af898a89c7907a9876980910a1e7999a",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1010,
+        "outBytes": 469155
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1010,
+          "outBytes": 469155,
+          "quickVmMs": 2.622,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1012,
+          "outBytes": 469155,
+          "quickVmMs": 0.869,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 4,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_UNSUPPORTED_LAZY",
+          "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_UNSUPPORTED_LAZY"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_UNSUPPORTED_LAZY",
+              "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
+              "location": null
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 24.356,
+            "p90": 27.222,
+            "mean": 24.809,
+            "min": 21.667,
+            "max": 29.324
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 33.185,
+              "p90": 36.995,
+              "mean": 33.841,
+              "min": 30.227,
+              "max": 38.763
+            },
+            "net": {
+              "median": 8.829,
+              "p90": 12.639,
+              "mean": 9.485
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 34.33,
+              "p90": 36.573,
+              "mean": 34.244,
+              "min": 29.819,
+              "max": 38.72
+            },
+            "net": {
+              "median": 9.974,
+              "p90": 12.217,
+              "mean": 9.888
+            }
+          },
+          "speedupRaw": 0.967,
+          "speedupNet": 0.885
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 1.542,
+            "p90": 1.778,
+            "mean": 1.8,
+            "min": 1.461,
+            "max": 8.323,
+            "cachedDataBytes": 13736
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.698,
+            "p90": 0.912,
+            "mean": 1.014,
+            "min": 0.642,
+            "max": 9.225,
+            "cachedDataBytes": 124400
+          },
+          "speedup": 2.209
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 1.49,
+            "p90": 1.565,
+            "mean": 1.515,
+            "min": 1.418,
+            "max": 2.023
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.677,
+            "p90": 0.702,
+            "mean": 0.671,
+            "min": 0.625,
+            "max": 0.732
+          },
+          "speedup": 2.201
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6704322,
+          "blobGzipBytes": 2382524,
+          "baseline": {
+            "n": 30,
+            "median": 20.865,
+            "p90": 22.807,
+            "mean": 21.017,
+            "min": 18.431,
+            "max": 24.223
+          },
+          "raw": {
+            "n": 30,
+            "median": 27.609,
+            "p90": 31.801,
+            "mean": 28.425,
+            "min": 25.613,
+            "max": 42.25
+          },
+          "net": {
+            "median": 6.744,
+            "p90": 10.936,
+            "mean": 7.56
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 160859,
+            "terser": 53019,
+            "gzip": 17605,
+            "brotli": 16949,
+            "rawGzip": 30163,
+            "rawBrotli": 28148
+          },
+          "prepacked": {
+            "raw": 469155,
+            "terser": 164271,
+            "gzip": 50998,
+            "brotli": 26976,
+            "rawGzip": 83625,
+            "rawBrotli": 36971
+          },
+          "ratios": {
+            "raw": 2.917,
+            "terser": 3.098,
+            "gzip": 2.897,
+            "brotli": 1.592
+          }
+        }
+      }
+    }
+  ]
+}

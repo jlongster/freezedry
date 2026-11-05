@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-05T07:48:05.444Z",
+  "timestamp": "2026-11-05T11:03:32.414Z",
   "prepack": {
-    "path": "/tmp/opencode/pp-wt/hybrid-verify/hybrid/index.js",
+    "path": "/tmp/opencode/pp-wt/hybrid/hybrid/index.js",
     "version": "0.0.1-hybrid"
   },
   "environment": {
@@ -14,29 +14,29 @@
     "totalMemBytes": 16763228160
   },
   "config": {
-    "runs": 10,
-    "warmup": 3,
+    "runs": 30,
+    "warmup": 5,
     "timeout": 300000,
     "maxOldSpaceMb": 4096,
     "enableSnapshot": true,
     "only": null
   },
   "nodeZeroBaseline": {
-    "n": 10,
-    "median": 35.638,
-    "p90": 66.957,
-    "mean": 48.688,
-    "min": 26.744,
-    "max": 102.27
+    "n": 30,
+    "median": 31.444,
+    "p90": 39.811,
+    "mean": 32.069,
+    "min": 20.568,
+    "max": 66.657
   },
   "summary": {
     "total": 15,
     "librariesCount": 10,
     "appsCount": 5,
-    "defaultOk": 15,
-    "bestOk": 15,
+    "defaultOk": 14,
+    "bestOk": 14,
     "wrong": 0,
-    "fail": 0,
+    "fail": 1,
     "timeout": 0
   },
   "libraries": [
@@ -62,8 +62,8 @@
       "bestProfile": {
         "profile": "default",
         "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 1,
-        "outBytes": 545945
+        "compileMs": 4635,
+        "outBytes": 1464320
       },
       "primaryBlocker": null,
       "profiles": [
@@ -72,12 +72,12 @@
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 545945,
-          "quickVmMs": 11.194,
+          "compileMs": 4635,
+          "outBytes": 1464320,
+          "quickVmMs": 4.025,
           "warningCodes": [],
           "infoCodes": [
-            "HYB_STANDIN"
+            "HYB_VOLATILE_BAKED"
           ]
         },
         {
@@ -85,51 +85,84 @@
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 545945,
-          "quickVmMs": 11.186,
+          "compileMs": 4342,
+          "outBytes": 1464948,
+          "quickVmMs": 5.875,
           "warningCodes": [],
           "infoCodes": [
-            "HYB_STANDIN"
+            "HYB_VOLATILE_BAKED"
           ]
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 1,
-          "outBytes": 545945,
-          "quickVmMs": 17.096,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 0,
-          "outBytes": 545945,
-          "quickVmMs": 16.97,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 1,
-          "outBytes": 545945,
-          "quickVmMs": 15.351,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -137,11 +170,11 @@
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
           "eligibleForNodePerf": false,
           "status": "FAIL",
-          "compileMs": 0,
+          "compileMs": 1,
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -160,110 +193,110 @@
       "perf": {
         "coldProcess": {
           "baseline": {
-            "n": 10,
-            "median": 50.368,
-            "p90": 60.54,
-            "mean": 49.82,
-            "min": 30.015,
-            "max": 67.713
+            "n": 30,
+            "median": 29.451,
+            "p90": 40.575,
+            "mean": 32.048,
+            "min": 21.286,
+            "max": 61.058
           },
           "orig": {
             "raw": {
-              "n": 10,
-              "median": 81.695,
-              "p90": 94.914,
-              "mean": 78.636,
-              "min": 43.108,
-              "max": 116.495
+              "n": 30,
+              "median": 45.946,
+              "p90": 57.445,
+              "mean": 48.537,
+              "min": 35.226,
+              "max": 90.687
             },
             "net": {
-              "median": 31.327,
-              "p90": 44.546,
-              "mean": 28.268
+              "median": 16.495,
+              "p90": 27.994,
+              "mean": 19.086
             }
           },
           "prepacked": {
             "raw": {
-              "n": 10,
-              "median": 77.11,
-              "p90": 112.342,
-              "mean": 82.323,
-              "min": 42.269,
-              "max": 156.762
+              "n": 30,
+              "median": 58.746,
+              "p90": 68.785,
+              "mean": 61.694,
+              "min": 47.099,
+              "max": 119.233
             },
             "net": {
-              "median": 26.742,
-              "p90": 61.974,
-              "mean": 31.955
+              "median": 29.295,
+              "p90": 39.334,
+              "mean": 32.243
             }
           },
-          "speedupRaw": 1.059,
-          "speedupNet": 1.171
+          "speedupRaw": 0.782,
+          "speedupNet": 0.563
         },
         "vmCodeCache": {
           "orig": {
-            "n": 10,
-            "median": 3.85,
-            "p90": 11.71,
-            "mean": 5.437,
-            "min": 3.039,
-            "max": 12.035,
-            "cachedDataBytes": 103752
+            "n": 30,
+            "median": 3.845,
+            "p90": 8.017,
+            "mean": 5.004,
+            "min": 2.96,
+            "max": 14.236,
+            "cachedDataBytes": 103736
           },
           "prepacked": {
-            "n": 10,
-            "median": 4.332,
-            "p90": 6.306,
-            "mean": 6.79,
-            "min": 2.986,
-            "max": 30.291,
-            "cachedDataBytes": 103752
+            "n": 30,
+            "median": 2.152,
+            "p90": 2.797,
+            "mean": 2.593,
+            "min": 1.804,
+            "max": 10.484,
+            "cachedDataBytes": 493208
           },
-          "speedup": 0.889
+          "speedup": 1.787
         },
         "vmExecOnly": {
           "orig": {
-            "n": 10,
-            "median": 3.094,
-            "p90": 9.633,
-            "mean": 5.716,
-            "min": 2.826,
-            "max": 17.86
+            "n": 30,
+            "median": 2.99,
+            "p90": 14.237,
+            "mean": 5.467,
+            "min": 2.852,
+            "max": 21.838
           },
           "prepacked": {
-            "n": 10,
-            "median": 3.038,
-            "p90": 7.009,
-            "mean": 3.867,
-            "min": 2.816,
-            "max": 7.068
+            "n": 30,
+            "median": 1.827,
+            "p90": 4.171,
+            "mean": 3.036,
+            "min": 1.722,
+            "max": 17.358
           },
-          "speedup": 1.018
+          "speedup": 1.637
         },
         "nodeSnapshot": {
           "supported": true,
-          "blobBytes": 7558898,
-          "blobGzipBytes": 2490525,
+          "blobBytes": 7558554,
+          "blobGzipBytes": 2491212,
           "baseline": {
-            "n": 10,
-            "median": 65.817,
-            "p90": 93.647,
-            "mean": 65.989,
-            "min": 30.471,
-            "max": 100.382
+            "n": 30,
+            "median": 33.633,
+            "p90": 48.887,
+            "mean": 35.465,
+            "min": 23.206,
+            "max": 55.704
           },
           "raw": {
-            "n": 10,
-            "median": 90.096,
-            "p90": 112.765,
-            "mean": 93.559,
-            "min": 62.398,
-            "max": 135.099
+            "n": 30,
+            "median": 44.109,
+            "p90": 51.923,
+            "mean": 46.161,
+            "min": 30.85,
+            "max": 78.071
           },
           "net": {
-            "median": 24.279,
-            "p90": 46.948,
-            "mean": 27.742
+            "median": 10.476,
+            "p90": 18.29,
+            "mean": 12.528
           }
         },
         "sizes": {
@@ -276,18 +309,18 @@
             "rawBrotli": 82441
           },
           "prepacked": {
-            "raw": 545945,
-            "terser": 70684,
-            "gzip": 25079,
-            "brotli": 24135,
-            "rawGzip": 96951,
-            "rawBrotli": 82441
+            "raw": 1464320,
+            "terser": 307720,
+            "gzip": 93102,
+            "brotli": 63532,
+            "rawGzip": 259176,
+            "rawBrotli": 111259
           },
           "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
+            "raw": 2.682,
+            "terser": 4.353,
+            "gzip": 3.712,
+            "brotli": 2.632
           }
         }
       }
@@ -314,8 +347,8 @@
       "bestProfile": {
         "profile": "default",
         "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 0,
-        "outBytes": 68916
+        "compileMs": 2224,
+        "outBytes": 241521
       },
       "primaryBlocker": null,
       "profiles": [
@@ -324,64 +357,93 @@
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 0,
-          "outBytes": 68916,
-          "quickVmMs": 4.653,
+          "compileMs": 2224,
+          "outBytes": 241521,
+          "quickVmMs": 3.524,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-opt",
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 2,
-          "outBytes": 68916,
-          "quickVmMs": 0.554,
+          "compileMs": 2454,
+          "outBytes": 241525,
+          "quickVmMs": 7.384,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 68916,
-          "quickVmMs": 2.986,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 1,
-          "outBytes": 68916,
-          "quickVmMs": 4.809,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 1,
-          "outBytes": 68916,
-          "quickVmMs": 0.663,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -389,11 +451,11 @@
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
           "eligibleForNodePerf": false,
           "status": "FAIL",
-          "compileMs": 1,
+          "compileMs": 0,
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -412,110 +474,110 @@
       "perf": {
         "coldProcess": {
           "baseline": {
-            "n": 10,
-            "median": 55.517,
-            "p90": 70.551,
-            "mean": 54.951,
-            "min": 34.185,
-            "max": 76.217
+            "n": 30,
+            "median": 35.99,
+            "p90": 49.385,
+            "mean": 39.238,
+            "min": 24.473,
+            "max": 88.009
           },
           "orig": {
             "raw": {
-              "n": 10,
-              "median": 62.368,
-              "p90": 83.265,
-              "mean": 62.947,
-              "min": 33.879,
-              "max": 112.096
+              "n": 30,
+              "median": 40.269,
+              "p90": 57.751,
+              "mean": 42.234,
+              "min": 24.76,
+              "max": 73.416
             },
             "net": {
-              "median": 6.851,
-              "p90": 27.748,
-              "mean": 7.43
+              "median": 4.279,
+              "p90": 21.761,
+              "mean": 6.244
             }
           },
           "prepacked": {
             "raw": {
-              "n": 10,
-              "median": 63.237,
-              "p90": 75.764,
-              "mean": 64.261,
-              "min": 48.133,
-              "max": 81.865
+              "n": 30,
+              "median": 43.889,
+              "p90": 77.409,
+              "mean": 48.616,
+              "min": 29.073,
+              "max": 88.992
             },
             "net": {
-              "median": 7.72,
-              "p90": 20.247,
-              "mean": 8.744
+              "median": 7.899,
+              "p90": 41.419,
+              "mean": 12.626
             }
           },
-          "speedupRaw": 0.986,
-          "speedupNet": 0.887
+          "speedupRaw": 0.918,
+          "speedupNet": 0.542
         },
         "vmCodeCache": {
           "orig": {
-            "n": 10,
-            "median": 0.523,
-            "p90": 0.551,
-            "mean": 0.579,
-            "min": 0.433,
-            "max": 1.276,
-            "cachedDataBytes": 25840
+            "n": 30,
+            "median": 0.442,
+            "p90": 0.485,
+            "mean": 0.445,
+            "min": 0.393,
+            "max": 0.56,
+            "cachedDataBytes": 25848
           },
           "prepacked": {
-            "n": 10,
-            "median": 0.563,
-            "p90": 1.103,
-            "mean": 0.974,
-            "min": 0.47,
-            "max": 4.188,
-            "cachedDataBytes": 25840
+            "n": 30,
+            "median": 0.706,
+            "p90": 0.791,
+            "mean": 0.724,
+            "min": 0.64,
+            "max": 0.923,
+            "cachedDataBytes": 144224
           },
-          "speedup": 0.929
+          "speedup": 0.626
         },
         "vmExecOnly": {
           "orig": {
-            "n": 10,
-            "median": 0.543,
-            "p90": 0.824,
-            "mean": 1.373,
-            "min": 0.475,
-            "max": 8.69
+            "n": 30,
+            "median": 0.434,
+            "p90": 0.51,
+            "mean": 0.631,
+            "min": 0.379,
+            "max": 5.196
           },
           "prepacked": {
-            "n": 10,
-            "median": 0.532,
-            "p90": 4.645,
-            "mean": 1.579,
-            "min": 0.492,
-            "max": 5.018
+            "n": 30,
+            "median": 0.713,
+            "p90": 0.968,
+            "mean": 0.893,
+            "min": 0.632,
+            "max": 3.054
           },
-          "speedup": 1.021
+          "speedup": 0.609
         },
         "nodeSnapshot": {
           "supported": true,
-          "blobBytes": 6451970,
-          "blobGzipBytes": 2340457,
+          "blobBytes": 6452122,
+          "blobGzipBytes": 2340834,
           "baseline": {
-            "n": 10,
-            "median": 55.985,
-            "p90": 81.594,
-            "mean": 62.355,
-            "min": 43.757,
-            "max": 83.245
+            "n": 30,
+            "median": 41.242,
+            "p90": 47.936,
+            "mean": 38.281,
+            "min": 22.897,
+            "max": 56.586
           },
           "raw": {
-            "n": 10,
-            "median": 70.206,
-            "p90": 86.621,
-            "mean": 75.736,
-            "min": 52.168,
-            "max": 110.251
+            "n": 30,
+            "median": 48.73,
+            "p90": 63.92,
+            "mean": 49.053,
+            "min": 29.448,
+            "max": 92.722
           },
           "net": {
-            "median": 14.221,
-            "p90": 30.636,
-            "mean": 19.751
+            "median": 7.488,
+            "p90": 22.678,
+            "mean": 7.811
           }
         },
         "sizes": {
@@ -528,18 +590,18 @@
             "rawBrotli": 18446
           },
           "prepacked": {
-            "raw": 68916,
-            "terser": 19351,
-            "gzip": 7378,
-            "brotli": 7211,
-            "rawGzip": 19371,
-            "rawBrotli": 18446
+            "raw": 241521,
+            "terser": 84067,
+            "gzip": 25736,
+            "brotli": 15897,
+            "rawGzip": 59195,
+            "rawBrotli": 27832
           },
           "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
+            "raw": 3.505,
+            "terser": 4.344,
+            "gzip": 3.488,
+            "brotli": 2.205
           }
         }
       }
@@ -564,10 +626,10 @@
       "defaultStatus": "OK",
       "status": "OK",
       "bestProfile": {
-        "profile": "default",
-        "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 0,
-        "outBytes": 351114
+        "profile": "browser-opt",
+        "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+        "compileMs": 2941,
+        "outBytes": 558134
       },
       "primaryBlocker": null,
       "profiles": [
@@ -576,64 +638,93 @@
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 0,
-          "outBytes": 351114,
-          "quickVmMs": 0.938,
+          "compileMs": 2799,
+          "outBytes": 558144,
+          "quickVmMs": 7.561,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-opt",
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 351114,
-          "quickVmMs": 3,
+          "compileMs": 2941,
+          "outBytes": 558134,
+          "quickVmMs": 5.223,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 351114,
-          "quickVmMs": 2.824,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 0,
-          "outBytes": 351114,
-          "quickVmMs": 1.275,
+          "status": "FAIL",
+          "compileMs": 5,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 0,
-          "outBytes": 351114,
-          "quickVmMs": 1.036,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -645,7 +736,7 @@
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -664,110 +755,110 @@
       "perf": {
         "coldProcess": {
           "baseline": {
-            "n": 10,
-            "median": 58.612,
-            "p90": 66.033,
-            "mean": 54.786,
-            "min": 29.348,
-            "max": 73.65
+            "n": 30,
+            "median": 32.442,
+            "p90": 43.495,
+            "mean": 32.618,
+            "min": 21.346,
+            "max": 66.775
           },
           "orig": {
             "raw": {
-              "n": 10,
-              "median": 67.927,
-              "p90": 80.146,
-              "mean": 63.538,
-              "min": 34.994,
-              "max": 92.504
+              "n": 30,
+              "median": 34.67,
+              "p90": 58.552,
+              "mean": 38.704,
+              "min": 26.911,
+              "max": 67.312
             },
             "net": {
-              "median": 9.315,
-              "p90": 21.534,
-              "mean": 4.926
+              "median": 2.228,
+              "p90": 26.11,
+              "mean": 6.262
             }
           },
           "prepacked": {
             "raw": {
-              "n": 10,
-              "median": 71.863,
-              "p90": 82.358,
-              "mean": 68.496,
-              "min": 33.542,
-              "max": 91.024
+              "n": 30,
+              "median": 43.089,
+              "p90": 51.5,
+              "mean": 43.361,
+              "min": 33.97,
+              "max": 60.758
             },
             "net": {
-              "median": 13.251,
-              "p90": 23.746,
-              "mean": 9.884
+              "median": 10.647,
+              "p90": 19.058,
+              "mean": 10.919
             }
           },
-          "speedupRaw": 0.945,
-          "speedupNet": 0.703
+          "speedupRaw": 0.805,
+          "speedupNet": 0.209
         },
         "vmCodeCache": {
           "orig": {
-            "n": 10,
-            "median": 0.697,
-            "p90": 5.665,
-            "mean": 2.083,
-            "min": 0.608,
-            "max": 6.938,
+            "n": 30,
+            "median": 0.687,
+            "p90": 1.053,
+            "mean": 0.835,
+            "min": 0.605,
+            "max": 2.356,
             "cachedDataBytes": 67232
           },
           "prepacked": {
-            "n": 10,
-            "median": 0.859,
-            "p90": 4.656,
-            "mean": 2.441,
-            "min": 0.618,
-            "max": 10.597,
-            "cachedDataBytes": 67232
+            "n": 30,
+            "median": 0.81,
+            "p90": 0.909,
+            "mean": 0.873,
+            "min": 0.711,
+            "max": 1.592,
+            "cachedDataBytes": 295504
           },
-          "speedup": 0.811
+          "speedup": 0.848
         },
         "vmExecOnly": {
           "orig": {
-            "n": 10,
-            "median": 0.674,
-            "p90": 0.861,
-            "mean": 0.835,
-            "min": 0.57,
-            "max": 2.384
+            "n": 30,
+            "median": 0.73,
+            "p90": 1.03,
+            "mean": 1.464,
+            "min": 0.631,
+            "max": 21.236
           },
           "prepacked": {
-            "n": 10,
-            "median": 0.602,
-            "p90": 0.798,
-            "mean": 0.799,
-            "min": 0.577,
-            "max": 2.375
+            "n": 30,
+            "median": 0.884,
+            "p90": 1.331,
+            "mean": 1.182,
+            "min": 0.737,
+            "max": 5.064
           },
-          "speedup": 1.12
+          "speedup": 0.826
         },
         "nodeSnapshot": {
           "supported": true,
-          "blobBytes": 7063538,
-          "blobGzipBytes": 2424633,
+          "blobBytes": 7063114,
+          "blobGzipBytes": 2424546,
           "baseline": {
-            "n": 10,
-            "median": 56.969,
-            "p90": 67.382,
-            "mean": 52.797,
-            "min": 28.992,
-            "max": 77.283
+            "n": 30,
+            "median": 24.635,
+            "p90": 30.768,
+            "mean": 25.9,
+            "min": 19.745,
+            "max": 39.105
           },
           "raw": {
-            "n": 10,
-            "median": 46.702,
-            "p90": 73.139,
-            "mean": 55.385,
-            "min": 35.405,
-            "max": 95.169
+            "n": 30,
+            "median": 30.439,
+            "p90": 38.219,
+            "mean": 32.244,
+            "min": 28.044,
+            "max": 55.216
           },
           "net": {
-            "median": 0,
-            "p90": 16.17,
-            "mean": 0
+            "median": 5.804,
+            "p90": 13.584,
+            "mean": 7.609
           }
         },
         "sizes": {
@@ -780,18 +871,18 @@
             "rawBrotli": 65267
           },
           "prepacked": {
-            "raw": 351114,
-            "terser": 53879,
-            "gzip": 14455,
-            "brotli": 13922,
-            "rawGzip": 77903,
-            "rawBrotli": 65267
+            "raw": 558134,
+            "terser": 153783,
+            "gzip": 41020,
+            "brotli": 30244,
+            "rawGzip": 119779,
+            "rawBrotli": 81227
           },
           "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
+            "raw": 1.59,
+            "terser": 2.854,
+            "gzip": 2.838,
+            "brotli": 2.172
           }
         }
       }
@@ -816,10 +907,10 @@
       "defaultStatus": "OK",
       "status": "OK",
       "bestProfile": {
-        "profile": "default",
-        "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 0,
-        "outBytes": 179561
+        "profile": "browser-opt",
+        "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+        "compileMs": 2338,
+        "outBytes": 393370
       },
       "primaryBlocker": null,
       "profiles": [
@@ -828,12 +919,12 @@
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 0,
-          "outBytes": 179561,
-          "quickVmMs": 5.805,
+          "compileMs": 1866,
+          "outBytes": 393468,
+          "quickVmMs": 7.534,
           "warningCodes": [],
           "infoCodes": [
-            "HYB_STANDIN"
+            "HYB_VOLATILE_BAKED"
           ]
         },
         {
@@ -841,51 +932,84 @@
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 0,
-          "outBytes": 179561,
-          "quickVmMs": 3.542,
+          "compileMs": 2338,
+          "outBytes": 393370,
+          "quickVmMs": 2.237,
           "warningCodes": [],
           "infoCodes": [
-            "HYB_STANDIN"
+            "HYB_VOLATILE_BAKED"
           ]
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 179561,
-          "quickVmMs": 5.602,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 0,
-          "outBytes": 179561,
-          "quickVmMs": 5.979,
+          "status": "FAIL",
+          "compileMs": 3,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 0,
-          "outBytes": 179561,
-          "quickVmMs": 4.918,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -893,11 +1017,11 @@
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
           "eligibleForNodePerf": false,
           "status": "FAIL",
-          "compileMs": 1,
+          "compileMs": 0,
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -916,110 +1040,110 @@
       "perf": {
         "coldProcess": {
           "baseline": {
-            "n": 10,
-            "median": 57.875,
-            "p90": 72.564,
-            "mean": 58.732,
-            "min": 39.688,
-            "max": 79.478
+            "n": 30,
+            "median": 21.019,
+            "p90": 25.486,
+            "mean": 22.337,
+            "min": 19.425,
+            "max": 38.537
           },
           "orig": {
             "raw": {
-              "n": 10,
-              "median": 76.887,
-              "p90": 87.661,
-              "mean": 75.584,
-              "min": 55.921,
-              "max": 88.652
+              "n": 30,
+              "median": 28.022,
+              "p90": 30.187,
+              "mean": 28.162,
+              "min": 25.428,
+              "max": 35.018
             },
             "net": {
-              "median": 19.012,
-              "p90": 29.786,
-              "mean": 17.709
+              "median": 7.003,
+              "p90": 9.168,
+              "mean": 7.143
             }
           },
           "prepacked": {
             "raw": {
-              "n": 10,
-              "median": 77.382,
-              "p90": 85.364,
-              "mean": 73.798,
-              "min": 55.106,
-              "max": 87.071
+              "n": 30,
+              "median": 33.474,
+              "p90": 36.495,
+              "mean": 33.934,
+              "min": 31.853,
+              "max": 40.111
             },
             "net": {
-              "median": 19.507,
-              "p90": 27.489,
-              "mean": 15.923
+              "median": 12.455,
+              "p90": 15.476,
+              "mean": 12.915
             }
           },
-          "speedupRaw": 0.994,
-          "speedupNet": 0.975
+          "speedupRaw": 0.837,
+          "speedupNet": 0.562
         },
         "vmCodeCache": {
           "orig": {
-            "n": 10,
-            "median": 2.41,
-            "p90": 4.738,
-            "mean": 2.834,
-            "min": 1.132,
-            "max": 5.519,
-            "cachedDataBytes": 73464
+            "n": 30,
+            "median": 1.137,
+            "p90": 1.188,
+            "mean": 2.366,
+            "min": 1.111,
+            "max": 37.158,
+            "cachedDataBytes": 73496
           },
           "prepacked": {
-            "n": 10,
-            "median": 1.251,
-            "p90": 2.063,
-            "mean": 1.857,
-            "min": 1.162,
-            "max": 5.574,
-            "cachedDataBytes": 73464
+            "n": 30,
+            "median": 1.484,
+            "p90": 1.548,
+            "mean": 1.933,
+            "min": 1.435,
+            "max": 14.671,
+            "cachedDataBytes": 259840
           },
-          "speedup": 1.926
+          "speedup": 0.766
         },
         "vmExecOnly": {
           "orig": {
-            "n": 10,
-            "median": 1.296,
-            "p90": 2.793,
-            "mean": 1.817,
-            "min": 1.107,
-            "max": 4.228
+            "n": 30,
+            "median": 1.241,
+            "p90": 1.356,
+            "mean": 1.664,
+            "min": 1.097,
+            "max": 13.994
           },
           "prepacked": {
-            "n": 10,
-            "median": 1.14,
-            "p90": 1.299,
-            "mean": 1.171,
-            "min": 1.102,
-            "max": 1.307
+            "n": 30,
+            "median": 1.654,
+            "p90": 1.916,
+            "mean": 2.126,
+            "min": 1.44,
+            "max": 14.242
           },
-          "speedup": 1.137
+          "speedup": 0.75
         },
         "nodeSnapshot": {
           "supported": true,
-          "blobBytes": 6704378,
-          "blobGzipBytes": 2370763,
+          "blobBytes": 6706250,
+          "blobGzipBytes": 2370799,
           "baseline": {
-            "n": 10,
-            "median": 57.97,
-            "p90": 67.276,
-            "mean": 59.815,
-            "min": 50.205,
-            "max": 73.405
+            "n": 30,
+            "median": 23.074,
+            "p90": 26.176,
+            "mean": 23.872,
+            "min": 21.102,
+            "max": 37.033
           },
           "raw": {
-            "n": 10,
-            "median": 96.826,
-            "p90": 113.686,
-            "mean": 95.99,
-            "min": 69.661,
-            "max": 116.52
+            "n": 30,
+            "median": 31.808,
+            "p90": 36.746,
+            "mean": 32.72,
+            "min": 29.098,
+            "max": 38.995
           },
           "net": {
-            "median": 38.856,
-            "p90": 55.716,
-            "mean": 38.02
+            "median": 8.734,
+            "p90": 13.672,
+            "mean": 9.646
           }
         },
         "sizes": {
@@ -1032,18 +1156,18 @@
             "rawBrotli": 33750
           },
           "prepacked": {
-            "raw": 179561,
-            "terser": 66413,
-            "gzip": 18446,
-            "brotli": 17677,
-            "rawGzip": 36784,
-            "rawBrotli": 33750
+            "raw": 393370,
+            "terser": 153517,
+            "gzip": 43060,
+            "brotli": 32781,
+            "rawGzip": 79195,
+            "rawBrotli": 46734
           },
           "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
+            "raw": 2.191,
+            "terser": 2.312,
+            "gzip": 2.334,
+            "brotli": 1.854
           }
         }
       }
@@ -1070,8 +1194,8 @@
       "bestProfile": {
         "profile": "default",
         "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 1,
-        "outBytes": 653144
+        "compileMs": 4823,
+        "outBytes": 1477588
       },
       "primaryBlocker": null,
       "profiles": [
@@ -1080,64 +1204,93 @@
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 653144,
-          "quickVmMs": 32.247,
+          "compileMs": 4823,
+          "outBytes": 1477588,
+          "quickVmMs": 11.046,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-opt",
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 0,
-          "outBytes": 653144,
-          "quickVmMs": 34.346,
+          "compileMs": 4436,
+          "outBytes": 1477805,
+          "quickVmMs": 15.473,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 653144,
-          "quickVmMs": 33.77,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 653144,
-          "quickVmMs": 41.324,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 653144,
-          "quickVmMs": 16.345,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -1145,11 +1298,11 @@
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
           "eligibleForNodePerf": false,
           "status": "FAIL",
-          "compileMs": 1,
+          "compileMs": 0,
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -1168,110 +1321,110 @@
       "perf": {
         "coldProcess": {
           "baseline": {
-            "n": 10,
-            "median": 59.81,
-            "p90": 91.489,
-            "mean": 62.943,
-            "min": 33.45,
-            "max": 92.508
+            "n": 30,
+            "median": 26.294,
+            "p90": 37.59,
+            "mean": 29.48,
+            "min": 20.465,
+            "max": 66.13
           },
           "orig": {
             "raw": {
-              "n": 10,
-              "median": 103.794,
-              "p90": 138.568,
-              "mean": 108.318,
-              "min": 65.284,
-              "max": 146.406
+              "n": 30,
+              "median": 50.419,
+              "p90": 75.395,
+              "mean": 56.928,
+              "min": 44.361,
+              "max": 111.856
             },
             "net": {
-              "median": 43.984,
-              "p90": 78.758,
-              "mean": 48.508
+              "median": 24.125,
+              "p90": 49.101,
+              "mean": 30.634
             }
           },
           "prepacked": {
             "raw": {
-              "n": 10,
-              "median": 106.301,
-              "p90": 143.873,
-              "mean": 110.592,
-              "min": 58.058,
-              "max": 175.571
+              "n": 30,
+              "median": 67.858,
+              "p90": 75.597,
+              "mean": 74.752,
+              "min": 61.888,
+              "max": 161.812
             },
             "net": {
-              "median": 46.491,
-              "p90": 84.063,
-              "mean": 50.782
+              "median": 41.564,
+              "p90": 49.303,
+              "mean": 48.458
             }
           },
-          "speedupRaw": 0.976,
-          "speedupNet": 0.946
+          "speedupRaw": 0.743,
+          "speedupNet": 0.58
         },
         "vmCodeCache": {
           "orig": {
-            "n": 10,
-            "median": 17.892,
-            "p90": 24.633,
-            "mean": 18.11,
-            "min": 11.167,
-            "max": 25.808,
-            "cachedDataBytes": 394320
+            "n": 30,
+            "median": 11.554,
+            "p90": 12.806,
+            "mean": 13.895,
+            "min": 10.666,
+            "max": 53.683,
+            "cachedDataBytes": 394080
           },
           "prepacked": {
-            "n": 10,
-            "median": 16.832,
-            "p90": 24.932,
-            "mean": 17.922,
-            "min": 11.414,
-            "max": 27.183,
-            "cachedDataBytes": 394320
+            "n": 30,
+            "median": 4.836,
+            "p90": 5.603,
+            "mean": 5.487,
+            "min": 4.483,
+            "max": 20.414,
+            "cachedDataBytes": 1138608
           },
-          "speedup": 1.063
+          "speedup": 2.389
         },
         "vmExecOnly": {
           "orig": {
-            "n": 10,
-            "median": 17.667,
-            "p90": 26.9,
-            "mean": 19.615,
-            "min": 11.882,
-            "max": 37.875
+            "n": 30,
+            "median": 11.162,
+            "p90": 11.639,
+            "mean": 11.851,
+            "min": 10.616,
+            "max": 30.581
           },
           "prepacked": {
-            "n": 10,
-            "median": 18.487,
-            "p90": 23.778,
-            "mean": 18.568,
-            "min": 11.918,
-            "max": 27.373
+            "n": 30,
+            "median": 4.917,
+            "p90": 5.177,
+            "mean": 5.822,
+            "min": 4.544,
+            "max": 19.025
           },
-          "speedup": 0.956
+          "speedup": 2.27
         },
         "nodeSnapshot": {
           "supported": true,
-          "blobBytes": 8041274,
-          "blobGzipBytes": 2610809,
+          "blobBytes": 8041066,
+          "blobGzipBytes": 2611319,
           "baseline": {
-            "n": 10,
-            "median": 55.626,
-            "p90": 77.085,
-            "mean": 58.123,
-            "min": 30.932,
-            "max": 77.285
+            "n": 30,
+            "median": 23.195,
+            "p90": 28.374,
+            "mean": 24.211,
+            "min": 20.729,
+            "max": 31.22
           },
           "raw": {
-            "n": 10,
-            "median": 99.853,
-            "p90": 116.071,
-            "mean": 89.739,
-            "min": 38.794,
-            "max": 135.231
+            "n": 30,
+            "median": 37.788,
+            "p90": 40.309,
+            "mean": 37.587,
+            "min": 33.424,
+            "max": 46.856
           },
           "net": {
-            "median": 44.227,
-            "p90": 60.445,
-            "mean": 34.113
+            "median": 14.593,
+            "p90": 17.114,
+            "mean": 14.392
           }
         },
         "sizes": {
@@ -1284,18 +1437,18 @@
             "rawBrotli": 88811
           },
           "prepacked": {
-            "raw": 653144,
-            "terser": 299282,
-            "gzip": 76073,
-            "brotli": 64111,
-            "rawGzip": 107927,
-            "rawBrotli": 88811
+            "raw": 1477588,
+            "terser": 759600,
+            "gzip": 186118,
+            "brotli": 116179,
+            "rawGzip": 250259,
+            "rawBrotli": 152955
           },
           "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
+            "raw": 2.262,
+            "terser": 2.538,
+            "gzip": 2.447,
+            "brotli": 1.812
           }
         }
       }
@@ -1320,10 +1473,10 @@
       "defaultStatus": "OK",
       "status": "OK",
       "bestProfile": {
-        "profile": "default",
-        "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 1,
-        "outBytes": 111861
+        "profile": "browser-opt",
+        "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+        "compileMs": 1926,
+        "outBytes": 241807
       },
       "primaryBlocker": null,
       "profiles": [
@@ -1332,64 +1485,93 @@
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 111861,
-          "quickVmMs": 0.923,
+          "compileMs": 1606,
+          "outBytes": 241808,
+          "quickVmMs": 5.101,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-opt",
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 111861,
-          "quickVmMs": 0.97,
+          "compileMs": 1926,
+          "outBytes": 241807,
+          "quickVmMs": 0.982,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 1,
-          "outBytes": 111861,
-          "quickVmMs": 2.304,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 111861,
-          "quickVmMs": 2.593,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 1,
-          "outBytes": 111861,
-          "quickVmMs": 3.808,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -1397,11 +1579,11 @@
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
           "eligibleForNodePerf": false,
           "status": "FAIL",
-          "compileMs": 1,
+          "compileMs": 0,
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -1420,110 +1602,110 @@
       "perf": {
         "coldProcess": {
           "baseline": {
-            "n": 10,
-            "median": 62.236,
-            "p90": 74.812,
-            "mean": 63.135,
-            "min": 36.884,
-            "max": 82.603
+            "n": 30,
+            "median": 25.76,
+            "p90": 27.976,
+            "mean": 25.744,
+            "min": 21.646,
+            "max": 29.836
           },
           "orig": {
             "raw": {
-              "n": 10,
-              "median": 71.001,
-              "p90": 80.048,
-              "mean": 67.118,
-              "min": 44.063,
-              "max": 80.278
+              "n": 30,
+              "median": 27.995,
+              "p90": 35.373,
+              "mean": 29.303,
+              "min": 26.039,
+              "max": 38.193
             },
             "net": {
-              "median": 8.765,
-              "p90": 17.812,
-              "mean": 4.882
+              "median": 2.235,
+              "p90": 9.613,
+              "mean": 3.543
             }
           },
           "prepacked": {
             "raw": {
-              "n": 10,
-              "median": 67.605,
-              "p90": 74.882,
-              "mean": 67.397,
-              "min": 52.806,
-              "max": 98.529
+              "n": 30,
+              "median": 32.153,
+              "p90": 37.765,
+              "mean": 33.266,
+              "min": 29.197,
+              "max": 46.26
             },
             "net": {
-              "median": 5.369,
-              "p90": 12.646,
-              "mean": 5.161
+              "median": 6.393,
+              "p90": 12.005,
+              "mean": 7.506
             }
           },
-          "speedupRaw": 1.05,
-          "speedupNet": 1.633
+          "speedupRaw": 0.871,
+          "speedupNet": 0.35
         },
         "vmCodeCache": {
           "orig": {
-            "n": 10,
-            "median": 0.772,
-            "p90": 0.83,
-            "mean": 1.39,
-            "min": 0.7,
-            "max": 6.974,
-            "cachedDataBytes": 52888
+            "n": 30,
+            "median": 0.695,
+            "p90": 0.742,
+            "mean": 0.724,
+            "min": 0.671,
+            "max": 1.203,
+            "cachedDataBytes": 52880
           },
           "prepacked": {
-            "n": 10,
-            "median": 0.77,
-            "p90": 4.796,
-            "mean": 2.603,
-            "min": 0.72,
-            "max": 8.511,
-            "cachedDataBytes": 52888
+            "n": 30,
+            "median": 0.823,
+            "p90": 0.909,
+            "mean": 0.909,
+            "min": 0.791,
+            "max": 2.506,
+            "cachedDataBytes": 143000
           },
-          "speedup": 1.003
+          "speedup": 0.844
         },
         "vmExecOnly": {
           "orig": {
-            "n": 10,
-            "median": 0.719,
-            "p90": 0.774,
-            "mean": 0.732,
-            "min": 0.707,
-            "max": 0.804
+            "n": 30,
+            "median": 0.665,
+            "p90": 0.698,
+            "mean": 0.665,
+            "min": 0.629,
+            "max": 0.704
           },
           "prepacked": {
-            "n": 10,
-            "median": 0.747,
-            "p90": 4.711,
-            "mean": 1.537,
-            "min": 0.708,
-            "max": 4.715
+            "n": 30,
+            "median": 0.781,
+            "p90": 0.812,
+            "mean": 0.783,
+            "min": 0.752,
+            "max": 0.82
           },
-          "speedup": 0.963
+          "speedup": 0.851
         },
         "nodeSnapshot": {
           "supported": true,
-          "blobBytes": 6438682,
-          "blobGzipBytes": 2350654,
+          "blobBytes": 6438050,
+          "blobGzipBytes": 2350643,
           "baseline": {
-            "n": 10,
-            "median": 53.598,
-            "p90": 68.249,
-            "mean": 54.547,
-            "min": 37.304,
-            "max": 70.461
+            "n": 30,
+            "median": 24.372,
+            "p90": 27.763,
+            "mean": 24.635,
+            "min": 21.211,
+            "max": 29.768
           },
           "raw": {
-            "n": 10,
-            "median": 75.648,
-            "p90": 87.983,
-            "mean": 73.2,
-            "min": 46.579,
-            "max": 92.121
+            "n": 30,
+            "median": 32.199,
+            "p90": 35.616,
+            "mean": 33.053,
+            "min": 28.436,
+            "max": 44.962
           },
           "net": {
-            "median": 22.05,
-            "p90": 34.385,
-            "mean": 19.602
+            "median": 7.827,
+            "p90": 11.244,
+            "mean": 8.681
           }
         },
         "sizes": {
@@ -1536,18 +1718,18 @@
             "rawBrotli": 24073
           },
           "prepacked": {
-            "raw": 111861,
-            "terser": 43487,
-            "gzip": 15756,
-            "brotli": 15072,
-            "rawGzip": 26102,
-            "rawBrotli": 24073
+            "raw": 241807,
+            "terser": 102628,
+            "gzip": 32730,
+            "brotli": 22478,
+            "rawGzip": 53521,
+            "rawBrotli": 32851
           },
           "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
+            "raw": 2.162,
+            "terser": 2.36,
+            "gzip": 2.077,
+            "brotli": 1.491
           }
         }
       }
@@ -1572,10 +1754,10 @@
       "defaultStatus": "OK",
       "status": "OK",
       "bestProfile": {
-        "profile": "default",
-        "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 0,
-        "outBytes": 246643
+        "profile": "browser-opt",
+        "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+        "compileMs": 1368,
+        "outBytes": 569812
       },
       "primaryBlocker": null,
       "profiles": [
@@ -1584,61 +1766,93 @@
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 0,
-          "outBytes": 246643,
-          "quickVmMs": 3.23,
+          "compileMs": 1599,
+          "outBytes": 569894,
+          "quickVmMs": 1.753,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-opt",
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 2,
-          "outBytes": 246643,
-          "quickVmMs": 4.382,
+          "compileMs": 1368,
+          "outBytes": 569812,
+          "quickVmMs": 1.914,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "FAIL",
-          "compileMs": 254,
-          "errorCode": "WORKER_CRASH",
-          "message": "Worker exited (null)",
-          "location": null
+          "compileMs": 3,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
+          ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 246643,
-          "quickVmMs": 3.838,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 1,
-          "outBytes": 246643,
-          "quickVmMs": 4.109,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -1646,11 +1860,11 @@
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
           "eligibleForNodePerf": false,
           "status": "FAIL",
-          "compileMs": 0,
+          "compileMs": 1,
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -1669,110 +1883,110 @@
       "perf": {
         "coldProcess": {
           "baseline": {
-            "n": 10,
-            "median": 71.287,
-            "p90": 88.438,
-            "mean": 68.304,
-            "min": 41.509,
-            "max": 96.104
+            "n": 30,
+            "median": 24.527,
+            "p90": 28.067,
+            "mean": 25.078,
+            "min": 21.373,
+            "max": 34.659
           },
           "orig": {
             "raw": {
-              "n": 10,
-              "median": 84.731,
-              "p90": 114.38,
-              "mean": 91.268,
-              "min": 69.769,
-              "max": 117.766
+              "n": 30,
+              "median": 33.092,
+              "p90": 40.451,
+              "mean": 34.311,
+              "min": 30.11,
+              "max": 48.608
             },
             "net": {
-              "median": 13.444,
-              "p90": 43.093,
-              "mean": 19.981
+              "median": 8.565,
+              "p90": 15.924,
+              "mean": 9.784
             }
           },
           "prepacked": {
             "raw": {
-              "n": 10,
-              "median": 90.821,
-              "p90": 113.234,
-              "mean": 94.826,
-              "min": 73.369,
-              "max": 117.98
+              "n": 30,
+              "median": 37.568,
+              "p90": 43.576,
+              "mean": 39.78,
+              "min": 34.395,
+              "max": 58.043
             },
             "net": {
-              "median": 19.534,
-              "p90": 41.947,
-              "mean": 23.539
+              "median": 13.041,
+              "p90": 19.049,
+              "mean": 15.253
             }
           },
-          "speedupRaw": 0.933,
-          "speedupNet": 0.688
+          "speedupRaw": 0.881,
+          "speedupNet": 0.657
         },
         "vmCodeCache": {
           "orig": {
-            "n": 10,
-            "median": 2.088,
-            "p90": 4.243,
-            "mean": 2.709,
-            "min": 1.479,
-            "max": 6.844,
-            "cachedDataBytes": 82600
+            "n": 30,
+            "median": 1.426,
+            "p90": 1.98,
+            "mean": 1.917,
+            "min": 1.367,
+            "max": 9.145,
+            "cachedDataBytes": 82608
           },
           "prepacked": {
-            "n": 10,
-            "median": 4.585,
-            "p90": 16.395,
-            "mean": 8.687,
-            "min": 1.437,
-            "max": 38.409,
-            "cachedDataBytes": 82600
+            "n": 30,
+            "median": 1.508,
+            "p90": 1.596,
+            "mean": 1.547,
+            "min": 1.455,
+            "max": 1.972,
+            "cachedDataBytes": 368232
           },
-          "speedup": 0.455
+          "speedup": 0.946
         },
         "vmExecOnly": {
           "orig": {
-            "n": 10,
-            "median": 1.529,
-            "p90": 4.955,
-            "mean": 2.617,
-            "min": 1.473,
-            "max": 5.444
+            "n": 30,
+            "median": 1.399,
+            "p90": 1.426,
+            "mean": 1.413,
+            "min": 1.358,
+            "max": 1.927
           },
           "prepacked": {
-            "n": 10,
-            "median": 3.645,
-            "p90": 7.091,
-            "mean": 4.368,
-            "min": 1.509,
-            "max": 12.408
+            "n": 30,
+            "median": 1.486,
+            "p90": 1.585,
+            "mean": 1.595,
+            "min": 1.449,
+            "max": 3.567
           },
-          "speedup": 0.419
+          "speedup": 0.941
         },
         "nodeSnapshot": {
           "supported": true,
-          "blobBytes": 6886506,
-          "blobGzipBytes": 2401868,
+          "blobBytes": 6886034,
+          "blobGzipBytes": 2400703,
           "baseline": {
-            "n": 10,
-            "median": 57.091,
-            "p90": 60.599,
-            "mean": 52.255,
-            "min": 30.757,
-            "max": 61.566
+            "n": 30,
+            "median": 20.866,
+            "p90": 24.117,
+            "mean": 21.586,
+            "min": 19.004,
+            "max": 26.561
           },
           "raw": {
-            "n": 10,
-            "median": 79.176,
-            "p90": 93.725,
-            "mean": 78.051,
-            "min": 47.881,
-            "max": 96.122
+            "n": 30,
+            "median": 31.837,
+            "p90": 35.395,
+            "mean": 33.14,
+            "min": 29.492,
+            "max": 58.607
           },
           "net": {
-            "median": 22.085,
-            "p90": 36.634,
-            "mean": 20.96
+            "median": 10.971,
+            "p90": 14.529,
+            "mean": 12.274
           }
         },
         "sizes": {
@@ -1785,18 +1999,18 @@
             "rawBrotli": 53000
           },
           "prepacked": {
-            "raw": 246643,
-            "terser": 118382,
-            "gzip": 34723,
-            "brotli": 32457,
-            "rawGzip": 57931,
-            "rawBrotli": 53000
+            "raw": 569812,
+            "terser": 321437,
+            "gzip": 79750,
+            "brotli": 46852,
+            "rawGzip": 120872,
+            "rawBrotli": 67910
           },
           "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
+            "raw": 2.31,
+            "terser": 2.715,
+            "gzip": 2.297,
+            "brotli": 1.444
           }
         }
       }
@@ -1823,8 +2037,8 @@
       "bestProfile": {
         "profile": "default",
         "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 1,
-        "outBytes": 3702
+        "compileMs": 538,
+        "outBytes": 30711
       },
       "primaryBlocker": null,
       "profiles": [
@@ -1833,64 +2047,93 @@
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 3702,
-          "quickVmMs": 2.412,
+          "compileMs": 538,
+          "outBytes": 30711,
+          "quickVmMs": 0.657,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-opt",
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 0,
-          "outBytes": 3702,
-          "quickVmMs": 3.765,
+          "compileMs": 479,
+          "outBytes": 30711,
+          "quickVmMs": 0.233,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 7,
-          "outBytes": 3702,
-          "quickVmMs": 7.358,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 3702,
-          "quickVmMs": 1.907,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 0,
-          "outBytes": 3702,
-          "quickVmMs": 3.525,
+          "status": "FAIL",
+          "compileMs": 6,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -1902,7 +2145,7 @@
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -1921,110 +2164,110 @@
       "perf": {
         "coldProcess": {
           "baseline": {
-            "n": 10,
-            "median": 58.419,
-            "p90": 65.695,
-            "mean": 53.243,
-            "min": 21.855,
-            "max": 67.124
+            "n": 30,
+            "median": 22.553,
+            "p90": 25.79,
+            "mean": 22.559,
+            "min": 18.879,
+            "max": 28.53
           },
           "orig": {
             "raw": {
-              "n": 10,
-              "median": 62.773,
-              "p90": 79.15,
-              "mean": 58.684,
-              "min": 29.932,
-              "max": 85.34
+              "n": 30,
+              "median": 22.845,
+              "p90": 28.629,
+              "mean": 24.005,
+              "min": 19.788,
+              "max": 32.523
             },
             "net": {
-              "median": 4.354,
-              "p90": 20.731,
-              "mean": 0.265
+              "median": 0.292,
+              "p90": 6.076,
+              "mean": 1.452
             }
           },
           "prepacked": {
             "raw": {
-              "n": 10,
-              "median": 55.543,
-              "p90": 79.685,
-              "mean": 54.453,
-              "min": 29.875,
-              "max": 82.929
+              "n": 30,
+              "median": 20.755,
+              "p90": 25.325,
+              "mean": 22.124,
+              "min": 19.136,
+              "max": 27.098
             },
             "net": {
               "median": 0,
-              "p90": 21.266,
+              "p90": 2.772,
               "mean": 0
             }
           },
-          "speedupRaw": 1.13,
+          "speedupRaw": 1.101,
           "speedupNet": null
         },
         "vmCodeCache": {
           "orig": {
-            "n": 10,
-            "median": 0.209,
-            "p90": 4.307,
-            "mean": 1.383,
-            "min": 0.188,
-            "max": 4.391,
+            "n": 30,
+            "median": 0.186,
+            "p90": 0.197,
+            "mean": 0.187,
+            "min": 0.178,
+            "max": 0.203,
             "cachedDataBytes": 2232
           },
           "prepacked": {
-            "n": 10,
-            "median": 0.226,
-            "p90": 0.243,
-            "mean": 0.499,
-            "min": 0.191,
-            "max": 2.999,
-            "cachedDataBytes": 2232
+            "n": 30,
+            "median": 0.08,
+            "p90": 0.086,
+            "mean": 0.082,
+            "min": 0.07,
+            "max": 0.139,
+            "cachedDataBytes": 30824
           },
-          "speedup": 0.925
+          "speedup": 2.325
         },
         "vmExecOnly": {
           "orig": {
-            "n": 10,
-            "median": 0.197,
-            "p90": 0.469,
-            "mean": 0.378,
-            "min": 0.181,
-            "max": 1.74
+            "n": 30,
+            "median": 0.177,
+            "p90": 0.193,
+            "mean": 0.182,
+            "min": 0.166,
+            "max": 0.216
           },
           "prepacked": {
-            "n": 10,
-            "median": 0.191,
-            "p90": 1.019,
-            "mean": 0.57,
-            "min": 0.178,
-            "max": 3.143
+            "n": 30,
+            "median": 0.07,
+            "p90": 0.081,
+            "mean": 0.072,
+            "min": 0.062,
+            "max": 0.103
           },
-          "speedup": 1.031
+          "speedup": 2.529
         },
         "nodeSnapshot": {
           "supported": true,
-          "blobBytes": 6291794,
-          "blobGzipBytes": 2321787,
+          "blobBytes": 6284514,
+          "blobGzipBytes": 2315105,
           "baseline": {
-            "n": 10,
-            "median": 29.064,
-            "p90": 43.76,
-            "mean": 33.144,
-            "min": 23.964,
-            "max": 62.123
+            "n": 30,
+            "median": 22.681,
+            "p90": 24.289,
+            "mean": 22.71,
+            "min": 20.539,
+            "max": 26.068
           },
           "raw": {
-            "n": 10,
-            "median": 36.718,
-            "p90": 59.744,
-            "mean": 41.792,
-            "min": 31.713,
-            "max": 74.104
+            "n": 30,
+            "median": 27.818,
+            "p90": 30.576,
+            "mean": 27.837,
+            "min": 23.138,
+            "max": 32.432
           },
           "net": {
-            "median": 7.654,
-            "p90": 30.68,
-            "mean": 12.728
+            "median": 5.137,
+            "p90": 7.895,
+            "mean": 5.156
           }
         },
         "sizes": {
@@ -2037,18 +2280,18 @@
             "rawBrotli": 1131
           },
           "prepacked": {
-            "raw": 3702,
-            "terser": 2047,
-            "gzip": 818,
-            "brotli": 786,
-            "rawGzip": 1222,
-            "rawBrotli": 1131
+            "raw": 30711,
+            "terser": 27648,
+            "gzip": 18592,
+            "brotli": 18203,
+            "rawGzip": 19060,
+            "rawBrotli": 18572
           },
           "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
+            "raw": 8.296,
+            "terser": 13.507,
+            "gzip": 22.729,
+            "brotli": 23.159
           }
         }
       }
@@ -2070,79 +2313,152 @@
         }
       ],
       "expectedDigest": "c92f2c0ca64839614ca45b811cd9c02f1590e68b8fd34e6dcf567329cc4f06b6",
-      "defaultStatus": "OK",
-      "status": "OK",
-      "bestProfile": {
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
         "profile": "default",
         "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 16,
-        "outBytes": 50548
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 762,
+        "errorCode": "HYB_BAILOUT",
+        "message": "class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:s20]].O)",
+        "location": null,
+        "internalFrame": "handleBailoutList (lib/bench-adapter.js:249:11)",
+        "diagnosticsCount": 1,
+        "errorCodes": [
+          "HYB_BAILOUT"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "HYB_BAILOUT",
+            "message": "class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:s20]].O)",
+            "location": null
+          }
+        ]
       },
-      "primaryBlocker": null,
       "profiles": [
         {
           "profile": "default",
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 16,
-          "outBytes": 50548,
-          "quickVmMs": 6.32,
+          "status": "FAIL",
+          "compileMs": 762,
+          "errorCode": "HYB_BAILOUT",
+          "message": "class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:s20]].O)",
+          "location": null,
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:249:11)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_BAILOUT"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_BAILOUT",
+              "message": "class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:s20]].O)",
+              "location": null
+            }
           ]
         },
         {
           "profile": "browser-opt",
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 1,
-          "outBytes": 50548,
-          "quickVmMs": 1.654,
+          "status": "FAIL",
+          "compileMs": 1256,
+          "errorCode": "HYB_BAILOUT",
+          "message": "class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:s20]].O)",
+          "location": null,
+          "internalFrame": "handleBailoutList (lib/bench-adapter.js:249:11)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_BAILOUT"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_BAILOUT",
+              "message": "class or function with private fields (#x) (a) (global.marked.Hooks.get.[[Scope:s20]].O)",
+              "location": null
+            }
           ]
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 2,
-          "outBytes": 50548,
-          "quickVmMs": 4.585,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 1,
-          "outBytes": 50548,
-          "quickVmMs": 5.606,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 1,
-          "outBytes": 50548,
-          "quickVmMs": 1.421,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -2150,11 +2466,11 @@
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
           "eligibleForNodePerf": false,
           "status": "FAIL",
-          "compileMs": 7,
+          "compileMs": 0,
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -2170,140 +2486,7 @@
           ]
         }
       ],
-      "perf": {
-        "coldProcess": {
-          "baseline": {
-            "n": 10,
-            "median": 57.039,
-            "p90": 63.312,
-            "mean": 56.471,
-            "min": 42.115,
-            "max": 69.14
-          },
-          "orig": {
-            "raw": {
-              "n": 10,
-              "median": 138.227,
-              "p90": 150.088,
-              "mean": 137.56,
-              "min": 115.637,
-              "max": 162.388
-            },
-            "net": {
-              "median": 81.188,
-              "p90": 93.049,
-              "mean": 80.521
-            }
-          },
-          "prepacked": {
-            "raw": {
-              "n": 10,
-              "median": 138.297,
-              "p90": 174.342,
-              "mean": 143.632,
-              "min": 104.638,
-              "max": 178.891
-            },
-            "net": {
-              "median": 81.258,
-              "p90": 117.303,
-              "mean": 86.593
-            }
-          },
-          "speedupRaw": 0.999,
-          "speedupNet": 0.999
-        },
-        "vmCodeCache": {
-          "orig": {
-            "n": 10,
-            "median": 1.37,
-            "p90": 2.724,
-            "mean": 2.269,
-            "min": 1.251,
-            "max": 8.983,
-            "cachedDataBytes": 3336
-          },
-          "prepacked": {
-            "n": 10,
-            "median": 1.383,
-            "p90": 5.462,
-            "mean": 2.258,
-            "min": 1.295,
-            "max": 5.772,
-            "cachedDataBytes": 3336
-          },
-          "speedup": 0.991
-        },
-        "vmExecOnly": {
-          "orig": {
-            "n": 10,
-            "median": 5.167,
-            "p90": 19.041,
-            "mean": 8.688,
-            "min": 1.177,
-            "max": 28.318
-          },
-          "prepacked": {
-            "n": 10,
-            "median": 1.541,
-            "p90": 5.364,
-            "mean": 2.652,
-            "min": 1.147,
-            "max": 5.876
-          },
-          "speedup": 3.353
-        },
-        "nodeSnapshot": {
-          "supported": true,
-          "blobBytes": 6386370,
-          "blobGzipBytes": 2333026,
-          "baseline": {
-            "n": 10,
-            "median": 42.821,
-            "p90": 61.858,
-            "mean": 45.375,
-            "min": 26.898,
-            "max": 67.366
-          },
-          "raw": {
-            "n": 10,
-            "median": 90.902,
-            "p90": 156.452,
-            "mean": 102.837,
-            "min": 52.539,
-            "max": 156.551
-          },
-          "net": {
-            "median": 48.081,
-            "p90": 113.631,
-            "mean": 60.016
-          }
-        },
-        "sizes": {
-          "orig": {
-            "raw": 50548,
-            "terser": 50124,
-            "gzip": 14820,
-            "brotli": 14355,
-            "rawGzip": 15363,
-            "rawBrotli": 14913
-          },
-          "prepacked": {
-            "raw": 50548,
-            "terser": 50124,
-            "gzip": 14820,
-            "brotli": 14355,
-            "rawGzip": 15363,
-            "rawBrotli": 14913
-          },
-          "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
-          }
-        }
-      }
+      "perf": null
     },
     {
       "id": "d3-scale",
@@ -2369,8 +2552,8 @@
       "bestProfile": {
         "profile": "default",
         "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 1,
-        "outBytes": 152468
+        "compileMs": 3349,
+        "outBytes": 450417
       },
       "primaryBlocker": null,
       "profiles": [
@@ -2379,12 +2562,12 @@
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 152468,
-          "quickVmMs": 3.453,
+          "compileMs": 3349,
+          "outBytes": 450417,
+          "quickVmMs": 1.283,
           "warningCodes": [],
           "infoCodes": [
-            "HYB_STANDIN"
+            "HYB_VOLATILE_BAKED"
           ]
         },
         {
@@ -2392,51 +2575,84 @@
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 152468,
-          "quickVmMs": 3.522,
+          "compileMs": 2999,
+          "outBytes": 450417,
+          "quickVmMs": 1.1,
           "warningCodes": [],
           "infoCodes": [
-            "HYB_STANDIN"
+            "HYB_VOLATILE_BAKED"
           ]
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 0,
-          "outBytes": 152468,
-          "quickVmMs": 3.335,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 0,
-          "outBytes": 152468,
-          "quickVmMs": 7.142,
+          "status": "FAIL",
+          "compileMs": 2,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 1,
-          "outBytes": 152468,
-          "quickVmMs": 5.075,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -2444,11 +2660,11 @@
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
           "eligibleForNodePerf": false,
           "status": "FAIL",
-          "compileMs": 1,
+          "compileMs": 0,
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -2467,110 +2683,110 @@
       "perf": {
         "coldProcess": {
           "baseline": {
-            "n": 10,
-            "median": 46.653,
-            "p90": 63.006,
-            "mean": 44.884,
-            "min": 23.251,
-            "max": 69.063
+            "n": 30,
+            "median": 21.27,
+            "p90": 26.092,
+            "mean": 21.795,
+            "min": 18.82,
+            "max": 28.212
           },
           "orig": {
             "raw": {
-              "n": 10,
-              "median": 62.324,
-              "p90": 78.181,
-              "mean": 57.091,
-              "min": 30.301,
-              "max": 91.587
+              "n": 30,
+              "median": 27.59,
+              "p90": 29.974,
+              "mean": 28.273,
+              "min": 24.986,
+              "max": 36.004
             },
             "net": {
-              "median": 15.671,
-              "p90": 31.528,
-              "mean": 10.438
+              "median": 6.32,
+              "p90": 8.704,
+              "mean": 7.003
             }
           },
           "prepacked": {
             "raw": {
-              "n": 10,
-              "median": 46.88,
-              "p90": 89.263,
-              "mean": 57.478,
-              "min": 29.453,
-              "max": 93.46
+              "n": 30,
+              "median": 35.383,
+              "p90": 38.492,
+              "mean": 36.16,
+              "min": 32.343,
+              "max": 50.457
             },
             "net": {
-              "median": 0.227,
-              "p90": 42.61,
-              "mean": 10.825
+              "median": 14.113,
+              "p90": 17.222,
+              "mean": 14.89
             }
           },
-          "speedupRaw": 1.329,
-          "speedupNet": 69.035
+          "speedupRaw": 0.78,
+          "speedupNet": 0.448
         },
         "vmCodeCache": {
           "orig": {
-            "n": 10,
-            "median": 0.955,
-            "p90": 2.074,
-            "mean": 1.61,
-            "min": 0.837,
-            "max": 5.945,
-            "cachedDataBytes": 76152
+            "n": 30,
+            "median": 0.834,
+            "p90": 1.061,
+            "mean": 1.076,
+            "min": 0.784,
+            "max": 7.281,
+            "cachedDataBytes": 76160
           },
           "prepacked": {
-            "n": 10,
-            "median": 0.921,
-            "p90": 6.841,
-            "mean": 2.491,
-            "min": 0.849,
-            "max": 6.918,
-            "cachedDataBytes": 76152
+            "n": 30,
+            "median": 0.882,
+            "p90": 1.102,
+            "mean": 0.924,
+            "min": 0.83,
+            "max": 1.292,
+            "cachedDataBytes": 293632
           },
-          "speedup": 1.037
+          "speedup": 0.946
         },
         "vmExecOnly": {
           "orig": {
-            "n": 10,
-            "median": 0.905,
-            "p90": 3.378,
-            "mean": 1.6,
-            "min": 0.79,
-            "max": 3.943
+            "n": 30,
+            "median": 0.796,
+            "p90": 0.821,
+            "mean": 0.796,
+            "min": 0.758,
+            "max": 0.925
           },
           "prepacked": {
-            "n": 10,
-            "median": 0.914,
-            "p90": 1.977,
-            "mean": 1.326,
-            "min": 0.786,
-            "max": 3.356
+            "n": 30,
+            "median": 0.835,
+            "p90": 0.854,
+            "mean": 0.837,
+            "min": 0.81,
+            "max": 0.871
           },
-          "speedup": 0.99
+          "speedup": 0.953
         },
         "nodeSnapshot": {
           "supported": true,
-          "blobBytes": 6691378,
-          "blobGzipBytes": 2387187,
+          "blobBytes": 6685138,
+          "blobGzipBytes": 2381855,
           "baseline": {
-            "n": 10,
-            "median": 58.545,
-            "p90": 67.572,
-            "mean": 55.283,
-            "min": 24.627,
-            "max": 71.175
+            "n": 30,
+            "median": 21.262,
+            "p90": 23.566,
+            "mean": 21.621,
+            "min": 19.316,
+            "max": 26.264
           },
           "raw": {
-            "n": 10,
-            "median": 78.594,
-            "p90": 88.705,
-            "mean": 73.742,
-            "min": 37.666,
-            "max": 91.893
+            "n": 30,
+            "median": 28.738,
+            "p90": 31.566,
+            "mean": 29.278,
+            "min": 25.634,
+            "max": 40.238
           },
           "net": {
-            "median": 20.049,
-            "p90": 30.16,
-            "mean": 15.197
+            "median": 7.476,
+            "p90": 10.304,
+            "mean": 8.016
           }
         },
         "sizes": {
@@ -2583,18 +2799,18 @@
             "rawBrotli": 32447
           },
           "prepacked": {
-            "raw": 152468,
-            "terser": 72757,
-            "gzip": 23583,
-            "brotli": 22699,
-            "rawGzip": 34358,
-            "rawBrotli": 32447
+            "raw": 450417,
+            "terser": 207098,
+            "gzip": 61636,
+            "brotli": 42545,
+            "rawGzip": 85962,
+            "rawBrotli": 51045
           },
           "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
+            "raw": 2.954,
+            "terser": 2.846,
+            "gzip": 2.614,
+            "brotli": 1.874
           }
         }
       }
@@ -2621,8 +2837,8 @@
       "bestProfile": {
         "profile": "default",
         "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 1,
-        "outBytes": 18502
+        "compileMs": 796,
+        "outBytes": 41493
       },
       "primaryBlocker": null,
       "profiles": [
@@ -2631,12 +2847,12 @@
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 18502,
-          "quickVmMs": 3.723,
+          "compileMs": 796,
+          "outBytes": 41493,
+          "quickVmMs": 0.284,
           "warningCodes": [],
           "infoCodes": [
-            "HYB_STANDIN"
+            "HYB_VOLATILE_BAKED"
           ]
         },
         {
@@ -2644,51 +2860,84 @@
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 0,
-          "outBytes": 18502,
-          "quickVmMs": 0.416,
+          "compileMs": 623,
+          "outBytes": 41493,
+          "quickVmMs": 1.792,
           "warningCodes": [],
           "infoCodes": [
-            "HYB_STANDIN"
+            "HYB_VOLATILE_BAKED"
           ]
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 18502,
-          "quickVmMs": 0.94,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 0,
-          "outBytes": 18502,
-          "quickVmMs": 7.478,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 18502,
-          "quickVmMs": 8.282,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -2700,7 +2949,7 @@
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -2719,110 +2968,110 @@
       "perf": {
         "coldProcess": {
           "baseline": {
-            "n": 10,
-            "median": 68.103,
-            "p90": 80.866,
-            "mean": 69.273,
-            "min": 49.859,
-            "max": 90.881
+            "n": 30,
+            "median": 21.562,
+            "p90": 25.387,
+            "mean": 22.258,
+            "min": 19.969,
+            "max": 26.814
           },
           "orig": {
             "raw": {
-              "n": 10,
-              "median": 68.142,
-              "p90": 73.522,
-              "mean": 68.392,
-              "min": 58.06,
-              "max": 76.557
+              "n": 30,
+              "median": 22.036,
+              "p90": 24.324,
+              "mean": 23.273,
+              "min": 20.89,
+              "max": 43.835
             },
             "net": {
-              "median": 0.039,
-              "p90": 5.419,
-              "mean": 0.289
+              "median": 0.474,
+              "p90": 2.762,
+              "mean": 1.711
             }
           },
           "prepacked": {
             "raw": {
-              "n": 10,
-              "median": 81.251,
-              "p90": 88.775,
-              "mean": 79.87,
-              "min": 60.049,
-              "max": 105.485
+              "n": 30,
+              "median": 22.582,
+              "p90": 24.733,
+              "mean": 22.805,
+              "min": 20.407,
+              "max": 28.135
             },
             "net": {
-              "median": 13.148,
-              "p90": 20.672,
-              "mean": 11.767
+              "median": 1.02,
+              "p90": 3.171,
+              "mean": 1.243
             }
           },
-          "speedupRaw": 0.839,
-          "speedupNet": 0.003
+          "speedupRaw": 0.976,
+          "speedupNet": 0.465
         },
         "vmCodeCache": {
           "orig": {
-            "n": 10,
-            "median": 0.197,
-            "p90": 0.215,
-            "mean": 0.199,
-            "min": 0.182,
-            "max": 0.22,
+            "n": 30,
+            "median": 0.193,
+            "p90": 0.301,
+            "mean": 0.45,
+            "min": 0.173,
+            "max": 4.282,
             "cachedDataBytes": 4664
           },
           "prepacked": {
-            "n": 10,
-            "median": 0.21,
-            "p90": 0.259,
-            "mean": 0.583,
-            "min": 0.18,
-            "max": 3.931,
-            "cachedDataBytes": 4664
+            "n": 30,
+            "median": 0.155,
+            "p90": 0.204,
+            "mean": 0.315,
+            "min": 0.137,
+            "max": 2.702,
+            "cachedDataBytes": 14872
           },
-          "speedup": 0.938
+          "speedup": 1.245
         },
         "vmExecOnly": {
           "orig": {
-            "n": 10,
-            "median": 0.201,
-            "p90": 0.234,
-            "mean": 0.207,
-            "min": 0.175,
-            "max": 0.256
+            "n": 30,
+            "median": 0.172,
+            "p90": 0.191,
+            "mean": 0.178,
+            "min": 0.162,
+            "max": 0.26
           },
           "prepacked": {
-            "n": 10,
-            "median": 0.203,
-            "p90": 0.672,
-            "mean": 0.429,
-            "min": 0.175,
-            "max": 2.061
+            "n": 30,
+            "median": 0.138,
+            "p90": 0.144,
+            "mean": 0.14,
+            "min": 0.127,
+            "max": 0.173
           },
-          "speedup": 0.99
+          "speedup": 1.246
         },
         "nodeSnapshot": {
           "supported": true,
-          "blobBytes": 6299466,
-          "blobGzipBytes": 2310676,
+          "blobBytes": 6300378,
+          "blobGzipBytes": 2309939,
           "baseline": {
-            "n": 10,
-            "median": 54.222,
-            "p90": 74.296,
-            "mean": 58.729,
-            "min": 46.78,
-            "max": 82.812
+            "n": 30,
+            "median": 23.681,
+            "p90": 29.087,
+            "mean": 24.814,
+            "min": 20.751,
+            "max": 43.132
           },
           "raw": {
-            "n": 10,
-            "median": 68.454,
-            "p90": 93.804,
-            "mean": 70.73,
-            "min": 46.36,
-            "max": 96.35
+            "n": 30,
+            "median": 28.642,
+            "p90": 34.677,
+            "mean": 29.934,
+            "min": 24.54,
+            "max": 41.095
           },
           "net": {
-            "median": 14.232,
-            "p90": 39.582,
-            "mean": 16.508
+            "median": 4.961,
+            "p90": 10.996,
+            "mean": 6.253
           }
         },
         "sizes": {
@@ -2835,18 +3084,18 @@
             "rawBrotli": 4690
           },
           "prepacked": {
-            "raw": 18502,
-            "terser": 9055,
-            "gzip": 3414,
-            "brotli": 3257,
-            "rawGzip": 4907,
-            "rawBrotli": 4690
+            "raw": 41493,
+            "terser": 20214,
+            "gzip": 5018,
+            "brotli": 4560,
+            "rawGzip": 6445,
+            "rawBrotli": 5823
           },
           "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
+            "raw": 2.243,
+            "terser": 2.232,
+            "gzip": 1.47,
+            "brotli": 1.4
           }
         }
       }
@@ -2873,8 +3122,8 @@
       "bestProfile": {
         "profile": "default",
         "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 1,
-        "outBytes": 217023
+        "compileMs": 1563,
+        "outBytes": 472790
       },
       "primaryBlocker": null,
       "profiles": [
@@ -2883,12 +3132,12 @@
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 217023,
-          "quickVmMs": 18.748,
+          "compileMs": 1563,
+          "outBytes": 472790,
+          "quickVmMs": 6.525,
           "warningCodes": [],
           "infoCodes": [
-            "HYB_STANDIN"
+            "HYB_VOLATILE_BAKED"
           ]
         },
         {
@@ -2896,51 +3145,84 @@
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 9,
-          "outBytes": 217023,
-          "quickVmMs": 13.882,
+          "compileMs": 1702,
+          "outBytes": 472790,
+          "quickVmMs": 5.431,
           "warningCodes": [],
           "infoCodes": [
-            "HYB_STANDIN"
+            "HYB_VOLATILE_BAKED"
           ]
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 1,
-          "outBytes": 217023,
-          "quickVmMs": 16.817,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 217023,
-          "quickVmMs": 8.605,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 1,
-          "outBytes": 217023,
-          "quickVmMs": 4.582,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -2948,11 +3230,11 @@
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
           "eligibleForNodePerf": false,
           "status": "FAIL",
-          "compileMs": 0,
+          "compileMs": 1,
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -2971,85 +3253,85 @@
       "perf": {
         "coldProcess": {
           "baseline": {
-            "n": 10,
-            "median": 50.91,
-            "p90": 63.059,
-            "mean": 48.928,
-            "min": 26.693,
-            "max": 70.119
+            "n": 30,
+            "median": 25.113,
+            "p90": 28.127,
+            "mean": 26.045,
+            "min": 22.527,
+            "max": 41.641
           },
           "orig": {
             "raw": {
-              "n": 10,
-              "median": 73.061,
-              "p90": 91.187,
-              "mean": 74.028,
-              "min": 54.422,
-              "max": 111.063
+              "n": 30,
+              "median": 42.727,
+              "p90": 46.222,
+              "mean": 42.936,
+              "min": 38.31,
+              "max": 49.639
             },
             "net": {
-              "median": 22.151,
-              "p90": 40.277,
-              "mean": 23.118
+              "median": 17.614,
+              "p90": 21.109,
+              "mean": 17.823
             }
           },
           "prepacked": {
             "raw": {
-              "n": 10,
-              "median": 63.169,
-              "p90": 112.718,
-              "mean": 74.573,
-              "min": 52.421,
-              "max": 120.818
+              "n": 30,
+              "median": 35.603,
+              "p90": 39.947,
+              "mean": 36.492,
+              "min": 34.478,
+              "max": 44.268
             },
             "net": {
-              "median": 12.259,
-              "p90": 61.808,
-              "mean": 23.663
+              "median": 10.49,
+              "p90": 14.834,
+              "mean": 11.379
             }
           },
-          "speedupRaw": 1.157,
-          "speedupNet": 1.807
+          "speedupRaw": 1.2,
+          "speedupNet": 1.679
         },
         "vmCodeCache": {
           "orig": {
-            "n": 10,
-            "median": 9.64,
-            "p90": 14.125,
-            "mean": 11.446,
-            "min": 6.903,
-            "max": 25.762,
+            "n": 30,
+            "median": 3.64,
+            "p90": 8.149,
+            "mean": 4.877,
+            "min": 3.081,
+            "max": 17.972,
             "cachedDataBytes": 7976
           },
           "prepacked": {
-            "n": 10,
-            "median": 9.61,
-            "p90": 12.059,
-            "mean": 9.518,
-            "min": 3.212,
-            "max": 17.939,
-            "cachedDataBytes": 7976
+            "n": 30,
+            "median": 1.362,
+            "p90": 1.554,
+            "mean": 1.642,
+            "min": 1.135,
+            "max": 6.612,
+            "cachedDataBytes": 303760
           },
-          "speedup": 1.003
+          "speedup": 2.673
         },
         "vmExecOnly": {
           "orig": {
-            "n": 10,
-            "median": 3.032,
-            "p90": 3.147,
-            "mean": 3.471,
-            "min": 2.998,
-            "max": 7.28
+            "n": 30,
+            "median": 3.355,
+            "p90": 4.162,
+            "mean": 3.651,
+            "min": 3.022,
+            "max": 10.483
           },
           "prepacked": {
-            "n": 10,
-            "median": 3.051,
-            "p90": 3.985,
-            "mean": 3.609,
-            "min": 2.942,
-            "max": 7.151
+            "n": 30,
+            "median": 1.291,
+            "p90": 1.983,
+            "mean": 2.23,
+            "min": 1.167,
+            "max": 18.461
           },
-          "speedup": 0.994
+          "speedup": 2.599
         },
         "nodeSnapshot": {
           "supported": false,
@@ -3065,18 +3347,18 @@
             "rawBrotli": 46385
           },
           "prepacked": {
-            "raw": 217023,
-            "terser": 88523,
-            "gzip": 26899,
-            "brotli": 24992,
-            "rawGzip": 50546,
-            "rawBrotli": 46385
+            "raw": 472790,
+            "terser": 207309,
+            "gzip": 60004,
+            "brotli": 37536,
+            "rawGzip": 102059,
+            "rawBrotli": 60273
           },
           "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
+            "raw": 2.179,
+            "terser": 2.342,
+            "gzip": 2.231,
+            "brotli": 1.502
           }
         }
       }
@@ -3109,8 +3391,8 @@
       "bestProfile": {
         "profile": "default",
         "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 1,
-        "outBytes": 22477
+        "compileMs": 657,
+        "outBytes": 53449
       },
       "primaryBlocker": null,
       "profiles": [
@@ -3119,64 +3401,93 @@
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 22477,
-          "quickVmMs": 2.019,
+          "compileMs": 657,
+          "outBytes": 53449,
+          "quickVmMs": 3.136,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-opt",
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 0,
-          "outBytes": 22477,
-          "quickVmMs": 1.923,
+          "compileMs": 747,
+          "outBytes": 53449,
+          "quickVmMs": 0.387,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 0,
-          "outBytes": 22477,
-          "quickVmMs": 5.238,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 2,
-          "outBytes": 22477,
-          "quickVmMs": 1.078,
+          "status": "FAIL",
+          "compileMs": 0,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 22477,
-          "quickVmMs": 0.388,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -3188,7 +3499,7 @@
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -3207,110 +3518,110 @@
       "perf": {
         "coldProcess": {
           "baseline": {
-            "n": 10,
-            "median": 50.342,
-            "p90": 60.887,
-            "mean": 47.701,
-            "min": 29.182,
-            "max": 61.828
+            "n": 30,
+            "median": 25.113,
+            "p90": 28.332,
+            "mean": 25.173,
+            "min": 21.38,
+            "max": 30.61
           },
           "orig": {
             "raw": {
-              "n": 10,
-              "median": 46.096,
-              "p90": 60.982,
-              "mean": 45.085,
-              "min": 27.421,
-              "max": 61.053
+              "n": 30,
+              "median": 24.984,
+              "p90": 28.714,
+              "mean": 25.916,
+              "min": 22.351,
+              "max": 39.748
             },
             "net": {
               "median": 0,
-              "p90": 10.64,
-              "mean": 0
+              "p90": 3.601,
+              "mean": 0.803
             }
           },
           "prepacked": {
             "raw": {
-              "n": 10,
-              "median": 52.626,
-              "p90": 62.41,
-              "mean": 47.809,
-              "min": 30.158,
-              "max": 64.924
+              "n": 30,
+              "median": 26.733,
+              "p90": 30.705,
+              "mean": 27.199,
+              "min": 23.898,
+              "max": 34.605
             },
             "net": {
-              "median": 2.284,
-              "p90": 12.068,
-              "mean": 0
+              "median": 1.62,
+              "p90": 5.592,
+              "mean": 2.086
             }
           },
-          "speedupRaw": 0.876,
+          "speedupRaw": 0.935,
           "speedupNet": 0
         },
         "vmCodeCache": {
           "orig": {
-            "n": 10,
-            "median": 0.248,
-            "p90": 0.261,
-            "mean": 0.25,
-            "min": 0.235,
-            "max": 0.274,
+            "n": 30,
+            "median": 0.276,
+            "p90": 0.324,
+            "mean": 0.291,
+            "min": 0.246,
+            "max": 0.568,
             "cachedDataBytes": 5208
           },
           "prepacked": {
-            "n": 10,
-            "median": 0.252,
-            "p90": 3.816,
-            "mean": 1.977,
-            "min": 0.234,
-            "max": 13.829,
-            "cachedDataBytes": 5208
+            "n": 30,
+            "median": 0.268,
+            "p90": 0.356,
+            "mean": 0.289,
+            "min": 0.24,
+            "max": 0.427,
+            "cachedDataBytes": 27344
           },
-          "speedup": 0.984
+          "speedup": 1.03
         },
         "vmExecOnly": {
           "orig": {
-            "n": 10,
-            "median": 0.306,
-            "p90": 0.347,
-            "mean": 0.31,
-            "min": 0.249,
-            "max": 0.362
+            "n": 30,
+            "median": 0.26,
+            "p90": 0.281,
+            "mean": 0.262,
+            "min": 0.236,
+            "max": 0.3
           },
           "prepacked": {
-            "n": 10,
-            "median": 0.304,
-            "p90": 0.351,
-            "mean": 0.311,
-            "min": 0.23,
-            "max": 0.374
+            "n": 30,
+            "median": 0.256,
+            "p90": 0.278,
+            "mean": 0.27,
+            "min": 0.245,
+            "max": 0.524
           },
-          "speedup": 1.007
+          "speedup": 1.016
         },
         "nodeSnapshot": {
           "supported": true,
-          "blobBytes": 6314426,
-          "blobGzipBytes": 2319848,
+          "blobBytes": 6313634,
+          "blobGzipBytes": 2319347,
           "baseline": {
-            "n": 10,
-            "median": 43.252,
-            "p90": 67.049,
-            "mean": 46.751,
-            "min": 32.993,
-            "max": 79.06
+            "n": 30,
+            "median": 23.973,
+            "p90": 27.099,
+            "mean": 24.394,
+            "min": 22.145,
+            "max": 29.095
           },
           "raw": {
-            "n": 10,
-            "median": 54.907,
-            "p90": 78.13,
-            "mean": 59.737,
-            "min": 35.502,
-            "max": 95.255
+            "n": 30,
+            "median": 29.256,
+            "p90": 32.735,
+            "mean": 29.71,
+            "min": 26.696,
+            "max": 39.938
           },
           "net": {
-            "median": 11.655,
-            "p90": 34.878,
-            "mean": 16.485
+            "median": 5.283,
+            "p90": 8.762,
+            "mean": 5.737
           }
         },
         "sizes": {
@@ -3323,18 +3634,18 @@
             "rawBrotli": 8951
           },
           "prepacked": {
-            "raw": 22477,
-            "terser": 21712,
-            "gzip": 8850,
-            "brotli": 8666,
-            "rawGzip": 9133,
-            "rawBrotli": 8951
+            "raw": 53449,
+            "terser": 46897,
+            "gzip": 13647,
+            "brotli": 12081,
+            "rawGzip": 12929,
+            "rawBrotli": 11391
           },
           "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
+            "raw": 2.378,
+            "terser": 2.16,
+            "gzip": 1.542,
+            "brotli": 1.394
           }
         }
       }
@@ -3367,8 +3678,8 @@
       "bestProfile": {
         "profile": "default",
         "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 1,
-        "outBytes": 48145
+        "compileMs": 1225,
+        "outBytes": 154044
       },
       "primaryBlocker": null,
       "profiles": [
@@ -3377,12 +3688,12 @@
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 48145,
-          "quickVmMs": 3.591,
+          "compileMs": 1225,
+          "outBytes": 154044,
+          "quickVmMs": 3.589,
           "warningCodes": [],
           "infoCodes": [
-            "HYB_STANDIN"
+            "HYB_VOLATILE_BAKED"
           ]
         },
         {
@@ -3390,51 +3701,84 @@
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 48145,
-          "quickVmMs": 3.494,
+          "compileMs": 878,
+          "outBytes": 154044,
+          "quickVmMs": 6.837,
           "warningCodes": [],
           "infoCodes": [
-            "HYB_STANDIN"
+            "HYB_VOLATILE_BAKED"
           ]
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 0,
-          "outBytes": 48145,
-          "quickVmMs": 5.005,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 48145,
-          "quickVmMs": 1.627,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 0,
-          "outBytes": 48145,
-          "quickVmMs": 4.359,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -3442,11 +3786,11 @@
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
           "eligibleForNodePerf": false,
           "status": "FAIL",
-          "compileMs": 0,
+          "compileMs": 1,
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -3465,110 +3809,110 @@
       "perf": {
         "coldProcess": {
           "baseline": {
-            "n": 10,
-            "median": 42.555,
-            "p90": 54.345,
-            "mean": 45.117,
-            "min": 28.403,
-            "max": 83.501
+            "n": 30,
+            "median": 25.245,
+            "p90": 27.638,
+            "mean": 24.789,
+            "min": 20.189,
+            "max": 29.623
           },
           "orig": {
             "raw": {
-              "n": 10,
-              "median": 43.767,
-              "p90": 92.524,
-              "mean": 56.136,
-              "min": 31.235,
-              "max": 100.626
+              "n": 30,
+              "median": 28.544,
+              "p90": 32.445,
+              "mean": 29.547,
+              "min": 25.448,
+              "max": 45.964
             },
             "net": {
-              "median": 1.212,
-              "p90": 49.969,
-              "mean": 13.581
+              "median": 3.299,
+              "p90": 7.2,
+              "mean": 4.302
             }
           },
           "prepacked": {
             "raw": {
-              "n": 10,
-              "median": 41.514,
-              "p90": 62.743,
-              "mean": 52.63,
-              "min": 35.126,
-              "max": 115.979
+              "n": 30,
+              "median": 30.816,
+              "p90": 37.158,
+              "mean": 31.798,
+              "min": 26.725,
+              "max": 40.218
             },
             "net": {
-              "median": 0,
-              "p90": 20.188,
-              "mean": 10.075
+              "median": 5.571,
+              "p90": 11.913,
+              "mean": 6.553
             }
           },
-          "speedupRaw": 1.054,
-          "speedupNet": null
+          "speedupRaw": 0.926,
+          "speedupNet": 0.592
         },
         "vmCodeCache": {
           "orig": {
-            "n": 10,
-            "median": 1.554,
-            "p90": 5.204,
-            "mean": 2.892,
-            "min": 0.998,
-            "max": 10.046,
+            "n": 30,
+            "median": 0.784,
+            "p90": 0.87,
+            "mean": 0.802,
+            "min": 0.728,
+            "max": 1.052,
             "cachedDataBytes": 6632
           },
           "prepacked": {
-            "n": 10,
-            "median": 2.444,
-            "p90": 4.915,
-            "mean": 2.922,
-            "min": 1.048,
-            "max": 7.692,
-            "cachedDataBytes": 6632
+            "n": 30,
+            "median": 0.773,
+            "p90": 0.835,
+            "mean": 0.881,
+            "min": 0.728,
+            "max": 3.77,
+            "cachedDataBytes": 97584
           },
-          "speedup": 0.636
+          "speedup": 1.014
         },
         "vmExecOnly": {
           "orig": {
-            "n": 10,
-            "median": 1.631,
-            "p90": 5.879,
-            "mean": 2.905,
-            "min": 1.06,
-            "max": 7.859
+            "n": 30,
+            "median": 0.782,
+            "p90": 0.888,
+            "mean": 0.801,
+            "min": 0.726,
+            "max": 1.031
           },
           "prepacked": {
-            "n": 10,
-            "median": 1.739,
-            "p90": 8.513,
-            "mean": 3.689,
-            "min": 1.046,
-            "max": 9.558
+            "n": 30,
+            "median": 0.772,
+            "p90": 0.817,
+            "mean": 0.782,
+            "min": 0.73,
+            "max": 0.869
           },
-          "speedup": 0.938
+          "speedup": 1.013
         },
         "nodeSnapshot": {
           "supported": true,
-          "blobBytes": 6551776,
-          "blobGzipBytes": 2408800,
+          "blobBytes": 6552584,
+          "blobGzipBytes": 2409810,
           "baseline": {
-            "n": 10,
-            "median": 36.342,
-            "p90": 67.071,
-            "mean": 44.478,
-            "min": 26.475,
-            "max": 79.722
+            "n": 30,
+            "median": 21.935,
+            "p90": 25.598,
+            "mean": 22.849,
+            "min": 20.102,
+            "max": 28.987
           },
           "raw": {
-            "n": 10,
-            "median": 69.102,
-            "p90": 95.182,
-            "mean": 65.795,
-            "min": 35.964,
-            "max": 109.982
+            "n": 30,
+            "median": 28.046,
+            "p90": 31.118,
+            "mean": 28.726,
+            "min": 25.029,
+            "max": 39.03
           },
           "net": {
-            "median": 32.76,
-            "p90": 58.84,
-            "mean": 29.453
+            "median": 6.111,
+            "p90": 9.183,
+            "mean": 6.791
           }
         },
         "sizes": {
@@ -3581,18 +3925,18 @@
             "rawBrotli": 15321
           },
           "prepacked": {
-            "raw": 48145,
-            "terser": 46203,
-            "gzip": 15568,
-            "brotli": 14716,
-            "rawGzip": 16183,
-            "rawBrotli": 15321
+            "raw": 154044,
+            "terser": 130518,
+            "gzip": 35626,
+            "brotli": 25499,
+            "rawGzip": 38846,
+            "rawBrotli": 23841
           },
           "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
+            "raw": 3.2,
+            "terser": 2.825,
+            "gzip": 2.288,
+            "brotli": 1.733
           }
         }
       }
@@ -3625,8 +3969,8 @@
       "bestProfile": {
         "profile": "default",
         "cliFlags": "(defaults: --compatibility browser)",
-        "compileMs": 1,
-        "outBytes": 160859
+        "compileMs": 1010,
+        "outBytes": 469155
       },
       "primaryBlocker": null,
       "profiles": [
@@ -3635,64 +3979,93 @@
           "cliFlags": "(defaults: --compatibility browser)",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 1,
-          "outBytes": 160859,
-          "quickVmMs": 6.779,
+          "compileMs": 1010,
+          "outBytes": 469155,
+          "quickVmMs": 2.622,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-opt",
           "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
           "status": "OK",
-          "compileMs": 0,
-          "outBytes": 160859,
-          "quickVmMs": 7.082,
+          "compileMs": 1012,
+          "outBytes": 469155,
+          "quickVmMs": 0.869,
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
-          ]
+          "infoCodes": []
         },
         {
           "profile": "browser-seed",
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
+          "status": "FAIL",
           "compileMs": 0,
-          "outBytes": 160859,
-          "quickVmMs": 6.66,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "jsc",
           "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 0,
-          "outBytes": 160859,
-          "quickVmMs": 3.714,
+          "status": "FAIL",
+          "compileMs": 4,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
           "profile": "node-react",
           "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
           "eligibleForNodePerf": true,
-          "status": "OK",
-          "compileMs": 5,
-          "outBytes": 160859,
-          "quickVmMs": 3.97,
+          "status": "FAIL",
+          "compileMs": 1,
+          "errorCode": "HYB_NO_RANDOM_SEED",
+          "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+          "location": null,
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:385:19)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "HYB_NO_RANDOM_SEED"
+          ],
           "warningCodes": [],
-          "infoCodes": [
-            "HYB_STANDIN"
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "HYB_NO_RANDOM_SEED",
+              "message": "Seeding Math.random (--seed / mathRandomSeed) is not allowed in Hybrid; use --allow-volatile=Math.random to explicitly bake random values",
+              "location": null
+            }
           ]
         },
         {
@@ -3700,11 +4073,11 @@
           "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
           "eligibleForNodePerf": false,
           "status": "FAIL",
-          "compileMs": 0,
+          "compileMs": 1,
           "errorCode": "HYB_UNSUPPORTED_LAZY",
           "message": "Hybrid does not support Prepack lazyObjectsRuntime (LazyObjectsRuntime)",
           "location": null,
-          "internalFrame": "Object.prepackSources (lib/bench-adapter.js:94:21)",
+          "internalFrame": "validateUnsupportedPrepackFlags (lib/bench-adapter.js:366:19)",
           "diagnosticsCount": 1,
           "errorCodes": [
             "HYB_UNSUPPORTED_LAZY"
@@ -3723,110 +4096,110 @@
       "perf": {
         "coldProcess": {
           "baseline": {
-            "n": 10,
-            "median": 58.148,
-            "p90": 82.495,
-            "mean": 61.191,
-            "min": 33.555,
-            "max": 91.792
+            "n": 30,
+            "median": 24.356,
+            "p90": 27.222,
+            "mean": 24.809,
+            "min": 21.667,
+            "max": 29.324
           },
           "orig": {
             "raw": {
-              "n": 10,
-              "median": 78.417,
-              "p90": 93.13,
-              "mean": 72.455,
-              "min": 43.2,
-              "max": 96.149
+              "n": 30,
+              "median": 33.185,
+              "p90": 36.995,
+              "mean": 33.841,
+              "min": 30.227,
+              "max": 38.763
             },
             "net": {
-              "median": 20.269,
-              "p90": 34.982,
-              "mean": 14.307
+              "median": 8.829,
+              "p90": 12.639,
+              "mean": 9.485
             }
           },
           "prepacked": {
             "raw": {
-              "n": 10,
-              "median": 86.17,
-              "p90": 122.826,
-              "mean": 85.819,
-              "min": 40.003,
-              "max": 139.934
+              "n": 30,
+              "median": 34.33,
+              "p90": 36.573,
+              "mean": 34.244,
+              "min": 29.819,
+              "max": 38.72
             },
             "net": {
-              "median": 28.022,
-              "p90": 64.678,
-              "mean": 27.671
+              "median": 9.974,
+              "p90": 12.217,
+              "mean": 9.888
             }
           },
-          "speedupRaw": 0.91,
-          "speedupNet": 0.723
+          "speedupRaw": 0.967,
+          "speedupNet": 0.885
         },
         "vmCodeCache": {
           "orig": {
-            "n": 10,
-            "median": 3.232,
-            "p90": 7.525,
-            "mean": 6.776,
-            "min": 1.807,
-            "max": 36.194,
+            "n": 30,
+            "median": 1.542,
+            "p90": 1.778,
+            "mean": 1.8,
+            "min": 1.461,
+            "max": 8.323,
             "cachedDataBytes": 13736
           },
           "prepacked": {
-            "n": 10,
-            "median": 2.3,
-            "p90": 3.609,
-            "mean": 3.117,
-            "min": 1.919,
-            "max": 8.696,
-            "cachedDataBytes": 13736
+            "n": 30,
+            "median": 0.698,
+            "p90": 0.912,
+            "mean": 1.014,
+            "min": 0.642,
+            "max": 9.225,
+            "cachedDataBytes": 124400
           },
-          "speedup": 1.405
+          "speedup": 2.209
         },
         "vmExecOnly": {
           "orig": {
-            "n": 10,
-            "median": 4.234,
-            "p90": 5.145,
-            "mean": 3.797,
-            "min": 1.567,
-            "max": 5.719
+            "n": 30,
+            "median": 1.49,
+            "p90": 1.565,
+            "mean": 1.515,
+            "min": 1.418,
+            "max": 2.023
           },
           "prepacked": {
-            "n": 10,
-            "median": 2.127,
-            "p90": 8.103,
-            "mean": 3.555,
-            "min": 1.501,
-            "max": 8.882
+            "n": 30,
+            "median": 0.677,
+            "p90": 0.702,
+            "mean": 0.671,
+            "min": 0.625,
+            "max": 0.732
           },
-          "speedup": 1.991
+          "speedup": 2.201
         },
         "nodeSnapshot": {
           "supported": true,
-          "blobBytes": 6704218,
-          "blobGzipBytes": 2381836,
+          "blobBytes": 6704322,
+          "blobGzipBytes": 2382524,
           "baseline": {
-            "n": 10,
-            "median": 67.098,
-            "p90": 96.929,
-            "mean": 71.403,
-            "min": 50.18,
-            "max": 111.242
+            "n": 30,
+            "median": 20.865,
+            "p90": 22.807,
+            "mean": 21.017,
+            "min": 18.431,
+            "max": 24.223
           },
           "raw": {
-            "n": 10,
-            "median": 90.18,
-            "p90": 114.262,
-            "mean": 91.669,
-            "min": 64.519,
-            "max": 120.671
+            "n": 30,
+            "median": 27.609,
+            "p90": 31.801,
+            "mean": 28.425,
+            "min": 25.613,
+            "max": 42.25
           },
           "net": {
-            "median": 23.082,
-            "p90": 47.164,
-            "mean": 24.571
+            "median": 6.744,
+            "p90": 10.936,
+            "mean": 7.56
           }
         },
         "sizes": {
@@ -3839,18 +4212,18 @@
             "rawBrotli": 28148
           },
           "prepacked": {
-            "raw": 160859,
-            "terser": 53019,
-            "gzip": 17605,
-            "brotli": 16949,
-            "rawGzip": 30163,
-            "rawBrotli": 28148
+            "raw": 469155,
+            "terser": 164271,
+            "gzip": 50998,
+            "brotli": 26976,
+            "rawGzip": 83625,
+            "rawBrotli": 36971
           },
           "ratios": {
-            "raw": 1,
-            "terser": 1,
-            "gzip": 1,
-            "brotli": 1
+            "raw": 2.917,
+            "terser": 3.098,
+            "gzip": 2.897,
+            "brotli": 1.592
           }
         }
       }
