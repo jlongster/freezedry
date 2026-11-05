@@ -1,9 +1,16 @@
 "use strict";
 
-const { describe, it } = require("node:test");
+const { describe: describeAll, it } = require("node:test");
 const assert = require("node:assert/strict");
-const { specialize, assertSame } = require("./helpers/react-app");
+const fs = require("node:fs");
+const path = require("node:path");
 const { instrument } = require("../react/instrument");
+
+// Needs React 18 in bench/node_modules (`node bench/setup.js`); skipped otherwise.
+const REACT_PKG = path.join(__dirname, "..", "..", "bench", "node_modules", "react", "package.json");
+const hasReact18 = fs.existsSync(REACT_PKG) && JSON.parse(fs.readFileSync(REACT_PKG, "utf8")).version.startsWith("18.");
+const describe = (name, fn) => describeAll(name, { skip: !hasReact18 && "React 18 not installed in bench/node_modules" }, fn);
+const { specialize, assertSame } = hasReact18 ? require("./helpers/react-app") : {};
 
 const HEADER = 'var React = require("react");\nvar h = React.createElement;\n';
 
@@ -255,7 +262,7 @@ module.exports = App;`;
   });
 });
 
-describe("react-hybrid: instrumenter", () => {
+describeAll("react-hybrid: instrumenter", () => {
   it("classifies pure helpers and closure variables", () => {
     const { fns } = instrument(`
 var T = [1, 2];
