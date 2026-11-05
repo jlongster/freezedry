@@ -307,6 +307,16 @@ describe("End-to-End Integrated Pipeline over bench/libs/dist (run -> capture ->
     assert.equal(res.stats.verified, true);
   });
 
+  it("verifies NFE self-references whose outer binding was only captured by dead closures (babel getAugmentedNamespace)", async () => {
+    const src = `(function(){ function aug(n){ var f = n.default; var a = function a(){ if (this instanceof a) return Reflect.construct(f, arguments, this.constructor); return f.apply(this, arguments); }; a.prototype = f.prototype; Object.keys(n).forEach(function(k){ Object.defineProperty(a, k, { enumerable: true, get: function(){ return n[k]; } }); }); return a; } globalThis.NS = aug({ default: function D(){ this.v = 1; }, extra: 2 }); })();`;
+    const res = await prepackSourcesAsync([{ filePath: "aug.js", fileContents: src }], {
+      profile: "ecmascript",
+      fallbackOnBailout: false,
+      verify: true,
+    });
+    assert.equal(res.stats.verified, true);
+  });
+
   it("treats Error stack formatting during init as volatile; bakes and verifies it only with --allow-volatile=Error.stack", async () => {
     const src = `(function(){ var rootStack = ""; try { throw new Error(); } catch (e) { rootStack = e.stack.split("\\n").slice(1).join("\\n"); } globalThis.Traced = { get: function() { return rootStack; } }; })();`;
     const sources = [{ filePath: "traced.js", fileContents: src }];
