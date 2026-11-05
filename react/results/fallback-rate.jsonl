@@ -1,0 +1,3 @@
+{"trainSmall":20,"trainLarge":2,"buildMs":1096,"templateBytes":65943,"check500":"162/500 fallbacks, 0 mismatches","small500":"157/500 fallbacks, 0 mismatches","large100":"43/100 fallbacks, 0 mismatches"}
+{"trainSmall":60,"trainLarge":10,"buildMs":3763,"templateBytes":73056,"check500":"2/500 fallbacks, 0 mismatches","small500":"2/500 fallbacks, 0 mismatches","large100":"0/100 fallbacks, 0 mismatches"}
+{"trainSmall":200,"trainLarge":20,"buildMs":3793,"templateBytes":73056,"check500":"2/500 fallbacks, 0 mismatches","small500":"2/500 fallbacks, 0 mismatches","large100":"0/100 fallbacks, 0 mismatches"}

@@ -1,0 +1,24 @@
+{
+ "renders": 500,
+ "fallbacks": 2,
+ "errors": 0,
+ "buildMs": 2682.015248,
+ "traceMs": 2467.227255,
+ "disabled": null,
+ "fallbackReasons": {
+  "$T19 AnnouncementBanner: ($rP.promo.minOrder > 0) is falsy": 1,
+  "$T30 SpecList: ($rP.specs.length === 0) is truthy": 1
+ },
+ "trainingInputs": 70,
+ "traceFailures": 0,
+ "frames": 22338,
+ "framesLearned": 22338,
+ "poisoned": {},
+ "unsupported": {},
+ "conflicts": {},
+ "templates": 39,
+ "leaves": 112,
+ "decisions": 139,
+ "templateBytes": 73056,
+ "selfCheckMismatches": 0
+}
