@@ -297,6 +297,16 @@ describe("End-to-End Integrated Pipeline over bench/libs/dist (run -> capture ->
     assert.equal(res.stats.verified, true);
   });
 
+  it("keeps a hoisted FunctionDeclaration distinct from the function that later overwrites its binding (babel getModuleName)", async () => {
+    const src = `(function(){ "use strict"; var originalGetModuleName = getModuleName; getModuleName = function getModuleName(a) { return originalGetModuleName(a) + "!"; }; function getModuleName(a) { return "m:" + a; } globalThis.M = { get: function(x) { return getModuleName(x); }, orig: function(x) { return originalGetModuleName(x); } }; })();`;
+    const res = await prepackSourcesAsync([{ filePath: "gmn.js", fileContents: src }], {
+      profile: "ecmascript",
+      fallbackOnBailout: false,
+      verify: true,
+    });
+    assert.equal(res.stats.verified, true);
+  });
+
   it("treats Error stack formatting during init as volatile; bakes and verifies it only with --allow-volatile=Error.stack", async () => {
     const src = `(function(){ var rootStack = ""; try { throw new Error(); } catch (e) { rootStack = e.stack.split("\\n").slice(1).join("\\n"); } globalThis.Traced = { get: function() { return rootStack; } }; })();`;
     const sources = [{ filePath: "traced.js", fileContents: src }];
