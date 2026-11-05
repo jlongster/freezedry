@@ -1,0 +1,182 @@
+{
+  "version": 1,
+  "roots": [
+    { "kind": "global", "key": "closures", "value": { "$": "oOut" } }
+  ],
+  "intrinsicPatches": [],
+  "nodes": {
+    "oSecret": {
+      "type": "object",
+      "props": [
+        { "key": "factor", "value": { "prim": "number", "value": 10 }, "enumerable": true, "writable": true, "configurable": true }
+      ]
+    },
+    "sCounter": {
+      "type": "scope",
+      "parent": null,
+      "vars": [
+        { "name": "count", "value": { "prim": "number", "value": 5 }, "kind": "let" },
+        { "name": "secret", "value": { "$": "oSecret" }, "kind": "const" },
+        { "name": "holder", "value": { "$": "oOut" }, "kind": "let" }
+      ]
+    },
+    "fInc": {
+      "type": "function",
+      "kind": "normal",
+      "source": "function inc(step = 1) { count += step; return count * secret.factor; }",
+      "strict": true,
+      "name": "inc",
+      "scope": "sCounter"
+    },
+    "fGet": {
+      "type": "function",
+      "kind": "arrow",
+      "source": "() => ({ count, sameHolder: holder.inc === fIncRef })",
+      "strict": true,
+      "name": "",
+      "scope": "sCounterChild"
+    },
+    "sCounterChild": {
+      "type": "scope",
+      "parent": "sCounter",
+      "vars": [
+        { "name": "fIncRef", "value": { "$": "fInc" }, "kind": "const" }
+      ]
+    },
+    "fTryMutateConst": {
+      "type": "function",
+      "kind": "arrow",
+      "source": "() => { secret = null; }",
+      "strict": true,
+      "name": "",
+      "scope": "sCounter"
+    },
+    "sLoopOuter": {
+      "type": "scope",
+      "parent": null,
+      "vars": [
+        { "name": "sharedTotal", "value": { "prim": "number", "value": 100 }, "kind": "let" }
+      ]
+    },
+    "sIter0": {
+      "type": "scope",
+      "parent": "sLoopOuter",
+      "vars": [{ "name": "i", "value": { "prim": "number", "value": 0 }, "kind": "let" }]
+    },
+    "sIter1": {
+      "type": "scope",
+      "parent": "sLoopOuter",
+      "vars": [{ "name": "i", "value": { "prim": "number", "value": 1 }, "kind": "let" }]
+    },
+    "sIter2": {
+      "type": "scope",
+      "parent": "sLoopOuter",
+      "vars": [{ "name": "i", "value": { "prim": "number", "value": 2 }, "kind": "let" }]
+    },
+    "fIter0Get": { "type": "function", "kind": "arrow", "source": "() => [i, sharedTotal]", "strict": true, "name": "", "scope": "sIter0" },
+    "fIter0Bump": { "type": "function", "kind": "arrow", "source": "(d) => { i += d; sharedTotal += d; return i; }", "strict": true, "name": "", "scope": "sIter0" },
+    "fIter1Get": { "type": "function", "kind": "arrow", "source": "() => [i, sharedTotal]", "strict": true, "name": "", "scope": "sIter1" },
+    "fIter2Get": { "type": "function", "kind": "arrow", "source": "() => [i, sharedTotal]", "strict": true, "name": "", "scope": "sIter2" },
+    "aLoops": {
+      "type": "array",
+      "length": 4,
+      "props": [
+        { "key": "0", "value": { "$": "fIter0Get" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "1", "value": { "$": "fIter0Bump" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "2", "value": { "$": "fIter1Get" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "3", "value": { "$": "fIter2Get" }, "enumerable": true, "writable": true, "configurable": true }
+      ]
+    },
+    "sMix": {
+      "type": "scope",
+      "parent": null,
+      "vars": [
+        { "name": "sharedVal", "value": { "prim": "number", "value": 7 }, "kind": "var" }
+      ]
+    },
+    "fSloppy": {
+      "type": "function",
+      "kind": "normal",
+      "source": "function sloppy() { sharedVal++; return [sharedVal, this === globalThis]; }",
+      "strict": false,
+      "name": "sloppy",
+      "scope": "sMix"
+    },
+    "fStrict": {
+      "type": "function",
+      "kind": "normal",
+      "source": "function strict() { sharedVal += 10; return [sharedVal, this === undefined]; }",
+      "strict": true,
+      "name": "strict",
+      "scope": "sMix"
+    },
+    "oThisCtx": {
+      "type": "object",
+      "props": [
+        { "key": "label", "value": { "prim": "string", "value": "boundLexicalThis" }, "enumerable": true, "writable": true, "configurable": true }
+      ]
+    },
+    "sArrowThis": {
+      "type": "scope",
+      "parent": null,
+      "this": { "$": "oThisCtx" },
+      "vars": [
+        { "name": "suffix", "value": { "prim": "string", "value": "!" }, "kind": "const" }
+      ]
+    },
+    "fArrowThis": {
+      "type": "function",
+      "kind": "arrow",
+      "source": "() => this.label + suffix",
+      "strict": true,
+      "name": "",
+      "scope": "sArrowThis"
+    },
+    "fGen": {
+      "type": "function",
+      "kind": "generator",
+      "source": "function* seq(start) { yield start; yield start + 1; }",
+      "strict": true,
+      "name": "seq",
+      "scope": null
+    },
+    "fAsync": {
+      "type": "function",
+      "kind": "async",
+      "source": "async function doubleAsync(v) { return v * 2; }",
+      "strict": true,
+      "name": "doubleAsync",
+      "scope": null
+    },
+    "fConciseMethod": {
+      "type": "function",
+      "kind": "method",
+      "source": "greet(who) { return 'hello ' + who; }",
+      "strict": true,
+      "name": "greet",
+      "scope": null,
+      "props": [
+        { "key": "length", "value": { "prim": "number", "value": 1 }, "writable": false, "enumerable": false, "configurable": true },
+        { "key": "name", "value": { "prim": "string", "value": "customGreetName" }, "writable": false, "enumerable": false, "configurable": true },
+        { "key": "tag", "value": { "prim": "string", "value": "taggedFn" }, "writable": true, "enumerable": true, "configurable": true }
+      ]
+    },
+    "oOut": {
+      "type": "object",
+      "props": [
+        { "key": "inc", "value": { "$": "fInc" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "get", "value": { "$": "fGet" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "tryMutateConst", "value": { "$": "fTryMutateConst" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "loops", "value": { "$": "aLoops" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "sloppy", "value": { "$": "fSloppy" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "strict", "value": { "$": "fStrict" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "arrowThis", "value": { "$": "fArrowThis" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "gen", "value": { "$": "fGen" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "asyncFn", "value": { "$": "fAsync" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "method", "value": { "$": "fConciseMethod" }, "enumerable": true, "writable": true, "configurable": true }
+      ]
+    }
+  },
+  "assumptions": [],
+  "bailouts": []
+}
