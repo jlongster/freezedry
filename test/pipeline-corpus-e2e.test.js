@@ -19,6 +19,7 @@ const ZERO_CONFIG_OK_IDS = new Set([
   "acorn",
   "chroma-js",
   "crc-32",
+  "marked",
   "moment",
   "preact-ssr-app",
   "ramda",
@@ -83,19 +84,13 @@ describe("End-to-End Integrated Pipeline over bench/libs/dist (run -> capture ->
       const src = fs.readFileSync(path.join(DIST_DIR, `${spec.id}.js`), "utf8");
       const sources = [{ filePath: `${spec.id}.js`, fileContents: src }];
 
-      try {
-        const res = await prepackSourcesAsync(sources, {
-          useCorpusOptIns: true,
-          fallbackOnBailout: false,
-          verify: true,
-          verifySmokeSpecId: spec.id,
-        });
-        assert.equal(res.stats.verified, true, `${spec.id} must pass H4 heap isomorphism`);
-      } catch (err) {
-        // Prior to Phase C #private class support, only `marked` may bail on `#private`
-        assert.equal(spec.id, "marked", `Unexpected failure on ${spec.id}: ${err.message}`);
-        assert.match(err.message, /private/i);
-      }
+      const res = await prepackSourcesAsync(sources, {
+        useCorpusOptIns: true,
+        fallbackOnBailout: false,
+        verify: true,
+        verifySmokeSpecId: spec.id,
+      });
+      assert.equal(res.stats.verified, true, `${spec.id} must pass H4 heap isomorphism`);
     }
 
     // Also verify strict `browser` profile with documented browser assumptions on underscore & react-ssr-app
@@ -201,5 +196,94 @@ describe("End-to-End Integrated Pipeline over bench/libs/dist (run -> capture ->
     } finally {
       fs.rmSync(dir, { recursive: true, force: true });
     }
+  });
+
+  it("captures, emits, and verifies arrow functions capturing lexical this (objects, cycles, primitives, top-level)", async () => {
+    const src = `
+      globalThis.topArrow = () => this === globalThis;
+      (function() {
+        "use strict";
+        class Controller {
+          constructor(label) {
+            this.label = label;
+            this.selfGetter = () => this;
+          }
+        }
+        const ctrl = new Controller("main");
+        const sharedThis = { base: 100 };
+        const pair = (function(step) {
+          let calls = 0;
+          return {
+            inc: () => { calls += 1; return this.base + calls * step; },
+            nested: (() => () => [this.base, calls])(),
+          };
+        }).call(sharedThis, 5);
+        const primNegZero = (function() { return () => this; }).call(-0);
+        const primUndef = (function() { return () => this; })();
+        const primNum = (function() { return () => this; }).call(42);
+        const primStr = (function() { return () => this; }).call("hello");
+        globalThis.ArrowSuite = { ctrl, pair, primNegZero, primUndef, primNum, primStr };
+      })();
+    `;
+
+    const res = await prepackSourcesAsync([{ filePath: "arrows.js", fileContents: src }], {
+      profile: "ecmascript",
+      fallbackOnBailout: false,
+      verify: true,
+    });
+    assert.equal(res.stats.verified, true);
+
+    const ctx = vm.createContext(vm.constants.DONT_CONTEXTIFY);
+    vm.runInContext("delete globalThis.console; delete globalThis.WebAssembly;", ctx);
+    vm.runInContext(res.code, ctx);
+    assert.equal(vm.runInContext("topArrow()", ctx), true);
+    assert.equal(vm.runInContext("ArrowSuite.ctrl.selfGetter() === ArrowSuite.ctrl", ctx), true);
+    assert.equal(vm.runInContext("ArrowSuite.pair.inc()", ctx), 105);
+    assert.deepEqual(Array.from(vm.runInContext("ArrowSuite.pair.nested()", ctx)), [100, 1]);
+    assert.equal(vm.runInContext("Object.is(ArrowSuite.primNegZero(), -0)", ctx), true);
+    assert.equal(vm.runInContext("ArrowSuite.primUndef() === undefined", ctx), true);
+    assert.equal(vm.runInContext("ArrowSuite.primNum()", ctx), 42);
+    assert.equal(vm.runInContext("ArrowSuite.primStr()", ctx), "hello");
+  });
+
+  it("captures, emits, and verifies zero-instance classes with #private fields and methods", async () => {
+    const src = `
+      (function() {
+        "use strict";
+        const SCALE = 3;
+        class Vault {
+          #secret;
+          constructor(seed) {
+            this.#secret = seed * SCALE;
+          }
+          #format(prefix) {
+            return prefix + ":" + this.#secret;
+          }
+          reveal(prefix = "val") {
+            return this.#format(prefix);
+          }
+          bump(delta) {
+            this.#secret += delta;
+            return this.#secret;
+          }
+        }
+        // Exercise Vault during init without retaining any live instance!
+        const initCheck = new Vault(4).reveal("boot");
+        globalThis.VaultPkg = { Vault, initCheck };
+      })();
+    `;
+
+    const res = await prepackSourcesAsync([{ filePath: "vault.js", fileContents: src }], {
+      profile: "ecmascript",
+      fallbackOnBailout: false,
+      verify: true,
+    });
+    assert.equal(res.stats.verified, true);
+
+    const ctx = vm.createContext(vm.constants.DONT_CONTEXTIFY);
+    vm.runInContext("delete globalThis.console; delete globalThis.WebAssembly;", ctx);
+    vm.runInContext(res.code, ctx);
+    assert.equal(vm.runInContext("VaultPkg.initCheck", ctx), "boot:12");
+    assert.equal(vm.runInContext("const v = new VaultPkg.Vault(10); v.bump(5) + '|' + v.reveal('ok')", ctx), "35|ok:35");
   });
 });

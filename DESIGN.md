@@ -69,7 +69,8 @@ CLI: `node hybrid/bin/hybrid.js input.js --out out.js [--assume NAME=JSON] [--ve
 
 Compatible node/field details:
 - Property `<key>` is a plain string for string keys, or a symbol `<ref>` (`{ "intrinsic": "Symbol.iterator" }` or `{ "symbol": "y1" }`) for symbol keys.
-- `"function"` nodes also carry `"declaration": boolean` (`true` for `FunctionDeclaration`, which has no immutable inner self-name binding so self-overwriting helpers like `function _typeof() { _typeof = ... }` remain mutable) and optional `"homeObject": <ref>` when a concise method/getter/setter uses `super`.
+- `"function"` nodes also carry `"declaration": boolean` (`true` for `FunctionDeclaration`, which has no immutable inner self-name binding so self-overwriting helpers like `function _typeof() { _typeof = ... }` remain mutable), optional `"homeObject": <ref>` when a concise method/getter/setter uses `super`, optional `"this": <ref>` for top-level Script arrows capturing global `this`, and optional `"ownerClass": "<classNodeId>"` linking public prototype/static members that reference `#private` fields/methods back to a zero-instance owning `class` node.
+- `"scope"` nodes represent lexical `this` captured by arrow functions via `{ "name": "this", "value": <ref>, "kind": "const" }` in `vars` (or optional `"this": <ref>`).
 - `typedarray.buffer` (and `"dataview": { "type": "dataview", "byteOffset": 0, "byteLength": N, "buffer": <ref>, ...object fields }`) points to `"arraybuffer": { "type": "arraybuffer", "bytes": "<base64>", "byteLength": N, ...object fields }` so multiple views over one `ArrayBuffer` preserve shared buffer identity.
 - Empty `WeakMap` / `WeakSet` instances capture as `{ "type": "weakmap" | "weakset", ...object fields }`; non-empty ones bail out. Invalid `Date` (`isNaN(d.getTime())`) encodes `"time": "NaN"`.
 

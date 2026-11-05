@@ -23,12 +23,6 @@ test("captures and verifies real-world bench/libs/dist/*.js corpus without crash
         filename: `${spec.id}.js`,
       });
 
-      if (spec.id === "marked") {
-        assert.ok(graph.bailouts.length > 0, "marked@18 uses ES2022 #private methods and should bail cleanly");
-        assert.match(graph.bailouts[0].reason, /private fields/i);
-        return;
-      }
-
       assert.equal(
         graph.bailouts.length,
         0,

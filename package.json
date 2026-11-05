@@ -8,7 +8,7 @@
     "hybrid": "bin/hybrid.js"
   },
   "scripts": {
-    "test": "node --test 'test/*.test.js'"
+    "test": "node --test --test-concurrency=4 'test/*.test.js'"
   },
   "license": "BSD-3-Clause",
   "dependencies": {

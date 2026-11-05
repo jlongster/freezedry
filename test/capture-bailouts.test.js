@@ -133,14 +133,22 @@ test("bails on Array, Map, Set, String, and RegExp iterator objects", async () =
   );
 });
 
-test("bails on classes and instances with private fields (#x)", async () => {
+test("bails on live instances, static private members, and detached methods with private fields (#x)", async () => {
   await assertBails(
-    `class Secret { #x = 7; getX() { return this.#x; } } globalThis.Secret = Secret;`,
-    "private fields"
+    `class Secret { static #s = 7; static getS() { return this.#s; } } globalThis.Secret = Secret;`,
+    "private"
   );
   await assertBails(
     `class Secret { #x = 7; } globalThis.inst = new Secret();`,
     "private fields"
+  );
+  await assertBails(
+    `class Secret { #m() { return 1; } } globalThis.inst = Object.setPrototypeOf(new Secret(), null);`,
+    "private methods"
+  );
+  await assertBails(
+    `function leak() { class Secret { #m() { return 1; } pub() { return this.#m(); } } return Secret.prototype.pub; } globalThis.orphaned = leak();`,
+    "private"
   );
 });
 

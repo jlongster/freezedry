@@ -130,6 +130,15 @@ function validateCaptureGraph(rawGraph, envOpt = "ecma") {
       if (node.homeObject !== undefined) {
         checkRef(node.homeObject, `${id}.homeObject`);
       }
+      if (node.this !== undefined) {
+        checkRef(node.this, `${id}.this`);
+      }
+      if (node.ownerClass !== undefined) {
+        const cls = parsed.nodes[node.ownerClass];
+        if (!cls || cls.type !== "function" || cls.kind !== "class") {
+          throw new Error(`Invalid fn.ownerClass "${node.ownerClass}" on ${id}`);
+        }
+      }
     } else if (node.type === "map") {
       for (let i = 0; i < node.entries.length; i++) {
         checkRef(node.entries[i][0], `${id}.entries[${i}][0]`);
@@ -159,7 +168,7 @@ function buildFunctionExprCode(fnNode, id) {
     return `function() { return (${src}\n); }`;
   }
   if (fnNode.kind === "arrow") {
-    return `(function() { ${strictPrefix}return (${src}\n); })()`;
+    return `(function() { ${strictPrefix}return (${src}\n); }).call(this)`;
   }
   if (
     (fnNode.kind === "normal" ||
@@ -333,7 +342,7 @@ function rebuildInFreshContext(rawGraph, opts = {}) {
       const pKey = node.parent;
       if (!childScopes.has(pKey)) childScopes.set(pKey, []);
       childScopes.get(pKey).push(id);
-    } else if (node.type === "function" && node.bound === null) {
+    } else if (node.type === "function" && node.bound === null && !node.ownerClass) {
       const sKey = node.scope;
       if (!scopeFunctions.has(sKey)) scopeFunctions.set(sKey, []);
       scopeFunctions.get(sKey).push(id);
@@ -341,7 +350,7 @@ function rebuildInFreshContext(rawGraph, opts = {}) {
   }
 
   const codeLines = [
-    "(function(__fns, __classThunks, __scopeSetters, __homeHolders) {",
+    "(function(__fns, __classThunks, __scopeSetters, __homeHolders, __thisVals) {",
   ];
 
   function emitScopeLevel(scopeId) {
@@ -351,6 +360,8 @@ function rebuildInFreshContext(rawGraph, opts = {}) {
       const expr = buildFunctionExprCode(fnNode, fnId);
       if (fnNode.kind === "class") {
         codeLines.push(`__classThunks[${JSON.stringify(fnId)}] = ${expr};`);
+      } else if (fnNode.this !== undefined) {
+        codeLines.push(`__fns[${JSON.stringify(fnId)}] = (function() { "use strict"; return ${expr}; }).call(__thisVals[${JSON.stringify(fnId)}]);`);
       } else {
         codeLines.push(`__fns[${JSON.stringify(fnId)}] = ${expr};`);
       }
@@ -359,8 +370,13 @@ function rebuildInFreshContext(rawGraph, opts = {}) {
     const kids = childScopes.get(scopeId) || [];
     for (const kidId of kids) {
       const sNode = graph.nodes[kidId];
-      const varNames = sNode.vars.map((v) => v.name);
-      codeLines.push("{");
+      const hasThisVar = sNode.vars.some((v) => v.name === "this");
+      const varNames = sNode.vars.filter((v) => v.name !== "this").map((v) => v.name);
+      if (hasThisVar) {
+        codeLines.push(`(function() { "use strict";`);
+      } else {
+        codeLines.push("{");
+      }
       if (varNames.length > 0) {
         codeLines.push(`let ${varNames.join(", ")};`);
         const assigns = varNames.map((n, idx) => `${n} = arguments[0][${idx}];`).join(" ");
@@ -369,7 +385,11 @@ function rebuildInFreshContext(rawGraph, opts = {}) {
         codeLines.push(`__scopeSetters[${JSON.stringify(kidId)}] = function() {};`);
       }
       emitScopeLevel(kidId);
-      codeLines.push("}");
+      if (hasThisVar) {
+        codeLines.push(`}).call(__thisVals[${JSON.stringify(kidId)}]);`);
+      } else {
+        codeLines.push("}");
+      }
     }
   }
 
@@ -381,7 +401,16 @@ function rebuildInFreshContext(rawGraph, opts = {}) {
   const classThunks = {};
   const scopeSetters = {};
   const homeHolders = {};
-  factoryFn(createdFns, classThunks, scopeSetters, homeHolders);
+  const thisVals = {};
+  for (const [id, node] of Object.entries(graph.nodes)) {
+    if (node.type === "scope") {
+      const tv = node.vars.find((v) => v.name === "this");
+      if (tv) thisVals[id] = resolveRef(tv.value);
+    } else if (node.type === "function" && node.this !== undefined) {
+      thisVals[id] = resolveRef(node.this);
+    }
+  }
+  factoryFn(createdFns, classThunks, scopeSetters, homeHolders, thisVals);
 
   for (const [fnId, fnVal] of Object.entries(createdFns)) {
     table.set(fnId, fnVal);
@@ -390,7 +419,7 @@ function rebuildInFreshContext(rawGraph, opts = {}) {
   const populateAllScopes = () => {
     for (const [id, node] of Object.entries(graph.nodes)) {
       if (node.type === "scope" && scopeSetters[id]) {
-        const vals = node.vars.map((v) => resolveRef(v.value));
+        const vals = node.vars.filter((v) => v.name !== "this").map((v) => resolveRef(v.value));
         scopeSetters[id](vals);
       }
     }
@@ -404,6 +433,38 @@ function rebuildInFreshContext(rawGraph, opts = {}) {
     const protoProp = fnNode.props.find((p) => p.key === "prototype" && p.value && "$" in p.value);
     if (protoProp && clsVal && clsVal.prototype) {
       table.set(protoProp.value.$, clsVal.prototype);
+      const protoNode = graph.nodes[protoProp.value.$];
+      if (protoNode && Array.isArray(protoNode.props)) {
+        for (const pp of protoNode.props) {
+          const k = resolveKey(pp.key);
+          const rtDesc = Object.getOwnPropertyDescriptor(clsVal.prototype, k);
+          if (!rtDesc) continue;
+          if (pp.value && "$" in pp.value && graph.nodes[pp.value.$] && graph.nodes[pp.value.$].ownerClass === fnId && rtDesc.value) {
+            table.set(pp.value.$, rtDesc.value);
+          }
+          if (pp.get && "$" in pp.get && graph.nodes[pp.get.$] && graph.nodes[pp.get.$].ownerClass === fnId && rtDesc.get) {
+            table.set(pp.get.$, rtDesc.get);
+          }
+          if (pp.set && "$" in pp.set && graph.nodes[pp.set.$] && graph.nodes[pp.set.$].ownerClass === fnId && rtDesc.set) {
+            table.set(pp.set.$, rtDesc.set);
+          }
+        }
+      }
+    }
+    for (const sp of fnNode.props || []) {
+      if (sp.key === "prototype") continue;
+      const k = resolveKey(sp.key);
+      const rtDesc = Object.getOwnPropertyDescriptor(clsVal, k);
+      if (!rtDesc) continue;
+      if (sp.value && "$" in sp.value && graph.nodes[sp.value.$] && graph.nodes[sp.value.$].ownerClass === fnId && rtDesc.value) {
+        table.set(sp.value.$, rtDesc.value);
+      }
+      if (sp.get && "$" in sp.get && graph.nodes[sp.get.$] && graph.nodes[sp.get.$].ownerClass === fnId && rtDesc.get) {
+        table.set(sp.get.$, rtDesc.get);
+      }
+      if (sp.set && "$" in sp.set && graph.nodes[sp.set.$] && graph.nodes[sp.set.$].ownerClass === fnId && rtDesc.set) {
+        table.set(sp.set.$, rtDesc.set);
+      }
     }
   };
 

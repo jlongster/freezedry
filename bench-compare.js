@@ -466,7 +466,17 @@ function renderComparisonMarkdown(data) {
   lines.push("|---|---|---|---|---|---|---|---|");
   for (const r of data.rows) {
     const corr = `${formatPpStatus(r.prepack)} / ${formatHybStatus(r.hybrid)}${
-      r.oracle ? ` / ${r.oracle.strictIsoOk ? "ISO-OK" : r.oracle.seededIsoOk ? "ISO-SEEDED" : "DIFF"}` : ""
+      r.oracle
+        ? ` / ${
+            !r.oracle.compiledOk
+              ? "BAIL"
+              : r.oracle.strictIsoOk
+                ? "ISO-OK"
+                : r.oracle.seededIsoOk
+                  ? "ISO-SEEDED"
+                  : "DIFF"
+          }`
+        : ""
     }`;
     const sOrig = r.sizes.orig || {};
     const sPp = r.sizes.prepack || {};
