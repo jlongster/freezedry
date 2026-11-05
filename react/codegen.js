@@ -123,7 +123,40 @@ function $emitNode(v, tc) {
 `;
 
 // The runtime helpers themselves, for evaluating guards on build-time constants.
-const RT = new Function(`${RUNTIME}; return { $scls, $scls0, $hcls, $acls, $tcls, $at, $okeys, $FB };`)();
+const RT = new Function(`${RUNTIME}; return { $scls, $scls0, $hcls, $acls, $tcls, $at, $okeys, $FB, $e,
+  run(f) { $o = ""; $L = false; f({ $t, $te, $tn }); const r = $o; $o = ""; return r; },
+  id(path) { let tc = { id: 1, ov: "" }; for (const [n, i] of path) tc = $push(tc, n, i); return $id(tc, 0); } };`)();
+
+// Checks the runtime's text model ($e escaping, "<!-- -->" separators, empty-string and nullish
+// children) and tree-id model ($push/$id) against the real React on probe values.
+function verifyRuntimeModel(React, RDS) {
+  const probes = ["", "a", " ", "&<>\"'", "x&amp;y", "😀\u2028", 0, -0, 1.5, NaN, 1e21, null, undefined, true, false];
+  const h = React.createElement;
+  for (const a of probes) {
+    for (const b of probes) {
+      const want = RDS.renderToString(h("div", null, "k", a, b));
+      const got = "<div>" + RT.run((x) => { x.$t("k"); x.$tn(a); x.$tn(b); }) + "</div>";
+      if (got !== want) return `text model differs for ${JSON.stringify([a, b])}`;
+    }
+  }
+  // useId under nested lists of various widths, including overflow beyond 30 bits.
+  let got = null;
+  function Leaf() { got = React.useId(); return null; }
+  const widths = [[3, 1], [1, 0], [40, 17], [7, 6], [2, 1], [33, 32], [5, 4], [9, 8], [100, 99], [17, 3], [6, 5], [300, 7]];
+  for (let depth = 1; depth <= widths.length; depth++) {
+    const path = widths.slice(0, depth);
+    let el = h(Leaf);
+    for (let d = depth - 1; d >= 0; d--) {
+      const [n, i] = path[d];
+      const kids = Array.from({ length: n }, (_, j) => (j === i ? el : null));
+      el = h("div", null, kids);
+    }
+    got = null;
+    RDS.renderToString(el);
+    if (got !== RT.id(path)) return `useId model differs at depth ${depth}: ${got} vs ${RT.id(path)}`;
+  }
+  return null;
+}
 
 function generate({ tries, fns, ctxNames, rootFid, evalCall, callConst }) {
   const g = new Gen(tries, fns, evalCall, callConst);
@@ -1028,4 +1061,4 @@ function eqTest(v, outcome) {
   return `${v} === ${JSON.stringify(rest)}`;
 }
 
-module.exports = { generate };
+module.exports = { generate, verifyRuntimeModel };

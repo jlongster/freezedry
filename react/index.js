@@ -60,7 +60,7 @@ function build(appSource, opts = {}) {
   const { instrument } = require("./instrument");
   const { createTracer, NATIVES } = require("./trace");
   const { Learner } = require("./learn");
-  const { generate } = require("./codegen");
+  const { generate, verifyRuntimeModel } = require("./codegen");
   const t0 = process.hrtime.bigint();
   const req = opts.require || require;
   const React = opts.React || req("react");
@@ -96,6 +96,8 @@ function build(appSource, opts = {}) {
   };
 
   if (rootProp !== "data") return disable("root prop other than `data` not supported");
+  const modelError = verifyRuntimeModel(React, RDS);
+  if (modelError) return disable(`runtime model does not match this React: ${modelError}`);
 
   let inst;
   try {
