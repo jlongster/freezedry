@@ -1,0 +1,10 @@
+{
+  "name": "prepack-hybrid",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Run initialization in the real engine, capture the heap, emit JS that rebuilds it",
+  "main": "index.js",
+  "bin": { "hybrid": "bin/hybrid.js" },
+  "scripts": { "test": "node --test test/" },
+  "license": "BSD-3-Clause"
+}
