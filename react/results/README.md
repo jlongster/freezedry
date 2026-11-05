@@ -11,4 +11,5 @@
 | `generated-template.js` | the generated templates for the bench app (default training set) |
 
 The numbers were measured on a shared 4-vCPU box (AMD EPYC, Node 26.7) while other jobs were
-running. Speedups are medians of per-round ratios against baseline.
+running. Speedups are medians of per-round ratios against baseline. The raw files label the
+implementation "react-hybrid", the working name at the time.
