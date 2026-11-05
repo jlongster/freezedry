@@ -119,7 +119,29 @@ function build(appSource, opts = {}) {
   const t2 = process.hrtime.bigint();
   stats.traceMs = ms(t1, t2);
 
-  const gen = generate({ tries: learner.tries, fns: inst.fns, ctxNames: tracer.ctxNames, rootFid: rootInfo.fid });
+  // Evaluates a helper-call node with the traced module's own functions (in concrete mode), given
+  // values for its boolean leaves; used to tabulate pure helpers over finite domains.
+  const evalCall = (node, leaf) => {
+    const val = (x) => {
+      const b = leaf(x);
+      if (b !== undefined) return b;
+      if (x.k === "lit") return x.d;
+      if (x.k === "obj") return Object.fromEntries(x.d.map((k, i) => [k, val(x.kids[i])]));
+      if (x.k === "arr") return x.kids.map(val);
+      throw new Error("not evaluable");
+    };
+    const fn = tracer.modValues.get(node.kids[0].d);
+    if (typeof fn !== "function" || !tracer.fnInfo.has(fn) || !inst.fns[tracer.fnInfo.get(fn).fid].pure) {
+      throw new Error("not a pure app helper");
+    }
+    tracer.st.cm++;
+    try {
+      return fn(...node.kids.slice(1).map(val));
+    } finally {
+      tracer.st.cm--;
+    }
+  };
+  const gen = generate({ tries: learner.tries, fns: inst.fns, ctxNames: tracer.ctxNames, rootFid: rootInfo.fid, evalCall });
   const runtimeSource = `${appSource}\n;__hyOut.t = ${gen.code};\n`;
   const out = {};
   let rtApp;
