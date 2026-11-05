@@ -5,6 +5,6 @@
   "description": "Run initialization in the real engine, capture the heap, emit JS that rebuilds it",
   "main": "index.js",
   "bin": { "hybrid": "bin/hybrid.js" },
-  "scripts": { "test": "node --test test/" },
+  "scripts": { "test": "node --test" },
   "license": "BSD-3-Clause"
 }
