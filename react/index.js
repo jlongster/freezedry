@@ -6,16 +6,24 @@
 
 const path = require("path");
 const vm = require("vm");
-const { instrument } = require("./instrument");
-const { createTracer, NATIVES } = require("./trace");
-const { Learner } = require("./learn");
-const { generate } = require("./codegen");
 
-function loadModule(source, filename, req, extraNames, extraValues) {
+// Loads CommonJS source as a module. With `cache` ({ data?: Buffer }), compiles through vm.Script so
+// that a V8 code cache can be consumed (cache.data) and produced later (cache.script).
+function loadModule(source, filename, req, extraNames, extraValues, cache) {
   const mod = { exports: {} };
-  const fn = vm.compileFunction(source, ["exports", "require", "module", "__filename", "__dirname", ...extraNames], {
-    filename,
-  });
+  const params = ["exports", "require", "module", "__filename", "__dirname", ...extraNames];
+  let fn;
+  if (cache) {
+    const script = new vm.Script(`(function (${params.join(", ")}) {${source}\n})`, {
+      filename,
+      cachedData: cache.data || undefined,
+    });
+    cache.script = script;
+    cache.rejected = !!cache.data && script.cachedDataRejected;
+    fn = script.runInThisContext();
+  } else {
+    fn = vm.compileFunction(source, params, { filename });
+  }
   fn(mod.exports, req, mod, filename, path.dirname(filename), ...extraValues);
   return mod.exports;
 }
@@ -48,6 +56,11 @@ function defaultTrainingInputs(opts) {
 
 // Builds the specialized renderer. Returns { render, code, stats, ... }.
 function build(appSource, opts = {}) {
+  // Build-time machinery is loaded lazily: the cached-artifact path never needs it.
+  const { instrument } = require("./instrument");
+  const { createTracer, NATIVES } = require("./trace");
+  const { Learner } = require("./learn");
+  const { generate } = require("./codegen");
   const t0 = process.hrtime.bigint();
   const req = opts.require || require;
   const React = opts.React || req("react");
@@ -188,6 +201,7 @@ function build(appSource, opts = {}) {
     return disable("context defaults are not observable outside a render");
   }
   result.sites = gen.sites;
+  result.script = rt.script;
 
   // Self-check on the training inputs: any mismatch means a modeling bug, never accepted.
   let mismatches = 0;
@@ -223,6 +237,7 @@ function build(appSource, opts = {}) {
   });
   result.templateCode = gen.code;
   result.firstMismatch = firstMismatch;
+  stats.stubReact = mismatches === 0 && stubModeWorks({ runtimeSource, filename, req, rootProp, inputs, baseline, defaults });
   if (mismatches > 0 && !opts.allowMismatch) {
     disable(`self-check failed on ${mismatches} training inputs`);
     result.templateCode = gen.code;
@@ -235,9 +250,32 @@ function build(appSource, opts = {}) {
 
 // Loads app + generated template as one module; render() runs the template and falls back to the
 // real renderToString (react-dom/server is only loaded when first needed).
-function makeRenderer({ runtimeSource, sites, filename, req, rootProp, stats, React, RDS, checkPlain }) {
+// With `stubReact`, the template's module instance is evaluated against a minimal stand-in for
+// "react" that only supports createContext (verified at build time: templates never call React,
+// they use the app's pure helpers and the contexts' default values). The real React and a second
+// instance of the app are loaded only when the first fallback happens.
+class StubMiss extends Error {}
+function makeReactStub() {
+  const api = {
+    createContext(defaultValue) {
+      return { _currentValue: defaultValue, $$hybridStub: true };
+    },
+  };
+  return new Proxy(api, {
+    get(target, key) {
+      if (key === "createContext") return target.createContext;
+      throw new StubMiss(`react stub: ${String(key)}`);
+    },
+  });
+}
+
+function makeRenderer({ runtimeSource, sites, filename, req, rootProp, stats, React, RDS, checkPlain, codeCache, stubReact }) {
   const out = {};
-  const rtApp = loadModule(runtimeSource, filename, req, ["__hyOut"], [out]);
+  const cache = { data: codeCache || null };
+  const stub = stubReact ? makeReactStub() : null;
+  const tplReq = stub ? (id) => (id === "react" ? stub : req(id)) : req;
+  let rtApp = loadModule(runtimeSource, filename, tplReq, ["__hyOut"], [out], cache);
+  if (stub) rtApp = null;
   const tpl = out.t;
   tpl.setDefaults(tpl.contexts.map((c) => c._currentValue));
   let React_ = React;
@@ -245,6 +283,7 @@ function makeRenderer({ runtimeSource, sites, filename, req, rootProp, stats, Re
   const fallback = (data) => {
     if (!React_) React_ = req("react");
     if (!RDS_) RDS_ = req("react-dom/server");
+    if (!rtApp) rtApp = loadModule(runtimeSource, filename, req, ["__hyOut"], [{}]);
     return RDS_.renderToString(React_.createElement(rtApp, { [rootProp]: data }));
   };
   const render = (data) => {
@@ -268,7 +307,30 @@ function makeRenderer({ runtimeSource, sites, filename, req, rootProp, stats, Re
   };
   render.code = runtimeSource;
   render.stats = stats;
-  return { render, tpl };
+  return { render, tpl, script: cache.script, cacheRejected: cache.rejected };
+}
+
+function stubModeWorks({ runtimeSource, filename, req, rootProp, inputs, baseline, defaults }) {
+  const { isDeepStrictEqual } = require("util");
+  let rt;
+  try {
+    rt = makeRenderer({ runtimeSource, sites: [], filename, req, rootProp, stats: { renders: 0, fallbacks: 0, errors: 0, fallbackReasons: {} }, stubReact: true });
+  } catch (err) {
+    if (err instanceof StubMiss) return false;
+    throw err;
+  }
+  if (!rt.tpl.contexts.every((c, i) => isDeepStrictEqual(c._currentValue, defaults[i]))) return false;
+  for (const data of inputs) {
+    let got;
+    try {
+      got = rt.tpl.render(data);
+    } catch (e) {
+      if (rt.tpl.isFallback(e)) continue;
+      return false;
+    }
+    if (got !== baseline(data)) return false;
+  }
+  return true;
 }
 
 // Precondition of the templates (see README): request data is plain data, i.e. property reads are
@@ -309,15 +371,32 @@ function cacheDir(opts) {
   return path.join(base, "react-hybrid-cache");
 }
 
+// Cache key: FNV-1a over the app source, the implementation files' size+mtime, and the options that
+// affect the build (stat-based staleness, like make; avoids loading crypto on the hot path).
+function fnv(h, str) {
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
 function cacheKey(appSource, opts) {
-  const crypto = require("crypto");
   const fs = require("fs");
-  const h = crypto.createHash("sha256");
-  h.update(appSource);
-  for (const f of IMPL_FILES) h.update(fs.readFileSync(path.join(__dirname, f)));
-  h.update(JSON.stringify([opts.trainSmall, opts.trainLarge, opts.rootProp || "data", process.version]));
-  if (Array.isArray(opts.trainingInputs)) h.update(JSON.stringify(opts.trainingInputs));
-  return h.digest("hex").slice(0, 24);
+  let meta = JSON.stringify([opts.trainSmall, opts.trainLarge, opts.rootProp || "data", process.version, appSource.length]);
+  for (const f of IMPL_FILES) {
+    const st = fs.statSync(path.join(__dirname, f));
+    meta += `|${f}:${st.size}:${st.mtimeMs}`;
+  }
+  if (Array.isArray(opts.trainingInputs)) meta += JSON.stringify(opts.trainingInputs);
+  const a = fnv(0x811c9dc5, appSource);
+  const b = fnv(0x811c9dc5 ^ 0x5bd1e995, meta);
+  return a.toString(16).padStart(8, "0") + b.toString(16).padStart(8, "0") + fnv(a, meta).toString(16).padStart(8, "0");
+}
+
+// V8 code caches are only accepted under the same flags: one cache file per flag set.
+function codeCacheFile(file) {
+  const flags = process.execArgv.filter((a) => a.startsWith("--") && !a.startsWith("--cpu-prof")).join(" ");
+  return `${file}.${fnv(0x811c9dc5, flags).toString(16)}.v8cache`;
 }
 
 module.exports = {
@@ -329,21 +408,67 @@ module.exports = {
   // config) the specialized renderer. Set opts.noCache / REACT_HYBRID_NO_CACHE to always build.
   prepare(appSource, opts = {}) {
     const fs = require("fs");
+    const tm = [];
+    let tt = process.hrtime.bigint();
+    const mark = (n) => {
+      const x = process.hrtime.bigint();
+      tm.push(`${n}=${(Number(x - tt) / 1e6).toFixed(2)}`);
+      tt = x;
+    };
     const useCache = !opts.noCache && !process.env.REACT_HYBRID_NO_CACHE;
     const file = useCache ? path.join(cacheDir(opts), `${cacheKey(appSource, opts)}.json`) : null;
+    mark("key");
     if (file && fs.existsSync(file)) {
       try {
         const art = JSON.parse(fs.readFileSync(file, "utf8"));
+        mark("json");
         const stats = Object.assign(art.stats, { renders: 0, fallbacks: 0, errors: 0, fallbackReasons: {}, fromCache: true });
-        return makeRenderer({
+        let codeCache = null;
+        const ccFile = codeCacheFile(file);
+        try {
+          codeCache = fs.readFileSync(ccFile);
+        } catch (_e) {
+          // no code cache for these flags: compile from source, write one after the first render
+        }
+        mark("readcache");
+        const rr = makeRenderer({
+          codeCache,
+          stubReact: !!art.stats.stubReact,
           runtimeSource: art.runtimeSource,
           sites: art.sites,
           filename: opts.appPath || "app.js",
-          req: opts.require || require,
+          // Resolved on first use: opts.require may be a getter that loads React eagerly.
+          req: (id) => (opts.require || require)(id),
           rootProp: opts.rootProp || "data",
           stats,
           checkPlain: !!opts.checkPlainData,
-        }).render;
+        });
+        mark("load");
+        stats.codeCacheRejected = !!rr.cacheRejected;
+        stats.prepareTimings = tm.join(" ");
+        if (process.env.REACT_HYBRID_TIMING) process.stderr.write(`[react-hybrid] ${stats.prepareTimings} codeCacheRejected=${stats.codeCacheRejected}\n`);
+        if (!codeCache || rr.cacheRejected) {
+          const render0 = rr.render;
+          let pending = true;
+          const wrapped = (data) => {
+            const html = render0(data);
+            if (pending) {
+              pending = false;
+              try {
+                const tmp = `${ccFile}.${process.pid}.tmp`;
+                fs.writeFileSync(tmp, rr.script.createCachedData());
+                fs.renameSync(tmp, ccFile);
+              } catch (_e) {
+                // best effort
+              }
+            }
+            return html;
+          };
+          wrapped.code = render0.code;
+          wrapped.stats = render0.stats;
+          return wrapped;
+        }
+        return rr.render;
       } catch (_e) {
         // rebuild below
       }
@@ -358,6 +483,12 @@ module.exports = {
         const tmp = `${file}.${process.pid}.tmp`;
         fs.writeFileSync(tmp, JSON.stringify({ runtimeSource: r.code, sites: r.sites, stats: r.stats }));
         fs.renameSync(tmp, file);
+        // The build's script has rendered every training input, so its code cache includes the
+        // compiled templates (not only the eagerly compiled top level).
+        if (r.script) {
+          fs.writeFileSync(tmp, r.script.createCachedData());
+          fs.renameSync(tmp, codeCacheFile(file));
+        }
       } catch (_e) {
         // cache is best effort
       }

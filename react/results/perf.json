@@ -1,0 +1,435 @@
+{
+  "meta": {
+    "date": "2026-11-05T17:03:57.499Z",
+    "node": "v26.7.0",
+    "cpu": "AMD EPYC 9554P 64-Core Processor",
+    "cpus": 4,
+    "platform": "linux 6.12.115",
+    "timeSec": 3,
+    "warmupSec": 1.5,
+    "coldRuns": 7,
+    "rounds": 3,
+    "loadavgBefore": [
+      3.08,
+      0.75,
+      0.25
+    ],
+    "loadavgAfter": [
+      7.99,
+      4.03,
+      1.62
+    ]
+  },
+  "throughput": [
+    {
+      "spec": "baseline",
+      "impl": "baseline (ReactDOMServer.renderToString)",
+      "variant": "small",
+      "engine": "jit",
+      "prepareMs": 0.819832,
+      "warmupRenders": 12934,
+      "renders": 30562,
+      "elapsedMs": 3000.00789,
+      "rendersPerSec": 10187.30654071713,
+      "meanMs": 0.09816137327400039,
+      "p50Ms": 0.065028,
+      "p90Ms": 0.085929,
+      "p99Ms": 0.367762,
+      "allocBytesPerRender": 139964.13271382762,
+      "avgHtmlBytes": 6018,
+      "speedup": 1,
+      "roundsRendersPerSec": [
+        8776,
+        10187,
+        10970
+      ],
+      "roundsSpeedup": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "spec": "/tmp/opencode/pp-wt/react-hybrid/hybrid/react/index.js",
+      "impl": "react-hybrid (traced templates + guards)",
+      "variant": "small",
+      "engine": "jit",
+      "prepareMs": 29.191184,
+      "warmupRenders": 60512,
+      "renders": 134455,
+      "elapsedMs": 3003.021747,
+      "rendersPerSec": 44773.235536612316,
+      "meanMs": 0.022334771834442747,
+      "p50Ms": 0.012659,
+      "p90Ms": 0.018518,
+      "p99Ms": 0.045498,
+      "allocBytesPerRender": 16471.42101074709,
+      "avgHtmlBytes": 6018,
+      "speedup": 5.102060175569408,
+      "roundsRendersPerSec": [
+        44773,
+        41813,
+        60885
+      ],
+      "roundsSpeedup": [
+        5.1,
+        4.1,
+        5.55
+      ]
+    },
+    {
+      "spec": "handwritten",
+      "impl": "handwritten (hand-specialized string concatenation)",
+      "variant": "small",
+      "engine": "jit",
+      "prepareMs": 0.181282,
+      "warmupRenders": 129182,
+      "renders": 247978,
+      "elapsedMs": 3000.007329,
+      "rendersPerSec": 82659.13139707533,
+      "meanMs": 0.012097876944728967,
+      "p50Ms": 0.008283,
+      "p90Ms": 0.011998,
+      "p99Ms": 0.019479,
+      "allocBytesPerRender": 13090.067538249361,
+      "avgHtmlBytes": 6018,
+      "speedup": 8.796009834975296,
+      "roundsRendersPerSec": [
+        77190,
+        95858,
+        82659
+      ],
+      "roundsSpeedup": [
+        8.8,
+        9.41,
+        7.54
+      ]
+    },
+    {
+      "spec": "baseline",
+      "impl": "baseline (ReactDOMServer.renderToString)",
+      "variant": "large",
+      "engine": "jit",
+      "prepareMs": 1.539211,
+      "warmupRenders": 302,
+      "renders": 648,
+      "elapsedMs": 3000.662834,
+      "rendersPerSec": 215.95228649404467,
+      "meanMs": 4.630652521604938,
+      "p50Ms": 3.467688,
+      "p90Ms": 7.612613,
+      "p99Ms": 13.365655,
+      "allocBytesPerRender": 6568203.9382716045,
+      "avgHtmlBytes": 290594,
+      "speedup": 1,
+      "roundsRendersPerSec": [
+        216,
+        214,
+        226
+      ],
+      "roundsSpeedup": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "spec": "/tmp/opencode/pp-wt/react-hybrid/hybrid/react/index.js",
+      "impl": "react-hybrid (traced templates + guards)",
+      "variant": "large",
+      "engine": "jit",
+      "prepareMs": 45.801543,
+      "warmupRenders": 1209,
+      "renders": 3085,
+      "elapsedMs": 3000.239147,
+      "rendersPerSec": 1028.2513655902246,
+      "meanMs": 0.972524845056726,
+      "p50Ms": 0.644428,
+      "p90Ms": 1.209797,
+      "p99Ms": 7.038371,
+      "allocBytesPerRender": 742355.7782820098,
+      "avgHtmlBytes": 290474,
+      "speedup": 4.761474778914095,
+      "roundsRendersPerSec": [
+        1028,
+        959,
+        1104
+      ],
+      "roundsSpeedup": [
+        4.76,
+        4.49,
+        4.88
+      ]
+    },
+    {
+      "spec": "handwritten",
+      "impl": "handwritten (hand-specialized string concatenation)",
+      "variant": "large",
+      "engine": "jit",
+      "prepareMs": 0.194993,
+      "warmupRenders": 2166,
+      "renders": 4989,
+      "elapsedMs": 3002.912152,
+      "rendersPerSec": 1661.3872625868278,
+      "meanMs": 0.6019066249749448,
+      "p50Ms": 0.456235,
+      "p90Ms": 0.67237,
+      "p99Ms": 4.506148,
+      "allocBytesPerRender": 620901.9971938264,
+      "avgHtmlBytes": 290482,
+      "speedup": 7.693307116860019,
+      "roundsRendersPerSec": [
+        1661,
+        1709,
+        1410
+      ],
+      "roundsSpeedup": [
+        7.69,
+        8,
+        6.24
+      ]
+    },
+    {
+      "spec": "baseline",
+      "impl": "baseline (ReactDOMServer.renderToString)",
+      "variant": "small",
+      "engine": "jitless",
+      "prepareMs": 0.817217,
+      "warmupRenders": 1613,
+      "renders": 4506,
+      "elapsedMs": 3000.08803,
+      "rendersPerSec": 1501.9559276065643,
+      "meanMs": 0.6657984975588105,
+      "p50Ms": 0.501994,
+      "p90Ms": 0.67901,
+      "p99Ms": 4.77427,
+      "allocBytesPerRender": 158661.75943186862,
+      "avgHtmlBytes": 6018,
+      "speedup": 1,
+      "roundsRendersPerSec": [
+        1502,
+        1506,
+        1070
+      ],
+      "roundsSpeedup": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "spec": "/tmp/opencode/pp-wt/react-hybrid/hybrid/react/index.js",
+      "impl": "react-hybrid (traced templates + guards)",
+      "variant": "small",
+      "engine": "jitless",
+      "prepareMs": 14.194059,
+      "warmupRenders": 21459,
+      "renders": 44986,
+      "elapsedMs": 3000.003483,
+      "rendersPerSec": 14995.315923771546,
+      "meanMs": 0.06668749128617792,
+      "p50Ms": 0.047471,
+      "p90Ms": 0.064447,
+      "p99Ms": 0.497388,
+      "allocBytesPerRender": 17977.198417285377,
+      "avgHtmlBytes": 6018,
+      "speedup": 9.959513389313273,
+      "roundsRendersPerSec": [
+        14160,
+        14995,
+        15733
+      ],
+      "roundsSpeedup": [
+        9.43,
+        9.96,
+        14.71
+      ]
+    },
+    {
+      "spec": "handwritten",
+      "impl": "handwritten (hand-specialized string concatenation)",
+      "variant": "small",
+      "engine": "jitless",
+      "prepareMs": 0.18019,
+      "warmupRenders": 39272,
+      "renders": 62272,
+      "elapsedMs": 3000.216433,
+      "rendersPerSec": 20755.835917388296,
+      "meanMs": 0.04817922072520555,
+      "p50Ms": 0.027561,
+      "p90Ms": 0.038918,
+      "p99Ms": 0.12677,
+      "allocBytesPerRender": 14103.60316032888,
+      "avgHtmlBytes": 6018,
+      "speedup": 19.197841214684654,
+      "roundsRendersPerSec": [
+        28834,
+        15891,
+        20756
+      ],
+      "roundsSpeedup": [
+        19.2,
+        10.55,
+        19.4
+      ]
+    },
+    {
+      "spec": "baseline",
+      "impl": "baseline (ReactDOMServer.renderToString)",
+      "variant": "large",
+      "engine": "jitless",
+      "prepareMs": 0.815324,
+      "warmupRenders": 100,
+      "renders": 75,
+      "elapsedMs": 3024.814448,
+      "rendersPerSec": 24.794909337195815,
+      "meanMs": 40.33085930666667,
+      "p50Ms": 40.494841,
+      "p90Ms": 56.222694,
+      "p99Ms": 69.365955,
+      "allocBytesPerRender": 7359223.68,
+      "avgHtmlBytes": 290870,
+      "speedup": 1,
+      "roundsRendersPerSec": [
+        25,
+        20,
+        33
+      ],
+      "roundsSpeedup": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "spec": "/tmp/opencode/pp-wt/react-hybrid/hybrid/react/index.js",
+      "impl": "react-hybrid (traced templates + guards)",
+      "variant": "large",
+      "engine": "jitless",
+      "prepareMs": 36.27242,
+      "warmupRenders": 559,
+      "renders": 1142,
+      "elapsedMs": 3001.724948,
+      "rendersPerSec": 380.4479157095642,
+      "meanMs": 2.628480690017513,
+      "p50Ms": 1.953845,
+      "p90Ms": 4.824997,
+      "p99Ms": 9.897676,
+      "allocBytesPerRender": 802439.5376532399,
+      "avgHtmlBytes": 290462,
+      "speedup": 13.95346866277326,
+      "roundsRendersPerSec": [
+        380,
+        279,
+        391
+      ],
+      "roundsSpeedup": [
+        15.34,
+        13.95,
+        11.72
+      ]
+    },
+    {
+      "spec": "handwritten",
+      "impl": "handwritten (hand-specialized string concatenation)",
+      "variant": "large",
+      "engine": "jitless",
+      "prepareMs": 0.192269,
+      "warmupRenders": 1008,
+      "renders": 1707,
+      "elapsedMs": 3003.811342,
+      "rendersPerSec": 568.2780326887786,
+      "meanMs": 1.7597020164030464,
+      "p50Ms": 1.262827,
+      "p90Ms": 3.224182,
+      "p99Ms": 7.437651,
+      "allocBytesPerRender": 665665.6965436438,
+      "avgHtmlBytes": 290477,
+      "speedup": 17.015428967098675,
+      "roundsRendersPerSec": [
+        399,
+        573,
+        568
+      ],
+      "roundsSpeedup": [
+        16.1,
+        28.66,
+        17.02
+      ]
+    }
+  ],
+  "cold": [
+    {
+      "spec": "baseline",
+      "impl": "baseline (ReactDOMServer.renderToString)",
+      "engine": "jit",
+      "runs": 7,
+      "bootMs": 46.661103,
+      "loadMs": 16.596688,
+      "prepareMs": 0.7648690000000045,
+      "firstRenderMs": 9.199618000000001,
+      "secondRenderMs": 0.945539999999994,
+      "firstHtmlMs": 29.152456
+    },
+    {
+      "spec": "/tmp/opencode/pp-wt/react-hybrid/hybrid/react/index.js",
+      "impl": "react-hybrid (traced templates + guards)",
+      "engine": "jit",
+      "runs": 7,
+      "bootMs": 52.460964,
+      "loadMs": 18.820668000000005,
+      "prepareMs": 20.457125999999995,
+      "firstRenderMs": 5.290686999999991,
+      "secondRenderMs": 0.3564449999999937,
+      "firstHtmlMs": 42.19230100000001
+    },
+    {
+      "spec": "handwritten",
+      "impl": "handwritten (hand-specialized string concatenation)",
+      "engine": "jit",
+      "runs": 7,
+      "bootMs": 38.970963,
+      "loadMs": 1.0411140000000003,
+      "prepareMs": 0.10196300000000491,
+      "firstRenderMs": 0.8581690000000037,
+      "secondRenderMs": 1.9931740000000033,
+      "firstHtmlMs": 2.9703210000000055
+    },
+    {
+      "spec": "baseline",
+      "impl": "baseline (ReactDOMServer.renderToString)",
+      "engine": "jitless",
+      "runs": 7,
+      "bootMs": 47.87721,
+      "loadMs": 9.992988999999994,
+      "prepareMs": 0.72767300000001,
+      "firstRenderMs": 7.26611299999999,
+      "secondRenderMs": 1.0401219999999967,
+      "firstHtmlMs": 17.986774999999994
+    },
+    {
+      "spec": "/tmp/opencode/pp-wt/react-hybrid/hybrid/react/index.js",
+      "impl": "react-hybrid (traced templates + guards)",
+      "engine": "jitless",
+      "runs": 7,
+      "bootMs": 66.278888,
+      "loadMs": 25.210814999999997,
+      "prepareMs": 30.948273000000015,
+      "firstRenderMs": 2.880606,
+      "secondRenderMs": 0.32168300000000727,
+      "firstHtmlMs": 58.58076600000001
+    },
+    {
+      "spec": "handwritten",
+      "impl": "handwritten (hand-specialized string concatenation)",
+      "engine": "jitless",
+      "runs": 7,
+      "bootMs": 46.688865,
+      "loadMs": 0.8260609999999957,
+      "prepareMs": 0.10039000000000442,
+      "firstRenderMs": 0.8059709999999995,
+      "secondRenderMs": 0.10763099999999781,
+      "firstHtmlMs": 1.7568279999999987
+    }
+  ]
+}

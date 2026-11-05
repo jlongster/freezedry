@@ -222,6 +222,39 @@ module.exports = App;`;
   });
 });
 
+describe("react-hybrid: cached artifacts", () => {
+  it("prepare() reuses the artifact with a React stub and loads React only on fallback", () => {
+    const fs = require("node:fs");
+    const os = require("node:os");
+    const path = require("node:path");
+    const { React, RDS, reactRequire, loadApp } = require("./helpers/react-app");
+    const impl = require("../react/index.js");
+    // No top-level React access besides createContext (a top-level `React.createElement` alias
+    // would make the build refuse stub mode, which is checked below as well).
+    const src = `var React = require("react");
+var Ctx = React.createContext({ sep: "," });
+function App(props) { var c = React.useContext(Ctx); return React.createElement("p", null, props.data.ok ? props.data.a + c.sep : "no"); }
+module.exports = App;`;
+    const dir = fs.mkdtempSync(path.join(fs.existsSync("/tmp/opencode") ? "/tmp/opencode" : os.tmpdir(), "rh-test-"));
+    const opts = { require: reactRequire, trainingInputs: [{ ok: true, a: "x" }], cacheDir: dir };
+    const first = impl.prepare(src, opts);
+    assert.equal(first.stats.stubReact, true);
+    let required = [];
+    const second = impl.prepare(src, Object.assign({}, opts, { require: (id) => (required.push(id), reactRequire(id)) }));
+    assert.equal(second.stats.fromCache, true);
+    const App = loadApp(src);
+    const ref = (d) => RDS.renderToString(React.createElement(App, { data: d }));
+    assert.equal(second({ ok: true, a: "<y>" }), ref({ ok: true, a: "<y>" }));
+    assert.deepEqual(required, [], "no module loaded on the template path");
+    assert.equal(second({ ok: false, a: "z" }), ref({ ok: false, a: "z" }));
+    assert.ok(required.includes("react-dom/server"), "fallback loads the real renderer");
+    assert.equal(second.stats.fallbacks, 1);
+    const aliasSrc = `${HEADER}\nfunction App(props) { return h("p", null, props.data.a); }\nmodule.exports = App;`;
+    assert.equal(impl.prepare(aliasSrc, Object.assign({}, opts, { trainingInputs: [{ a: "x" }] })).stats.stubReact, false);
+    fs.rmSync(dir, { recursive: true, force: true });
+  });
+});
+
 describe("react-hybrid: instrumenter", () => {
   it("classifies pure helpers and closure variables", () => {
     const { fns } = instrument(`

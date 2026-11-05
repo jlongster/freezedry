@@ -1,0 +1,51 @@
+{
+  "impl": "react-hybrid (traced templates + guards)",
+  "implPath": "/tmp/opencode/pp-wt/react-hybrid/hybrid/react/index.js",
+  "corpusFingerprint": "4fafe7d601e3561d",
+  "total": 500,
+  "pass": 500,
+  "fail": 0,
+  "throws": 0,
+  "mismatches": 0,
+  "prepareMs": 2616.8,
+  "generatedCode": {
+    "measuredFrom": "explicit",
+    "bytes": 104518,
+    "kb": 102.07,
+    "gzipBytes": 20681,
+    "gzipKb": 20.2,
+    "lines": 3222
+  },
+  "appSource": {
+    "bytes": 31446,
+    "kb": 30.71,
+    "gzipBytes": 8027,
+    "gzipKb": 7.84,
+    "lines": 944
+  },
+  "stats": {
+    "renders": 500,
+    "fallbacks": 2,
+    "errors": 0,
+    "buildMs": 2607.892659,
+    "traceMs": 2441.499553,
+    "disabled": null,
+    "fallbackReasons": {
+      "$T19 AnnouncementBanner: ($rP.promo.minOrder > 0) is falsy": 1,
+      "$T30 SpecList: ($rP.specs.length === 0) is truthy": 1
+    },
+    "trainingInputs": 70,
+    "traceFailures": 0,
+    "frames": 22338,
+    "framesLearned": 22338,
+    "poisoned": {},
+    "unsupported": {},
+    "conflicts": {},
+    "templates": 39,
+    "leaves": 112,
+    "decisions": 139,
+    "templateBytes": 73056,
+    "selfCheckMismatches": 0
+  },
+  "failures": []
+}
