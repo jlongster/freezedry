@@ -172,4 +172,5 @@ function typeOf(n) {
 }
 
 module.exports = {
-  typeOf, NoExpr, litCode, root, lit, ref, get, call, mcall, newc, bin, un, tpl, obj, arr, mk, re, render };
+  typeOf,
+  make, NoExpr, litCode, root, lit, ref, get, call, mcall, newc, bin, un, tpl, obj, arr, mk, re, render };

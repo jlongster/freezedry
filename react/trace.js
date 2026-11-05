@@ -924,4 +924,4 @@ function createTracer({ React, fns }) {
   };
 }
 
-module.exports = { createTracer, Sym, NoExpr };
+module.exports = { createTracer, Sym, NoExpr, BINOPS, UNOPS, NATIVES };

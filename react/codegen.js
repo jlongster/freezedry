@@ -6,7 +6,8 @@
 // appended to the app's own module source, so it calls the app's original pure helpers by name.
 
 const E = require("./expr");
-const { escapeHtml } = require("./learn");
+const { escapeHtml, eqOutcome } = require("./learn");
+const { BINOPS, UNOPS, NATIVES } = require("./trace");
 
 const TRIVIAL = new Set(["root", "lit", "ref", "re"]);
 const CLASSIFIERS = { tcls: "$tcls", acls: "$acls", scls: "$scls", scls0: "$scls0", hcls: "$hcls", keys: "$keys" };
@@ -34,7 +35,7 @@ function $es(v) {
 function $tn(v) {
   const t = typeof v;
   if (t === "string") $t(v);
-  else if (t === "number") $t("" + v);
+  else if (t === "number") $te("" + v);
   else if (!(v === null || v === undefined || t === "boolean")) $fb();
 }
 function $tcls(v) {
@@ -121,8 +122,11 @@ function $emitNode(v, tc) {
 }
 `;
 
-function generate({ tries, fns, ctxNames, rootFid, evalCall }) {
-  const g = new Gen(tries, fns, evalCall);
+// The runtime helpers themselves, for evaluating guards on build-time constants.
+const RT = new Function(`${RUNTIME}; return { $scls, $scls0, $hcls, $acls, $tcls, $at, $okeys, $FB };`)();
+
+function generate({ tries, fns, ctxNames, rootFid, evalCall, callConst }) {
+  const g = new Gen(tries, fns, evalCall, callConst);
   g.computePropModes();
   const parts = [RUNTIME];
   const mkUsed = new Set();
@@ -132,7 +136,8 @@ function generate({ tries, fns, ctxNames, rootFid, evalCall }) {
     const f = fns[fid];
     parts.push(`function $hy_mk${fid}(${f.freeLocals.join(", ")}) { return (${f.source}); }`);
   }
-  const templates = [...tries.keys()].sort().map((key) => g.template(key));
+  const templates = [...tries.keys()].sort().map((key) => g.template(key, null));
+  while (g.work.length) templates.push(g.template(null, g.work.shift()));
   parts.push(...g.tables, ...templates);
   const rootKey = `c${rootFid}`;
   g.curName = "root";
@@ -157,10 +162,15 @@ function generate({ tries, fns, ctxNames, rootFid, evalCall }) {
 }
 
 class Gen {
-  constructor(tries, fns, evalCall) {
+  constructor(tries, fns, evalCall, callConst) {
     this.tries = tries;
     this.fns = fns;
     this.evalCall = evalCall;
+    this.callConst = callConst;
+    this.consts = null;
+    this.specMap = new Map();
+    this.specCount = new Map();
+    this.work = [];
     this.tabCache = new Map();
     this.tables = [];
     this.tcMemo = new Map();
@@ -318,16 +328,19 @@ class Gen {
 
   // ---------------------------------------------------------------- templates
 
-  template(key) {
+  template(key, spec) {
+    if (spec) key = `c${spec.fid}`;
     const trie = this.tries.get(key);
     const isComp = key[0] === "c";
     const fid = Number(key.slice(1));
-    const name = isComp ? `$T${fid}` : `$B${fid}`;
+    const name = spec ? spec.name : isComp ? `$T${fid}` : `$B${fid}`;
     this.curName = `${name} ${this.fns[fid].name || ""}`.trim();
     this.curProps = isComp && this.propParams.has(fid) ? this.propParams.get(fid) : null;
+    this.consts = spec ? spec.consts : null;
+    this.simpMemo = new Map();
     const params = isComp
       ? this.curProps
-        ? this.curProps.map((_, i) => `$p${i}`)
+        ? this.curProps.map((k, i) => (this.consts && this.consts.has(k) ? null : `$p${i}`)).filter(Boolean)
         : ["$rP"]
       : ["$rA0", "$rA1", "$rA2", ...this.fns[fid].freeLocals.map((_, i) => `$rE${i}`)];
     params.push("$tc");
@@ -336,7 +349,7 @@ class Gen {
     this.counts = new Map();
     this.uid = 0;
     const roots = new Set();
-    this.forEachNode(trie, (n) => this.count(n, roots));
+    this.forEachNode(trie, (n) => this.count(this.simp(n), roots));
     const ctx = this.newCtx(new Map());
     for (const r of [...roots].sort()) {
       if (r.startsWith("$rC")) ctx.lines.push(`const ${r} = $ctx[${r.slice(3)}];`);
@@ -345,6 +358,90 @@ class Gen {
     this.trie(trie, ctx, isComp);
     this.flush(ctx);
     return `function ${name}(${params.join(", ")}) {\n${ctx.lines.join("\n")}\n}`;
+  }
+
+  // ---------------------------------------------------------------- build-time constant folding
+
+  // Substitutes constant props of a call-site specialization and folds every operation whose
+  // operands became constants, by performing it at build time (real operators, real helpers).
+  simp(n) {
+    if (!this.consts) return n;
+    if (this.simpMemo.has(n.key)) return this.simpMemo.get(n.key);
+    let r = n;
+    if (n.k === "get" && n.kids[0].k === "root" && n.kids[0].d === "$rP" && n.kids[1].k === "lit" && this.consts.has(n.kids[1].d)) {
+      r = this.consts.get(n.kids[1].d);
+    } else if (n.kids.length) {
+      const kids = n.kids.map((k) => this.simp(k));
+      r = kids.every((k, i) => k === n.kids[i]) ? n : E.make(n.k, kids, n.d);
+      const operands = n.k === "call" ? kids.slice(1) : kids;
+      if (r !== n && n.k !== "obj" && n.k !== "arr" && operands.every((k) => isConstNode(k))) {
+        const f = this.fold(r);
+        if (f.ok && (f.value === null || (typeof f.value !== "object" && typeof f.value !== "function"))) {
+          try {
+            r = E.lit(f.value);
+          } catch (_e) {
+            // unrepresentable (unregistered symbol): keep the expression
+          }
+        }
+      }
+    }
+    this.simpMemo.set(n.key, r);
+    return r;
+  }
+
+  fold(n) {
+    try {
+      const v = (x) => constValue(x);
+      switch (n.k) {
+        case "bin":
+          if (n.d === "in" || n.d === "instanceof") return { ok: false };
+          return { ok: true, value: BINOPS[n.d](v(n.kids[0]), v(n.kids[1])) };
+        case "un":
+          return { ok: true, value: UNOPS[n.d](v(n.kids[0])) };
+        case "tpl": {
+          let out = n.d[0];
+          n.kids.forEach((k, i) => {
+            out += `${v(k)}` + n.d[i + 1];
+          });
+          return { ok: true, value: out };
+        }
+        case "get": {
+          const o = v(n.kids[0]);
+          if (o === null || o === undefined) return { ok: false };
+          return { ok: true, value: o[v(n.kids[1])] };
+        }
+        case "call":
+          if (n.kids[0].k !== "ref" || !this.callConst) return { ok: false };
+          return { ok: true, value: this.callConst(n.kids[0].d, n.kids.slice(1).map(v)) };
+        case "mcall": {
+          const recv = v(n.kids[0]);
+          if (recv === null || recv === undefined || typeof recv === "object") return { ok: false };
+          const fn = Object(recv)[n.d];
+          if (!NATIVES.methods.has(fn)) return { ok: false };
+          return { ok: true, value: fn.apply(recv, n.kids.slice(1).map(v)) };
+        }
+        default:
+          return { ok: false };
+      }
+    } catch (_e) {
+      return { ok: false };
+    }
+  }
+
+  // Outcome of a guard on a build-time constant, computed with the runtime classifiers themselves.
+  staticOutcome(kind, value) {
+    switch (kind) {
+      case "bool":
+        return !!value;
+      case "eq":
+        return eqOutcome(value);
+      case "keys": {
+        const k = RT.$okeys(value);
+        return typeof k === "string" ? k : `o:${k.join("\u0001")}`;
+      }
+      default:
+        return RT[CLASSIFIERS[kind]](value);
+    }
   }
 
   count(n, roots) {
@@ -406,7 +503,7 @@ class Gen {
         }
         const name = `$tab${this.tables.length}`;
         this.tables.push(`const ${name} = [${table.map((v) => E.litCode(v)).join(", ")}];`);
-        result = { name, bools };
+        result = { name, bools, values: table };
       } catch (_e) {
         result = null;
       }
@@ -416,6 +513,7 @@ class Gen {
   }
 
   ens(n, ctx, force) {
+    n = this.simp(n);
     if (ctx.defs.has(n.key)) return ctx.defs.get(n.key);
     if (this.trivial(n)) return this.render(n, ctx);
     const tab = this.tabulate(n);
@@ -496,7 +594,12 @@ class Gen {
       return;
     }
     this.stats.decisions++;
-    const d = t.dec;
+    const d = { kind: t.dec.kind, node: this.simp(t.dec.node) };
+    if (isConstNode(d.node)) {
+      const outcome = this.staticOutcome(d.kind, constValue(d.node));
+      this.trie(t.edges.get(outcome), ctx, isComp, `${t.dec.kind}(${t.dec.node.key}) = ${String(outcome)} untraced`);
+      return;
+    }
     if (d.kind === "bool") {
       const c = this.ens(d.node, ctx, false);
       const yes = this.block(ctx);
@@ -540,9 +643,57 @@ class Gen {
     this.stmt(ctx, `${code}default: $fb(${this.site(`${d.kind}(${d.node.key}) untraced`)});\n}`);
   }
 
+  // Statically escape-free strings: escaping them is the identity.
+  safe(n) {
+    const ty = E.typeOf(n);
+    if (ty === "number" || ty === "boolean") return true;
+    switch (n.k) {
+      case "lit":
+        return typeof n.d === "string" ? !/["'&<>]/.test(n.d) : n.d === null || typeof n.d !== "object";
+      case "root":
+        return n.d.startsWith("$rI");
+      case "bin":
+        return n.d === "+" && ty === "string" && this.safe(n.kids[0]) && this.safe(n.kids[1]);
+      case "tpl":
+        return n.d.every((q) => !/["'&<>]/.test(q)) && n.kids.every((k) => this.safe(k));
+      case "mcall":
+        return ty === "string" && E.typeOf(n.kids[0]) === "number";
+      case "call": {
+        const tab = this.tabulate(n);
+        return !!tab && tab.values.every((v) => typeof v !== "string" || !/["'&<>]/.test(v));
+      }
+      default:
+        return false;
+    }
+  }
+
+  // Escaped form of a string- or number-typed expression, as output pieces. Concatenations of
+  // strings/numbers are escaped piecewise (escaping distributes over concatenation).
+  escPieces(n, ctx) {
+    n = this.simp(n);
+    const ty = E.typeOf(n);
+    if (n.k === "lit") return [{ lit: escapeHtml(String(n.d)) }];
+    if (this.safe(n)) {
+      const x = this.ens(n, ctx, false);
+      return [{ code: ty === "string" ? x : `("" + ${x})` }];
+    }
+    if (n.k === "bin" && n.d === "+" && ty === "string") {
+      const [a, b] = n.kids;
+      const known = (k) => ["string", "number"].includes(E.typeOf(k));
+      if (known(a) && known(b)) return this.escPieces(a, ctx).concat(this.escPieces(b, ctx));
+    }
+    const ex = this.escaped(n, ctx);
+    if (ex) return [{ code: ex }];
+    const x = this.ens(n, ctx, false);
+    return [{ code: ty === "string" ? `$e(${x})` : `("" + ${x})` }];
+  }
+
   // Values escaped more than once in a leaf are escaped once into a constant.
   countEscapes(out, counts) {
-    const bump = (n) => counts.set(n.key, (counts.get(n.key) || 0) + 1);
+    const bump = (n) => {
+      n = this.simp(n);
+      counts.set(n.key, (counts.get(n.key) || 0) + 1);
+    };
     const visit = (o) => {
       if (!o) return;
       switch (o.t) {
@@ -571,6 +722,8 @@ class Gen {
   }
 
   escaped(n, ctx) {
+    n = this.simp(n);
+    if (n.k === "lit" || this.safe(n)) return null;
     if (!this.escCounts || (this.escCounts.get(n.key) || 0) < 2) return null;
     const k = `esc:${n.key}`;
     if (ctx.defs.has(k)) return ctx.defs.get(k);
@@ -602,16 +755,35 @@ class Gen {
   }
 
   slotPieces(p, ctx) {
+    const cn = this.simp(p.node);
+    if (cn.k === "lit") {
+      const c = cn.d;
+      try {
+        switch (p.s) {
+          case "attrR":
+            return [{ lit: RT.$at(c, p.vOK ? p.vpre : null, p.vpost, ...p.tbl.slice(0, 3), -1) }];
+          case "attr":
+            return [{ lit: escapeHtml("" + c) }];
+          case "styleS":
+            return [{ lit: escapeHtml(("" + c).trim()) }];
+          default:
+            return [{ lit: "" + c }];
+        }
+      } catch (e) {
+        if (e !== RT.$FB) throw e;
+        // falls through: the generic code fails at runtime as well
+      }
+    }
     if (p.s === "attrR") {
-      const ty = E.typeOf(p.node);
+      const ty = E.typeOf(cn);
       const x = this.ens(p.node, ctx, false);
       const site = this.site(`attribute value ${p.node.key} of unsupported type`);
       const [vpre, vpost, t, f, n] = [p.vpre, p.vpost, ...p.tbl].map((z) => JSON.stringify(z));
       if (ty === "boolean") return [{ code: `(${x} ? ${t} : ${f})` }];
-      const ex = p.vOK && ty !== "number" ? this.escaped(p.node, ctx) : null;
+      const ex = p.vOK && ty === null ? this.escaped(p.node, ctx) : null;
       if (ty === "string" || ty === "number") {
         if (!p.vOK) return [{ code: `$fb(${site})` }];
-        return [{ lit: p.vpre }, { code: ex || (ty === "string" ? `$e(${x})` : `("" + ${x})`) }, { lit: p.vpost }];
+        return [{ lit: p.vpre }, ...this.escPieces(p.node, ctx), { lit: p.vpost }];
       }
       const generic = `$at(${x}, ${p.vOK ? vpre : "null"}, ${vpost}, ${t}, ${f}, ${n}, ${site})`;
       if (ex) return [{ code: `(${ex} !== null ? ${vpre} + ${ex} + ${vpost} : ${generic})` }];
@@ -656,8 +828,38 @@ class Gen {
     const pos = this.propParams.get(fid);
     if (pos) {
       const byKey = new Map(props.map(([k, sp]) => [k, sp]));
-      const args = pos.map((k) => (byKey.has(k) ? this.spec(byKey.get(k), ctx) : "void 0"));
-      return `$T${fid}(${[...args, tcArg].join(", ")});`;
+      // Props that are constants at this call site (including absent ones) select a specialized copy
+      // of the callee in which they are folded.
+      const consts = new Map();
+      for (const k of pos) {
+        if (!byKey.has(k)) consts.set(k, E.lit(undefined));
+        else {
+          const sp = byKey.get(k);
+          if (sp.k === "x") {
+            const cn = this.simp(sp.node);
+            if (isConstNode(cn)) consts.set(k, cn);
+          }
+        }
+      }
+      let callee = `$T${fid}`;
+      let keys = pos;
+      if (consts.size) {
+        const sig = `${fid}|${[...consts].map(([k, v]) => `${k}=${v.key}`).join("|")}`;
+        let spec = this.specMap.get(sig);
+        const n = this.specCount.get(fid) || 0;
+        if (!spec && n < 24 && this.specMap.size < 400) {
+          spec = { name: `$T${fid}_${n}`, fid, consts };
+          this.specCount.set(fid, n + 1);
+          this.specMap.set(sig, spec);
+          this.work.push(spec);
+        }
+        if (spec) {
+          callee = spec.name;
+          keys = pos.filter((k) => !consts.has(k));
+        }
+      }
+      const args = keys.map((k) => (byKey.has(k) ? this.spec(byKey.get(k), ctx) : "void 0"));
+      return `${callee}(${[...args, tcArg].join(", ")});`;
     }
     const obj = `{ ${props.map(([k, sp]) => `${JSON.stringify(k)}: ${this.spec(sp, ctx)}`).join(", ")} }`;
     return `$T${fid}(${obj}, ${tcArg});`;
@@ -669,6 +871,7 @@ class Gen {
       case "none":
         return;
       case "text": {
+        if (out.text === "") return;
         const esc = escapeHtml(out.text);
         if (s.L === true) this.out(ctx, [{ lit: "<!-- -->" + esc }]);
         else if (s.L === false) this.out(ctx, [{ lit: esc }]);
@@ -677,12 +880,24 @@ class Gen {
         s.synced = false;
         return;
       }
-      case "tslot": {
+      case "tslot":
+      case "dyn": {
+        const cn = this.simp(out.node);
+        if (cn.k === "lit") {
+          const c = cn.d;
+          if (typeof c === "string" || typeof c === "number") return this.emit({ t: "text", text: "" + c }, ctx, s, tc);
+          if (c === null || c === undefined || typeof c === "boolean") return;
+        }
+        if (out.t === "dyn") return this.emit({ t: "dynamic", node: out.node }, ctx, s, tc);
         const x = this.ens(out.node, ctx, false);
         this.sync(ctx, s);
-        const ty = E.typeOf(out.node);
-        const ex = ty !== "number" ? this.escaped(out.node, ctx) : null;
-        if (ex && ty === "string") this.stmt(ctx, `$te(${ex});`);
+        const ty = E.typeOf(cn);
+        const ex = ty === null ? this.escaped(out.node, ctx) : null;
+        if (ty === "string" || ty === "number") {
+          const pieces = this.escPieces(out.node, ctx);
+          const code = pieces.map((q) => (q.lit !== undefined ? JSON.stringify(q.lit) : q.code)).join(" + ");
+          this.stmt(ctx, `$te(${code});`);
+        } else if (ex && ty === "string") this.stmt(ctx, `$te(${ex});`);
         else if (ex) this.stmt(ctx, `if (${ex} !== null) $te(${ex}); else $tn(${x});`);
         else this.stmt(ctx, ty === "string" ? `$t(${x});` : ty === "number" ? `$t("" + ${x});` : `$tn(${x});`);
         s.L = null;
@@ -742,7 +957,7 @@ class Gen {
         s.synced = true;
         return;
       }
-      case "dyn": {
+      case "dynamic": {
         const x = this.ens(out.node, ctx, false);
         this.sync(ctx, s);
         this.stmt(ctx, `$emitNode(${x}, ${tc});`);
@@ -766,6 +981,19 @@ class Gen {
         throw new Error(`unknown out node ${out.t}`);
     }
   }
+}
+
+function isConstNode(n) {
+  if (n.k === "lit") return true;
+  if (n.k === "obj" || n.k === "arr") return n.kids.every(isConstNode);
+  return false;
+}
+
+function constValue(n) {
+  if (n.k === "lit") return n.d;
+  if (n.k === "obj") return Object.fromEntries(n.d.map((k, i) => [k, constValue(n.kids[i])]));
+  if (n.k === "arr") return n.kids.map(constValue);
+  throw new Error("not constant");
 }
 
 function keysTest(k, outcome) {

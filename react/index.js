@@ -7,7 +7,7 @@
 const path = require("path");
 const vm = require("vm");
 const { instrument } = require("./instrument");
-const { createTracer } = require("./trace");
+const { createTracer, NATIVES } = require("./trace");
 const { Learner } = require("./learn");
 const { generate } = require("./codegen");
 
@@ -141,7 +141,29 @@ function build(appSource, opts = {}) {
       tracer.st.cm--;
     }
   };
-  const gen = generate({ tries: learner.tries, fns: inst.fns, ctxNames: tracer.ctxNames, rootFid: rootInfo.fid, evalCall });
+  // Calls a pure function by reference name on constant arguments (build-time folding).
+  const nativeByName = new Map([...NATIVES.statics].map(([fn, name]) => [name, fn]));
+  const callConst = (name, args) => {
+    if (nativeByName.has(name)) return nativeByName.get(name)(...args);
+    const fn = tracer.modValues.get(name);
+    if (typeof fn !== "function" || !tracer.fnInfo.has(fn) || !inst.fns[tracer.fnInfo.get(fn).fid].pure) {
+      throw new Error("not a pure app helper");
+    }
+    tracer.st.cm++;
+    try {
+      return fn(...args);
+    } finally {
+      tracer.st.cm--;
+    }
+  };
+  const gen = generate({
+    tries: learner.tries,
+    fns: inst.fns,
+    ctxNames: tracer.ctxNames,
+    rootFid: rootInfo.fid,
+    evalCall,
+    callConst,
+  });
   const runtimeSource = `${appSource}\n;__hyOut.t = ${gen.code};\n`;
   const out = {};
   let rtApp;
