@@ -24,6 +24,9 @@ function defaultTrainingInputs(opts) {
   if (Array.isArray(opts.trainingInputs)) return opts.trainingInputs;
   const small = opts.trainSmall !== undefined ? opts.trainSmall : 60;
   const large = opts.trainLarge !== undefined ? opts.trainLarge : 3;
+  if (typeof opts.trainingInputs === "function") {
+    return opts.trainingInputs(small, "small").concat(opts.trainingInputs(large, "large"));
+  }
   if (opts.reactBenchDir) {
     try {
       const data = require(path.join(opts.reactBenchDir, "data.js"));
@@ -62,6 +65,7 @@ function build(appSource, opts = {}) {
     buildMs: 0,
     traceMs: 0,
     disabled: null,
+    fallbackReasons: {},
   };
   const result = { render: null, code: appSource, stats, learner: null };
 
@@ -142,7 +146,15 @@ function build(appSource, opts = {}) {
       return tpl.render(data);
     } catch (e) {
       stats.fallbacks++;
-      if (!tpl.isFallback(e)) stats.errors++;
+      let reason;
+      if (tpl.isFallback(e)) {
+        const site = tpl.lastFallbackSite();
+        reason = site >= 0 ? tpl.sites[site] : "fallback";
+      } else {
+        stats.errors++;
+        reason = `error: ${e && e.message}`;
+      }
+      stats.fallbackReasons[reason] = (stats.fallbackReasons[reason] || 0) + 1;
       return fallback(data);
     }
   };

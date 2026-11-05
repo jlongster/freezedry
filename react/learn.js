@@ -65,6 +65,7 @@ class Learner {
     this.tries = new Map(); // "c<fid>" | "b<fid>" -> trie root
     this.conflicts = new Map(); // template key -> count
     this.probeCache = new Map();
+    this.regionCache = new Map();
     this.stats = { frames: 0, learned: 0, poisoned: new Map(), unsupported: new Map(), newPaths: 0 };
   }
 
@@ -178,11 +179,11 @@ class Learner {
     const tr = this.tr;
     if (v instanceof tr.Sym) {
       this.sym(ctx, v);
+      // No guard needed: the emitters mirror React for every value they accept and fall back
+      // otherwise. Primitive-valued slots use the cheaper emitter that needs no tree context.
       const cls = textClass(v.c, tr);
       if (cls === "x") throw new Unsupported("unsupported child value");
-      this.decide(ctx, "tcls", v.n, cls);
-      if (cls === "t") return { t: "tslot", node: v.n };
-      if (cls === "n") return { t: "none" };
+      if (cls === "t" || cls === "n") return { t: "tslot", node: v.n };
       return { t: "dyn", node: v.n };
     }
     if (v === null || v === undefined || typeof v === "boolean") return { t: "none" };
@@ -254,6 +255,7 @@ class Learner {
     const tr = this.tr;
     const slots = [];
     const props = {};
+    const regions = [];
     let children;
     let hasChildren = false;
     for (const [k, v] of sh.entries) {
@@ -268,11 +270,10 @@ class Learner {
         props[k] = this.markHtml(ctx, v, slots);
       } else if (v instanceof tr.Sym) {
         this.sym(ctx, v);
-        // Class guard first (canonical decision order), then pin non-slot values by equality.
-        const cls = typeof v.c === "string" || typeof v.c === "number" ? "v" : "x";
-        this.decide(ctx, "acls", v.n, cls);
-        if (cls === "v" && this.attrModeled(tag, k)) {
-          props[k] = marker(slots, "attr", v.n);
+        const c = v.c;
+        if (typeof c === "string" || typeof c === "number" || typeof c === "boolean" || c === null || c === undefined) {
+          regions.push({ k, sym: v });
+          props[k] = undefined;
         } else {
           props[k] = this.eqGuard(ctx, v);
         }
@@ -283,8 +284,14 @@ class Learner {
       }
     }
     const useChildMarker = hasChildren && !VOID_TAGS.has(tag) && !props.dangerouslySetInnerHTML;
-    const html = this.render(this.React.createElement(tag, props, ...(useChildMarker ? [CHILD_MARK] : [])));
-    const parts = splitMarkers(html, slots, useChildMarker);
+    const childArgs = useChildMarker ? [CHILD_MARK] : [];
+    let model = regions.length ? this.attrRegions(tag, props, childArgs, regions) : null;
+    if (regions.length && !model) {
+      // Could not model the attributes independently: pin their values instead.
+      for (const r of regions) props[r.k] = this.eqGuard(ctx, r.sym);
+    }
+    const html = this.render(this.React.createElement(tag, props, ...childArgs));
+    const parts = splitMarkers(html, slots, useChildMarker, model ? model.inserts : []);
     if (!parts) throw new Unsupported(`could not locate markers in <${tag}>`);
     const child = useChildMarker ? this.node(ctx, children) : null;
     if (!useChildMarker && hasChildren && children !== null && children !== undefined && children !== false) {
@@ -436,6 +443,114 @@ class Learner {
     return v;
   }
 
+  // ----------------------------------------------------------------------------- attribute regions
+
+  // For each symbolic attribute, React renders the element with that attribute set to a string
+  // marker / true / false / null (the others absent); the text it inserts into the base rendering
+  // is tabulated. The model (base + independent insertions) is then checked against React for
+  // every combination of values before it is used.
+  attrRegions(tag, baseProps, childArgs, regions) {
+    const ce = (over) => this.React.createElement(tag, Object.assign({}, baseProps, over), ...childArgs);
+    const sig = JSON.stringify([tag, baseProps, childArgs, regions.map((r) => r.k)]);
+    let m = this.regionCache.get(sig);
+    if (m === undefined) {
+      try {
+        m = this.computeRegions(tag, ce, regions.map((r) => r.k));
+      } catch (_e) {
+        m = null;
+      }
+      this.regionCache.set(sig, m);
+      if (!m) bump(this.stats.unsupported, `attribute regions not modelable on <${tag}>`);
+    }
+    if (!m) return null;
+    const inserts = m.map((r, i) => ({ pos: r.pos, ord: r.ord, i, part: Object.assign({ s: "attrR", node: regions[i].sym.n }, r.part) }));
+    inserts.sort((a, b) => a.pos - b.pos || a.ord - b.ord || a.i - b.i);
+    return { inserts };
+  }
+
+  computeRegions(tag, ce, keys) {
+    const S0 = this.render(ce({}));
+    const MARKS = keys.map((_, j) => `\uE002${j}\uE003`);
+    const B = [true, false, null];
+    const out = [];
+    for (let j = 0; j < keys.length; j++) {
+      const k = keys[j];
+      let pos = null;
+      const texts = [];
+      for (const u of [MARKS[j], ...B]) {
+        const S = this.render(ce({ [k]: u }));
+        const ins = insertion(S0, S);
+        if (!ins) return null;
+        if (ins.text !== "") {
+          if (pos !== null && pos !== ins.pos) return null;
+          pos = ins.pos;
+        }
+        texts.push(ins.text);
+      }
+      const mt = texts[0];
+      const mi = mt.indexOf(MARKS[j]);
+      const vOK = mi >= 0 && mt.indexOf(MARKS[j], mi + 1) < 0 && this.attrModeled(tag, k);
+      out.push({
+        pos: pos === null ? 0 : pos,
+        part: {
+          vOK,
+          vpre: vOK ? mt.slice(0, mi) : "",
+          vpost: vOK ? mt.slice(mi + MARKS[j].length) : "",
+          tbl: [texts[1], texts[2], texts[3], ""],
+        },
+      });
+    }
+    // Attributes inserted at the same point keep React's emission order: rank each one by where its
+    // text appears when every attribute is present.
+    const over0 = {};
+    const rep = out.map((r, j) => {
+      const p = r.part;
+      if (p.vOK) return { u: MARKS[j], text: p.vpre + MARKS[j] + p.vpost };
+      const i = p.tbl.findIndex((t) => t !== "");
+      return i < 0 ? null : { u: B[i], text: p.tbl[i] };
+    });
+    rep.forEach((x, j) => {
+      if (x) over0[keys[j]] = x.u;
+    });
+    const full = this.render(ce(over0));
+    out.forEach((r, j) => {
+      r.ord = rep[j] ? full.indexOf(rep[j].text) : 0;
+      if (r.ord < 0) r.ord = 0;
+    });
+    // Exhaustive composition check against React.
+    const values = out.map((r, j) => (r.part.vOK ? [MARKS[j], true, false, null, undefined] : [true, false, null, undefined]));
+    let total = 1;
+    for (const v of values) total *= v.length;
+    if (total > 20000) return null;
+    const idx = values.map(() => 0);
+    for (let n = 0; n < total; n++) {
+      const over = {};
+      const pieces = [];
+      for (let j = 0; j < keys.length; j++) {
+        const u = values[j][idx[j]];
+        over[keys[j]] = u;
+        const p = out[j].part;
+        const text =
+          typeof u === "string" ? p.vpre + u + p.vpost : u === true ? p.tbl[0] : u === false ? p.tbl[1] : u === null ? p.tbl[2] : "";
+        pieces.push({ pos: out[j].pos, ord: out[j].ord, j, text });
+      }
+      pieces.sort((a, b) => a.pos - b.pos || a.ord - b.ord || a.j - b.j);
+      let model = "";
+      let at = 0;
+      for (const pc of pieces) {
+        model += S0.slice(at, pc.pos) + pc.text;
+        at = pc.pos;
+      }
+      model += S0.slice(at);
+      if (model !== this.render(ce(over))) return null;
+      for (let j = 0; j < idx.length; j++) {
+        if (++idx[j] < values[j].length) break;
+        idx[j] = 0;
+      }
+    }
+    return out;
+  }
+
   // ----------------------------------------------------------------------------- probes
 
   probe(key, fn) {
@@ -513,8 +628,27 @@ function marker(slots, kind, node) {
 }
 
 // Splits React's output at the slot markers (and the child marker) into constant strings and slots.
-function splitMarkers(html, slots, withChild) {
+// S = base[0:pos] + text + base[pos:], preferring a split where the inserted text starts with a space
+// (an attribute boundary); null if S is not a single insertion into base.
+function insertion(base, S) {
+  if (S === base) return { pos: 0, text: "" };
+  const d = S.length - base.length;
+  if (d <= 0) return null;
+  let l = 0;
+  while (l < base.length && base.charCodeAt(l) === S.charCodeAt(l)) l++;
+  let fallback = null;
+  for (let p = l; p >= 0 && p >= l - 64; p--) {
+    if (S.slice(0, p) !== base.slice(0, p) || S.slice(p + d) !== base.slice(p)) continue;
+    const text = S.slice(p, p + d);
+    if (text[0] === " ") return { pos: p, text };
+    if (!fallback) fallback = { pos: p, text };
+  }
+  return fallback;
+}
+
+function splitMarkers(html, slots, withChild, inserts = []) {
   const found = [];
+  for (const ins of inserts) found.push({ i: ins.pos, len: 0, insert: ins.part });
   for (const s of slots) {
     const i = html.indexOf(s.text);
     if (i < 0 || html.indexOf(s.text, i + 1) >= 0) return null;
@@ -525,7 +659,8 @@ function splitMarkers(html, slots, withChild) {
     if (i < 0 || html.indexOf(CHILD_MARK, i + 1) >= 0) return null;
     found.push({ i, len: CHILD_MARK.length, child: true });
   }
-  found.sort((a, b) => a.i - b.i);
+  // Stable: insertions sit before a marker at the same position, in attribute order.
+  found.sort((a, b) => a.i - b.i || (b.insert ? 1 : 0) - (a.insert ? 1 : 0));
   const open = [];
   const close = [];
   let cur = open;
@@ -533,6 +668,11 @@ function splitMarkers(html, slots, withChild) {
   for (const f of found) {
     if (f.i < pos) return null;
     if (f.i > pos) cur.push(html.slice(pos, f.i));
+    if (f.insert) {
+      cur.push(f.insert);
+      pos = f.i;
+      continue;
+    }
     if (f.child) cur = close;
     else cur.push({ s: f.slot.kind, node: f.slot.node });
     pos = f.i + f.len;

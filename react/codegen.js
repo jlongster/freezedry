@@ -13,7 +13,8 @@ const CLASSIFIERS = { tcls: "$tcls", acls: "$acls", scls: "$scls", hcls: "$hcls"
 
 const RUNTIME = String.raw`
 const $FB = { hybridFallback: true };
-function $fb() { throw $FB; }
+let $fbSite = -1;
+function $fb(site) { $fbSite = site === undefined ? -1 : site; throw $FB; }
 let $o = "";
 let $L = false;
 const $ctx = [];
@@ -25,6 +26,12 @@ const $ESCM = { '"': "&quot;", "&": "&amp;", "'": "&#x27;", "<": "&lt;", ">": "&
 function $escC(c) { return $ESCM[c]; }
 function $e(s) { return $ESC1.test(s) ? s.replace($ESCG, $escC) : s; }
 function $t(s) { if (s === "") return; if ($L) $o += "<!-- -->"; $o += $e(s); $L = true; }
+function $tn(v) {
+  const t = typeof v;
+  if (t === "string") $t(v);
+  else if (t === "number") $t("" + v);
+  else if (!(v === null || v === undefined || t === "boolean")) $fb();
+}
 function $tcls(v) {
   const t = typeof v;
   if (t === "string" || t === "number") return "t";
@@ -115,8 +122,10 @@ function generate({ tries, fns, ctxNames, rootFid }) {
     return out;
   },
   isFallback(e) { return e === $FB; },
+  lastFallbackSite() { return $fbSite; },
+  sites: ${JSON.stringify(g.sites)},
 };`);
-  return { code: `(function () {\n${parts.join("\n")}\n})()`, stats: g.stats };
+  return { code: `(function () {\n${parts.join("\n")}\n})()`, stats: g.stats, sites: g.sites };
 }
 
 class Gen {
@@ -125,6 +134,7 @@ class Gen {
     this.fns = fns;
     this.tcMemo = new Map();
     this.stats = { templates: tries.size, leaves: 0, decisions: 0, fallbackEdges: 0 };
+    this.sites = [];
   }
 
   // ---------------------------------------------------------------- analysis
@@ -246,6 +256,7 @@ class Gen {
     const isComp = key[0] === "c";
     const fid = Number(key.slice(1));
     const name = isComp ? `$T${fid}` : `$B${fid}`;
+    this.curName = `${name} ${this.fns[fid].name || ""}`.trim();
     const params = isComp
       ? ["$rP"]
       : ["$rA0", "$rA1", "$rA2", ...this.fns[fid].freeLocals.map((_, i) => `$rE${i}`)];
@@ -295,10 +306,15 @@ class Gen {
     return { defs: new Map(ctx.defs), lines: [] };
   }
 
-  trie(t, ctx, isComp) {
+  site(desc) {
+    this.sites.push(`${this.curName}: ${desc}`.slice(0, 300));
+    return this.sites.length - 1;
+  }
+
+  trie(t, ctx, isComp, why) {
     if (!t || (!t.dec && !t.leaf)) {
       this.stats.fallbackEdges++;
-      ctx.lines.push("$fb();");
+      ctx.lines.push(`$fb(${this.site(why || "untraced path")});`);
       return;
     }
     if (t.leaf) {
@@ -312,8 +328,8 @@ class Gen {
       const c = this.ens(d.node, ctx, false);
       const yes = this.block(ctx);
       const no = this.block(ctx);
-      this.trie(t.edges.get(true), yes, isComp);
-      this.trie(t.edges.get(false), no, isComp);
+      this.trie(t.edges.get(true), yes, isComp, `${d.node.key} is truthy`);
+      this.trie(t.edges.get(false), no, isComp, `${d.node.key} is falsy`);
       ctx.lines.push(`if (${c}) {\n${yes.lines.join("\n")}\n} else {\n${no.lines.join("\n")}\n}`);
       return;
     }
@@ -325,7 +341,7 @@ class Gen {
         this.trie(child, b, isComp);
         code += `if (${eqTest(v, outcome)}) {\n${b.lines.join("\n")}\n} else `;
       }
-      ctx.lines.push(`${code}{ $fb(); }`);
+      ctx.lines.push(`${code}{ $fb(${this.site(`${d.node.key} === <untraced value>`)}); }`);
       return;
     }
     const v = this.ens(d.node, ctx, false);
@@ -335,7 +351,7 @@ class Gen {
       this.trie(child, b, isComp);
       code += `case ${JSON.stringify(outcome)}: {\n${b.lines.join("\n")}\nbreak;\n}\n`;
     }
-    ctx.lines.push(`${code}default: $fb();\n}`);
+    ctx.lines.push(`${code}default: $fb(${this.site(`${d.kind}(${d.node.key}) untraced`)});\n}`);
   }
 
   leaf(leaf, ctx, isComp) {
@@ -365,6 +381,13 @@ class Gen {
   }
 
   slotCode(p, ctx) {
+    if (p.s === "attrR") {
+      const x = this.ens(p.node, ctx, !TRIVIAL.has(p.node.k));
+      const bad = `$fb(${this.site(`attribute value ${p.node.key} of unsupported type`)})`;
+      const v = p.vOK ? `${JSON.stringify(p.vpre)} + $e("" + ${x}) + ${JSON.stringify(p.vpost)}` : bad;
+      const [t, f, n] = p.tbl.map((z) => JSON.stringify(z));
+      return `(typeof ${x} === "string" || typeof ${x} === "number" ? ${v} : ${x} === true ? ${t} : ${x} === false ? ${f} : ${x} === null ? ${n} : ${x} === void 0 ? "" : ${bad})`;
+    }
     const x = this.ens(p.node, ctx, false);
     switch (p.s) {
       case "attr":
@@ -423,7 +446,7 @@ class Gen {
       case "tslot": {
         const x = this.ens(out.node, ctx, false);
         this.sync(ctx, s);
-        ctx.lines.push(`$t("" + ${x});`);
+        ctx.lines.push(`$tn(${x});`);
         s.L = null;
         s.synced = true;
         return;
@@ -447,7 +470,7 @@ class Gen {
         const key = `c${out.fid}`;
         const props = `{ ${out.props.map(([k, sp]) => `${JSON.stringify(k)}: ${this.spec(sp, ctx)}`).join(", ")} }`;
         this.sync(ctx, s);
-        if (!this.tries.has(key)) ctx.lines.push("$fb();");
+        if (!this.tries.has(key)) ctx.lines.push(`$fb(${this.site(`no template for component #${out.fid}`)});`);
         else ctx.lines.push(`$T${out.fid}(${props}, ${this.needsTC(key) ? tc : "null"});`);
         s.L = null;
         s.synced = true;
@@ -471,7 +494,7 @@ class Gen {
         const key = `b${out.cb}`;
         ctx.lines.push(`const $a${u} = ${arr};`, `if (!Array.isArray($a${u})) $fb();`, `const $n${u} = $a${u}.length;`);
         if (!this.tries.has(key)) {
-          ctx.lines.push(`if ($n${u} > 0) $fb();`);
+          ctx.lines.push(`if ($n${u} > 0) $fb(${this.site(`no template for callback #${out.cb}`)});`);
         } else {
           binds.forEach((b, i) => ctx.lines.push(`const $b${u}_${i} = ${b};`));
           const tcArg = this.needsTC(key) ? `$push(${tc}, $n${u}, $i${u})` : "null";
