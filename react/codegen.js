@@ -26,6 +26,11 @@ const $ESCM = { '"': "&quot;", "&": "&amp;", "'": "&#x27;", "<": "&lt;", ">": "&
 function $escC(c) { return $ESCM[c]; }
 function $e(s) { return $ESC1.test(s) ? s.replace($ESCG, $escC) : s; }
 function $t(s) { if (s === "") return; if ($L) $o += "<!-- -->"; $o += $e(s); $L = true; }
+function $te(s) { if (s === "") return; if ($L) $o += "<!-- -->"; $o += s; $L = true; }
+function $es(v) {
+  const t = typeof v;
+  return t === "string" ? $e(v) : t === "number" ? "" + v : null;
+}
 function $tn(v) {
   const t = typeof v;
   if (t === "string") $t(v);
@@ -535,7 +540,49 @@ class Gen {
     this.stmt(ctx, `${code}default: $fb(${this.site(`${d.kind}(${d.node.key}) untraced`)});\n}`);
   }
 
+  // Values escaped more than once in a leaf are escaped once into a constant.
+  countEscapes(out, counts) {
+    const bump = (n) => counts.set(n.key, (counts.get(n.key) || 0) + 1);
+    const visit = (o) => {
+      if (!o) return;
+      switch (o.t) {
+        case "tslot":
+          if (E.typeOf(o.node) !== "number") bump(o.node);
+          break;
+        case "host":
+          for (const p of o.open.concat(o.close)) {
+            if (typeof p !== "string" && p.s === "attrR" && p.vOK && !["boolean", "number"].includes(E.typeOf(p.node))) bump(p.node);
+          }
+          visit(o.child);
+          break;
+        case "frag":
+        case "prov":
+          visit(o.child);
+          break;
+        case "arr":
+          o.items.forEach(visit);
+          break;
+        default:
+          break;
+      }
+    };
+    visit(out);
+    return counts;
+  }
+
+  escaped(n, ctx) {
+    if (!this.escCounts || (this.escCounts.get(n.key) || 0) < 2) return null;
+    const k = `esc:${n.key}`;
+    if (ctx.defs.has(k)) return ctx.defs.get(k);
+    const x = this.ens(n, ctx, false);
+    const v = `$x${this.uid++}`;
+    ctx.lines.push(`const ${v} = ${E.typeOf(n) === "string" ? `$e(${x})` : `$es(${x})`};`);
+    ctx.defs.set(k, v);
+    return v;
+  }
+
   leaf(leaf, ctx, isComp) {
+    this.escCounts = this.countEscapes(leaf.out, new Map());
     for (const n of leaf.effects) if (!this.trivial(n)) this.ens(n, ctx, true);
     const s = { L: null, synced: true };
     let tc = "$tc";
@@ -561,11 +608,14 @@ class Gen {
       const site = this.site(`attribute value ${p.node.key} of unsupported type`);
       const [vpre, vpost, t, f, n] = [p.vpre, p.vpost, ...p.tbl].map((z) => JSON.stringify(z));
       if (ty === "boolean") return [{ code: `(${x} ? ${t} : ${f})` }];
+      const ex = p.vOK && ty !== "number" ? this.escaped(p.node, ctx) : null;
       if (ty === "string" || ty === "number") {
         if (!p.vOK) return [{ code: `$fb(${site})` }];
-        return [{ lit: p.vpre }, { code: ty === "string" ? `$e(${x})` : `("" + ${x})` }, { lit: p.vpost }];
+        return [{ lit: p.vpre }, { code: ex || (ty === "string" ? `$e(${x})` : `("" + ${x})`) }, { lit: p.vpost }];
       }
-      return [{ code: `$at(${x}, ${p.vOK ? vpre : "null"}, ${vpost}, ${t}, ${f}, ${n}, ${site})` }];
+      const generic = `$at(${x}, ${p.vOK ? vpre : "null"}, ${vpost}, ${t}, ${f}, ${n}, ${site})`;
+      if (ex) return [{ code: `(${ex} !== null ? ${vpre} + ${ex} + ${vpost} : ${generic})` }];
+      return [{ code: generic }];
     }
     const x = this.ens(p.node, ctx, false);
     switch (p.s) {
@@ -631,7 +681,10 @@ class Gen {
         const x = this.ens(out.node, ctx, false);
         this.sync(ctx, s);
         const ty = E.typeOf(out.node);
-        this.stmt(ctx, ty === "string" ? `$t(${x});` : ty === "number" ? `$t("" + ${x});` : `$tn(${x});`);
+        const ex = ty !== "number" ? this.escaped(out.node, ctx) : null;
+        if (ex && ty === "string") this.stmt(ctx, `$te(${ex});`);
+        else if (ex) this.stmt(ctx, `if (${ex} !== null) $te(${ex}); else $tn(${x});`);
+        else this.stmt(ctx, ty === "string" ? `$t(${x});` : ty === "number" ? `$t("" + ${x});` : `$tn(${x});`);
         s.L = null;
         s.synced = true;
         return;
