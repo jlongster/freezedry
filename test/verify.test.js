@@ -282,10 +282,7 @@ describe("verify() — equivalent scripts (must pass)", () => {
 
 describe("verify() — subtly different scripts (must fail with pinpoint path)", () => {
   it("fails on different own property order on objects and on globalThis", () => {
-    const resObj = verify(
-      `globalThis.cfg = { alpha: 1, beta: 2 };`,
-      `globalThis.cfg = { beta: 2, alpha: 1 };`
-    );
+    const resObj = verify(`globalThis.cfg = { alpha: 1, beta: 2 };`, `globalThis.cfg = { beta: 2, alpha: 1 };`);
     assert.equal(resObj.ok, false);
     assert.equal(resObj.firstDiff.kind, "property-order");
     assert.equal(resObj.firstDiff.path, "cfg");
@@ -351,29 +348,20 @@ describe("verify() — subtly different scripts (must fail with pinpoint path)",
     assert.equal(resNull.firstDiff.kind, "prototype");
     assert.equal(resNull.firstDiff.path, "map.[[Prototype]]");
 
-    const resCustom = verify(
-      `const p = { tag: "v1" }; globalThis.item = Object.create(p);`,
-      `globalThis.item = {};`
-    );
+    const resCustom = verify(`const p = { tag: "v1" }; globalThis.item = Object.create(p);`, `globalThis.item = {};`);
     assert.equal(resCustom.ok, false);
     assert.equal(resCustom.firstDiff.kind, "prototype");
     assert.equal(resCustom.firstDiff.path, "item.[[Prototype]]");
   });
 
   it("fails on frozen vs non-frozen, sealed vs non-sealed, and extensible vs non-extensible", () => {
-    const resFrozen = verify(
-      `globalThis.cfg = Object.freeze({ mode: "prod" });`,
-      `globalThis.cfg = { mode: "prod" };`
-    );
+    const resFrozen = verify(`globalThis.cfg = Object.freeze({ mode: "prod" });`, `globalThis.cfg = { mode: "prod" };`);
     assert.equal(resFrozen.ok, false);
     assert.equal(resFrozen.firstDiff.kind, "integrity");
     assert.equal(resFrozen.firstDiff.path, "cfg");
     assert.match(resFrozen.firstDiff.message, /frozen/);
 
-    const resSealed = verify(
-      `globalThis.cfg = Object.seal({ mode: "prod" });`,
-      `globalThis.cfg = { mode: "prod" };`
-    );
+    const resSealed = verify(`globalThis.cfg = Object.seal({ mode: "prod" });`, `globalThis.cfg = { mode: "prod" };`);
     assert.equal(resSealed.ok, false);
     assert.equal(resSealed.firstDiff.kind, "integrity");
 
@@ -498,10 +486,7 @@ describe("verify() — subtly different scripts (must fail with pinpoint path)",
     assert.equal(resNormal.firstDiff.kind, "function-strictness");
     assert.equal(resNormal.firstDiff.path, "fn");
 
-    const resArrow = verify(
-      `"use strict"; globalThis.arr = () => 1;`,
-      `globalThis.arr = () => 1;`
-    );
+    const resArrow = verify(`"use strict"; globalThis.arr = () => 1;`, `globalThis.arr = () => 1;`);
     assert.equal(resArrow.ok, false);
     assert.equal(resArrow.firstDiff.kind, "function-strictness");
     assert.equal(resArrow.firstDiff.path, "arr");
@@ -535,10 +520,7 @@ describe("verify() — subtly different scripts (must fail with pinpoint path)",
     assert.equal(resFakePromise.firstDiff.kind, "object-kind");
     assert.equal(resFakePromise.firstDiff.path, "p");
 
-    const resLeak = verify(
-      `globalThis.val = 1;`,
-      `Object.prototype.__tempHelper = true; globalThis.val = 1;`
-    );
+    const resLeak = verify(`globalThis.val = 1;`, `Object.prototype.__tempHelper = true; globalThis.val = 1;`);
     assert.equal(resLeak.ok, false);
     assert.equal(resLeak.firstDiff.path, "Object.prototype.__tempHelper");
   });
