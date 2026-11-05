@@ -1,0 +1,299 @@
+{
+  "meta": {
+    "date": "2026-11-05T15:28:01.916Z",
+    "node": "v26.7.0",
+    "cpu": "AMD EPYC 9554P 64-Core Processor",
+    "cpus": 4,
+    "platform": "linux 6.12.93",
+    "timeSec": 3,
+    "warmupSec": 1.5,
+    "coldRuns": 7,
+    "rounds": 3,
+    "loadavgBefore": [
+      11.31,
+      9.2,
+      6.53
+    ],
+    "loadavgAfter": [
+      11.79,
+      9.89,
+      7.13
+    ]
+  },
+  "throughput": [
+    {
+      "spec": "baseline",
+      "impl": "baseline (ReactDOMServer.renderToString)",
+      "variant": "small",
+      "engine": "jit",
+      "prepareMs": 1.022825,
+      "warmupRenders": 12232,
+      "renders": 19111,
+      "elapsedMs": 3000.775503,
+      "rendersPerSec": 6368.687021369623,
+      "meanMs": 0.15701823572811469,
+      "p50Ms": 0.068452,
+      "p90Ms": 0.091798,
+      "p99Ms": 4.101134,
+      "allocBytesPerRender": 139795.49788080165,
+      "avgHtmlBytes": 6018,
+      "speedup": 1,
+      "roundsRendersPerSec": [
+        7396,
+        5529,
+        6369
+      ],
+      "roundsSpeedup": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "spec": "handwritten",
+      "impl": "handwritten (hand-specialized string concatenation)",
+      "variant": "small",
+      "engine": "jit",
+      "prepareMs": 0.206991,
+      "warmupRenders": 64304,
+      "renders": 149497,
+      "elapsedMs": 3000.061201,
+      "rendersPerSec": 49831.31675786103,
+      "meanMs": 0.02006770169969966,
+      "p50Ms": 0.008643,
+      "p90Ms": 0.0135,
+      "p99Ms": 0.164156,
+      "allocBytesPerRender": 13085.771888399098,
+      "avgHtmlBytes": 6018,
+      "speedup": 9.012558615615465,
+      "roundsRendersPerSec": [
+        43756,
+        49831,
+        64376
+      ],
+      "roundsSpeedup": [
+        5.92,
+        9.01,
+        10.11
+      ]
+    },
+    {
+      "spec": "baseline",
+      "impl": "baseline (ReactDOMServer.renderToString)",
+      "variant": "large",
+      "engine": "jit",
+      "prepareMs": 3.428285,
+      "warmupRenders": 127,
+      "renders": 493,
+      "elapsedMs": 3004.760113,
+      "rendersPerSec": 164.07299799642942,
+      "meanMs": 6.094848099391481,
+      "p50Ms": 6.296469,
+      "p90Ms": 10.279226,
+      "p99Ms": 15.233561,
+      "allocBytesPerRender": 6562863.756592292,
+      "avgHtmlBytes": 290556,
+      "speedup": 1,
+      "roundsRendersPerSec": [
+        188,
+        146,
+        164
+      ],
+      "roundsSpeedup": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "spec": "handwritten",
+      "impl": "handwritten (hand-specialized string concatenation)",
+      "variant": "large",
+      "engine": "jit",
+      "prepareMs": 5.11767,
+      "warmupRenders": 928,
+      "renders": 2474,
+      "elapsedMs": 3003.353101,
+      "rendersPerSec": 823.7459655264157,
+      "meanMs": 1.2139664919159256,
+      "p50Ms": 0.488463,
+      "p90Ms": 4.501355,
+      "p99Ms": 9.645014,
+      "allocBytesPerRender": 621468.155214228,
+      "avgHtmlBytes": 290471,
+      "speedup": 5.629503523112987,
+      "roundsRendersPerSec": [
+        735,
+        824,
+        1061
+      ],
+      "roundsSpeedup": [
+        3.92,
+        5.63,
+        6.47
+      ]
+    },
+    {
+      "spec": "baseline",
+      "impl": "baseline (ReactDOMServer.renderToString)",
+      "variant": "small",
+      "engine": "jitless",
+      "prepareMs": 0.819469,
+      "warmupRenders": 1429,
+      "renders": 2956,
+      "elapsedMs": 3001.091136,
+      "rendersPerSec": 984.9750860748269,
+      "meanMs": 1.015254105548038,
+      "p50Ms": 0.525138,
+      "p90Ms": 2.741174,
+      "p99Ms": 8.552865,
+      "allocBytesPerRender": 158650.34100135317,
+      "avgHtmlBytes": 6017,
+      "speedup": 1,
+      "roundsRendersPerSec": [
+        927,
+        985,
+        1095
+      ],
+      "roundsSpeedup": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "spec": "handwritten",
+      "impl": "handwritten (hand-specialized string concatenation)",
+      "variant": "small",
+      "engine": "jitless",
+      "prepareMs": 6.033504,
+      "warmupRenders": 36899,
+      "renders": 42305,
+      "elapsedMs": 3002.020462,
+      "rendersPerSec": 14092.175764789974,
+      "meanMs": 0.07096136300673679,
+      "p50Ms": 0.028272,
+      "p90Ms": 0.04,
+      "p99Ms": 0.549174,
+      "allocBytesPerRender": 14104.369696253398,
+      "avgHtmlBytes": 6018,
+      "speedup": 15.202451511936157,
+      "roundsRendersPerSec": [
+        14092,
+        17554,
+        10842
+      ],
+      "roundsSpeedup": [
+        15.2,
+        17.82,
+        9.91
+      ]
+    },
+    {
+      "spec": "baseline",
+      "impl": "baseline (ReactDOMServer.renderToString)",
+      "variant": "large",
+      "engine": "jitless",
+      "prepareMs": 0.877537,
+      "warmupRenders": 100,
+      "renders": 52,
+      "elapsedMs": 3015.241291,
+      "rendersPerSec": 17.24571766618196,
+      "meanMs": 57.98540944230769,
+      "p50Ms": 55.44865,
+      "p90Ms": 74.355983,
+      "p99Ms": 98.714598,
+      "allocBytesPerRender": 7390216.461538462,
+      "avgHtmlBytes": 291255,
+      "speedup": 1,
+      "roundsRendersPerSec": [
+        15,
+        18,
+        17
+      ],
+      "roundsSpeedup": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "spec": "handwritten",
+      "impl": "handwritten (hand-specialized string concatenation)",
+      "variant": "large",
+      "engine": "jitless",
+      "prepareMs": 5.959293,
+      "warmupRenders": 372,
+      "renders": 970,
+      "elapsedMs": 3002.869886,
+      "rendersPerSec": 323.0243190097382,
+      "meanMs": 3.095742150515464,
+      "p50Ms": 1.338158,
+      "p90Ms": 7.015708,
+      "p99Ms": 15.120771,
+      "allocBytesPerRender": 665743.2164948453,
+      "avgHtmlBytes": 290566,
+      "speedup": 18.115118848688287,
+      "roundsRendersPerSec": [
+        234,
+        323,
+        393
+      ],
+      "roundsSpeedup": [
+        15.51,
+        18.12,
+        22.76
+      ]
+    }
+  ],
+  "cold": [
+    {
+      "spec": "baseline",
+      "impl": "baseline (ReactDOMServer.renderToString)",
+      "engine": "jit",
+      "runs": 7,
+      "bootMs": 75.376425,
+      "loadMs": 20.681215999999992,
+      "prepareMs": 0.7631759999999872,
+      "firstRenderMs": 9.91935500000001,
+      "secondRenderMs": 1.5539109999999994,
+      "firstHtmlMs": 32.05906
+    },
+    {
+      "spec": "handwritten",
+      "impl": "handwritten (hand-specialized string concatenation)",
+      "engine": "jit",
+      "runs": 7,
+      "bootMs": 60.167301,
+      "loadMs": 0.8520089999999954,
+      "prepareMs": 0.10225300000000459,
+      "firstRenderMs": 0.8704259999999948,
+      "secondRenderMs": 3.707844999999992,
+      "firstHtmlMs": 1.8705769999999973
+    },
+    {
+      "spec": "baseline",
+      "impl": "baseline (ReactDOMServer.renderToString)",
+      "engine": "jitless",
+      "runs": 7,
+      "bootMs": 70.822201,
+      "loadMs": 22.141516999999993,
+      "prepareMs": 0.7689440000000047,
+      "firstRenderMs": 13.903353999999993,
+      "secondRenderMs": 1.0420640000000105,
+      "firstHtmlMs": 37.855228999999994
+    },
+    {
+      "spec": "handwritten",
+      "impl": "handwritten (hand-specialized string concatenation)",
+      "engine": "jitless",
+      "runs": 7,
+      "bootMs": 63.550168,
+      "loadMs": 0.8268309999999985,
+      "prepareMs": 0.09683499999999867,
+      "firstRenderMs": 0.8244380000000007,
+      "secondRenderMs": 0.10758099999999615,
+      "firstHtmlMs": 2.649135000000001
+    }
+  ]
+}

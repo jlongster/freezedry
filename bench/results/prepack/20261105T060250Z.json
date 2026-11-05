@@ -1,0 +1,3858 @@
+{
+  "timestamp": "2026-11-05T06:02:50.205Z",
+  "prepack": {
+    "path": "/tmp/opencode/pp-wt/bench/lib/prepack-node.js",
+    "version": "0.2.55-alpha.0"
+  },
+  "environment": {
+    "node": "v26.7.0",
+    "v8": "14.6.202.34-node.28",
+    "platform": "linux",
+    "arch": "x64",
+    "cpus": 4,
+    "cpuModel": "AMD EPYC 9554P 64-Core Processor",
+    "totalMemBytes": 16763228160
+  },
+  "config": {
+    "runs": 30,
+    "warmup": 5,
+    "timeout": 300000,
+    "maxOldSpaceMb": 4096,
+    "enableSnapshot": true,
+    "only": null
+  },
+  "nodeZeroBaseline": {
+    "n": 30,
+    "median": 53.807,
+    "p90": 76.869,
+    "mean": 54.142,
+    "min": 31.407,
+    "max": 87.932
+  },
+  "summary": {
+    "total": 15,
+    "librariesCount": 10,
+    "appsCount": 5,
+    "defaultOk": 9,
+    "bestOk": 11,
+    "wrong": 1,
+    "fail": 3,
+    "timeout": 0
+  },
+  "libraries": [
+    {
+      "id": "lodash",
+      "name": "Lodash",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Utility library; module init constructs LodashWrapper/LazyWrapper prototypes, 300+ methods, and lookup tables.",
+      "bytes": 545945,
+      "sha256": "f5465f55566bf544aad0a31c6135889ca1ed81eea8f53ec61c6cbe86926f07cf",
+      "packages": [
+        {
+          "name": "lodash",
+          "version": "4.18.1",
+          "license": "MIT",
+          "homepage": "https://lodash.com/"
+        }
+      ],
+      "expectedDigest": "e1d643c02fcccd4ddb7da3a6786777134682d3e929a08445e9864a54c3a7080d",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 10465,
+        "outBytes": 893205
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 10465,
+          "outBytes": 893205,
+          "quickVmMs": 3.561,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 10599,
+          "outBytes": 922752,
+          "quickVmMs": 6.675,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 11833,
+          "outBytes": 922752,
+          "quickVmMs": 7.828,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 12042,
+          "errorCode": "PP0001",
+          "message": "This version of JSC ignores the argument to Set, require the polyfill before doing this",
+          "location": {
+            "line": 5532,
+            "column": 57,
+            "snippet": "...r createSet = !(Set && (1 / setToArray(new Set([,-0]))[1]) == INFINITY) ? noop : function(values) {"
+          },
+          "internalFrame": null,
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP0001"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "RecoverableError",
+              "errorCode": "PP0001",
+              "message": "This version of JSC ignores the argument to Set, require the polyfill before doing this",
+              "location": {
+                "line": 5532,
+                "column": 57,
+                "snippet": "...r createSet = !(Set && (1 / setToArray(new Set([,-0]))[1]) == INFINITY) ? noop : function(values) {"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 12955,
+          "outBytes": 922752,
+          "quickVmMs": 14.866,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "OK",
+          "compileMs": 12365,
+          "outBytes": 899032,
+          "quickVmMs": null,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 52.919,
+            "p90": 73.283,
+            "mean": 53.138,
+            "min": 26.68,
+            "max": 89.029
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 77.44,
+              "p90": 102.569,
+              "mean": 77.882,
+              "min": 40.836,
+              "max": 128.23
+            },
+            "net": {
+              "median": 24.521,
+              "p90": 49.65,
+              "mean": 24.963
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 86.132,
+              "p90": 126.815,
+              "mean": 85.662,
+              "min": 48.322,
+              "max": 147.168
+            },
+            "net": {
+              "median": 33.213,
+              "p90": 73.896,
+              "mean": 32.743
+            }
+          },
+          "speedupRaw": 0.899,
+          "speedupNet": 0.738
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 3.665,
+            "p90": 5.272,
+            "mean": 4.903,
+            "min": 2.901,
+            "max": 21.428,
+            "cachedDataBytes": 103728
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 2.6,
+            "p90": 8.991,
+            "mean": 4.237,
+            "min": 1.885,
+            "max": 20.357,
+            "cachedDataBytes": 185312
+          },
+          "speedup": 1.41
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 3.283,
+            "p90": 18.739,
+            "mean": 6.283,
+            "min": 2.917,
+            "max": 22.319
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 2.078,
+            "p90": 6.305,
+            "mean": 4.149,
+            "min": 1.78,
+            "max": 22.739
+          },
+          "speedup": 1.58
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 7558234,
+          "blobGzipBytes": 2491153,
+          "baseline": {
+            "n": 30,
+            "median": 55.241,
+            "p90": 75.048,
+            "mean": 57.024,
+            "min": 36.151,
+            "max": 91.151
+          },
+          "raw": {
+            "n": 30,
+            "median": 83.271,
+            "p90": 122.567,
+            "mean": 86.754,
+            "min": 32.801,
+            "max": 170.798
+          },
+          "net": {
+            "median": 28.03,
+            "p90": 67.326,
+            "mean": 31.513
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 545945,
+            "terser": 70684,
+            "gzip": 25079,
+            "brotli": 24135,
+            "rawGzip": 96951,
+            "rawBrotli": 82441
+          },
+          "prepacked": {
+            "raw": 893205,
+            "terser": 223296,
+            "gzip": 51928,
+            "brotli": 39608,
+            "rawGzip": 132624,
+            "rawBrotli": 104560
+          },
+          "ratios": {
+            "raw": 1.636,
+            "terser": 3.159,
+            "gzip": 2.071,
+            "brotli": 1.641
+          }
+        }
+      }
+    },
+    {
+      "id": "underscore",
+      "name": "Underscore",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Functional utility library; module init performs environment feature checks and mixes 100+ functions onto `_.prototype`.",
+      "bytes": 68916,
+      "sha256": "68613bd4f104eb2316b2c78b5705932bd1eaaaa5e00b49a796cb4d95c492d4fb",
+      "packages": [
+        {
+          "name": "underscore",
+          "version": "1.13.8",
+          "license": "MIT",
+          "homepage": "https://underscorejs.org"
+        }
+      ],
+      "expectedDigest": "a827860f401532bb2dd355bc38840895e7bdd7dd523a15d6c0eafe3701ee92a1",
+      "defaultStatus": "FAIL",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "jsc",
+        "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+        "compileMs": 686,
+        "outBytes": 80034
+      },
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 366,
+        "errorCode": "PP0001",
+        "message": "This operation is not yet supported on document at childNodes",
+        "location": {
+          "line": 139,
+          "column": 35,
+          "snippet": "var nodelist = root.document && root.document.childNodes;"
+        },
+        "internalFrame": "PropertiesImplementation.OrdinaryGetOwnProperty (lib/methods/properties.js:1467:15)",
+        "diagnosticsCount": 1,
+        "errorCodes": [
+          "PP0001"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "PP0001",
+            "message": "This operation is not yet supported on document at childNodes",
+            "location": {
+              "line": 139,
+              "column": 35,
+              "snippet": "var nodelist = root.document && root.document.childNodes;"
+            }
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 366,
+          "errorCode": "PP0001",
+          "message": "This operation is not yet supported on document at childNodes",
+          "location": {
+            "line": 139,
+            "column": 35,
+            "snippet": "var nodelist = root.document && root.document.childNodes;"
+          },
+          "internalFrame": "PropertiesImplementation.OrdinaryGetOwnProperty (lib/methods/properties.js:1467:15)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP0001"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP0001",
+              "message": "This operation is not yet supported on document at childNodes",
+              "location": {
+                "line": 139,
+                "column": 35,
+                "snippet": "var nodelist = root.document && root.document.childNodes;"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 295,
+          "errorCode": "PP0001",
+          "message": "This operation is not yet supported on document at childNodes",
+          "location": {
+            "line": 139,
+            "column": 35,
+            "snippet": "var nodelist = root.document && root.document.childNodes;"
+          },
+          "internalFrame": "PropertiesImplementation.OrdinaryGetOwnProperty (lib/methods/properties.js:1467:15)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP0001"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP0001",
+              "message": "This operation is not yet supported on document at childNodes",
+              "location": {
+                "line": 139,
+                "column": 35,
+                "snippet": "var nodelist = root.document && root.document.childNodes;"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 329,
+          "errorCode": "PP0001",
+          "message": "This operation is not yet supported on document at childNodes",
+          "location": {
+            "line": 139,
+            "column": 35,
+            "snippet": "var nodelist = root.document && root.document.childNodes;"
+          },
+          "internalFrame": "PropertiesImplementation.OrdinaryGetOwnProperty (lib/methods/properties.js:1467:15)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP0001"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP0001",
+              "message": "This operation is not yet supported on document at childNodes",
+              "location": {
+                "line": 139,
+                "column": 35,
+                "snippet": "var nodelist = root.document && root.document.childNodes;"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 686,
+          "outBytes": 80034,
+          "quickVmMs": 0.562,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 191,
+          "errorCode": "PP0001",
+          "message": "This operation is not yet supported on document at childNodes",
+          "location": {
+            "line": 139,
+            "column": 35,
+            "snippet": "var nodelist = root.document && root.document.childNodes;"
+          },
+          "internalFrame": "PropertiesImplementation.OrdinaryGetOwnProperty (lib/methods/properties.js:1467:15)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP0001"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP0001",
+              "message": "This operation is not yet supported on document at childNodes",
+              "location": {
+                "line": 139,
+                "column": 35,
+                "snippet": "var nodelist = root.document && root.document.childNodes;"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 189,
+          "errorCode": "PP0001",
+          "message": "This operation is not yet supported on document at childNodes",
+          "location": {
+            "line": 139,
+            "column": 35,
+            "snippet": "var nodelist = root.document && root.document.childNodes;"
+          },
+          "internalFrame": "PropertiesImplementation.OrdinaryGetOwnProperty (lib/methods/properties.js:1467:15)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP0001"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP0001",
+              "message": "This operation is not yet supported on document at childNodes",
+              "location": {
+                "line": 139,
+                "column": 35,
+                "snippet": "var nodelist = root.document && root.document.childNodes;"
+              }
+            }
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 60.882,
+            "p90": 85.103,
+            "mean": 66.056,
+            "min": 28.494,
+            "max": 107.295
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 67.637,
+              "p90": 89.321,
+              "mean": 69.739,
+              "min": 32.724,
+              "max": 105.94
+            },
+            "net": {
+              "median": 6.755,
+              "p90": 28.439,
+              "mean": 8.857
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 68.679,
+              "p90": 85.124,
+              "mean": 69.258,
+              "min": 28.689,
+              "max": 106.277
+            },
+            "net": {
+              "median": 7.797,
+              "p90": 24.242,
+              "mean": 8.376
+            }
+          },
+          "speedupRaw": 0.985,
+          "speedupNet": 0.866
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.533,
+            "p90": 2.607,
+            "mean": 1.38,
+            "min": 0.449,
+            "max": 9.309,
+            "cachedDataBytes": 25856
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.461,
+            "p90": 2.674,
+            "mean": 0.971,
+            "min": 0.419,
+            "max": 5.416,
+            "cachedDataBytes": 48248
+          },
+          "speedup": 1.156
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.421,
+            "p90": 4.204,
+            "mean": 1.17,
+            "min": 0.372,
+            "max": 5.208
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.397,
+            "p90": 1.557,
+            "mean": 0.902,
+            "min": 0.348,
+            "max": 5.517
+          },
+          "speedup": 1.06
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6451642,
+          "blobGzipBytes": 2340815,
+          "baseline": {
+            "n": 30,
+            "median": 35.309,
+            "p90": 57.214,
+            "mean": 39.634,
+            "min": 24.311,
+            "max": 70.197
+          },
+          "raw": {
+            "n": 30,
+            "median": 41.385,
+            "p90": 63.529,
+            "mean": 46.761,
+            "min": 28.627,
+            "max": 85.324
+          },
+          "net": {
+            "median": 6.076,
+            "p90": 28.22,
+            "mean": 11.452
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 68916,
+            "terser": 19351,
+            "gzip": 7378,
+            "brotli": 7211,
+            "rawGzip": 19371,
+            "rawBrotli": 18446
+          },
+          "prepacked": {
+            "raw": 80034,
+            "terser": 35663,
+            "gzip": 8218,
+            "brotli": 7920,
+            "rawGzip": 14140,
+            "rawBrotli": 12844
+          },
+          "ratios": {
+            "raw": 1.161,
+            "terser": 1.843,
+            "gzip": 1.114,
+            "brotli": 1.098
+          }
+        }
+      }
+    },
+    {
+      "id": "ramda",
+      "name": "Ramda",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Point-free curried functional library; module init wraps 250+ combinators in _curry1/_curry2/_curry3 dispatchers.",
+      "bytes": 351114,
+      "sha256": "f1b41513b80db800af76bb5498d0198ad4c915bab64d53189b0c8ac9fcf1eeb1",
+      "packages": [
+        {
+          "name": "ramda",
+          "version": "0.32.0",
+          "license": "MIT",
+          "homepage": "https://ramdajs.com/"
+        }
+      ],
+      "expectedDigest": "9ee3d696586d37609c4228cb5cd95753a6d24b472b9059827abf669793425c9a",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1804,
+        "outBytes": 266214
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1804,
+          "outBytes": 266214,
+          "quickVmMs": 0.865,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1352,
+          "outBytes": 277229,
+          "quickVmMs": 3.553,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1317,
+          "outBytes": 277229,
+          "quickVmMs": 0.6,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1388,
+          "outBytes": 255479,
+          "quickVmMs": 0.792,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1475,
+          "outBytes": 277229,
+          "quickVmMs": 5.196,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "OK",
+          "compileMs": 1443,
+          "outBytes": 269308,
+          "quickVmMs": null,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 39.443,
+            "p90": 65.046,
+            "mean": 43.058,
+            "min": 22.605,
+            "max": 83.954
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 45.15,
+              "p90": 59.114,
+              "mean": 47.086,
+              "min": 28.73,
+              "max": 84.536
+            },
+            "net": {
+              "median": 5.707,
+              "p90": 19.671,
+              "mean": 7.643
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 44.144,
+              "p90": 64.357,
+              "mean": 49.145,
+              "min": 30.973,
+              "max": 109.846
+            },
+            "net": {
+              "median": 4.701,
+              "p90": 24.914,
+              "mean": 9.702
+            }
+          },
+          "speedupRaw": 1.023,
+          "speedupNet": 1.214
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 1.14,
+            "p90": 1.521,
+            "mean": 1.14,
+            "min": 0.668,
+            "max": 1.785,
+            "cachedDataBytes": 67232
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.864,
+            "p90": 1.623,
+            "mean": 3.339,
+            "min": 0.457,
+            "max": 56.519,
+            "cachedDataBytes": 132968
+          },
+          "speedup": 1.319
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.739,
+            "p90": 3.74,
+            "mean": 1.673,
+            "min": 0.611,
+            "max": 8.585
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.478,
+            "p90": 0.605,
+            "mean": 0.689,
+            "min": 0.383,
+            "max": 6.417
+          },
+          "speedup": 1.546
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 7062746,
+          "blobGzipBytes": 2424352,
+          "baseline": {
+            "n": 30,
+            "median": 29.866,
+            "p90": 53.82,
+            "mean": 33.632,
+            "min": 21.36,
+            "max": 66.215
+          },
+          "raw": {
+            "n": 30,
+            "median": 34.742,
+            "p90": 66.032,
+            "mean": 43.418,
+            "min": 26.621,
+            "max": 90.967
+          },
+          "net": {
+            "median": 4.876,
+            "p90": 36.166,
+            "mean": 13.552
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 351114,
+            "terser": 53879,
+            "gzip": 14455,
+            "brotli": 13922,
+            "rawGzip": 77903,
+            "rawBrotli": 65267
+          },
+          "prepacked": {
+            "raw": 266214,
+            "terser": 137003,
+            "gzip": 23482,
+            "brotli": 19312,
+            "rawGzip": 32680,
+            "rawBrotli": 26321
+          },
+          "ratios": {
+            "raw": 0.758,
+            "terser": 2.543,
+            "gzip": 1.624,
+            "brotli": 1.387
+          }
+        }
+      }
+    },
+    {
+      "id": "immutable",
+      "name": "Immutable.js",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Persistent HAMT/trie collections (Map, List, Set, OrderedMap, Record); builds prototype hierarchies and sentinels at init.",
+      "bytes": 179561,
+      "sha256": "108ab02dce98946d0c9bdcecb9e3235575943e2a333e236643e9061de254dd7d",
+      "packages": [
+        {
+          "name": "immutable",
+          "version": "4.3.9",
+          "license": "MIT",
+          "homepage": "https://immutable-js.com"
+        }
+      ],
+      "expectedDigest": "fd731766e776855f639ad3e9c609ee040fa70a992a92368bb488e72680df77bf",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1538,
+        "outBytes": 148064
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1538,
+          "outBytes": 148064,
+          "quickVmMs": 5.333,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1780,
+          "outBytes": 156177,
+          "quickVmMs": 2.995,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1386,
+          "outBytes": 155999,
+          "quickVmMs": 1.296,
+          "warningCodes": [],
+          "infoCodes": [
+            "PP8000"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1635,
+          "outBytes": 147820,
+          "quickVmMs": 4.313,
+          "warningCodes": [],
+          "infoCodes": [
+            "PP8000"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1527,
+          "outBytes": 155999,
+          "quickVmMs": 1.154,
+          "warningCodes": [],
+          "infoCodes": [
+            "PP8000"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "OK",
+          "compileMs": 1547,
+          "outBytes": 149494,
+          "quickVmMs": null,
+          "warningCodes": [],
+          "infoCodes": [
+            "PP8000"
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 39.228,
+            "p90": 60.308,
+            "mean": 42.313,
+            "min": 21.542,
+            "max": 68.877
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 44.788,
+              "p90": 70.637,
+              "mean": 50.5,
+              "min": 33.544,
+              "max": 80.975
+            },
+            "net": {
+              "median": 5.56,
+              "p90": 31.409,
+              "mean": 11.272
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 47.239,
+              "p90": 70.527,
+              "mean": 54.032,
+              "min": 28.89,
+              "max": 98.96
+            },
+            "net": {
+              "median": 8.011,
+              "p90": 31.299,
+              "mean": 14.804
+            }
+          },
+          "speedupRaw": 0.948,
+          "speedupNet": 0.694
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 1.213,
+            "p90": 8.225,
+            "mean": 3.573,
+            "min": 1.108,
+            "max": 25.241,
+            "cachedDataBytes": 73472
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.093,
+            "p90": 9.183,
+            "mean": 3.738,
+            "min": 0.994,
+            "max": 16.635,
+            "cachedDataBytes": 74928
+          },
+          "speedup": 1.11
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 1.111,
+            "p90": 1.252,
+            "mean": 1.271,
+            "min": 1.077,
+            "max": 5.197
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.995,
+            "p90": 1.193,
+            "mean": 1.778,
+            "min": 0.971,
+            "max": 18.311
+          },
+          "speedup": 1.117
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6705890,
+          "blobGzipBytes": 2371843,
+          "baseline": {
+            "n": 30,
+            "median": 44.705,
+            "p90": 62.146,
+            "mean": 43.836,
+            "min": 22.379,
+            "max": 75.519
+          },
+          "raw": {
+            "n": 30,
+            "median": 58.895,
+            "p90": 87.289,
+            "mean": 59.006,
+            "min": 29.195,
+            "max": 94.301
+          },
+          "net": {
+            "median": 14.19,
+            "p90": 42.584,
+            "mean": 14.301
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 179561,
+            "terser": 66413,
+            "gzip": 18446,
+            "brotli": 17677,
+            "rawGzip": 36784,
+            "rawBrotli": 33750
+          },
+          "prepacked": {
+            "raw": 148064,
+            "terser": 64317,
+            "gzip": 18363,
+            "brotli": 17648,
+            "rawGzip": 29569,
+            "rawBrotli": 27425
+          },
+          "ratios": {
+            "raw": 0.825,
+            "terser": 0.968,
+            "gzip": 0.996,
+            "brotli": 0.998
+          }
+        }
+      }
+    },
+    {
+      "id": "moment",
+      "name": "Moment.js (with locales)",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Init-heavy date/time library with 135+ bundled locales registered via defineLocale() and regex token tables built at load.",
+      "bytes": 653144,
+      "sha256": "6b4445e1ee801bdcc1d42196163ae745f71d3b52a12a50246999fd7067250496",
+      "packages": [
+        {
+          "name": "moment",
+          "version": "2.31.0",
+          "license": "MIT",
+          "homepage": "https://momentjs.com"
+        }
+      ],
+      "expectedDigest": "5eb06d4660574575aa524f26071df2869ec0207dd63520e73145fe877aaba76d",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 17007,
+        "outBytes": 658012
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 17007,
+          "outBytes": 658012,
+          "quickVmMs": 4.915,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 14783,
+          "outBytes": 771326,
+          "quickVmMs": 23.352,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 15817,
+          "outBytes": 771326,
+          "quickVmMs": 15.829,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 13745,
+          "outBytes": 657532,
+          "quickVmMs": 12.729,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 22578,
+          "outBytes": 771326,
+          "quickVmMs": 15.301,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "OK",
+          "compileMs": 18694,
+          "outBytes": 854237,
+          "quickVmMs": null,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 37.081,
+            "p90": 59.462,
+            "mean": 39.902,
+            "min": 22.424,
+            "max": 69.186
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 66.344,
+              "p90": 108.714,
+              "mean": 73.649,
+              "min": 45.426,
+              "max": 145.172
+            },
+            "net": {
+              "median": 29.263,
+              "p90": 71.633,
+              "mean": 36.568
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 70.115,
+              "p90": 117.578,
+              "mean": 81.479,
+              "min": 50.272,
+              "max": 162.444
+            },
+            "net": {
+              "median": 33.034,
+              "p90": 80.497,
+              "mean": 44.398
+            }
+          },
+          "speedupRaw": 0.946,
+          "speedupNet": 0.886
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 14.065,
+            "p90": 23.54,
+            "mean": 16.156,
+            "min": 11.398,
+            "max": 32.454,
+            "cachedDataBytes": 394064
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 4.03,
+            "p90": 9.86,
+            "mean": 5.288,
+            "min": 3.745,
+            "max": 18.41,
+            "cachedDataBytes": 477704
+          },
+          "speedup": 3.49
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 13.262,
+            "p90": 23.575,
+            "mean": 16.079,
+            "min": 11.312,
+            "max": 39.459
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 3.92,
+            "p90": 6.768,
+            "mean": 5.44,
+            "min": 3.702,
+            "max": 28.789
+          },
+          "speedup": 3.383
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 8041330,
+          "blobGzipBytes": 2611771,
+          "baseline": {
+            "n": 30,
+            "median": 28.551,
+            "p90": 36.015,
+            "mean": 31.495,
+            "min": 21.808,
+            "max": 79.395
+          },
+          "raw": {
+            "n": 30,
+            "median": 39.595,
+            "p90": 62.608,
+            "mean": 45.046,
+            "min": 32.599,
+            "max": 89.701
+          },
+          "net": {
+            "median": 11.044,
+            "p90": 34.057,
+            "mean": 16.495
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 653144,
+            "terser": 299282,
+            "gzip": 76073,
+            "brotli": 64111,
+            "rawGzip": 107927,
+            "rawBrotli": 88811
+          },
+          "prepacked": {
+            "raw": 658012,
+            "terser": 360762,
+            "gzip": 101620,
+            "brotli": 84861,
+            "rawGzip": 130428,
+            "rawBrotli": 111813
+          },
+          "ratios": {
+            "raw": 1.007,
+            "terser": 1.205,
+            "gzip": 1.336,
+            "brotli": 1.324
+          }
+        }
+      }
+    },
+    {
+      "id": "chroma-js",
+      "name": "chroma.js",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Color conversion & scale library; module init registers RGB/HSL/Lab/LCH/CMYK color spaces, ColorBrewer palettes, and W3C named colors.",
+      "bytes": 111861,
+      "sha256": "26a2e532b90f6d97639cd96d5054dd0abc2fcd55554086cf11ae8c874ed66c6d",
+      "packages": [
+        {
+          "name": "chroma-js",
+          "version": "2.4.2",
+          "license": "(BSD-3-Clause AND Apache-2.0)",
+          "homepage": "https://github.com/gka/chroma.js"
+        }
+      ],
+      "expectedDigest": "b01b234de9a20138feec1b3e17395362a0b0bb07c4e32159bb1ef23596edd65b",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1224,
+        "outBytes": 89318
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1224,
+          "outBytes": 89318,
+          "quickVmMs": 4.239,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1289,
+          "outBytes": 97201,
+          "quickVmMs": 0.967,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1162,
+          "outBytes": 97201,
+          "quickVmMs": 7.607,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1093,
+          "outBytes": 87161,
+          "quickVmMs": 2.978,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1218,
+          "outBytes": 97201,
+          "quickVmMs": 3.456,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "OK",
+          "compileMs": 1115,
+          "outBytes": 93908,
+          "quickVmMs": null,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 24.05,
+            "p90": 28.154,
+            "mean": 24.109,
+            "min": 19.236,
+            "max": 29.67
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 29.993,
+              "p90": 35.151,
+              "mean": 29.956,
+              "min": 23.745,
+              "max": 36.653
+            },
+            "net": {
+              "median": 5.943,
+              "p90": 11.101,
+              "mean": 5.906
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 29.725,
+              "p90": 35.205,
+              "mean": 32.047,
+              "min": 23.498,
+              "max": 77.283
+            },
+            "net": {
+              "median": 5.675,
+              "p90": 11.155,
+              "mean": 7.997
+            }
+          },
+          "speedupRaw": 1.009,
+          "speedupNet": 1.047
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.664,
+            "p90": 0.75,
+            "mean": 0.982,
+            "min": 0.647,
+            "max": 9.754,
+            "cachedDataBytes": 52896
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.62,
+            "p90": 0.682,
+            "mean": 1.271,
+            "min": 0.594,
+            "max": 19.477,
+            "cachedDataBytes": 46728
+          },
+          "speedup": 1.071
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.651,
+            "p90": 0.675,
+            "mean": 0.655,
+            "min": 0.629,
+            "max": 0.728
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.6,
+            "p90": 0.618,
+            "mean": 0.602,
+            "min": 0.578,
+            "max": 0.622
+          },
+          "speedup": 1.085
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6437554,
+          "blobGzipBytes": 2350392,
+          "baseline": {
+            "n": 30,
+            "median": 24.698,
+            "p90": 29.786,
+            "mean": 25.279,
+            "min": 20.176,
+            "max": 38.413
+          },
+          "raw": {
+            "n": 30,
+            "median": 32.592,
+            "p90": 37.496,
+            "mean": 33.747,
+            "min": 27.367,
+            "max": 54.489
+          },
+          "net": {
+            "median": 7.894,
+            "p90": 12.798,
+            "mean": 9.049
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 111861,
+            "terser": 43487,
+            "gzip": 15756,
+            "brotli": 15072,
+            "rawGzip": 26102,
+            "rawBrotli": 24073
+          },
+          "prepacked": {
+            "raw": 89318,
+            "terser": 43185,
+            "gzip": 15074,
+            "brotli": 14526,
+            "rawGzip": 21384,
+            "rawBrotli": 20030
+          },
+          "ratios": {
+            "raw": 0.798,
+            "terser": 0.993,
+            "gzip": 0.957,
+            "brotli": 0.964
+          }
+        }
+      }
+    },
+    {
+      "id": "acorn",
+      "name": "Acorn",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "ECMAScript parser; module init builds token types, keyword regexes, operator precedence tables, and Unicode identifier bitmaps.",
+      "bytes": 246643,
+      "sha256": "b95392d79457d0357555c5ed3e56302d074b92dff119bcf3b44179500b10e9df",
+      "packages": [
+        {
+          "name": "acorn",
+          "version": "8.19.0",
+          "license": "MIT",
+          "homepage": "https://github.com/acornjs/acorn"
+        }
+      ],
+      "expectedDigest": "4ce0f511963f7a8de7c1235e41632ba22a44efda335a3f1b5a268b4177187bc5",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 2369,
+        "outBytes": 277934
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2369,
+          "outBytes": 277934,
+          "quickVmMs": 11.087,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2586,
+          "outBytes": 287378,
+          "quickVmMs": 4.26,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1935,
+          "outBytes": 287378,
+          "quickVmMs": 6.133,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1855,
+          "outBytes": 277578,
+          "quickVmMs": 1.905,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2568,
+          "outBytes": 287378,
+          "quickVmMs": 5.677,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "OK",
+          "compileMs": 2144,
+          "outBytes": 282664,
+          "quickVmMs": null,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 27.7,
+            "p90": 43.126,
+            "mean": 31.891,
+            "min": 22.665,
+            "max": 66.551
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 38.553,
+              "p90": 56.773,
+              "mean": 44.012,
+              "min": 30.365,
+              "max": 137.899
+            },
+            "net": {
+              "median": 10.853,
+              "p90": 29.073,
+              "mean": 16.312
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 38.241,
+              "p90": 45.917,
+              "mean": 43.771,
+              "min": 31.52,
+              "max": 98.312
+            },
+            "net": {
+              "median": 10.541,
+              "p90": 18.217,
+              "mean": 16.071
+            }
+          },
+          "speedupRaw": 1.008,
+          "speedupNet": 1.03
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 1.477,
+            "p90": 1.905,
+            "mean": 2.024,
+            "min": 1.385,
+            "max": 11.507,
+            "cachedDataBytes": 82600
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.707,
+            "p90": 1.821,
+            "mean": 1.955,
+            "min": 1.629,
+            "max": 6.421,
+            "cachedDataBytes": 129640
+          },
+          "speedup": 0.865
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 1.425,
+            "p90": 1.559,
+            "mean": 1.456,
+            "min": 1.365,
+            "max": 1.868
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.651,
+            "p90": 1.992,
+            "mean": 1.862,
+            "min": 1.591,
+            "max": 6.455
+          },
+          "speedup": 0.863
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6887378,
+          "blobGzipBytes": 2402148,
+          "baseline": {
+            "n": 30,
+            "median": 23.111,
+            "p90": 26.091,
+            "mean": 23.428,
+            "min": 19.728,
+            "max": 26.937
+          },
+          "raw": {
+            "n": 30,
+            "median": 33.412,
+            "p90": 36.641,
+            "mean": 33.888,
+            "min": 30.188,
+            "max": 38.899
+          },
+          "net": {
+            "median": 10.301,
+            "p90": 13.53,
+            "mean": 10.777
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 246643,
+            "terser": 118382,
+            "gzip": 34723,
+            "brotli": 32457,
+            "rawGzip": 57931,
+            "rawBrotli": 53000
+          },
+          "prepacked": {
+            "raw": 277934,
+            "terser": 168752,
+            "gzip": 39755,
+            "brotli": 34654,
+            "rawGzip": 54929,
+            "rawBrotli": 47809
+          },
+          "ratios": {
+            "raw": 1.127,
+            "terser": 1.425,
+            "gzip": 1.145,
+            "brotli": 1.068
+          }
+        }
+      }
+    },
+    {
+      "id": "crc-32",
+      "name": "SheetJS crc-32",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Lookup-table CRC-32 implementation; module init computes a 256-entry table and 16 slice-by-16 Int32Array subtables (4,096 entries).",
+      "bytes": 3702,
+      "sha256": "a28a8c436612ebe06a43f893dd5729392a59426f0a0cec0bb32f0879855f2c38",
+      "packages": [
+        {
+          "name": "crc-32",
+          "version": "1.2.2",
+          "license": "Apache-2.0",
+          "homepage": "https://sheetjs.com/"
+        }
+      ],
+      "expectedDigest": "8305c7857f3abf1b6a152f2484357a0dfbe0949384ebbf4179d15be59bf4eaba",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 415,
+        "errorCode": "PP0037",
+        "message": "failed to emit a residual loop: the loop calls an unknown or unsupported function in global code (PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive method)",
+        "location": {
+          "line": 57,
+          "column": 2,
+          "snippet": "for(n = 1; n != 16; ++n) out[n - 1] = typeof Int32Array !== 'undefined' ? table.subarray(n..."
+        },
+        "internalFrame": "fail (lib/evaluators/residualLoop.js:387:9)",
+        "diagnosticsCount": 1,
+        "errorCodes": [
+          "PP0037"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "PP0037",
+            "message": "failed to emit a residual loop: the loop calls an unknown or unsupported function in global code (PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive method)",
+            "location": {
+              "line": 57,
+              "column": 2,
+              "snippet": "for(n = 1; n != 16; ++n) out[n - 1] = typeof Int32Array !== 'undefined' ? table.subarray(n..."
+            }
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 415,
+          "errorCode": "PP0037",
+          "message": "failed to emit a residual loop: the loop calls an unknown or unsupported function in global code (PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive method)",
+          "location": {
+            "line": 57,
+            "column": 2,
+            "snippet": "for(n = 1; n != 16; ++n) out[n - 1] = typeof Int32Array !== 'undefined' ? table.subarray(n..."
+          },
+          "internalFrame": "fail (lib/evaluators/residualLoop.js:387:9)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP0037"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP0037",
+              "message": "failed to emit a residual loop: the loop calls an unknown or unsupported function in global code (PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive method)",
+              "location": {
+                "line": 57,
+                "column": 2,
+                "snippet": "for(n = 1; n != 16; ++n) out[n - 1] = typeof Int32Array !== 'undefined' ? table.subarray(n..."
+              }
+            }
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 293,
+          "errorCode": "PP0037",
+          "message": "failed to emit a residual loop: the loop calls an unknown or unsupported function in global code (PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive method)",
+          "location": {
+            "line": 57,
+            "column": 2,
+            "snippet": "for(n = 1; n != 16; ++n) out[n - 1] = typeof Int32Array !== 'undefined' ? table.subarray(n..."
+          },
+          "internalFrame": "fail (lib/evaluators/residualLoop.js:387:9)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP0037"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP0037",
+              "message": "failed to emit a residual loop: the loop calls an unknown or unsupported function in global code (PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive method)",
+              "location": {
+                "line": 57,
+                "column": 2,
+                "snippet": "for(n = 1; n != 16; ++n) out[n - 1] = typeof Int32Array !== 'undefined' ? table.subarray(n..."
+              }
+            }
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 371,
+          "errorCode": "PP0037",
+          "message": "failed to emit a residual loop: the loop calls an unknown or unsupported function in global code (PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive method)",
+          "location": {
+            "line": 57,
+            "column": 2,
+            "snippet": "for(n = 1; n != 16; ++n) out[n - 1] = typeof Int32Array !== 'undefined' ? table.subarray(n..."
+          },
+          "internalFrame": "fail (lib/evaluators/residualLoop.js:387:9)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP0037"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP0037",
+              "message": "failed to emit a residual loop: the loop calls an unknown or unsupported function in global code (PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive method)",
+              "location": {
+                "line": 57,
+                "column": 2,
+                "snippet": "for(n = 1; n != 16; ++n) out[n - 1] = typeof Int32Array !== 'undefined' ? table.subarray(n..."
+              }
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 407,
+          "errorCode": "PP0037",
+          "message": "failed to emit a residual loop: the loop calls an unknown or unsupported function in global code (PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive method)",
+          "location": {
+            "line": 57,
+            "column": 2,
+            "snippet": "for(n = 1; n != 16; ++n) out[n - 1] = typeof Int32Array !== 'undefined' ? table.subarray(n..."
+          },
+          "internalFrame": "fail (lib/evaluators/residualLoop.js:387:9)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP0037"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP0037",
+              "message": "failed to emit a residual loop: the loop calls an unknown or unsupported function in global code (PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive method)",
+              "location": {
+                "line": 57,
+                "column": 2,
+                "snippet": "for(n = 1; n != 16; ++n) out[n - 1] = typeof Int32Array !== 'undefined' ? table.subarray(n..."
+              }
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 391,
+          "errorCode": "PP0037",
+          "message": "failed to emit a residual loop: the loop calls an unknown or unsupported function in global code (PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive method)",
+          "location": {
+            "line": 57,
+            "column": 2,
+            "snippet": "for(n = 1; n != 16; ++n) out[n - 1] = typeof Int32Array !== 'undefined' ? table.subarray(n..."
+          },
+          "internalFrame": "fail (lib/evaluators/residualLoop.js:387:9)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP0037"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP0037",
+              "message": "failed to emit a residual loop: the loop calls an unknown or unsupported function in global code (PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive method)",
+              "location": {
+                "line": 57,
+                "column": 2,
+                "snippet": "for(n = 1; n != 16; ++n) out[n - 1] = typeof Int32Array !== 'undefined' ? table.subarray(n..."
+              }
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 428,
+          "errorCode": "PP0037",
+          "message": "failed to emit a residual loop: the loop calls an unknown or unsupported function in global code (PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive method)",
+          "location": {
+            "line": 57,
+            "column": 2,
+            "snippet": "for(n = 1; n != 16; ++n) out[n - 1] = typeof Int32Array !== 'undefined' ? table.subarray(n..."
+          },
+          "internalFrame": "fail (lib/evaluators/residualLoop.js:387:9)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP0037"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP0037",
+              "message": "failed to emit a residual loop: the loop calls an unknown or unsupported function in global code (PP0002: might be an object with an unknown valueOf or toString or Symbol.toPrimitive method)",
+              "location": {
+                "line": 57,
+                "column": 2,
+                "snippet": "for(n = 1; n != 16; ++n) out[n - 1] = typeof Int32Array !== 'undefined' ? table.subarray(n..."
+              }
+            }
+          ]
+        }
+      ],
+      "perf": null
+    },
+    {
+      "id": "marked",
+      "name": "Marked",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Markdown parser & compiler; module init constructs GFM/pedantic/normal block and inline grammar regex tables.",
+      "bytes": 50548,
+      "sha256": "c34a221dc89e91833a88822e7717b8a0cf27118f8c9a8779dffb48a6be31f97a",
+      "packages": [
+        {
+          "name": "marked",
+          "version": "18.1.3",
+          "license": "MIT",
+          "homepage": "https://marked.js.org"
+        }
+      ],
+      "expectedDigest": "c92f2c0ca64839614ca45b811cd9c02f1590e68b8fd34e6dcf567329cc4f06b6",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 81,
+        "errorCode": "PP1004",
+        "message": "Syntax error: This experimental syntax requires enabling the parser plugin: 'optionalCatchBinding' (13:1308)",
+        "location": {
+          "line": 13,
+          "column": 1309,
+          "snippet": "...)=>{try{return!!new RegExp(\"(?<=1)(?<!1)\"+a)}catch{return!1}})(),T={codeRemoveIndent:/^(?: {0,3}\\t| {1,4})/gm,outputLinkReplace:/\\\\([\\[\\]])/..."
+        },
+        "internalFrame": "LexicalEnvironment.concatenateAndParse (lib/environment.js:1003:21)",
+        "diagnosticsCount": 1,
+        "errorCodes": [
+          "PP1004"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "PP1004",
+            "message": "Syntax error: This experimental syntax requires enabling the parser plugin: 'optionalCatchBinding' (13:1308)",
+            "location": {
+              "line": 13,
+              "column": 1309,
+              "snippet": "...)=>{try{return!!new RegExp(\"(?<=1)(?<!1)\"+a)}catch{return!1}})(),T={codeRemoveIndent:/^(?: {0,3}\\t| {1,4})/gm,outputLinkReplace:/\\\\([\\[\\]])/..."
+            }
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 81,
+          "errorCode": "PP1004",
+          "message": "Syntax error: This experimental syntax requires enabling the parser plugin: 'optionalCatchBinding' (13:1308)",
+          "location": {
+            "line": 13,
+            "column": 1309,
+            "snippet": "...)=>{try{return!!new RegExp(\"(?<=1)(?<!1)\"+a)}catch{return!1}})(),T={codeRemoveIndent:/^(?: {0,3}\\t| {1,4})/gm,outputLinkReplace:/\\\\([\\[\\]])/..."
+          },
+          "internalFrame": "LexicalEnvironment.concatenateAndParse (lib/environment.js:1003:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP1004"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP1004",
+              "message": "Syntax error: This experimental syntax requires enabling the parser plugin: 'optionalCatchBinding' (13:1308)",
+              "location": {
+                "line": 13,
+                "column": 1309,
+                "snippet": "...)=>{try{return!!new RegExp(\"(?<=1)(?<!1)\"+a)}catch{return!1}})(),T={codeRemoveIndent:/^(?: {0,3}\\t| {1,4})/gm,outputLinkReplace:/\\\\([\\[\\]])/..."
+              }
+            }
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 91,
+          "errorCode": "PP1004",
+          "message": "Syntax error: This experimental syntax requires enabling the parser plugin: 'optionalCatchBinding' (13:1308)",
+          "location": {
+            "line": 13,
+            "column": 1309,
+            "snippet": "...)=>{try{return!!new RegExp(\"(?<=1)(?<!1)\"+a)}catch{return!1}})(),T={codeRemoveIndent:/^(?: {0,3}\\t| {1,4})/gm,outputLinkReplace:/\\\\([\\[\\]])/..."
+          },
+          "internalFrame": "LexicalEnvironment.concatenateAndParse (lib/environment.js:1003:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP1004"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP1004",
+              "message": "Syntax error: This experimental syntax requires enabling the parser plugin: 'optionalCatchBinding' (13:1308)",
+              "location": {
+                "line": 13,
+                "column": 1309,
+                "snippet": "...)=>{try{return!!new RegExp(\"(?<=1)(?<!1)\"+a)}catch{return!1}})(),T={codeRemoveIndent:/^(?: {0,3}\\t| {1,4})/gm,outputLinkReplace:/\\\\([\\[\\]])/..."
+              }
+            }
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 66,
+          "errorCode": "PP1004",
+          "message": "Syntax error: This experimental syntax requires enabling the parser plugin: 'optionalCatchBinding' (13:1308)",
+          "location": {
+            "line": 13,
+            "column": 1309,
+            "snippet": "...)=>{try{return!!new RegExp(\"(?<=1)(?<!1)\"+a)}catch{return!1}})(),T={codeRemoveIndent:/^(?: {0,3}\\t| {1,4})/gm,outputLinkReplace:/\\\\([\\[\\]])/..."
+          },
+          "internalFrame": "LexicalEnvironment.concatenateAndParse (lib/environment.js:1003:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP1004"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP1004",
+              "message": "Syntax error: This experimental syntax requires enabling the parser plugin: 'optionalCatchBinding' (13:1308)",
+              "location": {
+                "line": 13,
+                "column": 1309,
+                "snippet": "...)=>{try{return!!new RegExp(\"(?<=1)(?<!1)\"+a)}catch{return!1}})(),T={codeRemoveIndent:/^(?: {0,3}\\t| {1,4})/gm,outputLinkReplace:/\\\\([\\[\\]])/..."
+              }
+            }
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 68,
+          "errorCode": "PP1004",
+          "message": "Syntax error: This experimental syntax requires enabling the parser plugin: 'optionalCatchBinding' (13:1308)",
+          "location": {
+            "line": 13,
+            "column": 1309,
+            "snippet": "...)=>{try{return!!new RegExp(\"(?<=1)(?<!1)\"+a)}catch{return!1}})(),T={codeRemoveIndent:/^(?: {0,3}\\t| {1,4})/gm,outputLinkReplace:/\\\\([\\[\\]])/..."
+          },
+          "internalFrame": "LexicalEnvironment.concatenateAndParse (lib/environment.js:1003:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP1004"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP1004",
+              "message": "Syntax error: This experimental syntax requires enabling the parser plugin: 'optionalCatchBinding' (13:1308)",
+              "location": {
+                "line": 13,
+                "column": 1309,
+                "snippet": "...)=>{try{return!!new RegExp(\"(?<=1)(?<!1)\"+a)}catch{return!1}})(),T={codeRemoveIndent:/^(?: {0,3}\\t| {1,4})/gm,outputLinkReplace:/\\\\([\\[\\]])/..."
+              }
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 81,
+          "errorCode": "PP1004",
+          "message": "Syntax error: This experimental syntax requires enabling the parser plugin: 'optionalCatchBinding' (13:1308)",
+          "location": {
+            "line": 13,
+            "column": 1309,
+            "snippet": "...)=>{try{return!!new RegExp(\"(?<=1)(?<!1)\"+a)}catch{return!1}})(),T={codeRemoveIndent:/^(?: {0,3}\\t| {1,4})/gm,outputLinkReplace:/\\\\([\\[\\]])/..."
+          },
+          "internalFrame": "LexicalEnvironment.concatenateAndParse (lib/environment.js:1003:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP1004"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP1004",
+              "message": "Syntax error: This experimental syntax requires enabling the parser plugin: 'optionalCatchBinding' (13:1308)",
+              "location": {
+                "line": 13,
+                "column": 1309,
+                "snippet": "...)=>{try{return!!new RegExp(\"(?<=1)(?<!1)\"+a)}catch{return!1}})(),T={codeRemoveIndent:/^(?: {0,3}\\t| {1,4})/gm,outputLinkReplace:/\\\\([\\[\\]])/..."
+              }
+            }
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 88,
+          "errorCode": "PP1004",
+          "message": "Syntax error: This experimental syntax requires enabling the parser plugin: 'optionalCatchBinding' (13:1308)",
+          "location": {
+            "line": 13,
+            "column": 1309,
+            "snippet": "...)=>{try{return!!new RegExp(\"(?<=1)(?<!1)\"+a)}catch{return!1}})(),T={codeRemoveIndent:/^(?: {0,3}\\t| {1,4})/gm,outputLinkReplace:/\\\\([\\[\\]])/..."
+          },
+          "internalFrame": "LexicalEnvironment.concatenateAndParse (lib/environment.js:1003:21)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP1004"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP1004",
+              "message": "Syntax error: This experimental syntax requires enabling the parser plugin: 'optionalCatchBinding' (13:1308)",
+              "location": {
+                "line": 13,
+                "column": 1309,
+                "snippet": "...)=>{try{return!!new RegExp(\"(?<=1)(?<!1)\"+a)}catch{return!1}})(),T={codeRemoveIndent:/^(?: {0,3}\\t| {1,4})/gm,outputLinkReplace:/\\\\([\\[\\]])/..."
+              }
+            }
+          ]
+        }
+      ],
+      "perf": null
+    },
+    {
+      "id": "d3-scale",
+      "name": "D3 Scale + Array",
+      "kind": "library",
+      "buildType": "umd",
+      "description": "Data visualization quantitative/ordinal/time scales, array statistics, formatters, and color interpolators initialized on `d3`.",
+      "bytes": 152468,
+      "sha256": "5308348557b16b01fa8c3e77742d36df8a8d80a1bdc92fdaa62ee824e9cf0732",
+      "packages": [
+        {
+          "name": "d3-scale",
+          "version": "4.0.3",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-scale/"
+        },
+        {
+          "name": "d3-array",
+          "version": "3.2.5",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-array/"
+        },
+        {
+          "name": "d3-interpolate",
+          "version": "3.0.2",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-interpolate/"
+        },
+        {
+          "name": "d3-color",
+          "version": "3.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-color/"
+        },
+        {
+          "name": "d3-format",
+          "version": "3.1.3",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-format/"
+        },
+        {
+          "name": "d3-time",
+          "version": "3.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-time/"
+        },
+        {
+          "name": "d3-time-format",
+          "version": "4.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-time-format/"
+        },
+        {
+          "name": "internmap",
+          "version": "2.0.3",
+          "license": "ISC",
+          "homepage": "https://github.com/mbostock/internmap/"
+        }
+      ],
+      "expectedDigest": "a67ea8e596acde3a05183b09db9cd556d8d18555c52bc47abb8083231b945204",
+      "defaultStatus": "FAIL",
+      "status": "FAIL",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 1633,
+        "errorCode": "UNDIAGNOSED_FATAL",
+        "message": "TODO: do not know how to deal with non-Identifier parameters",
+        "location": null,
+        "internalFrame": "ResidualFunctions.spliceFunctions (lib/serializer/ResidualFunctions.js:602:23)",
+        "diagnosticsCount": 0,
+        "errorCodes": [],
+        "warningCodes": [],
+        "diagnostics": []
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1633,
+          "errorCode": "UNDIAGNOSED_FATAL",
+          "message": "TODO: do not know how to deal with non-Identifier parameters",
+          "location": null,
+          "internalFrame": "ResidualFunctions.spliceFunctions (lib/serializer/ResidualFunctions.js:602:23)",
+          "diagnosticsCount": 0,
+          "errorCodes": [],
+          "warningCodes": [],
+          "diagnostics": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1554,
+          "errorCode": "UNDIAGNOSED_FATAL",
+          "message": "TODO: do not know how to deal with non-Identifier parameters",
+          "location": null,
+          "internalFrame": "ResidualFunctions.spliceFunctions (lib/serializer/ResidualFunctions.js:602:23)",
+          "diagnosticsCount": 0,
+          "errorCodes": [],
+          "warningCodes": [],
+          "diagnostics": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1564,
+          "errorCode": "UNDIAGNOSED_FATAL",
+          "message": "TODO: do not know how to deal with non-Identifier parameters",
+          "location": null,
+          "internalFrame": "ResidualFunctions.spliceFunctions (lib/serializer/ResidualFunctions.js:602:23)",
+          "diagnosticsCount": 0,
+          "errorCodes": [],
+          "warningCodes": [],
+          "diagnostics": []
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1209,
+          "errorCode": "UNDIAGNOSED_FATAL",
+          "message": "TODO: do not know how to deal with non-Identifier parameters",
+          "location": null,
+          "internalFrame": "ResidualFunctions.spliceFunctions (lib/serializer/ResidualFunctions.js:602:23)",
+          "diagnosticsCount": 1,
+          "errorCodes": [],
+          "warningCodes": [
+            "PP0023"
+          ],
+          "diagnostics": [
+            {
+              "severity": "Warning",
+              "errorCode": "PP0023",
+              "message": "Program may terminate with exception: the map constructor doesn't take arguments\n  TypeError: the map constructor doesn't take arguments\n    at new Map (native)\n    at formatLookup (d3-scale.js:3928:10)\n    at formatLocale (d3-scale.js:3566:22)\n    at defaultLocale (d3-scale.js:4236:12)\n    at d3-scale.js:4224:1\n    at d3-scale.js:3530:76\n    at d3-scale.js:3527:1",
+              "location": {
+                "line": 3928,
+                "column": 62,
+                "snippet": "...w Map(names.map((name, i) => [name.toLowerCase(), i]));"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 1776,
+          "errorCode": "UNDIAGNOSED_FATAL",
+          "message": "TODO: do not know how to deal with non-Identifier parameters",
+          "location": null,
+          "internalFrame": "ResidualFunctions.spliceFunctions (lib/serializer/ResidualFunctions.js:602:23)",
+          "diagnosticsCount": 0,
+          "errorCodes": [],
+          "warningCodes": [],
+          "diagnostics": []
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "FAIL",
+          "compileMs": 1760,
+          "errorCode": "UNDIAGNOSED_FATAL",
+          "message": "TODO: do not know how to deal with non-Identifier parameters",
+          "location": null,
+          "internalFrame": "ResidualFunctions.spliceFunctions (lib/serializer/ResidualFunctions.js:602:23)",
+          "diagnosticsCount": 0,
+          "errorCodes": [],
+          "warningCodes": [],
+          "diagnostics": []
+        }
+      ],
+      "perf": null
+    },
+    {
+      "id": "redux",
+      "name": "Redux (store + middleware init)",
+      "kind": "app-workload",
+      "buildType": "esbuild-iife",
+      "description": "Redux bundled into an ES2015 IIFE; module init composes reducers, applies logging/validation middleware, creates a store, and dispatches seed actions.",
+      "bytes": 18502,
+      "sha256": "8c87730f3d9266ff288dff4c3f0450358f7498908bd45cad6900e187738c7cd3",
+      "packages": [
+        {
+          "name": "redux",
+          "version": "5.0.1",
+          "license": "MIT",
+          "homepage": "http://redux.js.org"
+        }
+      ],
+      "expectedDigest": "a852447e6f5c405c365ecfbaac3f9c61332bcf22f16ef00f2bd6668dae8c8ae9",
+      "defaultStatus": "FAIL",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "browser-seed",
+        "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+        "compileMs": 632,
+        "outBytes": 14951
+      },
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "FAIL",
+        "compileMs": 270,
+        "errorCode": "PP0031",
+        "message": "property access on unknown object",
+        "location": {
+          "line": 366,
+          "column": 74,
+          "snippet": "...=> Math.random().toString(36).substring(7).split(\"\").join(\".\");"
+        },
+        "internalFrame": "AbstractObjectValue.$Get (lib/values/AbstractObjectValue.js:647:13)",
+        "diagnosticsCount": 1,
+        "errorCodes": [
+          "PP0031"
+        ],
+        "warningCodes": [],
+        "diagnostics": [
+          {
+            "severity": "FatalError",
+            "errorCode": "PP0031",
+            "message": "property access on unknown object",
+            "location": {
+              "line": 366,
+              "column": 74,
+              "snippet": "...=> Math.random().toString(36).substring(7).split(\"\").join(\".\");"
+            }
+          }
+        ]
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 270,
+          "errorCode": "PP0031",
+          "message": "property access on unknown object",
+          "location": {
+            "line": 366,
+            "column": 74,
+            "snippet": "...=> Math.random().toString(36).substring(7).split(\"\").join(\".\");"
+          },
+          "internalFrame": "AbstractObjectValue.$Get (lib/values/AbstractObjectValue.js:647:13)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP0031"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP0031",
+              "message": "property access on unknown object",
+              "location": {
+                "line": 366,
+                "column": 74,
+                "snippet": "...=> Math.random().toString(36).substring(7).split(\"\").join(\".\");"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "FAIL",
+          "compileMs": 332,
+          "errorCode": "PP0031",
+          "message": "property access on unknown object",
+          "location": {
+            "line": 366,
+            "column": 74,
+            "snippet": "...=> Math.random().toString(36).substring(7).split(\"\").join(\".\");"
+          },
+          "internalFrame": "AbstractObjectValue.$Get (lib/values/AbstractObjectValue.js:647:13)",
+          "diagnosticsCount": 1,
+          "errorCodes": [
+            "PP0031"
+          ],
+          "warningCodes": [],
+          "diagnostics": [
+            {
+              "severity": "FatalError",
+              "errorCode": "PP0031",
+              "message": "property access on unknown object",
+              "location": {
+                "line": 366,
+                "column": 74,
+                "snippet": "...=> Math.random().toString(36).substring(7).split(\"\").join(\".\");"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 632,
+          "outBytes": 14951,
+          "quickVmMs": 0.33,
+          "warningCodes": [],
+          "infoCodes": [
+            "PP8000"
+          ]
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 643,
+          "outBytes": 14319,
+          "quickVmMs": 4.229,
+          "warningCodes": [],
+          "infoCodes": [
+            "PP8000"
+          ]
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 544,
+          "outBytes": 14951,
+          "quickVmMs": 2.477,
+          "warningCodes": [],
+          "infoCodes": [
+            "PP8000"
+          ]
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "OK",
+          "compileMs": 683,
+          "outBytes": 15392,
+          "quickVmMs": null,
+          "warningCodes": [],
+          "infoCodes": [
+            "PP8000"
+          ]
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 22.959,
+            "p90": 27.248,
+            "mean": 24.201,
+            "min": 20.507,
+            "max": 37.862
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 24.435,
+              "p90": 27.231,
+              "mean": 24.772,
+              "min": 20.74,
+              "max": 35.616
+            },
+            "net": {
+              "median": 1.476,
+              "p90": 4.272,
+              "mean": 1.813
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 23.23,
+              "p90": 25.24,
+              "mean": 23.42,
+              "min": 20.949,
+              "max": 26.224
+            },
+            "net": {
+              "median": 0.271,
+              "p90": 2.281,
+              "mean": 0.461
+            }
+          },
+          "speedupRaw": 1.052,
+          "speedupNet": 5.446
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.193,
+            "p90": 0.219,
+            "mean": 0.203,
+            "min": 0.178,
+            "max": 0.377,
+            "cachedDataBytes": 4664
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.136,
+            "p90": 0.182,
+            "mean": 0.237,
+            "min": 0.122,
+            "max": 2.642,
+            "cachedDataBytes": 4816
+          },
+          "speedup": 1.419
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.202,
+            "p90": 0.312,
+            "mean": 0.361,
+            "min": 0.169,
+            "max": 4.35
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.129,
+            "p90": 0.19,
+            "mean": 0.194,
+            "min": 0.112,
+            "max": 1.682
+          },
+          "speedup": 1.566
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6308290,
+          "blobGzipBytes": 2317616,
+          "baseline": {
+            "n": 30,
+            "median": 26.487,
+            "p90": 32.456,
+            "mean": 28.056,
+            "min": 23.139,
+            "max": 41.689
+          },
+          "raw": {
+            "n": 30,
+            "median": 31.089,
+            "p90": 35.469,
+            "mean": 31.724,
+            "min": 27.834,
+            "max": 45.644
+          },
+          "net": {
+            "median": 4.602,
+            "p90": 8.982,
+            "mean": 5.237
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 18502,
+            "terser": 9055,
+            "gzip": 3414,
+            "brotli": 3257,
+            "rawGzip": 4907,
+            "rawBrotli": 4690
+          },
+          "prepacked": {
+            "raw": 14951,
+            "terser": 7891,
+            "gzip": 3047,
+            "brotli": 2898,
+            "rawGzip": 4200,
+            "rawBrotli": 3961
+          },
+          "ratios": {
+            "raw": 0.808,
+            "terser": 0.871,
+            "gzip": 0.893,
+            "brotli": 0.89
+          }
+        }
+      }
+    },
+    {
+      "id": "handlebars-app",
+      "name": "Handlebars (init template compile)",
+      "kind": "app-workload",
+      "buildType": "umd+app-init",
+      "description": "App workload: loads Handlebars compiler+runtime, registers helpers/partials, compiles an invoice template AST to JS, and renders a boot view at module init.",
+      "bytes": 217023,
+      "sha256": "989d3a40a1bf42e09115b43372dfd1f3ebe3c8a2dfe667b27bebee89ec61a1ea",
+      "packages": [
+        {
+          "name": "handlebars",
+          "version": "4.7.10",
+          "license": "MIT",
+          "homepage": "https://handlebarsjs.com/"
+        }
+      ],
+      "expectedDigest": "fdc9d4795ebcd542648a92a93dadd6328bbe209c203a10e7f153ee7a399ec39f",
+      "defaultStatus": "WRONG",
+      "status": "WRONG",
+      "bestProfile": null,
+      "primaryBlocker": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "eligibleForNodePerf": true,
+        "status": "WRONG",
+        "compileMs": 1104,
+        "outBytes": 1816,
+        "errorCode": "PP0023",
+        "message": "VM runtime threw: TypeError: not an object",
+        "location": {
+          "line": 2665,
+          "column": 53,
+          "snippet": "...Object.prototype.__defineGetter__('__magic__', function () {"
+        },
+        "warningCodes": [
+          "PP0023"
+        ],
+        "diagnostics": [
+          {
+            "severity": "Warning",
+            "errorCode": "PP0023",
+            "message": "Program may terminate with exception: not an object\n  TypeError: not an object\n    at handlebars-app.js:2665:53\n    at handlebars-app.js:2663:4\n    at handlebars-app.js:222:2\n    at __webpack_require__ (handlebars-app.js:56:12)\n    at handlebars-app.js:89:27\n    at __webpack_require__ (handlebars-app.js:56:12)\n    at handlebars-app.js:76:18\n    at handlebars-app.js:37:17\n    at webpackUniversalModuleDefinition (handlebars-app.js:35:24)\n    at handlebars-app.js:27:1",
+            "location": {
+              "line": 2665,
+              "column": 53,
+              "snippet": "...Object.prototype.__defineGetter__('__magic__', function () {"
+            }
+          }
+        ],
+        "vmResult": "TypeError: not an object",
+        "nodeResult": "exit 1: /tmp/opencode/pp-bench-run-tuRuo0/handlebars-app-default-10408-cs1ghtxz7j.js:75 |   throw _7; |   ^ | TypeError: not an object"
+      },
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "WRONG",
+          "compileMs": 1104,
+          "outBytes": 1816,
+          "errorCode": "PP0023",
+          "message": "VM runtime threw: TypeError: not an object",
+          "location": {
+            "line": 2665,
+            "column": 53,
+            "snippet": "...Object.prototype.__defineGetter__('__magic__', function () {"
+          },
+          "warningCodes": [
+            "PP0023"
+          ],
+          "diagnostics": [
+            {
+              "severity": "Warning",
+              "errorCode": "PP0023",
+              "message": "Program may terminate with exception: not an object\n  TypeError: not an object\n    at handlebars-app.js:2665:53\n    at handlebars-app.js:2663:4\n    at handlebars-app.js:222:2\n    at __webpack_require__ (handlebars-app.js:56:12)\n    at handlebars-app.js:89:27\n    at __webpack_require__ (handlebars-app.js:56:12)\n    at handlebars-app.js:76:18\n    at handlebars-app.js:37:17\n    at webpackUniversalModuleDefinition (handlebars-app.js:35:24)\n    at handlebars-app.js:27:1",
+              "location": {
+                "line": 2665,
+                "column": 53,
+                "snippet": "...Object.prototype.__defineGetter__('__magic__', function () {"
+              }
+            }
+          ],
+          "vmResult": "TypeError: not an object",
+          "nodeResult": "exit 1: /tmp/opencode/pp-bench-run-tuRuo0/handlebars-app-default-10408-cs1ghtxz7j.js:75 |   throw _7; |   ^ | TypeError: not an object"
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "WRONG",
+          "compileMs": 1271,
+          "outBytes": 1585,
+          "errorCode": "PP0023",
+          "message": "VM runtime threw: TypeError: not an object",
+          "location": {
+            "line": 2665,
+            "column": 53,
+            "snippet": "...Object.prototype.__defineGetter__('__magic__', function () {"
+          },
+          "warningCodes": [
+            "PP0023"
+          ],
+          "diagnostics": [
+            {
+              "severity": "Warning",
+              "errorCode": "PP0023",
+              "message": "Program may terminate with exception: not an object\n  TypeError: not an object\n    at handlebars-app.js:2665:53\n    at handlebars-app.js:2663:4\n    at handlebars-app.js:222:2\n    at __webpack_require__ (handlebars-app.js:56:12)\n    at handlebars-app.js:89:27\n    at __webpack_require__ (handlebars-app.js:56:12)\n    at handlebars-app.js:76:18\n    at handlebars-app.js:37:17\n    at webpackUniversalModuleDefinition (handlebars-app.js:35:24)\n    at handlebars-app.js:27:1",
+              "location": {
+                "line": 2665,
+                "column": 53,
+                "snippet": "...Object.prototype.__defineGetter__('__magic__', function () {"
+              }
+            }
+          ],
+          "vmResult": "TypeError: not an object",
+          "nodeResult": "exit 1: /tmp/opencode/pp-bench-run-tuRuo0/handlebars-app-browser-opt-10427-pgqeprpmbbe.js:56 |   throw _7; |   ^ | TypeError: not an object"
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "WRONG",
+          "compileMs": 1088,
+          "outBytes": 1585,
+          "errorCode": "PP0023",
+          "message": "VM runtime threw: TypeError: not an object",
+          "location": {
+            "line": 2665,
+            "column": 53,
+            "snippet": "...Object.prototype.__defineGetter__('__magic__', function () {"
+          },
+          "warningCodes": [
+            "PP0023"
+          ],
+          "diagnostics": [
+            {
+              "severity": "Information",
+              "errorCode": "PP8000",
+              "message": "Result of Math.random() is made deterministic via a fixed mathRandomSeed",
+              "location": {
+                "line": 1302,
+                "column": 11,
+                "snippet": ", px = Math.random();"
+              }
+            },
+            {
+              "severity": "Warning",
+              "errorCode": "PP0023",
+              "message": "Program may terminate with exception: not an object\n  TypeError: not an object\n    at handlebars-app.js:2665:53\n    at handlebars-app.js:2663:4\n    at handlebars-app.js:222:2\n    at __webpack_require__ (handlebars-app.js:56:12)\n    at handlebars-app.js:89:27\n    at __webpack_require__ (handlebars-app.js:56:12)\n    at handlebars-app.js:76:18\n    at handlebars-app.js:37:17\n    at webpackUniversalModuleDefinition (handlebars-app.js:35:24)\n    at handlebars-app.js:27:1",
+              "location": {
+                "line": 2665,
+                "column": 53,
+                "snippet": "...Object.prototype.__defineGetter__('__magic__', function () {"
+              }
+            }
+          ],
+          "vmResult": "TypeError: not an object",
+          "nodeResult": "exit 1: /tmp/opencode/pp-bench-run-tuRuo0/handlebars-app-browser-seed-10446-qzu8y84bc9m.js:56 |   throw _7; |   ^ | TypeError: not an object"
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "WRONG",
+          "compileMs": 1775,
+          "outBytes": 10638,
+          "errorCode": "PP0023",
+          "message": "VM runtime threw: TypeError: not an object",
+          "location": {
+            "line": 2665,
+            "column": 53,
+            "snippet": "...Object.prototype.__defineGetter__('__magic__', function () {"
+          },
+          "warningCodes": [
+            "PP0023"
+          ],
+          "diagnostics": [
+            {
+              "severity": "Information",
+              "errorCode": "PP8000",
+              "message": "Result of Math.random() is made deterministic via a fixed mathRandomSeed",
+              "location": {
+                "line": 1302,
+                "column": 11,
+                "snippet": ", px = Math.random();"
+              }
+            },
+            {
+              "severity": "Warning",
+              "errorCode": "PP0023",
+              "message": "Program may terminate with exception: not an object\n  TypeError: not an object\n    at handlebars-app.js:2665:53\n    at handlebars-app.js:2663:4\n    at handlebars-app.js:222:2\n    at __webpack_require__ (handlebars-app.js:56:12)\n    at handlebars-app.js:89:27\n    at __webpack_require__ (handlebars-app.js:56:12)\n    at handlebars-app.js:76:18\n    at handlebars-app.js:37:17\n    at webpackUniversalModuleDefinition (handlebars-app.js:35:24)\n    at handlebars-app.js:27:1",
+              "location": {
+                "line": 2665,
+                "column": 53,
+                "snippet": "...Object.prototype.__defineGetter__('__magic__', function () {"
+              }
+            }
+          ],
+          "vmResult": "TypeError: not an object",
+          "nodeResult": "exit 1: /tmp/opencode/pp-bench-run-tuRuo0/handlebars-app-jsc-10461-3ddrsblu2yg.js:420 |   throw _b; |   ^ | TypeError: not an object"
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "WRONG",
+          "compileMs": 1436,
+          "outBytes": 1585,
+          "errorCode": "PP0023",
+          "message": "VM runtime threw: TypeError: not an object",
+          "location": {
+            "line": 2665,
+            "column": 53,
+            "snippet": "...Object.prototype.__defineGetter__('__magic__', function () {"
+          },
+          "warningCodes": [
+            "PP0023"
+          ],
+          "diagnostics": [
+            {
+              "severity": "Information",
+              "errorCode": "PP8000",
+              "message": "Result of Math.random() is made deterministic via a fixed mathRandomSeed",
+              "location": {
+                "line": 1302,
+                "column": 11,
+                "snippet": ", px = Math.random();"
+              }
+            },
+            {
+              "severity": "Warning",
+              "errorCode": "PP0023",
+              "message": "Program may terminate with exception: not an object\n  TypeError: not an object\n    at handlebars-app.js:2665:53\n    at handlebars-app.js:2663:4\n    at handlebars-app.js:222:2\n    at __webpack_require__ (handlebars-app.js:56:12)\n    at handlebars-app.js:89:27\n    at __webpack_require__ (handlebars-app.js:56:12)\n    at handlebars-app.js:76:18\n    at handlebars-app.js:37:17\n    at webpackUniversalModuleDefinition (handlebars-app.js:35:24)\n    at handlebars-app.js:27:1",
+              "location": {
+                "line": 2665,
+                "column": 53,
+                "snippet": "...Object.prototype.__defineGetter__('__magic__', function () {"
+              }
+            }
+          ],
+          "vmResult": "TypeError: not an object",
+          "nodeResult": "exit 1: /tmp/opencode/pp-bench-run-tuRuo0/handlebars-app-node-react-10483-wwkubqcaibt.js:56 |   throw _7; |   ^ | TypeError: not an object"
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "WRONG",
+          "compileMs": 1841,
+          "outBytes": 2428,
+          "errorCode": "PP0023",
+          "message": "VM runtime threw: TypeError: not an object",
+          "location": {
+            "line": 2665,
+            "column": 53,
+            "snippet": "...Object.prototype.__defineGetter__('__magic__', function () {"
+          },
+          "warningCodes": [
+            "PP0023"
+          ],
+          "diagnostics": [
+            {
+              "severity": "Information",
+              "errorCode": "PP8000",
+              "message": "Result of Math.random() is made deterministic via a fixed mathRandomSeed",
+              "location": {
+                "line": 1302,
+                "column": 11,
+                "snippet": ", px = Math.random();"
+              }
+            },
+            {
+              "severity": "Warning",
+              "errorCode": "PP0023",
+              "message": "Program may terminate with exception: not an object\n  TypeError: not an object\n    at handlebars-app.js:2665:53\n    at handlebars-app.js:2663:4\n    at handlebars-app.js:222:2\n    at __webpack_require__ (handlebars-app.js:56:12)\n    at handlebars-app.js:89:27\n    at __webpack_require__ (handlebars-app.js:56:12)\n    at handlebars-app.js:76:18\n    at handlebars-app.js:37:17\n    at webpackUniversalModuleDefinition (handlebars-app.js:35:24)\n    at handlebars-app.js:27:1",
+              "location": {
+                "line": 2665,
+                "column": 53,
+                "snippet": "...Object.prototype.__defineGetter__('__magic__', function () {"
+              }
+            }
+          ],
+          "vmResult": "TypeError: not an object",
+          "nodeResult": "exit 1: /tmp/opencode/pp-bench-run-tuRuo0/handlebars-app-lazy-objects-10532-wggoozc6kmq.js:132 |   throw _7; |   ^ | TypeError: not an object"
+        }
+      ],
+      "perf": null
+    },
+    {
+      "id": "preact-ssr-app",
+      "name": "Preact SSR App (init + runtime renderToString)",
+      "kind": "app-workload",
+      "buildType": "umd+app-init",
+      "description": "App workload: Preact + preact-render-to-string renders a multi-component documentation dashboard at module init and exposes dynamic SSR at runtime.",
+      "bytes": 22477,
+      "sha256": "615ac42b96098766976af0e1ff0f408231eebfed31c81af0ebd5d7fc4df97de0",
+      "packages": [
+        {
+          "name": "preact",
+          "version": "10.29.0",
+          "license": "MIT",
+          "homepage": "https://preactjs.com"
+        },
+        {
+          "name": "preact-render-to-string",
+          "version": "6.6.7",
+          "license": "MIT",
+          "homepage": "https://github.com/preactjs/preact-render-to-string"
+        }
+      ],
+      "expectedDigest": "674899a26ea2bc86dd2fe9a2fddc159b82173a406b4e1132ac5adfc583b59959",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 1407,
+        "outBytes": 35975
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1407,
+          "outBytes": 35975,
+          "quickVmMs": 11.635,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1520,
+          "outBytes": 38320,
+          "quickVmMs": 1.567,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 1480,
+          "outBytes": 38320,
+          "quickVmMs": 2.416,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "WRONG",
+          "compileMs": 386,
+          "outBytes": 616,
+          "errorCode": "PP0023",
+          "message": "VM runtime threw: ReferenceError: self is not defined",
+          "location": {
+            "line": 1,
+            "column": 11134,
+            "snippet": "...,e},options:t},typeof module<\"u\"?module.exports=p:self.preact=p});"
+          },
+          "warningCodes": [
+            "PP0023"
+          ],
+          "diagnostics": [
+            {
+              "severity": "Warning",
+              "errorCode": "PP0023",
+              "message": "Program may terminate with exception: self is not defined\n  ReferenceError: self is not defined\n    at preact-ssr-app.js:1:11134\n    at preact-ssr-app.js:1:62\n    at preact-ssr-app.js:1:2",
+              "location": {
+                "line": 1,
+                "column": 11134,
+                "snippet": "...,e},options:t},typeof module<\"u\"?module.exports=p:self.preact=p});"
+              }
+            }
+          ],
+          "vmResult": "ReferenceError: self is not defined",
+          "nodeResult": "exit 1: /tmp/opencode/pp-bench-run-tuRuo0/preact-ssr-app-jsc-10624-x3iyzyf0i4.js:27 |   throw _0; |   ^ | ReferenceError: self is not defined"
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "WRONG",
+          "compileMs": 757,
+          "outBytes": 37017,
+          "errorCode": "PP0023",
+          "message": "VM runtime threw: ReferenceError: module is not defined",
+          "location": {
+            "line": 10,
+            "column": 11,
+            "snippet": "var h = root.preact.h;"
+          },
+          "warningCodes": [
+            "PP0023"
+          ],
+          "diagnostics": [
+            {
+              "severity": "Warning",
+              "errorCode": "PP0023",
+              "message": "Program may terminate with exception: null or undefined\n  TypeError: null or undefined\n    at preact-ssr-app.js:10:11\n    at preact-ssr-app.js:9:2",
+              "location": {
+                "line": 10,
+                "column": 11,
+                "snippet": "var h = root.preact.h;"
+              }
+            }
+          ],
+          "vmResult": "ReferenceError: module is not defined",
+          "nodeResult": "exit 1: /tmp/opencode/pp-bench-run-tuRuo0/preact-ssr-app-node-react-10645-ukpybhsestn.js:1230 |   module.exports = _0; |                  ^ | "
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "OK",
+          "compileMs": 1372,
+          "outBytes": 36851,
+          "quickVmMs": null,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 25.274,
+            "p90": 29.756,
+            "mean": 26.242,
+            "min": 21.547,
+            "max": 38.449
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 26.476,
+              "p90": 30.998,
+              "mean": 27.616,
+              "min": 23.374,
+              "max": 46.783
+            },
+            "net": {
+              "median": 1.202,
+              "p90": 5.724,
+              "mean": 2.342
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 24.931,
+              "p90": 27.964,
+              "mean": 25.422,
+              "min": 21.923,
+              "max": 32.8
+            },
+            "net": {
+              "median": 0,
+              "p90": 2.69,
+              "mean": 0.148
+            }
+          },
+          "speedupRaw": 1.062,
+          "speedupNet": null
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.314,
+            "p90": 0.346,
+            "mean": 0.382,
+            "min": 0.27,
+            "max": 2.302,
+            "cachedDataBytes": 5208
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.253,
+            "p90": 0.275,
+            "mean": 0.265,
+            "min": 0.209,
+            "max": 0.548,
+            "cachedDataBytes": 14464
+          },
+          "speedup": 1.241
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.308,
+            "p90": 0.331,
+            "mean": 0.309,
+            "min": 0.258,
+            "max": 0.363
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.24,
+            "p90": 0.257,
+            "mean": 0.255,
+            "min": 0.217,
+            "max": 0.728
+          },
+          "speedup": 1.283
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6313802,
+          "blobGzipBytes": 2319197,
+          "baseline": {
+            "n": 30,
+            "median": 26.517,
+            "p90": 31.306,
+            "mean": 26.921,
+            "min": 22.372,
+            "max": 35.491
+          },
+          "raw": {
+            "n": 30,
+            "median": 30.701,
+            "p90": 37.275,
+            "mean": 32.077,
+            "min": 26.999,
+            "max": 46.211
+          },
+          "net": {
+            "median": 4.184,
+            "p90": 10.758,
+            "mean": 5.56
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 22477,
+            "terser": 21712,
+            "gzip": 8850,
+            "brotli": 8666,
+            "rawGzip": 9133,
+            "rawBrotli": 8951
+          },
+          "prepacked": {
+            "raw": 35975,
+            "terser": 22568,
+            "gzip": 8992,
+            "brotli": 8763,
+            "rawGzip": 10680,
+            "rawBrotli": 10371
+          },
+          "ratios": {
+            "raw": 1.601,
+            "terser": 1.039,
+            "gzip": 1.016,
+            "brotli": 1.011
+          }
+        }
+      }
+    },
+    {
+      "id": "react-ssr-app",
+      "name": "React 18 SSR App (init + runtime renderToString)",
+      "kind": "app-workload",
+      "buildType": "umd+app-init",
+      "description": "App workload: React 18 + ReactDOMServer legacy browser bundle renders a multi-component storefront catalog at module init and serves runtime SSR.",
+      "bytes": 48145,
+      "sha256": "fa49335517c8b0262fd9ca79ee90946cae439a6619de1588a846e1dbcd931eb9",
+      "packages": [
+        {
+          "name": "react",
+          "version": "18.3.1",
+          "license": "MIT",
+          "homepage": "https://reactjs.org/"
+        },
+        {
+          "name": "react-dom",
+          "version": "18.3.1",
+          "license": "MIT",
+          "homepage": "https://reactjs.org/"
+        }
+      ],
+      "expectedDigest": "8fb06297245cf9cc8598fa7967fe7e9c974a99cb9319ddb7a634111963196ae3",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 2448,
+        "outBytes": 128244
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2448,
+          "outBytes": 128244,
+          "quickVmMs": 14.538,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 3040,
+          "outBytes": 155521,
+          "quickVmMs": 4.542,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 3002,
+          "outBytes": 155521,
+          "quickVmMs": 4.443,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "WRONG",
+          "compileMs": 507,
+          "outBytes": 614,
+          "errorCode": "PP0023",
+          "message": "VM runtime threw: ReferenceError: self is not defined",
+          "location": {
+            "line": 10,
+            "column": 174,
+            "snippet": "...of define&&define.amd?define([\"exports\"],x):(c=c||self,x(c.React={}))})(this,function(c){function x(a){if(null===a||\"object\"!==typeof a)retu..."
+          },
+          "warningCodes": [
+            "PP0023"
+          ],
+          "diagnostics": [
+            {
+              "severity": "Warning",
+              "errorCode": "PP0023",
+              "message": "Program may terminate with exception: self is not defined\n  ReferenceError: self is not defined\n    at react-ssr-app.js:10:174\n    at react-ssr-app.js:10:26\n    at react-ssr-app.js:10:1",
+              "location": {
+                "line": 10,
+                "column": 174,
+                "snippet": "...of define&&define.amd?define([\"exports\"],x):(c=c||self,x(c.React={}))})(this,function(c){function x(a){if(null===a||\"object\"!==typeof a)retu..."
+              }
+            }
+          ],
+          "vmResult": "ReferenceError: self is not defined",
+          "nodeResult": "exit 1: /tmp/opencode/pp-bench-run-tuRuo0/react-ssr-app-jsc-10748-1fb4ufdmo8aj.js:27 |   throw _0; |   ^ | ReferenceError: self is not defined"
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 2919,
+          "outBytes": 155521,
+          "quickVmMs": 6.818,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "OK",
+          "compileMs": 2487,
+          "outBytes": 134234,
+          "quickVmMs": null,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 25.4,
+            "p90": 32.743,
+            "mean": 27.984,
+            "min": 20.353,
+            "max": 57.556
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 30.644,
+              "p90": 38.452,
+              "mean": 33.775,
+              "min": 25.8,
+              "max": 75.968
+            },
+            "net": {
+              "median": 5.244,
+              "p90": 13.052,
+              "mean": 8.375
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 30.775,
+              "p90": 38.156,
+              "mean": 33.516,
+              "min": 25.828,
+              "max": 76.518
+            },
+            "net": {
+              "median": 5.375,
+              "p90": 12.756,
+              "mean": 8.116
+            }
+          },
+          "speedupRaw": 0.996,
+          "speedupNet": 0.976
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 0.947,
+            "p90": 0.985,
+            "mean": 0.941,
+            "min": 0.803,
+            "max": 1.005,
+            "cachedDataBytes": 6632
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.294,
+            "p90": 1.351,
+            "mean": 1.283,
+            "min": 1.121,
+            "max": 1.411,
+            "cachedDataBytes": 67808
+          },
+          "speedup": 0.732
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 0.971,
+            "p90": 1.046,
+            "mean": 0.962,
+            "min": 0.738,
+            "max": 1.211
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 1.34,
+            "p90": 1.891,
+            "mean": 1.757,
+            "min": 1.013,
+            "max": 10.571
+          },
+          "speedup": 0.725
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6552072,
+          "blobGzipBytes": 2408686,
+          "baseline": {
+            "n": 30,
+            "median": 24.824,
+            "p90": 28.565,
+            "mean": 25.307,
+            "min": 21.401,
+            "max": 31.653
+          },
+          "raw": {
+            "n": 30,
+            "median": 30.672,
+            "p90": 34.372,
+            "mean": 31.041,
+            "min": 27.178,
+            "max": 41.547
+          },
+          "net": {
+            "median": 5.848,
+            "p90": 9.548,
+            "mean": 6.217
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 48145,
+            "terser": 46203,
+            "gzip": 15568,
+            "brotli": 14716,
+            "rawGzip": 16183,
+            "rawBrotli": 15321
+          },
+          "prepacked": {
+            "raw": 128244,
+            "terser": 81312,
+            "gzip": 21517,
+            "brotli": 18947,
+            "rawGzip": 25271,
+            "rawBrotli": 21862
+          },
+          "ratios": {
+            "raw": 2.664,
+            "terser": 1.76,
+            "gzip": 1.382,
+            "brotli": 1.288
+          }
+        }
+      }
+    },
+    {
+      "id": "yaml-router-app",
+      "name": "YAML Config + Mustache + Router App",
+      "kind": "app-workload",
+      "buildType": "umd+app-init",
+      "description": "Init-heavy app workload: parses a 95-line YAML service/route manifest with js-yaml, compiles 10 parameterized REST routes into RegExps, and pre-parses Mustache views at module init.",
+      "bytes": 160859,
+      "sha256": "35307b56baa043503991dc35089e588861a1f5333935f90297eca01034f7d795",
+      "packages": [
+        {
+          "name": "js-yaml",
+          "version": "4.3.2",
+          "license": "MIT",
+          "homepage": null
+        },
+        {
+          "name": "mustache",
+          "version": "4.2.0",
+          "license": "MIT",
+          "homepage": "https://github.com/janl/mustache.js"
+        }
+      ],
+      "expectedDigest": "f8ff1c9fed0a12155379c9e9f9d39320af898a89c7907a9876980910a1e7999a",
+      "defaultStatus": "OK",
+      "status": "OK",
+      "bestProfile": {
+        "profile": "default",
+        "cliFlags": "(defaults: --compatibility browser)",
+        "compileMs": 7233,
+        "outBytes": 130593
+      },
+      "primaryBlocker": null,
+      "profiles": [
+        {
+          "profile": "default",
+          "cliFlags": "(defaults: --compatibility browser)",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 7233,
+          "outBytes": 130593,
+          "quickVmMs": 3.414,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-opt",
+          "cliFlags": "--compatibility browser --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 6709,
+          "outBytes": 139808,
+          "quickVmMs": 3.444,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "browser-seed",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 6342,
+          "outBytes": 139808,
+          "quickVmMs": 7.264,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "jsc",
+          "cliFlags": "--compatibility jsc-600-1-4-17 --mathRandomSeed 0",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 6847,
+          "outBytes": 130269,
+          "quickVmMs": 5.269,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "node-react",
+          "cliFlags": "--compatibility node-react --reactEnabled --mathRandomSeed 0 --delayInitializations --inlineExpressions",
+          "eligibleForNodePerf": true,
+          "status": "OK",
+          "compileMs": 4466,
+          "outBytes": 139808,
+          "quickVmMs": 0.75,
+          "warningCodes": [],
+          "infoCodes": []
+        },
+        {
+          "profile": "lazy-objects",
+          "cliFlags": "--compatibility browser --mathRandomSeed 0 --lazyObjectsRuntime LazyObjectsRuntime",
+          "eligibleForNodePerf": false,
+          "status": "OK",
+          "compileMs": 4156,
+          "outBytes": 140837,
+          "quickVmMs": null,
+          "warningCodes": [],
+          "infoCodes": []
+        }
+      ],
+      "perf": {
+        "coldProcess": {
+          "baseline": {
+            "n": 30,
+            "median": 26.413,
+            "p90": 29.593,
+            "mean": 26.047,
+            "min": 21.949,
+            "max": 32.731
+          },
+          "orig": {
+            "raw": {
+              "n": 30,
+              "median": 33.248,
+              "p90": 40.271,
+              "mean": 34.382,
+              "min": 28.956,
+              "max": 42.536
+            },
+            "net": {
+              "median": 6.835,
+              "p90": 13.858,
+              "mean": 7.969
+            }
+          },
+          "prepacked": {
+            "raw": {
+              "n": 30,
+              "median": 30.804,
+              "p90": 32.818,
+              "mean": 30.615,
+              "min": 26.182,
+              "max": 38.128
+            },
+            "net": {
+              "median": 4.391,
+              "p90": 6.405,
+              "mean": 4.202
+            }
+          },
+          "speedupRaw": 1.079,
+          "speedupNet": 1.557
+        },
+        "vmCodeCache": {
+          "orig": {
+            "n": 30,
+            "median": 1.499,
+            "p90": 1.666,
+            "mean": 1.766,
+            "min": 1.425,
+            "max": 5.578,
+            "cachedDataBytes": 13736
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.575,
+            "p90": 0.653,
+            "mean": 0.584,
+            "min": 0.548,
+            "max": 0.679,
+            "cachedDataBytes": 51952
+          },
+          "speedup": 2.607
+        },
+        "vmExecOnly": {
+          "orig": {
+            "n": 30,
+            "median": 1.431,
+            "p90": 1.494,
+            "mean": 1.454,
+            "min": 1.393,
+            "max": 1.907
+          },
+          "prepacked": {
+            "n": 30,
+            "median": 0.571,
+            "p90": 0.635,
+            "mean": 0.584,
+            "min": 0.534,
+            "max": 0.762
+          },
+          "speedup": 2.506
+        },
+        "nodeSnapshot": {
+          "supported": true,
+          "blobBytes": 6704730,
+          "blobGzipBytes": 2381884,
+          "baseline": {
+            "n": 30,
+            "median": 25.71,
+            "p90": 29.526,
+            "mean": 26.308,
+            "min": 20.622,
+            "max": 36.666
+          },
+          "raw": {
+            "n": 30,
+            "median": 31.68,
+            "p90": 39.589,
+            "mean": 33.678,
+            "min": 27.609,
+            "max": 51.817
+          },
+          "net": {
+            "median": 5.97,
+            "p90": 13.879,
+            "mean": 7.968
+          }
+        },
+        "sizes": {
+          "orig": {
+            "raw": 160859,
+            "terser": 53019,
+            "gzip": 17605,
+            "brotli": 16949,
+            "rawGzip": 30163,
+            "rawBrotli": 28148
+          },
+          "prepacked": {
+            "raw": 130593,
+            "terser": 60806,
+            "gzip": 18562,
+            "brotli": 17788,
+            "rawGzip": 26647,
+            "rawBrotli": 25029
+          },
+          "ratios": {
+            "raw": 0.812,
+            "terser": 1.147,
+            "gzip": 1.054,
+            "brotli": 1.05
+          }
+        }
+      }
+    }
+  ]
+}

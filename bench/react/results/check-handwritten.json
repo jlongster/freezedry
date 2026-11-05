@@ -1,0 +1,28 @@
+{
+  "impl": "handwritten (hand-specialized string concatenation)",
+  "implPath": "/tmp/opencode/pp-wt/react-bench/react-bench/impl/handwritten.js",
+  "corpusFingerprint": "4fafe7d601e3561d",
+  "total": 500,
+  "pass": 500,
+  "fail": 0,
+  "throws": 0,
+  "mismatches": 0,
+  "prepareMs": 0.3,
+  "generatedCode": {
+    "measuredFrom": "explicit",
+    "bytes": 25078,
+    "kb": 24.49,
+    "gzipBytes": 7930,
+    "gzipKb": 7.74,
+    "lines": 669
+  },
+  "appSource": {
+    "bytes": 31446,
+    "kb": 30.71,
+    "gzipBytes": 8027,
+    "gzipKb": 7.84,
+    "lines": 944
+  },
+  "stats": null,
+  "failures": []
+}

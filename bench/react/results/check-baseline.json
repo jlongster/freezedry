@@ -1,0 +1,28 @@
+{
+  "impl": "baseline (ReactDOMServer.renderToString)",
+  "implPath": "/tmp/opencode/pp-wt/react-bench/react-bench/impl/baseline.js",
+  "corpusFingerprint": "4fafe7d601e3561d",
+  "total": 500,
+  "pass": 500,
+  "fail": 0,
+  "throws": 0,
+  "mismatches": 0,
+  "prepareMs": 4.7,
+  "generatedCode": {
+    "measuredFrom": "explicit",
+    "bytes": 31446,
+    "kb": 30.71,
+    "gzipBytes": 8027,
+    "gzipKb": 7.84,
+    "lines": 944
+  },
+  "appSource": {
+    "bytes": 31446,
+    "kb": 30.71,
+    "gzipBytes": 8027,
+    "gzipKb": 7.84,
+    "lines": 944
+  },
+  "stats": null,
+  "failures": []
+}

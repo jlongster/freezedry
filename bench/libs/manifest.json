@@ -1,0 +1,535 @@
+{
+  "generatedBy": "bench/setup.js",
+  "count": 22,
+  "totalBytes": 25352367,
+  "libraries": [
+    {
+      "id": "lodash",
+      "name": "Lodash",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Utility library; module init constructs LodashWrapper/LazyWrapper prototypes, 300+ methods, and lookup tables.",
+      "file": "libs/dist/lodash.js",
+      "bytes": 545945,
+      "sha256": "f5465f55566bf544aad0a31c6135889ca1ed81eea8f53ec61c6cbe86926f07cf",
+      "expectedDigest": "e1d643c02fcccd4ddb7da3a6786777134682d3e929a08445e9864a54c3a7080d",
+      "expectedPreview": "{\"version\":\"4.18.1\",\"chunk\":[[\"a\",\"b\"],[\"c\",\"d\"],[\"e\"]],\"camel\":\"fooBarBaz\",\"kebab\":\"foo-bar-baz\",\"uniq\":[2.1,1.2],\"grouped\":{\"eng\":[\"pebbles\",\"fred\"],\"ops\":[\"wilma\",\"barney\"]},\"me",
+      "packages": [
+        {
+          "name": "lodash",
+          "version": "4.18.1",
+          "license": "MIT",
+          "homepage": "https://lodash.com/"
+        }
+      ]
+    },
+    {
+      "id": "underscore",
+      "name": "Underscore",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Functional utility library; module init performs environment feature checks and mixes 100+ functions onto `_.prototype`.",
+      "file": "libs/dist/underscore.js",
+      "bytes": 68916,
+      "sha256": "68613bd4f104eb2316b2c78b5705932bd1eaaaa5e00b49a796cb4d95c492d4fb",
+      "expectedDigest": "a827860f401532bb2dd355bc38840895e7bdd7dd523a15d6c0eafe3701ee92a1",
+      "expectedPreview": "{\"version\":\"1.13.8\",\"sums\":{\"a\":25,\"b\":25,\"c\":5},\"sorted\":[5,10,15,25],\"zip\":[[\"x\",1,true],[\"y\",2,false]],\"flatten\":[1,2,3,4],\"chain\":[9,12,15],\"tpl\":\"item:7:&lt;b&gt;ok&lt;/b&gt;\"",
+      "packages": [
+        {
+          "name": "underscore",
+          "version": "1.13.8",
+          "license": "MIT",
+          "homepage": "https://underscorejs.org"
+        }
+      ]
+    },
+    {
+      "id": "ramda",
+      "name": "Ramda",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Point-free curried functional library; module init wraps 250+ combinators in _curry1/_curry2/_curry3 dispatchers.",
+      "file": "libs/dist/ramda.js",
+      "bytes": 351114,
+      "sha256": "f1b41513b80db800af76bb5498d0198ad4c915bab64d53189b0c8ac9fcf1eeb1",
+      "expectedDigest": "9ee3d696586d37609c4228cb5cd95753a6d24b472b9059827abf669793425c9a",
+      "expectedPreview": "{\"transformed\":[{\"name\":\"BOB\",\"age\":32},{\"name\":\"CHARLIE\",\"age\":26}],\"lensed\":{\"coords\":{\"x\":40,\"y\":9}},\"grouped\":{\"odd\":[1,3,5],\"even\":[2,4]},\"zipObj\":{\"a\":10,\"b\":20,\"c\":30},\"unne",
+      "packages": [
+        {
+          "name": "ramda",
+          "version": "0.32.0",
+          "license": "MIT",
+          "homepage": "https://ramdajs.com/"
+        }
+      ]
+    },
+    {
+      "id": "immutable",
+      "name": "Immutable.js",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Persistent HAMT/trie collections (Map, List, Set, OrderedMap, Record); builds prototype hierarchies and sentinels at init.",
+      "file": "libs/dist/immutable.js",
+      "bytes": 179561,
+      "sha256": "108ab02dce98946d0c9bdcecb9e3235575943e2a333e236643e9061de254dd7d",
+      "expectedDigest": "fd731766e776855f639ad3e9c609ee040fa70a992a92368bb488e72680df77bf",
+      "expectedPreview": "{\"m1b\":2,\"m2b\":20,\"equal\":true,\"sameHash\":true,\"list\":[10,20,30,40],\"nestedOrig\":{\"user\":{\"roles\":[\"viewer\",\"editor\"],\"count\":2}},\"nestedNext\":{\"user\":{\"roles\":[\"viewer\",\"editor\",\"",
+      "packages": [
+        {
+          "name": "immutable",
+          "version": "4.3.9",
+          "license": "MIT",
+          "homepage": "https://immutable-js.com"
+        }
+      ]
+    },
+    {
+      "id": "moment",
+      "name": "Moment.js (with locales)",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Init-heavy date/time library with 135+ bundled locales registered via defineLocale() and regex token tables built at load.",
+      "file": "libs/dist/moment.js",
+      "bytes": 653144,
+      "sha256": "6b4445e1ee801bdcc1d42196163ae745f71d3b52a12a50246999fd7067250496",
+      "expectedDigest": "5eb06d4660574575aa524f26071df2869ec0207dd63520e73145fe877aaba76d",
+      "expectedPreview": "{\"version\":\"2.31.0\",\"localeCount\":140,\"iso\":\"2026-03-25T11:25:00.000Z\",\"en\":\"Sunday, March 15th 2026, 14:25\",\"fr\":\"dimanche 15 mars 2026 14:25\",\"de\":\"Sonntag, 15. März 2026 14:25\",",
+      "packages": [
+        {
+          "name": "moment",
+          "version": "2.31.0",
+          "license": "MIT",
+          "homepage": "https://momentjs.com"
+        }
+      ]
+    },
+    {
+      "id": "chroma-js",
+      "name": "chroma.js",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Color conversion & scale library; module init registers RGB/HSL/Lab/LCH/CMYK color spaces, ColorBrewer palettes, and W3C named colors.",
+      "file": "libs/dist/chroma-js.js",
+      "bytes": 111861,
+      "sha256": "26a2e532b90f6d97639cd96d5054dd0abc2fcd55554086cf11ae8c874ed66c6d",
+      "expectedDigest": "b01b234de9a20138feec1b3e17395362a0b0bb07c4e32159bb1ef23596edd65b",
+      "expectedPreview": "{\"version\":\"2.4.2\",\"scale\":[\"#fafa6e\",\"#86d780\",\"#23aa8f\",\"#007882\",\"#2a4858\"],\"bezier\":[\"#ffff00\",\"#e78e03\",\"#8a370e\",\"#000000\"],\"lab\":[42.01,-0.15,-32.85],\"luminance\":0.1251,\"con",
+      "packages": [
+        {
+          "name": "chroma-js",
+          "version": "2.4.2",
+          "license": "(BSD-3-Clause AND Apache-2.0)",
+          "homepage": "https://github.com/gka/chroma.js"
+        }
+      ]
+    },
+    {
+      "id": "acorn",
+      "name": "Acorn",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "ECMAScript parser; module init builds token types, keyword regexes, operator precedence tables, and Unicode identifier bitmaps.",
+      "file": "libs/dist/acorn.js",
+      "bytes": 246643,
+      "sha256": "b95392d79457d0357555c5ed3e56302d074b92dff119bcf3b44179500b10e9df",
+      "expectedDigest": "4ce0f511963f7a8de7c1235e41632ba22a44efda335a3f1b5a268b4177187bc5",
+      "expectedPreview": "{\"version\":\"8.19.0\",\"topTypes\":[\"VariableDeclaration\",\"ClassDeclaration\",\"ExportNamedDeclaration\"],\"classMethods\":[\"constructor:constructor\",\"inc:method\"],\"endLine\":3,\"tokCount\":72",
+      "packages": [
+        {
+          "name": "acorn",
+          "version": "8.19.0",
+          "license": "MIT",
+          "homepage": "https://github.com/acornjs/acorn"
+        }
+      ]
+    },
+    {
+      "id": "crc-32",
+      "name": "SheetJS crc-32",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Lookup-table CRC-32 implementation; module init computes a 256-entry table and 16 slice-by-16 Int32Array subtables (4,096 entries).",
+      "file": "libs/dist/crc-32.js",
+      "bytes": 3702,
+      "sha256": "a28a8c436612ebe06a43f893dd5729392a59426f0a0cec0bb32f0879855f2c38",
+      "expectedDigest": "8305c7857f3abf1b6a152f2484357a0dfbe0949384ebbf4179d15be59bf4eaba",
+      "expectedPreview": "{\"version\":\"1.2.2\",\"str\":1095738169,\"utf8\":1285363392,\"bstr\":-873187034,\"buf\":27662903,\"seeded\":222957957}",
+      "packages": [
+        {
+          "name": "crc-32",
+          "version": "1.2.2",
+          "license": "Apache-2.0",
+          "homepage": "https://sheetjs.com/"
+        }
+      ]
+    },
+    {
+      "id": "marked",
+      "name": "Marked",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Markdown parser & compiler; module init constructs GFM/pedantic/normal block and inline grammar regex tables.",
+      "file": "libs/dist/marked.js",
+      "bytes": 50548,
+      "sha256": "c34a221dc89e91833a88822e7717b8a0cf27118f8c9a8779dffb48a6be31f97a",
+      "expectedDigest": "c92f2c0ca64839614ca45b811cd9c02f1590e68b8fd34e6dcf567329cc4f06b6",
+      "expectedPreview": "{\"tokenTypes\":[\"heading\",\"space\",\"paragraph\",\"space\",\"list\",\"space\",\"table\"],\"htmlLen\":274,\"hasTable\":true,\"hasStrong\":true}",
+      "packages": [
+        {
+          "name": "marked",
+          "version": "18.1.3",
+          "license": "MIT",
+          "homepage": "https://marked.js.org"
+        }
+      ]
+    },
+    {
+      "id": "d3-scale",
+      "name": "D3 Scale + Array",
+      "kind": "library",
+      "tier": "standard",
+      "buildType": "umd",
+      "description": "Data visualization quantitative/ordinal/time scales, array statistics, formatters, and color interpolators initialized on `d3`.",
+      "file": "libs/dist/d3-scale.js",
+      "bytes": 152468,
+      "sha256": "5308348557b16b01fa8c3e77742d36df8a8d80a1bdc92fdaa62ee824e9cf0732",
+      "expectedDigest": "a67ea8e596acde3a05183b09db9cd556d8d18555c52bc47abb8083231b945204",
+      "expectedPreview": "{\"lin25\":125,\"invert250\":50,\"ticks\":[0,20,40,60,80,100],\"bandQ2\":105.26,\"bandwidth\":84.21,\"colorMid\":\"rgb(128, 0, 128)\",\"extent\":[-3,42],\"quantile\":30,\"formatted\":\"42M\"}",
+      "packages": [
+        {
+          "name": "d3-scale",
+          "version": "4.0.3",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-scale/"
+        },
+        {
+          "name": "d3-array",
+          "version": "3.2.5",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-array/"
+        },
+        {
+          "name": "d3-interpolate",
+          "version": "3.0.2",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-interpolate/"
+        },
+        {
+          "name": "d3-color",
+          "version": "3.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-color/"
+        },
+        {
+          "name": "d3-format",
+          "version": "3.1.3",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-format/"
+        },
+        {
+          "name": "d3-time",
+          "version": "3.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-time/"
+        },
+        {
+          "name": "d3-time-format",
+          "version": "4.1.1",
+          "license": "ISC",
+          "homepage": "https://d3js.org/d3-time-format/"
+        },
+        {
+          "name": "internmap",
+          "version": "2.0.3",
+          "license": "ISC",
+          "homepage": "https://github.com/mbostock/internmap/"
+        }
+      ]
+    },
+    {
+      "id": "redux",
+      "name": "Redux (store + middleware init)",
+      "kind": "app-workload",
+      "tier": "standard",
+      "buildType": "esbuild-iife",
+      "description": "Redux bundled into an ES2015 IIFE; module init composes reducers, applies logging/validation middleware, creates a store, and dispatches seed actions.",
+      "file": "libs/dist/redux.js",
+      "bytes": 18502,
+      "sha256": "8c87730f3d9266ff288dff4c3f0450358f7498908bd45cad6900e187738c7cd3",
+      "expectedDigest": "a852447e6f5c405c365ecfbaac3f9c61332bcf22f16ef00f2bd6668dae8c8ae9",
+      "expectedPreview": "{\"bootTodos\":[{\"id\":1,\"text\":\"build corpus\",\"done\":true},{\"id\":2,\"text\":\"measure startup\",\"done\":false}],\"bootLast\":\"TOGGLE_TODO\",\"nextTodos\":[{\"id\":1,\"text\":\"alpha\",\"done\":false},",
+      "packages": [
+        {
+          "name": "redux",
+          "version": "5.0.1",
+          "license": "MIT",
+          "homepage": "http://redux.js.org"
+        }
+      ]
+    },
+    {
+      "id": "handlebars-app",
+      "name": "Handlebars (init template compile)",
+      "kind": "app-workload",
+      "tier": "standard",
+      "buildType": "umd+app-init",
+      "description": "App workload: loads Handlebars compiler+runtime, registers helpers/partials, compiles an invoice template AST to JS, and renders a boot view at module init.",
+      "file": "libs/dist/handlebars-app.js",
+      "bytes": 217023,
+      "sha256": "989d3a40a1bf42e09115b43372dfd1f3ebe3c8a2dfe667b27bebee89ec61a1ea",
+      "expectedDigest": "fdc9d4795ebcd542648a92a93dadd6328bbe209c203a10e7f153ee7a399ec39f",
+      "expectedPreview": "{\"bootHtml\":\"<section class=\\\"invoice\\\" data-id=\\\"INV-100\\\">\\n  <h1>Invoice for Acme Corp</h1>\\n  <ul><li>KB-01: 2 x $89.75</li><li>MS-02: 1 x $140.00</li></ul>\\n  <p class=\\\"due\\\"",
+      "packages": [
+        {
+          "name": "handlebars",
+          "version": "4.7.10",
+          "license": "MIT",
+          "homepage": "https://handlebarsjs.com/"
+        }
+      ]
+    },
+    {
+      "id": "preact-ssr-app",
+      "name": "Preact SSR App (init + runtime renderToString)",
+      "kind": "app-workload",
+      "tier": "standard",
+      "buildType": "umd+app-init",
+      "description": "App workload: Preact + preact-render-to-string renders a multi-component documentation dashboard at module init and exposes dynamic SSR at runtime.",
+      "file": "libs/dist/preact-ssr-app.js",
+      "bytes": 22477,
+      "sha256": "615ac42b96098766976af0e1ff0f408231eebfed31c81af0ebd5d7fc4df97de0",
+      "expectedDigest": "674899a26ea2bc86dd2fe9a2fddc159b82173a406b4e1132ac5adfc583b59959",
+      "expectedPreview": "{\"bootHtml\":\"<main id=\\\"dashboard\\\" data-env=\\\"prod\\\"><nav class=\\\"top-nav\\\"><a href=\\\"/\\\" class=\\\"is-active\\\">Overview</a><a href=\\\"/traces\\\" class>Traces</a><a href=\\\"/alerts\\\" c",
+      "packages": [
+        {
+          "name": "preact",
+          "version": "10.29.0",
+          "license": "MIT",
+          "homepage": "https://preactjs.com"
+        },
+        {
+          "name": "preact-render-to-string",
+          "version": "6.6.7",
+          "license": "MIT",
+          "homepage": "https://github.com/preactjs/preact-render-to-string"
+        }
+      ]
+    },
+    {
+      "id": "react-ssr-app",
+      "name": "React 18 SSR App (init + runtime renderToString)",
+      "kind": "app-workload",
+      "tier": "standard",
+      "buildType": "umd+app-init",
+      "description": "App workload: React 18 + ReactDOMServer legacy browser bundle renders a multi-component storefront catalog at module init and serves runtime SSR.",
+      "file": "libs/dist/react-ssr-app.js",
+      "bytes": 48145,
+      "sha256": "fa49335517c8b0262fd9ca79ee90946cae439a6619de1588a846e1dbcd931eb9",
+      "expectedDigest": "8fb06297245cf9cc8598fa7967fe7e9c974a99cb9319ddb7a634111963196ae3",
+      "expectedPreview": "{\"bootHtml\":\"<div id=\\\"storefront\\\" data-region=\\\"us-east\\\"><header><h1>Hardware Catalog</h1><p>3 ready to ship</p></header><table><tbody><tr><td>KB-87</td><td>Mechanical Keyboard<",
+      "packages": [
+        {
+          "name": "react",
+          "version": "18.3.1",
+          "license": "MIT",
+          "homepage": "https://reactjs.org/"
+        },
+        {
+          "name": "react-dom",
+          "version": "18.3.1",
+          "license": "MIT",
+          "homepage": "https://reactjs.org/"
+        }
+      ]
+    },
+    {
+      "id": "yaml-router-app",
+      "name": "YAML Config + Mustache + Router App",
+      "kind": "app-workload",
+      "tier": "standard",
+      "buildType": "umd+app-init",
+      "description": "Init-heavy app workload: parses a 95-line YAML service/route manifest with js-yaml, compiles 10 parameterized REST routes into RegExps, and pre-parses Mustache views at module init.",
+      "file": "libs/dist/yaml-router-app.js",
+      "bytes": 160859,
+      "sha256": "35307b56baa043503991dc35089e588861a1f5333935f90297eca01034f7d795",
+      "expectedDigest": "f8ff1c9fed0a12155379c9e9f9d39320af898a89c7907a9876980910a1e7999a",
+      "expectedPreview": "{\"summary\":\"Gateway edge-gateway@2.4.0: 10 routes across 4 upstreams\",\"cors\":[\"https://app.example.com\",\"https://admin.example.com\"],\"r1\":\"[200] GET &#x2F;v1&#x2F;users&#x2F;:userI",
+      "packages": [
+        {
+          "name": "js-yaml",
+          "version": "4.3.2",
+          "license": "MIT",
+          "homepage": null
+        },
+        {
+          "name": "mustache",
+          "version": "4.2.0",
+          "license": "MIT",
+          "homepage": "https://github.com/janl/mustache.js"
+        }
+      ]
+    },
+    {
+      "id": "moment-timezone",
+      "name": "Moment Timezone (full IANA data)",
+      "kind": "library",
+      "tier": "large",
+      "buildType": "umd",
+      "description": "Moment core + full Moment Timezone data (~0.91 MB); module init unpacks base-60 IANA transition tables and links for 590+ timezones.",
+      "file": "libs/dist/moment-timezone.js",
+      "bytes": 935184,
+      "sha256": "0ea838ff86d1210433ee4a06deb970eaa3428cd96152c20df7346cdd21e96548",
+      "expectedDigest": "691c1c533a28bd8eda4c9904563283448e64b848f5dc23958a651d188baec988",
+      "expectedPreview": "{\"tzVersion\":\"0.6.6\",\"dataVersion\":\"2026f\",\"zoneCount\":597,\"conversions\":[{\"zone\":\"America/New_York\",\"winter\":\"2026-01-15 13:30:00 EST (-05:00)\",\"winterDst\":false,\"summer\":\"2026-07",
+      "packages": [
+        {
+          "name": "moment",
+          "version": "2.31.0",
+          "license": "MIT",
+          "homepage": "https://momentjs.com"
+        },
+        {
+          "name": "moment-timezone",
+          "version": "0.6.6",
+          "license": "MIT",
+          "homepage": "http://momentjs.com/timezone/"
+        }
+      ]
+    },
+    {
+      "id": "prettier",
+      "name": "Prettier Standalone (+ Babel, PostCSS, HTML parsers)",
+      "kind": "library",
+      "tier": "large",
+      "buildType": "umd",
+      "description": "Prettier standalone formatter bundled with Babel, PostCSS, and HTML parser plugins (~1.07 MB); builds printer AST dispatchers and parser grammars at init.",
+      "file": "libs/dist/prettier.js",
+      "bytes": 1091154,
+      "sha256": "57052068ad0765e318560e3733505f7b467713a8ba7d5c9604bd890ee46f4073",
+      "expectedDigest": "3543f56ddc74997fd2da5caedc1d1b1c50518669180c64510db2f987f220836a",
+      "expectedPreview": "{\"version\":\"2.8.8\",\"js\":\"const compute = ({ items, taxRate = 0.08 }) =>\\n  items\\n    .filter((x) => x.qty > 0)\\n    .map((it, idx) => ({\\n      idx,\\n      sku: it.sku,\\n      gro",
+      "packages": [
+        {
+          "name": "prettier",
+          "version": "2.8.8",
+          "license": "MIT",
+          "homepage": "https://prettier.io"
+        }
+      ]
+    },
+    {
+      "id": "highlight-js",
+      "name": "Highlight.js (all 190+ languages)",
+      "kind": "library",
+      "tier": "large",
+      "buildType": "esbuild-iife",
+      "description": "Full Highlight.js syntax highlighter (~1.72 MB ES2015 IIFE); module init registers all 193 language grammar factories and freezes core tables.",
+      "file": "libs/dist/highlight-js.js",
+      "bytes": 1878500,
+      "sha256": "592d0303a6a14458765bba68e1938db467d9a2ea31ee116a336f3ecc6ec68f8a",
+      "expectedDigest": "602a65ad2637d1ce89d5151cc155d6a1ec39317b29b08813bfb43bf4345a50b4",
+      "expectedPreview": "{\"version\":\"11.12.0\",\"languageCount\":193,\"tsAliases\":[\"ts\",\"tsx\",\"mts\",\"cts\"],\"highlighted\":[{\"lang\":\"javascript\",\"relevance\":7,\"html\":\"<span class=\\\"hljs-keyword\\\">export</span> <",
+      "packages": [
+        {
+          "name": "highlight.js",
+          "version": "11.12.0",
+          "license": "BSD-3-Clause",
+          "homepage": "https://highlightjs.org/"
+        }
+      ]
+    },
+    {
+      "id": "three",
+      "name": "Three.js (math + scene graph)",
+      "kind": "library",
+      "tier": "large",
+      "buildType": "esbuild-iife",
+      "description": "Three.js 3D engine (~1.90 MB ES2015 IIFE); module init constructs math LUTs, color management spaces, shader chunks, uniform libraries, and geometry/material classes.",
+      "file": "libs/dist/three.js",
+      "bytes": 1960313,
+      "sha256": "68c8ed5011094b796fedda390d969ba8913b9d34cc7575b166ae97ff4203081c",
+      "expectedDigest": "e62c48c0a428d1007f56203a2d2682428ea30c9ea42f99d5960a5810ac2c092a",
+      "expectedPreview": "{\"revision\":\"187\",\"det\":8,\"identDiag\":[1,1,1,1],\"transformed\":[3,-4,10],\"rayHit\":[0,0,2],\"crateWorld\":[12.828427,7,-1.585786],\"crateNdc\":[0.612271,0.601435,0.990402],\"geoCount\":2,\"",
+      "packages": [
+        {
+          "name": "three",
+          "version": "0.187.0",
+          "license": "MIT",
+          "homepage": "https://threejs.org/"
+        }
+      ]
+    },
+    {
+      "id": "mathjs",
+      "name": "mathjs (eager typed-function registry)",
+      "kind": "library",
+      "tier": "large",
+      "buildType": "esbuild-iife",
+      "description": "Init-heavy math engine (~2.11 MB IIFE); module init constructs 300+ multi-signature functions via typed-function, unit tables, physical constants, and expression algebra.",
+      "file": "libs/dist/mathjs.js",
+      "bytes": 2168744,
+      "sha256": "9d344d84dc97a3bffef20aadd98677430c2136bccd4aa38a2c51260f3ac9257d",
+      "expectedDigest": "7b0e0441c745c31eb916ab1290639fdd181e86de0291de1efe3f534166bdecc5",
+      "expectedPreview": "{\"version\":\"15.2.0\",\"det\":54,\"solved\":[0.425926,2.259259,2.777778],\"invRow0\":[0.296296,-0.166667,-0.092593],\"deriv\":\"3 * x ^ 2 + 4 * x - 5\",\"simplified\":\"6 * x\",\"quadAt4\":25,\"compl",
+      "packages": [
+        {
+          "name": "mathjs",
+          "version": "15.2.0",
+          "license": "Apache-2.0",
+          "homepage": "https://mathjs.org"
+        }
+      ]
+    },
+    {
+      "id": "babel-standalone",
+      "name": "@babel/standalone (preset-env + preset-react)",
+      "kind": "library",
+      "tier": "large",
+      "buildType": "umd",
+      "description": "Standalone Babel 7 compiler (~5.25 MB UMD); module init registers @babel/parser, @babel/traverse, @babel/generator, core-js compat tables, 100+ plugins, and built-in presets.",
+      "file": "libs/dist/babel-standalone.js",
+      "bytes": 5374865,
+      "sha256": "6a650cbcef54f6088df4cd3154803872a02908298a65b755c3da8ca327dd1291",
+      "expectedDigest": "da602d47888edc2efe52f20b9fa2c65dfd56f367c6d06c5662e5674894e8d3ac",
+      "expectedPreview": "{\"version\":\"7.29.13\",\"presetCount\":13,\"pluginCount\":123,\"topNodeTypes\":[\"ExpressionStatement\",\"ExpressionStatement\",\"FunctionDeclaration\",\"FunctionDeclaration\",\"FunctionDeclaration",
+      "packages": [
+        {
+          "name": "@babel/standalone",
+          "version": "7.29.13",
+          "license": "MIT",
+          "homepage": "https://babel.dev/docs/en/next/babel-standalone"
+        }
+      ]
+    },
+    {
+      "id": "typescript",
+      "name": "TypeScript Compiler (lib/typescript.js)",
+      "kind": "library",
+      "tier": "large",
+      "buildType": "standalone-script",
+      "description": "Full TypeScript 5.9 compiler (~8.90 MB standalone script); module init constructs scanner/parser/binder/checker/emitter dispatch tables, token maps, and diagnostic catalogs.",
+      "file": "libs/dist/typescript.js",
+      "bytes": 9112699,
+      "sha256": "4bfc15ec1258183715454a83c9ab3da9a5665a93da7b2ce79c6799abd9dc00d0",
+      "expectedDigest": "f715c524a3830172417e2084570c603e1678c3095a76c4959d8bc0820ca9f0df",
+      "expectedPreview": "{\"version\":\"5.9.3\",\"diagCount\":0,\"stmtKinds\":[\"EnumDeclaration\",\"InterfaceDeclaration\",\"ClassDeclaration\"],\"nodeCount\":116,\"identCount\":40,\"outputText\":\"\\\"use strict\\\";\\nObject.def",
+      "packages": [
+        {
+          "name": "typescript",
+          "version": "5.9.3",
+          "license": "Apache-2.0",
+          "homepage": "https://www.typescriptlang.org/"
+        }
+      ]
+    }
+  ]
+}
