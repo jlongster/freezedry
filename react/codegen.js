@@ -110,7 +110,7 @@ function $id(tc, k) {
 function $emitNode(v, tc) {
   const t = typeof v;
   if (t === "string") { $t(v); return; }
-  if (t === "number") { $t("" + v); return; }
+  if (t === "number") { $te("" + v); return; }
   if (v === null || v === undefined || t === "boolean") return;
   if (v instanceof $Th) { v.f(tc); return; }
   if (Array.isArray(v)) {
@@ -484,7 +484,7 @@ class Gen {
     const bools = [];
     const ok = (x) => {
       if (x.k === "lit") return true;
-      if (E.typeOf(x) === "boolean" && x.k !== "lit") {
+      if (this.ty(x) === "boolean" && x.k !== "lit") {
         if (!bools.some((b) => b.key === x.key)) bools.push(x);
         return true;
       }
@@ -643,9 +643,19 @@ class Gen {
     this.stmt(ctx, `${code}default: $fb(${this.site(`${d.kind}(${d.node.key}) untraced`)});\n}`);
   }
 
+  // Static type: expression typing plus tabulated helper calls whose results share one type.
+  ty(n) {
+    const t = E.typeOf(n);
+    if (t || n.k !== "call") return t;
+    const tab = this.tabulate(n);
+    if (!tab) return null;
+    const types = new Set(tab.values.map((v) => typeof v));
+    return types.size === 1 && ["string", "number", "boolean"].includes([...types][0]) ? [...types][0] : null;
+  }
+
   // Statically escape-free strings: escaping them is the identity.
   safe(n) {
-    const ty = E.typeOf(n);
+    const ty = this.ty(n);
     if (ty === "number" || ty === "boolean") return true;
     switch (n.k) {
       case "lit":
@@ -657,7 +667,7 @@ class Gen {
       case "tpl":
         return n.d.every((q) => !/["'&<>]/.test(q)) && n.kids.every((k) => this.safe(k));
       case "mcall":
-        return ty === "string" && E.typeOf(n.kids[0]) === "number";
+        return ty === "string" && this.ty(n.kids[0]) === "number";
       case "call": {
         const tab = this.tabulate(n);
         return !!tab && tab.values.every((v) => typeof v !== "string" || !/["'&<>]/.test(v));
@@ -671,7 +681,7 @@ class Gen {
   // strings/numbers are escaped piecewise (escaping distributes over concatenation).
   escPieces(n, ctx) {
     n = this.simp(n);
-    const ty = E.typeOf(n);
+    const ty = this.ty(n);
     if (n.k === "lit") return [{ lit: escapeHtml(String(n.d)) }];
     if (this.safe(n)) {
       const x = this.ens(n, ctx, false);
@@ -679,7 +689,7 @@ class Gen {
     }
     if (n.k === "bin" && n.d === "+" && ty === "string") {
       const [a, b] = n.kids;
-      const known = (k) => ["string", "number"].includes(E.typeOf(k));
+      const known = (k) => ["string", "number"].includes(this.ty(k));
       if (known(a) && known(b)) return this.escPieces(a, ctx).concat(this.escPieces(b, ctx));
     }
     const ex = this.escaped(n, ctx);
@@ -698,11 +708,11 @@ class Gen {
       if (!o) return;
       switch (o.t) {
         case "tslot":
-          if (E.typeOf(o.node) !== "number") bump(o.node);
+          if (this.ty(o.node) !== "number") bump(o.node);
           break;
         case "host":
           for (const p of o.open.concat(o.close)) {
-            if (typeof p !== "string" && p.s === "attrR" && p.vOK && !["boolean", "number"].includes(E.typeOf(p.node))) bump(p.node);
+            if (typeof p !== "string" && p.s === "attrR" && p.vOK && !["boolean", "number"].includes(this.ty(p.node))) bump(p.node);
           }
           visit(o.child);
           break;
@@ -729,7 +739,7 @@ class Gen {
     if (ctx.defs.has(k)) return ctx.defs.get(k);
     const x = this.ens(n, ctx, false);
     const v = `$x${this.uid++}`;
-    ctx.lines.push(`const ${v} = ${E.typeOf(n) === "string" ? `$e(${x})` : `$es(${x})`};`);
+    ctx.lines.push(`const ${v} = ${this.ty(n) === "string" ? `$e(${x})` : `$es(${x})`};`);
     ctx.defs.set(k, v);
     return v;
   }
@@ -775,7 +785,7 @@ class Gen {
       }
     }
     if (p.s === "attrR") {
-      const ty = E.typeOf(cn);
+      const ty = this.ty(cn);
       const x = this.ens(p.node, ctx, false);
       const site = this.site(`attribute value ${p.node.key} of unsupported type`);
       const [vpre, vpost, t, f, n] = [p.vpre, p.vpost, ...p.tbl].map((z) => JSON.stringify(z));
@@ -792,6 +802,7 @@ class Gen {
     const x = this.ens(p.node, ctx, false);
     switch (p.s) {
       case "attr":
+        if (["string", "number"].includes(this.ty(cn))) return this.escPieces(p.node, ctx);
         return [{ code: `$e("" + ${x})` }];
       case "styleS":
         return [{ code: `$e(("" + ${x}).trim())` }];
@@ -891,7 +902,7 @@ class Gen {
         if (out.t === "dyn") return this.emit({ t: "dynamic", node: out.node }, ctx, s, tc);
         const x = this.ens(out.node, ctx, false);
         this.sync(ctx, s);
-        const ty = E.typeOf(cn);
+        const ty = this.ty(cn);
         const ex = ty === null ? this.escaped(out.node, ctx) : null;
         if (ty === "string" || ty === "number") {
           const pieces = this.escPieces(out.node, ctx);

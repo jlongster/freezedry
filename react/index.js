@@ -165,15 +165,15 @@ function build(appSource, opts = {}) {
     callConst,
   });
   const runtimeSource = `${appSource}\n;__hyOut.t = ${gen.code};\n`;
-  const out = {};
-  let rtApp;
+  let rt;
   try {
-    rtApp = loadModule(runtimeSource, filename, req, ["__hyOut"], [out]);
+    rt = makeRenderer({ runtimeSource, sites: gen.sites, filename, req, rootProp, stats, React, RDS });
   } catch (err) {
     return disable(`generated code failed to load: ${err.message}`);
   }
-  const tpl = out.t;
-  // Context defaults, read through the real React.
+  const tpl = rt.tpl;
+  const render = rt.render;
+  // Context defaults are read from React (the runtime path reads `_currentValue`, which must agree).
   let defaults = [];
   RDS.renderToString(
     React.createElement(function ReadDefaults() {
@@ -181,27 +181,10 @@ function build(appSource, opts = {}) {
       return null;
     })
   );
-  tpl.setDefaults(defaults);
-
-  const fallback = (data) => RDS.renderToString(React.createElement(rtApp, { [rootProp]: data }));
-  const render = (data) => {
-    stats.renders++;
-    try {
-      return tpl.render(data);
-    } catch (e) {
-      stats.fallbacks++;
-      let reason;
-      if (tpl.isFallback(e)) {
-        const site = tpl.lastFallbackSite();
-        reason = site >= 0 ? gen.sites[site] : "fallback";
-      } else {
-        stats.errors++;
-        reason = `error: ${e && e.message}`;
-      }
-      stats.fallbackReasons[reason] = (stats.fallbackReasons[reason] || 0) + 1;
-      return fallback(data);
-    }
-  };
+  if (!tpl.contexts.every((c, i) => Object.is(c._currentValue, defaults[i]))) {
+    return disable("context defaults are not observable outside a render");
+  }
+  result.sites = gen.sites;
 
   // Self-check on the training inputs: any mismatch means a modeling bug, never accepted.
   let mismatches = 0;
@@ -242,20 +225,107 @@ function build(appSource, opts = {}) {
     result.templateCode = gen.code;
     return result;
   }
-  render.code = runtimeSource;
-  render.stats = stats;
   result.render = render;
   result.code = runtimeSource;
   return result;
 }
 
+// Loads app + generated template as one module; render() runs the template and falls back to the
+// real renderToString (react-dom/server is only loaded when first needed).
+function makeRenderer({ runtimeSource, sites, filename, req, rootProp, stats, React, RDS }) {
+  const out = {};
+  const rtApp = loadModule(runtimeSource, filename, req, ["__hyOut"], [out]);
+  const tpl = out.t;
+  tpl.setDefaults(tpl.contexts.map((c) => c._currentValue));
+  let React_ = React;
+  let RDS_ = RDS;
+  const fallback = (data) => {
+    if (!React_) React_ = req("react");
+    if (!RDS_) RDS_ = req("react-dom/server");
+    return RDS_.renderToString(React_.createElement(rtApp, { [rootProp]: data }));
+  };
+  const render = (data) => {
+    stats.renders++;
+    try {
+      return tpl.render(data);
+    } catch (e) {
+      stats.fallbacks++;
+      let reason;
+      if (tpl.isFallback(e)) {
+        const site = tpl.lastFallbackSite();
+        reason = site >= 0 ? sites[site] : "fallback";
+      } else {
+        stats.errors++;
+        reason = `error: ${e && e.message}`;
+      }
+      stats.fallbackReasons[reason] = (stats.fallbackReasons[reason] || 0) + 1;
+      return fallback(data);
+    }
+  };
+  render.code = runtimeSource;
+  render.stats = stats;
+  return { render, tpl };
+}
+
+const IMPL_FILES = ["index.js", "instrument.js", "trace.js", "learn.js", "codegen.js", "expr.js"];
+
+function cacheDir(opts) {
+  if (opts.cacheDir) return opts.cacheDir;
+  const fs = require("fs");
+  const base = fs.existsSync("/tmp/opencode") ? "/tmp/opencode" : require("os").tmpdir();
+  return path.join(base, "react-hybrid-cache");
+}
+
+function cacheKey(appSource, opts) {
+  const crypto = require("crypto");
+  const fs = require("fs");
+  const h = crypto.createHash("sha256");
+  h.update(appSource);
+  for (const f of IMPL_FILES) h.update(fs.readFileSync(path.join(__dirname, f)));
+  h.update(JSON.stringify([opts.trainSmall, opts.trainLarge, opts.rootProp || "data", process.version]));
+  if (Array.isArray(opts.trainingInputs)) h.update(JSON.stringify(opts.trainingInputs));
+  return h.digest("hex").slice(0, 24);
+}
+
 module.exports = {
   name: "react-hybrid (traced templates + guards)",
   build,
+  makeRenderer,
+  // Builds (or loads from the on-disk cache, keyed by app source + implementation + training
+  // config) the specialized renderer. Set opts.noCache / REACT_HYBRID_NO_CACHE to always build.
   prepare(appSource, opts = {}) {
+    const fs = require("fs");
+    const useCache = !opts.noCache && !process.env.REACT_HYBRID_NO_CACHE;
+    const file = useCache ? path.join(cacheDir(opts), `${cacheKey(appSource, opts)}.json`) : null;
+    if (file && fs.existsSync(file)) {
+      try {
+        const art = JSON.parse(fs.readFileSync(file, "utf8"));
+        const stats = Object.assign(art.stats, { renders: 0, fallbacks: 0, errors: 0, fallbackReasons: {}, fromCache: true });
+        return makeRenderer({
+          runtimeSource: art.runtimeSource,
+          sites: art.sites,
+          filename: opts.appPath || "app.js",
+          req: opts.require || require,
+          rootProp: opts.rootProp || "data",
+          stats,
+        }).render;
+      } catch (_e) {
+        // rebuild below
+      }
+    }
     const r = build(appSource, opts);
     if (opts.verbose || process.env.REACT_HYBRID_VERBOSE) {
       process.stderr.write(`[react-hybrid] ${JSON.stringify(r.stats)}\n`);
+    }
+    if (file && !r.stats.disabled) {
+      try {
+        fs.mkdirSync(path.dirname(file), { recursive: true });
+        const tmp = `${file}.${process.pid}.tmp`;
+        fs.writeFileSync(tmp, JSON.stringify({ runtimeSource: r.code, sites: r.sites, stats: r.stats }));
+        fs.renameSync(tmp, file);
+      } catch (_e) {
+        // cache is best effort
+      }
     }
     return r.render;
   },
