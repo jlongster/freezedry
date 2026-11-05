@@ -1,0 +1,6 @@
+node_modules/
+bench/libs/dist/
+bench/react/node_modules
+bench/react/.cache/
+*.log
+.DS_Store
