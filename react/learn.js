@@ -317,8 +317,11 @@ class Learner {
       if (fv instanceof tr.Sym) {
         this.sym(ctx, fv);
         const c = fv.c;
-        const cls = typeof c === "string" && c !== "" ? "S" : typeof c === "number" && c !== 0 ? "M" : "x";
-        this.decide(ctx, "scls", fv.n, cls);
+        // Unitless properties render 0 like any other number, so 0 needs no separate path there.
+        const zeroOk = this.styleModeled(k, "M0");
+        const kind = zeroOk ? "scls0" : "scls";
+        const cls = typeof c === "string" && c !== "" ? "S" : typeof c === "number" && (zeroOk || c !== 0) ? "M" : "x";
+        this.decide(ctx, kind, fv.n, cls);
         if (cls !== "x" && this.styleModeled(k, cls)) {
           out[k] = marker(slots, cls === "S" ? "styleS" : "styleM", fv.n);
         } else {
@@ -585,6 +588,7 @@ class Learner {
   styleModeled(k, cls) {
     return this.probe(`style|${k}|${cls}`, () => {
       const ce = (v) => this.React.createElement("div", { style: { [k]: v } });
+      if (cls === "M0") return this.styleModeled(k, "M") && this.styleModeledValues(k, [0, -0]);
       const mark = cls === "S" ? STR_MARK : NUM_MARK_BASE;
       const ms = String(mark);
       const m = this.render(ce(mark));
@@ -599,6 +603,16 @@ class Learner {
       }
       return true;
     });
+  }
+
+  styleModeledValues(k, values) {
+    const ce = (v) => this.React.createElement("div", { style: { [k]: v } });
+    const ms = String(NUM_MARK_BASE);
+    const m = this.render(ce(NUM_MARK_BASE));
+    const i = m.indexOf(ms);
+    const pre = m.slice(0, i);
+    const post = m.slice(i + ms.length);
+    return values.every((p) => this.render(ce(p)) === pre + ("" + p) + post);
   }
 
   htmlModeled() {

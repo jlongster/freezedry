@@ -9,7 +9,7 @@ const E = require("./expr");
 const { escapeHtml } = require("./learn");
 
 const TRIVIAL = new Set(["root", "lit", "ref", "re"]);
-const CLASSIFIERS = { tcls: "$tcls", acls: "$acls", scls: "$scls", hcls: "$hcls", keys: "$keys" };
+const CLASSIFIERS = { tcls: "$tcls", acls: "$acls", scls: "$scls", scls0: "$scls0", hcls: "$hcls", keys: "$keys" };
 
 const RUNTIME = String.raw`
 const $FB = { hybridFallback: true };
@@ -40,12 +40,27 @@ function $tcls(v) {
   if (Array.isArray(v)) return "a";
   return "x";
 }
+// Attribute region slot for a value of unknown type (see learn.js attrRegions).
+function $at(v, vpre, vpost, t, f, n, site) {
+  const ty = typeof v;
+  if (ty === "string" || ty === "number") return vpre === null ? $fb(site) : vpre + $e("" + v) + vpost;
+  if (v === true) return t;
+  if (v === false) return f;
+  if (v === null) return n;
+  if (v === undefined) return "";
+  return $fb(site);
+}
 function $acls(v) { const t = typeof v; return t === "string" || t === "number" ? "v" : "x"; }
 function $scls(v) {
   const t = typeof v;
   if (t === "string") return v !== "" ? "S" : "x";
   if (t === "number") return v !== 0 ? "M" : "x";
   return "x";
+}
+function $scls0(v) {
+  const t = typeof v;
+  if (t === "string") return v !== "" ? "S" : "x";
+  return t === "number" ? "M" : "x";
 }
 function $hcls(v) { return typeof v === "string" ? "s" : "x"; }
 function $keys(v) {
@@ -123,7 +138,6 @@ function generate({ tries, fns, ctxNames, rootFid }) {
   },
   isFallback(e) { return e === $FB; },
   lastFallbackSite() { return $fbSite; },
-  sites: ${JSON.stringify(g.sites)},
 };`);
   return { code: `(function () {\n${parts.join("\n")}\n})()`, stats: g.stats, sites: g.sites };
 }
@@ -382,11 +396,16 @@ class Gen {
 
   slotCode(p, ctx) {
     if (p.s === "attrR") {
-      const x = this.ens(p.node, ctx, !TRIVIAL.has(p.node.k));
-      const bad = `$fb(${this.site(`attribute value ${p.node.key} of unsupported type`)})`;
-      const v = p.vOK ? `${JSON.stringify(p.vpre)} + $e("" + ${x}) + ${JSON.stringify(p.vpost)}` : bad;
-      const [t, f, n] = p.tbl.map((z) => JSON.stringify(z));
-      return `(typeof ${x} === "string" || typeof ${x} === "number" ? ${v} : ${x} === true ? ${t} : ${x} === false ? ${f} : ${x} === null ? ${n} : ${x} === void 0 ? "" : ${bad})`;
+      const ty = E.typeOf(p.node);
+      const x = this.ens(p.node, ctx, false);
+      const site = this.site(`attribute value ${p.node.key} of unsupported type`);
+      const [vpre, vpost, t, f, n] = [p.vpre, p.vpost, ...p.tbl].map((z) => JSON.stringify(z));
+      if (ty === "boolean") return `(${x} ? ${t} : ${f})`;
+      if (ty === "string" || ty === "number") {
+        if (!p.vOK) return `$fb(${site})`;
+        return `${vpre} + ${ty === "string" ? `$e(${x})` : `("" + ${x})`} + ${vpost}`;
+      }
+      return `$at(${x}, ${p.vOK ? vpre : "null"}, ${vpost}, ${t}, ${f}, ${n}, ${site})`;
     }
     const x = this.ens(p.node, ctx, false);
     switch (p.s) {
@@ -446,7 +465,8 @@ class Gen {
       case "tslot": {
         const x = this.ens(out.node, ctx, false);
         this.sync(ctx, s);
-        ctx.lines.push(`$tn(${x});`);
+        const ty = E.typeOf(out.node);
+        ctx.lines.push(ty === "string" ? `$t(${x});` : ty === "number" ? `$t("" + ${x});` : `$tn(${x});`);
         s.L = null;
         s.synced = true;
         return;

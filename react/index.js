@@ -23,7 +23,7 @@ function loadModule(source, filename, req, extraNames, extraValues) {
 function defaultTrainingInputs(opts) {
   if (Array.isArray(opts.trainingInputs)) return opts.trainingInputs;
   const small = opts.trainSmall !== undefined ? opts.trainSmall : 60;
-  const large = opts.trainLarge !== undefined ? opts.trainLarge : 3;
+  const large = opts.trainLarge !== undefined ? opts.trainLarge : 10;
   if (typeof opts.trainingInputs === "function") {
     return opts.trainingInputs(small, "small").concat(opts.trainingInputs(large, "large"));
   }
@@ -149,7 +149,7 @@ function build(appSource, opts = {}) {
       let reason;
       if (tpl.isFallback(e)) {
         const site = tpl.lastFallbackSite();
-        reason = site >= 0 ? tpl.sites[site] : "fallback";
+        reason = site >= 0 ? gen.sites[site] : "fallback";
       } else {
         stats.errors++;
         reason = `error: ${e && e.message}`;

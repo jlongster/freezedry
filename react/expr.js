@@ -120,4 +120,56 @@ function wrapCallee(code, node) {
   return code;
 }
 
-module.exports = { NoExpr, litCode, root, lit, ref, get, call, mcall, newc, bin, un, tpl, obj, arr, mk, re, render };
+// Static result type of an expression when the operation guarantees it regardless of operand
+// values ("boolean" | "string" | "number"), else null.
+const NUMBER_CALLS = new Set(["Number", "parseInt", "parseFloat"]);
+const BOOL_CALLS = new Set(["Boolean", "isNaN", "isFinite", "Array.isArray", "Number.isFinite", "Number.isInteger", "Number.isNaN", "Number.isSafeInteger", "Object.is"]);
+function typeOf(n) {
+  switch (n.k) {
+    case "lit":
+      return typeof n.d === "boolean" || typeof n.d === "string" || typeof n.d === "number" ? typeof n.d : null;
+    case "root":
+      return n.d.startsWith("$rI") ? "string" : null;
+    case "tpl":
+      return "string";
+    case "un":
+      if (n.d === "!") return "boolean";
+      if (n.d === "typeof") return "string";
+      if (n.d === "+") return "number";
+      if (n.d === "-" || n.d === "~") return typeOf(n.kids[0]) === "number" ? "number" : null;
+      return null;
+    case "bin": {
+      const op = n.d;
+      if (["==", "!=", "===", "!==", "<", "<=", ">", ">=", "in", "instanceof"].includes(op)) return "boolean";
+      const a = typeOf(n.kids[0]);
+      const b = typeOf(n.kids[1]);
+      if (op === "+") {
+        if (a === "string" || b === "string") return "string";
+        return a === "number" && b === "number" ? "number" : null;
+      }
+      if (op === ">>>") return "number";
+      return a === "number" && b === "number" ? "number" : null;
+    }
+    case "call": {
+      const f = n.kids[0];
+      if (f.k !== "ref") return null;
+      if (f.d === "String") return "string";
+      if (NUMBER_CALLS.has(f.d) || (f.d.startsWith("Math.") && f.d !== "Math.random")) return "number";
+      if (BOOL_CALLS.has(f.d)) return "boolean";
+      return null;
+    }
+    case "mcall": {
+      const r = typeOf(n.kids[0]);
+      if (r === "number" && ["toFixed", "toPrecision", "toString", "toExponential"].includes(n.d)) return "string";
+      if (r === "string" && ["toUpperCase", "toLowerCase", "trim", "trimStart", "trimEnd", "slice", "substring", "charAt", "padStart", "padEnd", "repeat", "concat"].includes(n.d)) {
+        return "string";
+      }
+      return null;
+    }
+    default:
+      return null;
+  }
+}
+
+module.exports = {
+  typeOf, NoExpr, litCode, root, lit, ref, get, call, mcall, newc, bin, un, tpl, obj, arr, mk, re, render };
