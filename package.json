@@ -4,7 +4,14 @@
   "private": true,
   "description": "Run initialization in the real engine, capture the heap, emit JS that rebuilds it",
   "main": "index.js",
-  "bin": { "hybrid": "bin/hybrid.js" },
-  "scripts": { "test": "node --test test/" },
-  "license": "BSD-3-Clause"
+  "bin": {
+    "hybrid": "bin/hybrid.js"
+  },
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "acorn": "^8.19.0"
+  }
 }
