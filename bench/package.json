@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "prepack-real-world-bench",
+  "name": "freezedry-bench",
   "version": "0.1.0",
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "scripts": {
     "setup": "node setup.js",
     "bench": "node run.js"

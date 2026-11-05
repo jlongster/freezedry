@@ -145,10 +145,10 @@ function readLinuxPidPeakRssMb(pid) {
 }
 
 function executeProfileInProcess(task) {
-  const { id, smokeCode, expectedDigest, prepackPath, profile, tmpDir, outCodeFile } = task;
+  const { id, smokeCode, expectedDigest, compilerPath, profile, tmpDir, outCodeFile } = task;
   const code = task.codeFile ? fs.readFileSync(task.codeFile, "utf8") : task.code;
   const smokeTimeoutMs = task.smokeTimeoutMs || 120000;
-  const prepack = require(prepackPath);
+  const compiler = require(compilerPath);
   const diagnostics = [];
   const options = Object.assign(
     {
@@ -167,7 +167,7 @@ function executeProfileInProcess(task) {
     profile.options
   );
 
-  // Silence Prepack's direct console chatter inside the worker while running
+  // Silence the compiler's direct console chatter inside the worker while running
   const origWarn = console.warn;
   const origError = console.error;
   const origInfo = console.info;
@@ -187,7 +187,7 @@ function executeProfileInProcess(task) {
   let thrownError = null;
   const t0 = Date.now();
   try {
-    serialized = prepack.prepackSources([{ filePath: `${id}.js`, fileContents: code, sourceMapContents: "" }], options);
+    serialized = compiler.prepackSources([{ filePath: `${id}.js`, fileContents: code, sourceMapContents: "" }], options);
   } catch (e) {
     thrownError = e;
   } finally {
@@ -223,7 +223,7 @@ function executeProfileInProcess(task) {
         peakRssMb,
         heapUsedMb,
         errorCode: "TIMEOUT",
-        message: String(thrownError.message || "Prepack timed out"),
+        message: String(thrownError.message || "Compiler timed out"),
         location: null,
       };
     }
@@ -242,7 +242,7 @@ function executeProfileInProcess(task) {
       ? primary.message
       : thrownError
         ? String(thrownError.message || thrownError).split("\n")[0]
-        : "Unknown Prepack failure";
+        : "Unknown compiler failure";
     return {
       profile: profile.name,
       cliFlags: profile.cliFlags,
@@ -388,7 +388,7 @@ function runProfileInChild(task, opts = {}) {
         compileMs: Date.now() - t0,
         peakRssMb: observedPeakRssMb,
         errorCode: "TIMEOUT",
-        message: `Prepack timed out after ${timeoutMs}ms`,
+        message: `Compiler timed out after ${timeoutMs}ms`,
         location: null,
       });
     }, timeoutMs + 5000);

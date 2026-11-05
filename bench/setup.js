@@ -10,7 +10,7 @@ const BENCH_DIR = __dirname;
 const NM_DIR = path.join(BENCH_DIR, "node_modules");
 const DIST_DIR = path.join(BENCH_DIR, "libs", "dist");
 const MANIFEST_FILE = path.join(BENCH_DIR, "libs", "manifest.json");
-const TMP_DIR = "/tmp/opencode/pp-bench-setup";
+const TMP_DIR = path.join(require("os").tmpdir(), "freezedry-bench-setup");
 
 function needsInstall() {
   const benchPkg = JSON.parse(fs.readFileSync(path.join(BENCH_DIR, "package.json"), "utf8"));
@@ -116,8 +116,24 @@ function buildCorpus() {
   return manifest;
 }
 
-if (require.main === module) {
-  buildCorpus();
+// True when bench/node_modules matches package.json and every workload in the manifest is built
+// with the recorded sha256 (so `npm test` only pays for the build once).
+function corpusIsCurrent() {
+  if (needsInstall() || !fs.existsSync(MANIFEST_FILE)) return false;
+  const manifest = JSON.parse(fs.readFileSync(MANIFEST_FILE, "utf8"));
+  if (!Array.isArray(manifest.libraries) || manifest.libraries.length !== SPECS.length) return false;
+  return manifest.libraries.every(e => {
+    const file = path.join(BENCH_DIR, e.file);
+    return fs.existsSync(file) && sha256(fs.readFileSync(file, "utf8")) === e.sha256;
+  });
 }
 
-module.exports = { buildCorpus, ensureInstalled };
+if (require.main === module) {
+  if (!process.argv.includes("--force") && corpusIsCurrent()) {
+    console.log("bench corpus is up to date (bench/libs/dist); pass --force to rebuild");
+  } else {
+    buildCorpus();
+  }
+}
+
+module.exports = { buildCorpus, ensureInstalled, corpusIsCurrent };

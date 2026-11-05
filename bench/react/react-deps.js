@@ -22,34 +22,22 @@ function hasReact18(nmDir) {
   }
 }
 
+// React 18 comes from the benchmark's dependencies (bench/node_modules, installed by
+// `node bench/setup.js`), or from REACT_NODE_MODULES when set.
 function findReact18NodeModules() {
-  const candidates = [
-    LOCAL_NM,
-    path.resolve(REACT_BENCH_DIR, "..", "bench", "node_modules"),
-    "/tmp/opencode/pp-wt/bench/bench/node_modules",
-  ];
+  const candidates = [process.env.REACT_NODE_MODULES, LOCAL_NM, path.resolve(REACT_BENCH_DIR, "..", "node_modules")].filter(Boolean);
   for (const dir of candidates) {
     if (hasReact18(dir)) return dir;
   }
   throw new Error(
-    "Could not locate react@18.3.1 in react-bench/node_modules or bench/node_modules. " +
-      "Run `node bench/setup.js` or install react@18.3.1 and react-dom@18.3.1."
+    "Could not locate react@18 in bench/react/node_modules or bench/node_modules. " +
+      "Run `node bench/setup.js` (or `npm run bench:setup`)."
   );
 }
 
 const reactNodeModules = findReact18NodeModules();
 
-// Ensure react-bench/node_modules exists (gitignored) so standard CommonJS resolution
-// inside react-bench/ always finds react@18.3.1 instead of root node_modules (react@16).
-if (reactNodeModules !== LOCAL_NM && !fs.existsSync(LOCAL_NM)) {
-  try {
-    fs.symlinkSync(reactNodeModules, LOCAL_NM, "dir");
-  } catch (_err) {
-    // Ignore race if parallel processes create the symlink simultaneously.
-  }
-}
-
-const reactRequire = Module.createRequire(path.join(REACT_BENCH_DIR, "index.js"));
+const reactRequire = Module.createRequire(path.join(reactNodeModules, "index.js"));
 const React = reactRequire("react");
 const ReactDOMServer = reactRequire("react-dom/server");
 

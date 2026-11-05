@@ -5,41 +5,35 @@ const fs = require("fs");
 const path = require("path");
 const childProcess = require("child_process");
 
-const HYBRID_DIR = __dirname;
-const REPO_ROOT = path.resolve(HYBRID_DIR, "..");
-const BENCH_DIR = path.join(REPO_ROOT, "bench");
-const BENCH_RESULTS_DIR = path.join(BENCH_DIR, "results");
-const HYBRID_RESULTS_DIR = path.join(HYBRID_DIR, "results");
+const BENCH_DIR = __dirname;
+const REPO_ROOT = path.resolve(BENCH_DIR, "..");
+const RESULTS_DIR = path.join(BENCH_DIR, "results");
 const MANIFEST_PATH = path.join(BENCH_DIR, "libs", "manifest.json");
 
 function parseArgs(argv) {
   const args = {
-    prepackJson: null,
-    hybridJson: null,
-    runPrepack: false,
-    runHybrid: false,
+    freezedryJson: null,
+    comparePrepack: null,
+    run: false,
     useOptIns: false,
-    prepackBin: "/tmp/opencode/pp-work/lib/prepack-node.js",
-    hybridEntry: path.join(HYBRID_DIR, "index.js"),
+    entry: path.join(REPO_ROOT, "index.js"),
     only: null,
     runs: 15,
     warmup: 3,
     jobs: 4,
     enableSnapshot: true,
     enableVerify: true,
-    outMd: path.join(HYBRID_RESULTS_DIR, "comparison.md"),
-    outJson: path.join(HYBRID_RESULTS_DIR, "comparison.json"),
+    outMd: path.join(RESULTS_DIR, "comparison.md"),
+    outJson: path.join(RESULTS_DIR, "comparison.json"),
   };
 
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
-    if (a === "--prepack-json") args.prepackJson = path.resolve(argv[++i]);
-    else if (a === "--hybrid-json") args.hybridJson = path.resolve(argv[++i]);
-    else if (a === "--run-prepack") args.runPrepack = true;
-    else if (a === "--run-hybrid") args.runHybrid = true;
+    if (a === "--freezedry-json") args.freezedryJson = path.resolve(argv[++i]);
+    else if (a === "--compare-prepack") args.comparePrepack = path.resolve(argv[++i]);
+    else if (a === "--run") args.run = true;
     else if (a === "--opt-ins" || a === "--use-opt-ins") args.useOptIns = true;
-    else if (a === "--prepack-bin") args.prepackBin = path.resolve(argv[++i]);
-    else if (a === "--hybrid-entry") args.hybridEntry = path.resolve(argv[++i]);
+    else if (a === "--entry") args.entry = path.resolve(argv[++i]);
     else if (a === "--only") args.only = argv[++i];
     else if (a === "--runs") args.runs = parseInt(argv[++i], 10);
     else if (a === "--warmup") args.warmup = parseInt(argv[++i], 10);
@@ -54,19 +48,22 @@ function parseArgs(argv) {
     else if (a === "--help" || a === "-h") {
       console.log(
         [
-          "Usage: node hybrid/bench-compare.js [options]",
-          "  --prepack-json <path>   Existing Prepack bench JSON (default: latest in bench/results/)",
-          "  --hybrid-json <path>    Existing Hybrid bench JSON (default: hybrid/results/hybrid-latest.json or run live)",
-          "  --run-hybrid            Run bench/run.js --prepack hybrid/index.js before generating comparison",
-          "  --run-prepack           Run bench/run.js against --prepack-bin before generating comparison",
-          "  --prepack-bin <path>    Path to Prepack lib/prepack-node.js when --run-prepack is set",
-          "  --only <ids>            Comma-separated workload IDs",
-          "  --runs <N>              Benchmark iterations when running bench/run.js (default: 15)",
-          "  --warmup <N>            Warmup iterations when running bench/run.js (default: 3)",
-          "  --no-snapshot           Skip Node --build-snapshot reference when running bench/run.js",
-          "  --no-verify             Skip Heap Isomorphism Oracle check on Hybrid outputs",
-          "  --out-md <path>         Output Markdown path (default: hybrid/results/comparison.md)",
-          "  --out-json <path>       Output JSON path (default: hybrid/results/comparison.json)",
+          "Usage: node bench/compare.js [options]",
+          "  --freezedry-json <path>   Existing freezedry bench JSON (default: bench/results/freezedry-latest.json, or run live)",
+          "  --run                     Run bench/run.js against freezedry before generating the comparison",
+          "  --opt-ins                 Use the documented per-workload opt-ins (FREEZEDRY_OPTINS=corpus)",
+          "  --entry <path>            freezedry entrypoint to benchmark (default: ./index.js)",
+          "  --compare-prepack <path>  Add a Prepack column: either an existing Prepack bench JSON, or Prepack's",
+          "                            lib/prepack-node.js (runs bench/run.js against it). Omit to skip Prepack.",
+          "  --only <ids>              Comma-separated workload IDs",
+          "  --runs <N>                Benchmark iterations when running bench/run.js (default: 15)",
+          "  --warmup <N>              Warmup iterations when running bench/run.js (default: 3)",
+          "  --no-snapshot             Skip Node --build-snapshot reference when running bench/run.js",
+          "  --no-verify               Skip the heap-isomorphism oracle on freezedry outputs",
+          "  --oracle-jsonl <path>     Oracle records file (default: bench/results/oracle-{optins,zeroconfig}.jsonl)",
+          "  --rerun-oracle            Re-run the oracle even for workloads already in the records file",
+          "  --out-md <path>           Output Markdown path (default: bench/results/comparison.md)",
+          "  --out-json <path>         Output JSON path (default: bench/results/comparison.json)",
         ].join("\n")
       );
       process.exit(0);
@@ -77,22 +74,12 @@ function parseArgs(argv) {
   return args;
 }
 
-function findLatestJsonInDir(dir) {
-  if (!fs.existsSync(dir)) return null;
-  const files = fs
-    .readdirSync(dir)
-    .filter(f => f.endsWith(".json") && !f.startsWith("comparison"))
-    .sort();
-  if (files.length === 0) return null;
-  return path.join(dir, files[files.length - 1]);
-}
-
-function runBenchSuite(prepackTarget, outJsonPath, outMdPath, opts) {
+function runBenchSuite(compilerPath, outJsonPath, outMdPath, opts) {
   fs.mkdirSync(path.dirname(outJsonPath), { recursive: true });
   const cliArgs = [
     path.join(BENCH_DIR, "run.js"),
-    "--prepack",
-    prepackTarget,
+    "--compiler",
+    compilerPath,
     "--runs",
     String(opts.runs),
     "--warmup",
@@ -121,14 +108,14 @@ function runBenchSuite(prepackTarget, outJsonPath, outMdPath, opts) {
     env,
   });
   if (r.status !== 0) {
-    throw new Error(`bench/run.js exited with code ${r.status} for ${prepackTarget}`);
+    throw new Error(`bench/run.js exited with code ${r.status} for ${compilerPath}`);
   }
 }
 
 function runOracleAudit(onlyIds = null, opts = {}) {
   const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, "utf8"));
   const allow = onlyIds ? new Set(onlyIds.split(",").map(s => s.trim()).filter(Boolean)) : null;
-  const jsonl = opts.oracleJsonl || path.join(HYBRID_RESULTS_DIR, `oracle-${opts.useOptIns ? "optins" : "zeroconfig"}.jsonl`);
+  const jsonl = opts.oracleJsonl || path.join(RESULTS_DIR, `oracle-${opts.useOptIns ? "optins" : "zeroconfig"}.jsonl`);
   const records = new Map();
   if (fs.existsSync(jsonl)) {
     for (const line of fs.readFileSync(jsonl, "utf8").split("\n")) {
@@ -144,7 +131,7 @@ function runOracleAudit(onlyIds = null, opts = {}) {
     if (records.has(entry.id) && !opts.rerunOracle) continue;
     const r = childProcess.spawnSync(
       process.execPath,
-      ["--max-old-space-size=12288", path.join(HYBRID_DIR, "tools", "oracle-one.js"), entry.id, jsonl].concat(
+      ["--max-old-space-size=12288", path.join(REPO_ROOT, "tools", "oracle-one.js"), entry.id, jsonl].concat(
         opts.useOptIns ? [] : ["--zero-config"]
       ),
       { cwd: REPO_ROOT, stdio: "inherit", env: Object.assign({}, process.env, { TZ: "UTC" }) }
@@ -200,143 +187,107 @@ function fmtRatio(origBytes, targetBytes) {
   return `${(targetBytes / origBytes).toFixed(2)}x`;
 }
 
-function detectHybridStandIn(hybLib) {
-  if (!hybLib || !Array.isArray(hybLib.profiles)) return false;
-  return hybLib.profiles.some(p => Array.isArray(p.infoCodes) && p.infoCodes.includes("HYB_STANDIN"));
+function detectStandIn(lib) {
+  if (!lib || !Array.isArray(lib.profiles)) return false;
+  return lib.profiles.some(p => Array.isArray(p.infoCodes) && p.infoCodes.includes("FZD_STANDIN"));
 }
 
-function generateComparisonData(prepackReport, hybridReport, oracleMap = new Map()) {
-  const ppById = new Map((prepackReport.libraries || []).map(l => [l.id, l]));
-  const hybById = new Map((hybridReport.libraries || []).map(l => [l.id, l]));
-  const allIds = [];
-  for (const l of hybridReport.libraries || []) allIds.push(l.id);
-  for (const l of prepackReport.libraries || []) {
-    if (!hybById.has(l.id)) allIds.push(l.id);
-  }
+// Older reports (and Prepack-era ones) call the compiled output "prepacked" and the compiler "prepack".
+const compiledOf = m => (m ? m.compiled || m.prepacked : null);
+const compilerOf = report => (report ? report.compiler || report.prepack : null);
 
-  const anyStandIn = (hybridReport.libraries || []).some(detectHybridStandIn);
-  const rows = [];
+function libSummary(lib) {
+  if (!lib) return null;
+  return {
+    defaultStatus: lib.defaultStatus,
+    status: lib.status,
+    bestProfile: lib.bestProfile ? lib.bestProfile.profile : null,
+    compileMs: lib.bestProfile ? lib.bestProfile.compileMs : lib.primaryBlocker ? lib.primaryBlocker.compileMs : null,
+    blocker: lib.primaryBlocker
+      ? `${lib.primaryBlocker.errorCode}: ${String(lib.primaryBlocker.message || "").slice(0, 80)}`
+      : null,
+  };
+}
 
-  for (const id of allIds) {
+function libTimings(lib) {
+  const perf = lib && lib.perf;
+  if (!perf) return {};
+  return {
+    sizes: perf.sizes ? compiledOf(perf.sizes) : null,
+    cold: perf.coldProcess ? compiledOf(perf.coldProcess).net.median : null,
+    coldSpeedup: perf.coldProcess ? perf.coldProcess.speedupNet : null,
+    cc: perf.vmCodeCache ? compiledOf(perf.vmCodeCache).median : null,
+    ccSpeedup: perf.vmCodeCache ? perf.vmCodeCache.speedup : null,
+    exec: perf.vmExecOnly ? compiledOf(perf.vmExecOnly).median : null,
+    execSpeedup: perf.vmExecOnly ? perf.vmExecOnly.speedup : null,
+  };
+}
+
+// Builds per-workload rows: Original vs freezedry (+ Prepack when a Prepack report is given).
+function generateComparisonData({ freezedry, prepack = null, oracle = new Map() }) {
+  const fdById = new Map((freezedry.libraries || []).map(l => [l.id, l]));
+  const ppById = new Map(((prepack && prepack.libraries) || []).map(l => [l.id, l]));
+  const allIds = (freezedry.libraries || []).map(l => l.id);
+  for (const id of ppById.keys()) if (!fdById.has(id)) allIds.push(id);
+
+  const rows = allIds.map(id => {
+    const fd = fdById.get(id) || null;
     const pp = ppById.get(id) || null;
-    const hyb = hybById.get(id) || null;
-    const base = hyb || pp;
-    const oracle = oracleMap.get(id) || null;
-
-    // Prefer Original measurements from Hybrid run (same machine/session), fallback to Prepack report
-    const origSizes = (hyb && hyb.perf && hyb.perf.sizes && hyb.perf.sizes.orig) ||
-      (pp && pp.perf && pp.perf.sizes && pp.perf.sizes.orig) || {
-        raw: base.bytes,
-        terser: null,
-        gzip: null,
-      };
-    const ppSizes = pp && pp.perf && pp.perf.sizes ? pp.perf.sizes.prepacked : null;
-    const hybSizes = hyb && hyb.perf && hyb.perf.sizes ? hyb.perf.sizes.prepacked : null;
-
-    const origCold =
-      (hyb && hyb.perf && hyb.perf.coldProcess && hyb.perf.coldProcess.orig.net.median) ??
-      (pp && pp.perf && pp.perf.coldProcess && pp.perf.coldProcess.orig.net.median) ??
-      null;
-    const ppCold = pp && pp.perf && pp.perf.coldProcess ? pp.perf.coldProcess.prepacked.net.median : null;
-    const hybCold = hyb && hyb.perf && hyb.perf.coldProcess ? hyb.perf.coldProcess.prepacked.net.median : null;
-    const snapCold =
-      (hyb && hyb.perf && hyb.perf.nodeSnapshot && hyb.perf.nodeSnapshot.supported
-        ? hyb.perf.nodeSnapshot.net.median
-        : null) ??
-      (pp && pp.perf && pp.perf.nodeSnapshot && pp.perf.nodeSnapshot.supported
-        ? pp.perf.nodeSnapshot.net.median
-        : null);
-
-    const origCc =
-      (hyb && hyb.perf && hyb.perf.vmCodeCache && hyb.perf.vmCodeCache.orig.median) ??
-      (pp && pp.perf && pp.perf.vmCodeCache && pp.perf.vmCodeCache.orig.median) ??
-      null;
-    const ppCc = pp && pp.perf && pp.perf.vmCodeCache ? pp.perf.vmCodeCache.prepacked.median : null;
-    const hybCc = hyb && hyb.perf && hyb.perf.vmCodeCache ? hyb.perf.vmCodeCache.prepacked.median : null;
-
-    const origExec =
-      (hyb && hyb.perf && hyb.perf.vmExecOnly && hyb.perf.vmExecOnly.orig.median) ??
-      (pp && pp.perf && pp.perf.vmExecOnly && pp.perf.vmExecOnly.orig.median) ??
-      null;
-    const ppExec = pp && pp.perf && pp.perf.vmExecOnly ? pp.perf.vmExecOnly.prepacked.median : null;
-    const hybExec = hyb && hyb.perf && hyb.perf.vmExecOnly ? hyb.perf.vmExecOnly.prepacked.median : null;
-
-    const isStandIn = detectHybridStandIn(hyb);
-    rows.push({
+    const base = fd || pp;
+    // Prefer Original measurements from the freezedry run (same machine/session).
+    const origPerf = (fd && fd.perf) || (pp && pp.perf) || {};
+    const fdT = libTimings(fd);
+    const ppT = libTimings(pp);
+    const snap = [fd, pp].map(l => l && l.perf && l.perf.nodeSnapshot).find(s => s && s.supported);
+    const row = {
       id,
       name: base.name,
       kind: base.kind,
       rawInputBytes: base.bytes,
-      prepack: pp
-        ? {
-            defaultStatus: pp.defaultStatus,
-            status: pp.status,
-            bestProfile: pp.bestProfile ? pp.bestProfile.profile : null,
-            compileMs: pp.bestProfile
-              ? pp.bestProfile.compileMs
-              : pp.primaryBlocker
-              ? pp.primaryBlocker.compileMs
-              : null,
-            blocker: pp.primaryBlocker
-              ? `${pp.primaryBlocker.errorCode}: ${String(pp.primaryBlocker.message || "").slice(0, 80)}`
-              : null,
-          }
-        : null,
-      hybrid: hyb
-        ? {
-            defaultStatus: hyb.defaultStatus,
-            status: hyb.status,
-            isStandIn,
-            compileMs: hyb.bestProfile
-              ? hyb.bestProfile.compileMs
-              : hyb.primaryBlocker
-              ? hyb.primaryBlocker.compileMs
-              : null,
-            blocker: hyb.primaryBlocker
-              ? `${hyb.primaryBlocker.errorCode}: ${String(hyb.primaryBlocker.message || "").slice(0, 80)}`
-              : null,
-          }
-        : null,
-      oracle,
+      freezedry: fd ? Object.assign(libSummary(fd), { isStandIn: detectStandIn(fd) }) : null,
+      prepack: libSummary(pp),
+      oracle: oracle.get(id) || null,
       sizes: {
-        orig: origSizes,
-        prepack: ppSizes,
-        hybrid: hybSizes,
+        orig: (origPerf.sizes && origPerf.sizes.orig) || { raw: base.bytes, terser: null, gzip: null },
+        prepack: ppT.sizes || null,
+        freezedry: fdT.sizes || null,
       },
       timings: {
         coldNetMs: {
-          orig: origCold,
-          prepack: ppCold,
-          prepackSpeedup: pp && pp.perf && pp.perf.coldProcess ? pp.perf.coldProcess.speedupNet : null,
-          hybrid: hybCold,
-          hybridSpeedup: hyb && hyb.perf && hyb.perf.coldProcess ? hyb.perf.coldProcess.speedupNet : null,
-          v8Snapshot: snapCold,
+          orig: origPerf.coldProcess ? origPerf.coldProcess.orig.net.median : null,
+          prepack: ppT.cold ?? null,
+          prepackSpeedup: ppT.coldSpeedup ?? null,
+          freezedry: fdT.cold ?? null,
+          freezedrySpeedup: fdT.coldSpeedup ?? null,
+          v8Snapshot: snap ? snap.net.median : null,
         },
         codeCacheMs: {
-          orig: origCc,
-          prepack: ppCc,
-          prepackSpeedup: pp && pp.perf && pp.perf.vmCodeCache ? pp.perf.vmCodeCache.speedup : null,
-          hybrid: hybCc,
-          hybridSpeedup: hyb && hyb.perf && hyb.perf.vmCodeCache ? hyb.perf.vmCodeCache.speedup : null,
+          orig: origPerf.vmCodeCache ? origPerf.vmCodeCache.orig.median : null,
+          prepack: ppT.cc ?? null,
+          prepackSpeedup: ppT.ccSpeedup ?? null,
+          freezedry: fdT.cc ?? null,
+          freezedrySpeedup: fdT.ccSpeedup ?? null,
         },
         execOnlyMs: {
-          orig: origExec,
-          prepack: ppExec,
-          prepackSpeedup: pp && pp.perf && pp.perf.vmExecOnly ? pp.perf.vmExecOnly.speedup : null,
-          hybrid: hybExec,
-          hybridSpeedup: hyb && hyb.perf && hyb.perf.vmExecOnly ? hyb.perf.vmExecOnly.speedup : null,
+          orig: origPerf.vmExecOnly ? origPerf.vmExecOnly.orig.median : null,
+          prepack: ppT.exec ?? null,
+          prepackSpeedup: ppT.execSpeedup ?? null,
+          freezedry: fdT.exec ?? null,
+          freezedrySpeedup: fdT.execSpeedup ?? null,
         },
       },
-    });
-  }
+    };
+    return row;
+  });
 
   return {
     generatedAt: new Date().toISOString(),
-    environment: hybridReport.environment || prepackReport.environment,
-    prepackMeta: prepackReport.prepack,
-    hybridMeta: Object.assign({}, hybridReport.prepack, { standInMode: anyStandIn }),
-    prepackConfig: prepackReport.config,
-    hybridConfig: hybridReport.config,
+    environment: freezedry.environment || (prepack && prepack.environment),
+    hasPrepack: Boolean(prepack),
+    prepackMeta: compilerOf(prepack),
+    prepackConfig: prepack ? prepack.config : null,
+    freezedryMeta: Object.assign({}, compilerOf(freezedry), { standInMode: (freezedry.libraries || []).some(detectStandIn) }),
+    freezedryConfig: freezedry.config,
     rows,
   };
 }
@@ -353,12 +304,12 @@ function formatPpStatus(pp) {
   return pp.status;
 }
 
-function formatHybStatus(hyb) {
-  if (!hyb) return "—";
-  const tag = hyb.isStandIn ? `${hyb.status} [stand-in]` : hyb.status;
-  if (hyb.status !== "OK" && hyb.blocker) {
-    const code = hyb.blocker.split(":")[0];
-    return `${hyb.status} (${code})`;
+function formatFdStatus(fd) {
+  if (!fd) return "—";
+  const tag = fd.isStandIn ? `${fd.status} [stand-in]` : fd.status;
+  if (fd.status !== "OK" && fd.blocker) {
+    const code = fd.blocker.split(":")[0];
+    return `${fd.status} (${code})`;
   }
   return tag;
 }
@@ -377,8 +328,12 @@ function formatOracleCell(oracle) {
 }
 
 function renderComparisonMarkdown(data) {
+  const pp = data.hasPrepack;
+  // Joins "Orig / [PP /] freezedry" cells, dropping the Prepack part when there is no Prepack report.
+  const trio = (o, p, f) => (pp ? `${o} / ${p} / ${f}` : `${o} / ${f}`);
+  const trioHead = label => (pp ? `${label} (Orig / PP / FD)` : `${label} (Orig / FD)`);
   const lines = [];
-  lines.push("# Prepack vs Hybrid vs Original — Benchmark & Verification Comparison");
+  lines.push(pp ? "# freezedry vs Prepack vs Original — Benchmark & Verification" : "# freezedry vs Original — Benchmark & Verification");
   lines.push("");
   lines.push(`- **Generated**: \`${data.generatedAt}\``);
   if (data.environment) {
@@ -388,134 +343,138 @@ function renderComparisonMarkdown(data) {
       }/${data.environment.arch}\``
     );
   }
+  if (pp) {
+    lines.push(
+      `- **Prepack**: \`${data.prepackMeta ? data.prepackMeta.path : "n/a"}\` (v\`${
+        data.prepackMeta ? data.prepackMeta.version : "?"
+      }\`, runs=${data.prepackConfig ? data.prepackConfig.runs : "?"})`
+    );
+  }
   lines.push(
-    `- **Prepack (revive)**: \`${data.prepackMeta ? data.prepackMeta.path : "n/a"}\` (v\`${
-      data.prepackMeta ? data.prepackMeta.version : "?"
-    }\`, runs=${data.prepackConfig ? data.prepackConfig.runs : "?"})`
-  );
-  lines.push(
-    `- **Hybrid**: \`${data.hybridMeta ? data.hybridMeta.path : "n/a"}\` (v\`${
-      data.hybridMeta ? data.hybridMeta.version : "?"
-    }\`, runs=${data.hybridConfig ? data.hybridConfig.runs : "?"}${
-      data.hybridMeta && data.hybridMeta.standInMode ? " — **stand-in identity transform**" : ""
+    `- **freezedry**: \`${data.freezedryMeta ? data.freezedryMeta.path : "n/a"}\` (v\`${
+      data.freezedryMeta ? data.freezedryMeta.version : "?"
+    }\`, runs=${data.freezedryConfig ? data.freezedryConfig.runs : "?"}${
+      data.freezedryMeta && data.freezedryMeta.standInMode ? " — **stand-in identity transform**" : ""
     })`
   );
   lines.push("");
 
   const total = data.rows.length;
-  const ppDefaultOk = data.rows.filter(r => r.prepack && r.prepack.defaultStatus === "OK").length;
-  const ppBestOk = data.rows.filter(r => r.prepack && r.prepack.status === "OK").length;
-  const ppWrong = data.rows.filter(r => r.prepack && r.prepack.status === "WRONG").length;
-  const hybOk = data.rows.filter(r => r.hybrid && r.hybrid.status === "OK").length;
-  const hybWrong = data.rows.filter(r => r.hybrid && r.hybrid.status === "WRONG").length;
-  const oracleStrict = data.rows.filter(r => r.oracle && r.oracle.strictIsoOk).length;
-  const oracleSeeded = data.rows.filter(r => r.oracle && !r.oracle.strictIsoOk && r.oracle.seededIsoOk).length;
+  const count = f => data.rows.filter(f).length;
+  const ppDefaultOk = count(r => r.prepack && r.prepack.defaultStatus === "OK");
+  const ppBestOk = count(r => r.prepack && r.prepack.status === "OK");
+  const ppWrong = count(r => r.prepack && r.prepack.status === "WRONG");
+  const fdOk = count(r => r.freezedry && r.freezedry.status === "OK");
+  const fdWrong = count(r => r.freezedry && r.freezedry.status === "WRONG");
+  const oracleStrict = count(r => r.oracle && r.oracle.strictIsoOk);
+  const oracleSeeded = count(r => r.oracle && !r.oracle.strictIsoOk && r.oracle.seededIsoOk);
+  const metric = (name, p, f, note) => lines.push(pp ? `| ${name} | ${p} | ${f} | ${note} |` : `| ${name} | ${f} | ${note} |`);
 
   lines.push("## Summary");
   lines.push("");
-  lines.push("| Metric | Prepack (revive) | Hybrid | Notes |");
-  lines.push("|---|---:|---:|---|");
-  lines.push(`| **Workloads evaluated** | ${total} | ${total} | Corpus in \`bench/libs/dist/*.js\` |`);
-  lines.push(
-    `| **Smoke OK (default options)** | ${ppDefaultOk}/${total} | ${hybOk}/${total} | Fresh \`vm\` + fresh \`node\` smoke digest |`
-  );
-  lines.push(
-    `| **Smoke OK (best profile)** | ${ppBestOk}/${total} | ${hybOk}/${total} | Includes profile flag unlocks |`
-  );
-  lines.push(`| **Silent miscompile (WRONG)** | ${ppWrong} | ${hybWrong} | Must always be **0** in Hybrid |`);
+  lines.push(pp ? "| Metric | Prepack | freezedry | Notes |" : "| Metric | freezedry | Notes |");
+  lines.push(pp ? "|---|---:|---:|---|" : "|---|---:|---|");
+  metric("**Workloads evaluated**", total, total, "Corpus in `bench/libs/dist/*.js`");
+  metric("**Smoke OK (default options)**", `${ppDefaultOk}/${total}`, `${fdOk}/${total}`, "Fresh `vm` + fresh `node` smoke digest");
+  if (pp) metric("**Smoke OK (best profile)**", `${ppBestOk}/${total}`, `${fdOk}/${total}`, "Includes profile flag unlocks");
+  metric("**Silent miscompile (WRONG)**", ppWrong, fdWrong, "Must always be **0** for freezedry");
   if (data.rows.some(r => r.oracle)) {
-    lines.push(
-      `| **Heap Isomorphism Oracle** | — | ${oracleStrict} strict + ${oracleSeeded} seeded | Full heap + \`[[Scopes]]\` + V8 \`Context\` sharing bijection |`
+    metric(
+      "**Heap isomorphism oracle**",
+      "—",
+      `${oracleStrict} strict + ${oracleSeeded} seeded`,
+      "Full heap + `[[Scopes]]` + V8 `Context` sharing bijection"
     );
   }
   lines.push("");
 
-  // 1. Unified Master Per-Library Table (all requested columns side-by-side)
-  lines.push("## 1. Per-Library Master Table (Original vs Prepack vs Hybrid)");
+  lines.push(pp ? "## 1. Per-Workload Table (Original vs Prepack vs freezedry)" : "## 1. Per-Workload Table (Original vs freezedry)");
   lines.push("");
   lines.push(
-    "| Library | Correctness (PP / Hybrid / Oracle) | Size Raw (Orig / PP / Hyb) | Size Terser (Orig / PP / Hyb) | Size Gzip (Orig / PP / Hyb) | Cold Node Net ms (Orig / PP / Hyb) | Code-Cache ms (Orig / PP / Hyb) | Exec-Only ms (Orig / PP / Hyb) |"
+    `| Workload | Correctness (${pp ? "PP / " : ""}FD / Oracle) | ${trioHead("Raw")} | ${trioHead("Terser")} | ${trioHead("Gzip")} | ${trioHead(
+      "Cold node net ms"
+    )} | ${trioHead("Code-cache ms")} | ${trioHead("Exec-only ms")} |`
   );
   lines.push("|---|---|---|---|---|---|---|---|");
   for (const r of data.rows) {
-    const corr = `${formatPpStatus(r.prepack)} / ${formatHybStatus(r.hybrid)}${
-      r.oracle
-        ? ` / ${
-            r.oracle.unverified
-              ? "UNVERIFIED"
-              : !r.oracle.compiledOk
-              ? "BAIL"
-              : r.oracle.strictIsoOk
-                ? "ISO-OK"
-                : r.oracle.seededIsoOk
-                  ? "ISO-SEEDED"
-                  : "DIFF"
-          }`
-        : ""
-    }`;
-    const sOrig = r.sizes.orig || {};
-    const sPp = r.sizes.prepack || {};
-    const sHyb = r.sizes.hybrid || {};
-    const rawCell = `${fmtKb(sOrig.raw)} / ${fmtKb(sPp.raw)} / ${fmtKb(sHyb.raw)}`;
-    const terserCell = `${fmtKb(sOrig.terser)} / ${fmtKb(sPp.terser)} / ${fmtKb(sHyb.terser)}`;
-    const gzipCell = `${fmtKb(sOrig.gzip)} / ${fmtKb(sPp.gzip)} / ${fmtKb(sHyb.gzip)}`;
-
+    const oracleTag = !r.oracle
+      ? ""
+      : ` / ${
+          r.oracle.unverified
+            ? "UNVERIFIED"
+            : !r.oracle.compiledOk
+            ? "BAIL"
+            : r.oracle.strictIsoOk
+            ? "ISO-OK"
+            : r.oracle.seededIsoOk
+            ? "ISO-SEEDED"
+            : "DIFF"
+        }`;
+    const corr = `${pp ? `${formatPpStatus(r.prepack)} / ` : ""}${formatFdStatus(r.freezedry)}${oracleTag}`;
+    const so = r.sizes.orig || {};
+    const sp = r.sizes.prepack || {};
+    const sf = r.sizes.freezedry || {};
     const c = r.timings.coldNetMs;
     const cc = r.timings.codeCacheMs;
     const ex = r.timings.execOnlyMs;
-    const coldCell = `${fmtMs(c.orig)} / ${fmtMs(c.prepack)} / ${fmtMs(c.hybrid)}`;
-    const ccCell = `${fmtMs(cc.orig)} / ${fmtMs(cc.prepack)} / ${fmtMs(cc.hybrid)}`;
-    const exCell = `${fmtMs(ex.orig)} / ${fmtMs(ex.prepack)} / ${fmtMs(ex.hybrid)}`;
-
     lines.push(
-      `| **\`${r.id}\`** | ${corr} | ${rawCell} | ${terserCell} | ${gzipCell} | ${coldCell} | ${ccCell} | ${exCell} |`
+      `| **\`${r.id}\`** | ${corr} | ${trio(fmtKb(so.raw), fmtKb(sp.raw), fmtKb(sf.raw))} | ${trio(
+        fmtKb(so.terser),
+        fmtKb(sp.terser),
+        fmtKb(sf.terser)
+      )} | ${trio(fmtKb(so.gzip), fmtKb(sp.gzip), fmtKb(sf.gzip))} | ${trio(fmtMs(c.orig), fmtMs(c.prepack), fmtMs(c.freezedry))} | ${trio(
+        fmtMs(cc.orig),
+        fmtMs(cc.prepack),
+        fmtMs(cc.freezedry)
+      )} | ${trio(fmtMs(ex.orig), fmtMs(ex.prepack), fmtMs(ex.freezedry))} |`
     );
   }
   lines.push("");
 
-  // 2. Startup Speedups & V8 Snapshot Reference
   lines.push("## 2. Startup Timings & Speedups vs Original (incl. V8 `--build-snapshot` Reference)");
   lines.push("");
-  lines.push(
-    "| Library | Orig Cold Net | PP Cold Net (Speedup) | Hybrid Cold Net (Speedup) | V8 Snapshot Net | Orig Code-Cache | PP Code-Cache (Speedup) | Hybrid Code-Cache (Speedup) | Orig Exec-Only | PP Exec-Only (Speedup) | Hybrid Exec-Only (Speedup) |"
-  );
-  lines.push("|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|");
+  const timingCols = pp
+    ? ["Orig Cold Net", "PP Cold Net (Speedup)", "FD Cold Net (Speedup)", "V8 Snapshot Net", "Orig Code-Cache", "PP Code-Cache (Speedup)", "FD Code-Cache (Speedup)", "Orig Exec-Only", "PP Exec-Only (Speedup)", "FD Exec-Only (Speedup)"]
+    : ["Orig Cold Net", "FD Cold Net (Speedup)", "V8 Snapshot Net", "Orig Code-Cache", "FD Code-Cache (Speedup)", "Orig Exec-Only", "FD Exec-Only (Speedup)"];
+  lines.push(`| Workload | ${timingCols.join(" | ")} |`);
+  lines.push(`|---|${timingCols.map(() => "---:").join("|")}|`);
   for (const r of data.rows) {
     const c = r.timings.coldNetMs;
     const cc = r.timings.codeCacheMs;
     const ex = r.timings.execOnlyMs;
-    lines.push(
-      `| **\`${r.id}\`** | ${fmtMs(c.orig)} | ${fmtPaired(c.prepack, c.prepackSpeedup)} | ${fmtPaired(
-        c.hybrid,
-        c.hybridSpeedup
-      )} | ${fmtMs(c.v8Snapshot)} | ${fmtMs(cc.orig)} | ${fmtPaired(cc.prepack, cc.prepackSpeedup)} | ${fmtPaired(
-        cc.hybrid,
-        cc.hybridSpeedup
-      )} | ${fmtMs(ex.orig)} | ${fmtPaired(ex.prepack, ex.prepackSpeedup)} | ${fmtPaired(
-        ex.hybrid,
-        ex.hybridSpeedup
-      )} |`
-    );
+    const cells = [
+      fmtMs(c.orig),
+      ...(pp ? [fmtPaired(c.prepack, c.prepackSpeedup)] : []),
+      fmtPaired(c.freezedry, c.freezedrySpeedup),
+      fmtMs(c.v8Snapshot),
+      fmtMs(cc.orig),
+      ...(pp ? [fmtPaired(cc.prepack, cc.prepackSpeedup)] : []),
+      fmtPaired(cc.freezedry, cc.freezedrySpeedup),
+      fmtMs(ex.orig),
+      ...(pp ? [fmtPaired(ex.prepack, ex.prepackSpeedup)] : []),
+      fmtPaired(ex.freezedry, ex.freezedrySpeedup),
+    ];
+    lines.push(`| **\`${r.id}\`** | ${cells.join(" | ")} |`);
   }
   lines.push("");
 
-  // 3. Size Ratios & Correctness / Oracle Details
-  lines.push("## 3. Size Ratios & Heap Isomorphism Oracle Audit");
+  lines.push("## 3. Size Ratios & Heap Isomorphism Oracle");
   lines.push("");
   lines.push(
-    "| Library | PP Gzip Ratio | Hybrid Gzip Ratio | Prepack Blocker / Notes | Hybrid Heap Isomorphism Oracle (`verify`) |"
+    pp
+      ? "| Workload | PP Gzip Ratio | FD Gzip Ratio | Prepack Blocker / Notes | freezedry Oracle (`verify`) |"
+      : "| Workload | FD Gzip Ratio | freezedry Oracle (`verify`) |"
   );
-  lines.push("|---|---:|---:|---|---|");
+  lines.push(pp ? "|---|---:|---:|---|---|" : "|---|---:|---|");
   for (const r of data.rows) {
-    const sOrig = r.sizes.orig || {};
-    const sPp = r.sizes.prepack || {};
-    const sHyb = r.sizes.hybrid || {};
+    const so = r.sizes.orig || {};
+    const sp = r.sizes.prepack || {};
+    const sf = r.sizes.freezedry || {};
     const ppNote = r.prepack && r.prepack.blocker ? `\`${r.prepack.blocker.replace(/\|/g, "\\|")}\`` : "—";
     lines.push(
-      `| **\`${r.id}\`** | ${fmtRatio(sOrig.gzip, sPp.gzip)} | ${fmtRatio(
-        sOrig.gzip,
-        sHyb.gzip
-      )} | ${ppNote} | ${formatOracleCell(r.oracle)} |`
+      pp
+        ? `| **\`${r.id}\`** | ${fmtRatio(so.gzip, sp.gzip)} | ${fmtRatio(so.gzip, sf.gzip)} | ${ppNote} | ${formatOracleCell(r.oracle)} |`
+        : `| **\`${r.id}\`** | ${fmtRatio(so.gzip, sf.gzip)} | ${formatOracleCell(r.oracle)} |`
     );
   }
   lines.push("");
@@ -525,45 +484,38 @@ function renderComparisonMarkdown(data) {
 
 function main() {
   const args = parseArgs(process.argv.slice(2));
-  fs.mkdirSync(HYBRID_RESULTS_DIR, { recursive: true });
+  fs.mkdirSync(RESULTS_DIR, { recursive: true });
 
-  let prepackJsonPath = args.prepackJson;
-  if (args.runPrepack) {
-    prepackJsonPath = path.join(HYBRID_RESULTS_DIR, "prepack-latest.json");
-    const prepackMdPath = path.join(HYBRID_RESULTS_DIR, "prepack-latest.md");
-    runBenchSuite(args.prepackBin, prepackJsonPath, prepackMdPath, args);
-  } else if (!prepackJsonPath) {
-    prepackJsonPath = findLatestJsonInDir(BENCH_RESULTS_DIR);
-  }
-  if (!prepackJsonPath || !fs.existsSync(prepackJsonPath)) {
-    throw new Error(
-      `Prepack benchmark JSON not found (looked in ${BENCH_RESULTS_DIR}; pass --prepack-json or --run-prepack)`
-    );
+  let prepackReport = null;
+  if (args.comparePrepack) {
+    let prepackJsonPath = args.comparePrepack;
+    if (!prepackJsonPath.endsWith(".json")) {
+      prepackJsonPath = path.join(RESULTS_DIR, "prepack", "prepack-latest.json");
+      runBenchSuite(args.comparePrepack, prepackJsonPath, prepackJsonPath.replace(/\.json$/, ".md"), args);
+    }
+    prepackReport = JSON.parse(fs.readFileSync(prepackJsonPath, "utf8"));
   }
 
-  let hybridJsonPath = args.hybridJson || path.join(HYBRID_RESULTS_DIR, "hybrid-latest.json");
-  if (args.runHybrid || !fs.existsSync(hybridJsonPath)) {
-    const hybridMdPath = hybridJsonPath.replace(/\.json$/, ".md");
+  const freezedryJsonPath = args.freezedryJson || path.join(RESULTS_DIR, "freezedry-latest.json");
+  if (args.run || !fs.existsSync(freezedryJsonPath)) {
     const runOpts = Object.assign({}, args, {
-      extraEnv: args.useOptIns ? { HYBRID_OPTINS: "corpus" } : undefined,
+      extraEnv: args.useOptIns ? { FREEZEDRY_OPTINS: "corpus" } : undefined,
     });
-    runBenchSuite(args.hybridEntry, hybridJsonPath, hybridMdPath, runOpts);
+    runBenchSuite(args.entry, freezedryJsonPath, freezedryJsonPath.replace(/\.json$/, ".md"), runOpts);
   }
+  const freezedryReport = JSON.parse(fs.readFileSync(freezedryJsonPath, "utf8"));
 
-  const prepackReport = JSON.parse(fs.readFileSync(prepackJsonPath, "utf8"));
-  const hybridReport = JSON.parse(fs.readFileSync(hybridJsonPath, "utf8"));
-
-  let oracleMap = new Map();
+  let oracle = new Map();
   if (args.enableVerify) {
-    console.log("Running Heap Isomorphism Oracle audit across selected workloads...");
-    oracleMap = runOracleAudit(args.only, {
+    console.log("Running the heap-isomorphism oracle across selected workloads...");
+    oracle = runOracleAudit(args.only, {
       useOptIns: args.useOptIns,
       oracleJsonl: args.oracleJsonl,
       rerunOracle: args.rerunOracle,
     });
   }
 
-  const comparison = generateComparisonData(prepackReport, hybridReport, oracleMap);
+  const comparison = generateComparisonData({ freezedry: freezedryReport, prepack: prepackReport, oracle });
   const md = renderComparisonMarkdown(comparison);
 
   fs.mkdirSync(path.dirname(args.outJson), { recursive: true });

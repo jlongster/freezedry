@@ -83,7 +83,7 @@ function brotliSize(buf) {
 }
 
 function minifyInChildProcess(code, timeoutMs = 300000, maxOldSpaceMb = 8192) {
-  const tmpBase = fs.existsSync("/tmp/opencode") ? "/tmp/opencode" : os.tmpdir();
+  const tmpBase = os.tmpdir();
   const dir = fs.mkdtempSync(path.join(tmpBase, "pp-terser-"));
   const inFile = path.join(dir, "in.js");
   const outFile = path.join(dir, "out.json");
@@ -210,7 +210,7 @@ function measureColdStartup(origCode, ppCode, smokeCode, expectedJson, workDir, 
   return {
     baseline: localZero,
     orig: { raw: origRaw, net: origNet },
-    prepacked: { raw: ppRaw, net: ppNet },
+    compiled: { raw: ppRaw, net: ppNet },
     speedupRaw: ppRaw.median > 0 ? round(origRaw.median / ppRaw.median, 3) : null,
     speedupNet: ppNet.median > 0 ? round(origNet.median / ppNet.median, 3) : null,
   };
@@ -301,7 +301,7 @@ function measureVmCodeCache(origCode, ppCode, smokeCode, expectedJson, opts) {
   const ppStats = summarizeSamples(ppSamples);
   return {
     orig: Object.assign({}, origStats, { cachedDataBytes: origCachedData.length }),
-    prepacked: Object.assign({}, ppStats, { cachedDataBytes: ppCachedData.length }),
+    compiled: Object.assign({}, ppStats, { cachedDataBytes: ppCachedData.length }),
     speedup: ppStats.median > 0 ? round(origStats.median / ppStats.median, 3) : null,
   };
 }
@@ -381,7 +381,7 @@ function measureVmExecOnly(origCode, ppCode, smokeCode, expectedJson, opts) {
   const ppStats = summarizeSamples(ppSamples);
   return {
     orig: origStats,
-    prepacked: ppStats,
+    compiled: ppStats,
     speedup: ppStats.median > 0 ? round(origStats.median / ppStats.median, 3) : null,
   };
 }
@@ -556,7 +556,7 @@ async function benchmarkSizesOnly(origCode, ppCode, opts = {}) {
   const ppSizes = await measureSizes(ppCode, opts);
   return {
     orig: origSizes,
-    prepacked: ppSizes,
+    compiled: ppSizes,
     ratios: {
       raw: round(ppSizes.raw / origSizes.raw, 3),
       terser:

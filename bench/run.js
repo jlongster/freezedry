@@ -7,7 +7,7 @@ const path = require("path");
 const { SPECS } = require("./libs/specs");
 const { buildCorpus } = require("./setup");
 const { runInVm, runInFreshNode } = require("./harness");
-const { OPTION_PROFILES, runProfileInChild } = require("./prepack-worker");
+const { OPTION_PROFILES, runProfileInChild } = require("./worker");
 const {
   LARGE_BYTES_THRESHOLD,
   GIANT_BYTES_THRESHOLD,
@@ -26,7 +26,7 @@ const MANIFEST_PATH = path.join(BENCH_DIR, "libs", "manifest.json");
 
 function parseArgs(argv) {
   const args = {
-    prepack: path.join(REPO_ROOT, "lib", "prepack-node.js"),
+    compiler: path.join(REPO_ROOT, "index.js"),
     only: null,
     profiles: null,
     runs: 30,
@@ -47,7 +47,7 @@ function parseArgs(argv) {
 
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
-    if (a === "--prepack") args.prepack = argv[++i];
+    if (a === "--compiler" || a === "--prepack") args.compiler = argv[++i];
     else if (a === "--only") args.only = argv[++i].split(",").map(s => s.trim()).filter(Boolean);
     else if (a === "--profiles") args.profiles = argv[++i].split(",").map(s => s.trim()).filter(Boolean);
     else if (a === "--runs") args.runs = parseInt(argv[++i], 10);
@@ -70,19 +70,20 @@ function parseArgs(argv) {
       console.log(
         [
           "Usage: node bench/run.js [options]",
-          "  --prepack <path>            Path to lib/prepack-node.js, hybrid/index.js, or dir (default: ./lib/prepack-node.js)",
+          "  --compiler <path>           Module exposing prepackSources(), or a dir containing one (default: freezedry's index.js).",
+          "                              Pass Prepack's lib/prepack-node.js to benchmark Prepack (alias: --prepack)",
           "  --only <id1,id2,...>        Run only selected corpus IDs",
-          "  --profiles <p1,p2,...>      Run only selected option profiles (default: all 6)",
+          "  --profiles <p1,p2,...>      Run only selected option profiles (default: the compiler's benchProfiles, else all 6)",
           "  --runs <N>                  Benchmark iterations per metric (default: 30; auto-adapted >=10 for large inputs)",
           "  --warmup <N>                Warmup iterations per metric (default: 5)",
           "  --no-adapt-runs             Do not reduce perf run counts on multi-MB workloads",
-          "  --timeout <ms>              Per-lib Prepack timeout in ms (default: 300000; 900000 for large inputs)",
-          "  --large-timeout <ms>        Per-lib Prepack timeout for large (>=750KB) inputs (default: 900000)",
+          "  --timeout <ms>              Per-lib compile timeout in ms (default: 300000; 900000 for large inputs)",
+          "  --large-timeout <ms>        Per-lib compile timeout for large (>=750KB) inputs (default: 900000)",
           "  --max-old-space-size <MB>   Worker V8 heap cap in MB (default: 16384)",
-          "  --jobs <N>                  Parallel Prepack compilation workers (default: min(4, cpus))",
-          "  --orig-only                 Skip Prepack compilation and measure Original baselines only",
+          "  --jobs <N>                  Parallel compilation workers (default: min(4, cpus))",
+          "  --orig-only                 Skip compilation and measure Original baselines only",
           "  --no-snapshot               Skip Node --build-snapshot reference benchmark",
-          "  --no-perf                   Run Prepack triage + digest checks only (skip timing harness)",
+          "  --no-perf                   Run compile + digest checks only (skip timing harness)",
           "  --out-json <path>           Override timestamped JSON output path",
           "  --out-md <path>             Override Markdown report path (default: bench/results/latest.md)",
         ].join("\n")
@@ -94,12 +95,11 @@ function parseArgs(argv) {
   }
 
   if (!args.origOnly) {
-    let resolved = path.resolve(args.prepack);
+    let resolved = path.resolve(args.compiler);
     if (fs.existsSync(resolved) && fs.statSync(resolved).isDirectory()) {
       const candidates = [
         path.join(resolved, "lib", "prepack-node.js"),
         path.join(resolved, "index.js"),
-        path.join(resolved, "hybrid", "index.js"),
       ];
       for (const c of candidates) {
         if (fs.existsSync(c)) {
@@ -109,9 +109,9 @@ function parseArgs(argv) {
       }
     }
     if (!fs.existsSync(resolved)) {
-      throw new Error(`Prepack entrypoint not found at ${resolved} (did you run 'yarn build-prepack'?)`);
+      throw new Error(`Compiler entrypoint not found at ${resolved}`);
     }
-    args.prepack = resolved;
+    args.compiler = resolved;
   }
   return args;
 }
@@ -285,10 +285,10 @@ function fmtCompileCell(profileObj) {
 
 function renderMarkdownReport(report) {
   const lines = [];
-  lines.push("# Prepack Real-World Benchmark & Triage Report");
+  lines.push("# Real-World Benchmark & Triage Report");
   lines.push("");
   lines.push(`- **Generated**: \`${report.timestamp}\``);
-  lines.push(`- **Prepack**: \`${report.prepack.path}\` (version \`${report.prepack.version}\`)`);
+  lines.push(`- **Compiler**: \`${report.compiler.path}\` (version \`${report.compiler.version}\`)`);
   lines.push(
     `- **Environment**: Node \`${report.environment.node}\` on \`${report.environment.platform}/${report.environment.arch}\` (${report.environment.cpus} CPUs, ${(report.environment.totalMemBytes / 1024 / 1024 / 1024).toFixed(1)} GB RAM)`
   );
@@ -310,8 +310,8 @@ function renderMarkdownReport(report) {
       `| **Total workloads** | **${s.total}** | ${s.standardCount} standard + ${s.largeCount} large (${s.librariesCount} libraries + ${s.appsCount} app workloads) |\n` +
       `| **OK (default options)** | **${s.defaultOk}** | Digest-identical in fresh \`node\` and \`vm\` with zero flags |\n` +
       `| **OK (best option profile)** | **${s.bestOk}** | Includes libraries unlocked by \`--compatibility\` or \`--mathRandomSeed\` |\n` +
-      `| **WRONG (silent miscompile)** | **${s.wrong}** | Prepack exited 0 with no Fatal/Recoverable error, runtime digest/throw differed |\n` +
-      `| **FAIL (Prepack error)** | **${s.fail}** | Clean diagnostic (\`PPxxxx\`) or internal serializer error |\n` +
+      `| **WRONG (silent miscompile)** | **${s.wrong}** | Compiler exited 0 with no Fatal/Recoverable error, runtime digest/throw differed |\n` +
+      `| **FAIL (compiler error)** | **${s.fail}** | Clean diagnostic or internal compiler error |\n` +
       `| **TIMEOUT** | **${s.timeout}** | Exceeded per-workload timeout (${Math.round(report.config.timeout / 1000)}s standard / ${Math.round(report.config.largeTimeout / 1000)}s large) |`
   );
   lines.push("");
@@ -370,7 +370,7 @@ function renderMarkdownReport(report) {
     lines.push("## 2. Original Baseline Measurements (All Workloads)");
     lines.push("");
     lines.push(
-      "Baseline timings and compressed sizes for every unmodified workload (including workloads where Prepack fails), covering **library load + deterministic smoke test**."
+      "Baseline timings and compressed sizes for every unmodified workload (including workloads where the compiler fails), covering **library load + deterministic smoke test**."
     );
     lines.push("");
     lines.push(
@@ -402,11 +402,11 @@ function renderMarkdownReport(report) {
 
   const okPerfLibs = report.libraries.filter(l => l.status === "OK" && l.perf);
   if (okPerfLibs.length > 0) {
-    lines.push("## 3. Runtime Performance (Original vs Prepacked vs V8 Snapshot)");
+    lines.push("## 3. Runtime Performance (Original vs Compiled vs V8 Snapshot)");
     lines.push("");
     lines.push(
       "All timings cover **library load + deterministic smoke-test API suite**, measured over interleaved runs. " +
-        "**Speedup > 1.00x means Prepacked is faster than Original.**"
+        "**Speedup > 1.00x means Compiled is faster than Original.**"
     );
     lines.push("");
     lines.push(
@@ -416,11 +416,11 @@ function renderMarkdownReport(report) {
     for (const lib of okPerfLibs) {
       const p = lib.perf;
       const coldOrig = `${p.coldProcess.orig.net.median.toFixed(2)} (${p.coldProcess.orig.net.p90.toFixed(2)})`;
-      const coldPp = `${p.coldProcess.prepacked.net.median.toFixed(2)} (${p.coldProcess.prepacked.net.p90.toFixed(2)})`;
+      const coldPp = `${p.coldProcess.compiled.net.median.toFixed(2)} (${p.coldProcess.compiled.net.p90.toFixed(2)})`;
       const ccOrig = `${p.vmCodeCache.orig.median.toFixed(2)} (${p.vmCodeCache.orig.p90.toFixed(2)})`;
-      const ccPp = `${p.vmCodeCache.prepacked.median.toFixed(2)} (${p.vmCodeCache.prepacked.p90.toFixed(2)})`;
+      const ccPp = `${p.vmCodeCache.compiled.median.toFixed(2)} (${p.vmCodeCache.compiled.p90.toFixed(2)})`;
       const exOrig = `${p.vmExecOnly.orig.median.toFixed(2)} (${p.vmExecOnly.orig.p90.toFixed(2)})`;
-      const exPp = `${p.vmExecOnly.prepacked.median.toFixed(2)} (${p.vmExecOnly.prepacked.p90.toFixed(2)})`;
+      const exPp = `${p.vmExecOnly.compiled.median.toFixed(2)} (${p.vmExecOnly.compiled.p90.toFixed(2)})`;
       const snapStr =
         p.nodeSnapshot && p.nodeSnapshot.supported
           ? `${p.nodeSnapshot.net.median.toFixed(2)} ms (${(p.nodeSnapshot.blobBytes / 1024 / 1024).toFixed(1)} MB)`
@@ -434,7 +434,7 @@ function renderMarkdownReport(report) {
     lines.push("## 4. Code Size Comparison");
     lines.push("");
     lines.push(
-      "`gzip` and `brotli` columns compress the **Terser-minified** code (production wire size). Ratio < 1.00x means Prepacked is smaller than Original."
+      "`gzip` and `brotli` columns compress the **Terser-minified** code (production wire size). Ratio < 1.00x means Compiled is smaller than Original."
     );
     lines.push("");
     lines.push(
@@ -444,10 +444,10 @@ function renderMarkdownReport(report) {
     for (const lib of okPerfLibs) {
       const sz = lib.perf.sizes;
       lines.push(
-        `| **\`${lib.id}\`** | ${fmtKb(sz.orig.raw)} -> ${fmtKb(sz.prepacked.raw)} (${sz.ratios.raw.toFixed(2)}x) | ` +
-          `${fmtKb(sz.orig.terser)} -> ${fmtKb(sz.prepacked.terser)} (${sz.ratios.terser != null ? sz.ratios.terser.toFixed(2) + "x" : "—"}) | ` +
-          `${fmtKb(sz.orig.gzip)} -> ${fmtKb(sz.prepacked.gzip)} (**${sz.ratios.gzip.toFixed(2)}x**) | ` +
-          `${fmtKb(sz.orig.brotli)} -> ${fmtKb(sz.prepacked.brotli)} (**${sz.ratios.brotli.toFixed(2)}x**) |`
+        `| **\`${lib.id}\`** | ${fmtKb(sz.orig.raw)} -> ${fmtKb(sz.compiled.raw)} (${sz.ratios.raw.toFixed(2)}x) | ` +
+          `${fmtKb(sz.orig.terser)} -> ${fmtKb(sz.compiled.terser)} (${sz.ratios.terser != null ? sz.ratios.terser.toFixed(2) + "x" : "—"}) | ` +
+          `${fmtKb(sz.orig.gzip)} -> ${fmtKb(sz.compiled.gzip)} (**${sz.ratios.gzip.toFixed(2)}x**) | ` +
+          `${fmtKb(sz.orig.brotli)} -> ${fmtKb(sz.compiled.brotli)} (**${sz.ratios.brotli.toFixed(2)}x**) |`
       );
     }
     lines.push("");
@@ -473,7 +473,7 @@ function renderMarkdownReport(report) {
         lines.push(`- **Excerpt**: \`${b.location.snippet}\``);
       }
       if (b.internalFrame) {
-        lines.push(`- **Internal Prepack frame**: \`${b.internalFrame}\``);
+        lines.push(`- **Internal compiler frame**: \`${b.internalFrame}\``);
       }
       if (lib.bestProfile) {
         lines.push(`- **Workaround profile**: \`${lib.bestProfile.profile}\` (\`${lib.bestProfile.cliFlags}\`) -> **OK**`);
@@ -499,27 +499,32 @@ async function main() {
     }
   }
 
-  let prepackVersion = args.origOnly ? "orig-only" : "unknown";
+  let compilerVersion = args.origOnly ? "orig-only" : "unknown";
+  let compilerProfiles = null;
   if (!args.origOnly) {
     try {
-      prepackVersion = require(args.prepack).prepackVersion || prepackVersion;
+      const mod = require(args.compiler);
+      compilerVersion = mod.version || mod.prepackVersion || compilerVersion;
+      // A compiler can declare which option profiles are meaningful for it (freezedry: only "default").
+      compilerProfiles = Array.isArray(mod.benchProfiles) ? mod.benchProfiles : null;
     } catch (e) {
-      throw new Error(`Failed to load Prepack at ${args.prepack}: ${e.message}`);
+      throw new Error(`Failed to load compiler at ${args.compiler}: ${e.message}`);
     }
   }
 
-  const tmpRoot = fs.mkdtempSync(path.join("/tmp/opencode", "pp-bench-run-"));
+  const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "freezedry-bench-run-"));
   fs.mkdirSync(RESULTS_DIR, { recursive: true });
 
-  const activeProfiles = args.profiles
-    ? OPTION_PROFILES.filter(p => args.profiles.includes(p.name))
+  const wantedProfiles = args.profiles || compilerProfiles;
+  const activeProfiles = wantedProfiles
+    ? OPTION_PROFILES.filter(p => wantedProfiles.includes(p.name))
     : OPTION_PROFILES;
   if (!args.origOnly && activeProfiles.length === 0) {
     throw new Error(`No option profiles matched --profiles=${args.profiles.join(",")}`);
   }
 
-  console.log(`Prepack Real-World Benchmark`);
-  console.log(`  prepack: ${args.origOnly ? "(skipped --orig-only)" : `${args.prepack} (v${prepackVersion})`}`);
+  console.log(`Real-World Benchmark`);
+  console.log(`  compiler: ${args.origOnly ? "(skipped --orig-only)" : `${args.compiler} (v${compilerVersion})`}`);
   console.log(
     `  corpus:  ${selected.length} workloads${
       args.origOnly
@@ -559,7 +564,7 @@ async function main() {
       });
     }
 
-    // Step 2: Run all (lib x optionProfile) Prepack compilations across memory-weighted worker pool
+    // Step 2: Run all (lib x optionProfile) compilations across memory-weighted worker pool
     const outcomesByLib = new Map();
     if (!args.origOnly) {
       const compileTasks = [];
@@ -585,7 +590,7 @@ async function main() {
             codeFile: t.item.distPath,
             smokeCode: t.item.spec.smokeCode,
             expectedDigest: t.item.expectedDigest,
-            prepackPath: args.prepack,
+            compilerPath: args.compiler,
             profile: t.profile,
             tmpDir: tmpRoot,
             outCodeFile: t.outCodeFile,
@@ -729,10 +734,10 @@ async function main() {
           const perf = lib.perf;
           console.log(
             `[perf]   ${lib.id.padEnd(18)} (N=${perf.runs}) ` +
-              `coldNet: ${perf.coldProcess.orig.net.median.toFixed(2)}->${perf.coldProcess.prepacked.net.median.toFixed(2)}ms (${perf.coldProcess.speedupNet}x) | ` +
-              `codeCache: ${perf.vmCodeCache.orig.median.toFixed(2)}->${perf.vmCodeCache.prepacked.median.toFixed(2)}ms (${perf.vmCodeCache.speedup}x) | ` +
-              `vmExec: ${perf.vmExecOnly.orig.median.toFixed(2)}->${perf.vmExecOnly.prepacked.median.toFixed(2)}ms (${perf.vmExecOnly.speedup}x) | ` +
-              `gzip: ${fmtKb(perf.sizes.orig.gzip)}->${fmtKb(perf.sizes.prepacked.gzip)} (${perf.sizes.ratios.gzip}x)`
+              `coldNet: ${perf.coldProcess.orig.net.median.toFixed(2)}->${perf.coldProcess.compiled.net.median.toFixed(2)}ms (${perf.coldProcess.speedupNet}x) | ` +
+              `codeCache: ${perf.vmCodeCache.orig.median.toFixed(2)}->${perf.vmCodeCache.compiled.median.toFixed(2)}ms (${perf.vmCodeCache.speedup}x) | ` +
+              `vmExec: ${perf.vmExecOnly.orig.median.toFixed(2)}->${perf.vmExecOnly.compiled.median.toFixed(2)}ms (${perf.vmExecOnly.speedup}x) | ` +
+              `gzip: ${fmtKb(perf.sizes.orig.gzip)}->${fmtKb(perf.sizes.compiled.gzip)} (${perf.sizes.ratios.gzip}x)`
           );
         } else if (lib.origPerf) {
           lib.origPerf.sizes = await measureSizes(lib._origCode);
@@ -783,9 +788,9 @@ async function main() {
 
     const report = {
       timestamp: now.toISOString(),
-      prepack: {
-        path: args.origOnly ? null : args.prepack,
-        version: prepackVersion,
+      compiler: {
+        path: args.origOnly ? null : args.compiler,
+        version: compilerVersion,
       },
       environment: {
         node: process.version,
