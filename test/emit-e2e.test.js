@@ -281,7 +281,7 @@ describe("hybrid/lib/emit — advanced corner cases & optimizations", () => {
     });
     assert.equal(out.code, null);
     assert.equal(seenDiags.length, 1);
-    assert.equal(seenDiags[0].errorCode, "HYBRID_BAILOUT");
+    assert.equal(seenDiags[0].errorCode, "HYB_BAILOUT");
 
     const fb = prepackSources("var x = 42;", {
       captureGraph: {
@@ -304,6 +304,7 @@ describe("hybrid/lib/emit — advanced corner cases & optimizations", () => {
             nodes: {},
             bailouts: [{ reason: "pending promise" }],
           },
+          fallbackOnBailout: false,
         }),
       BailoutError
     );

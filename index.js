@@ -1,193 +1,258 @@
 "use strict";
 
+// Public API, compatible with Prepack's synchronous prepackSources so bench/run.js can drive it.
+// Pipeline: run (with H3 env membrane) -> capture -> emit -> guard -> (verify). See DESIGN.md.
+
 const childProcess = require("node:child_process");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
+const v8 = require("node:v8");
+
+const { run } = require("./lib/run");
+const { capture, captureFromRun } = require("./lib/capture");
 const { emit, BailoutError } = require("./lib/emit");
-const pkg = require("./package.json");
+const {
+  PROFILES,
+  resolveProfile,
+  installEnvironment,
+  createBeforeRunHook,
+  emitGuard,
+  measureGuardOverhead,
+  parseEnvFlags,
+  parseAssumeEntry,
+  parseAssumeValue,
+} = require("./lib/env");
+const { verify, verifySmoke, verifyMutationProbe } = require("./lib/verify");
+const {
+  getHybridVersion,
+  getCorpusOptInForLibrary,
+  adaptPrepackOptions,
+  normalizeSources,
+  emitDiagnostic,
+  handleBailoutList,
+  finalizePipelineOutput,
+  validateUnsupportedPrepackFlags,
+  createPrepackSources,
+} = require("./lib/bench-adapter");
 
-function tryRequire(modPath) {
-  try {
-    return require(modPath);
-  } catch (e) {
-    if (e && e.code === "MODULE_NOT_FOUND") return null;
-    throw e;
-  }
-}
-
-function normalizeSources(sources) {
-  if (typeof sources === "string") {
-    return [{ filePath: "input.js", fileContents: sources }];
-  }
-  if (!Array.isArray(sources)) {
-    throw new TypeError("prepackSources: expected array of { filePath, fileContents }");
-  }
-  return sources.map((s, idx) => ({
-    filePath: (s && s.filePath) || `input-${idx}.js`,
-    fileContents: String((s && s.fileContents) ?? ""),
-  }));
-}
-
-function finishFromCaptureGraph(graph, normSources, options = {}) {
-  const originalCode = normSources.map((s) => s.fileContents).join("\n;\n");
-  const diagnostics = [];
-
-  const reportBailouts = (bailouts) => {
-    for (const b of bailouts) {
-      const diag = {
-        severity: "FatalError",
-        errorCode: "HYBRID_BAILOUT",
-        message: b.where ? `${b.reason} (${b.where})` : b.reason,
-        location: null,
-      };
-      diagnostics.push(diag);
-      if (typeof options.errorHandler === "function") {
-        const action = options.errorHandler(diag);
-        if (action === "Fail" && !options.fallbackOnBailout) {
-          throw new BailoutError(bailouts);
-        }
-      }
-    }
-    if (options.fallbackOnBailout) {
-      return {
-        code: originalCode,
-        fellBack: true,
-        bailouts,
-        stats: { bailedOut: true },
-        diagnostics,
-      };
-    }
-    if (typeof options.errorHandler !== "function") {
-      throw new BailoutError(bailouts);
-    }
-    return {
-      code: null,
-      bailouts,
-      stats: { bailedOut: true },
-      diagnostics,
-    };
+async function runAndCaptureInProcess(normSources, captureOpts) {
+  const envHook = createBeforeRunHook(captureOpts.profile, captureOpts.assume, {
+    allowVolatile: captureOpts.allowVolatile,
+    tz: captureOpts.tz,
+  });
+  const runResult = await run(normSources, {
+    env: "ecmascript",
+    beforeRun: envHook.beforeRun,
+    afterRun: envHook.afterRun,
+    timeout: captureOpts.timeout || 30000,
+  });
+  const graph = await captureFromRun(runResult);
+  return {
+    graph,
+    bakedVolatiles: runResult.bakedVolatiles || [],
+    envDiagnostics: runResult.envDiagnostics || [],
   };
+}
+
+function finishFromCapturePayload(payload, combinedCode, primaryPath, adapted, diagnostics) {
+  const { graph, bakedVolatiles = [], envDiagnostics = [] } = payload;
 
   if (Array.isArray(graph.bailouts) && graph.bailouts.length > 0) {
-    return reportBailouts(graph.bailouts);
+    return handleBailoutList(graph.bailouts, combinedCode, adapted, diagnostics);
   }
 
   const emitted = emit(graph, {
-    originalCode,
+    originalCode: combinedCode,
     throwOnBailout: false,
   });
 
-  if (emitted.bailouts && emitted.bailouts.length > 0) {
-    return reportBailouts(emitted.bailouts);
+  if (Array.isArray(emitted.bailouts) && emitted.bailouts.length > 0) {
+    return handleBailoutList(emitted.bailouts, combinedCode, adapted, diagnostics);
   }
 
-  let finalCode = emitted.code;
-
-  // Optional Track H3 (guard) hook when merged
-  const guardMod = tryRequire("./lib/guard");
-  if (
-    guardMod &&
-    typeof guardMod.emitWithGuards === "function" &&
-    Array.isArray(graph.assumptions) &&
-    graph.assumptions.length > 0
-  ) {
-    finalCode = guardMod.emitWithGuards(finalCode, graph.assumptions, originalCode, options);
-  }
-
-  // Optional Track H4 (verify) hook when requested and merged
-  if (options.verify) {
-    const verifyMod = tryRequire("./lib/verify");
-    if (verifyMod && typeof verifyMod.verifySync === "function") {
-      verifyMod.verifySync(originalCode, finalCode, options);
-    }
-  }
-
-  return {
-    code: finalCode,
-    stats: emitted.stats,
+  return finalizePipelineOutput({
+    graph,
+    emitted,
+    bakedVolatiles,
+    envDiagnostics,
+    combinedCode,
+    primaryPath,
+    adapted,
     diagnostics,
-  };
-}
-
-function resolveCaptureOptions(options = {}) {
-  const env =
-    options.env ||
-    (options.compatibility === "node-react" || options.compatibility === "node-cli"
-      ? "node"
-      : "universal");
-  return {
-    env,
-    timeout: options.timeout || 30000,
-    assume: options.assume || null,
-  };
+  });
 }
 
 async function prepackSourcesAsync(sources, options = {}) {
-  const normSources = normalizeSources(sources);
-  const capModPath = options._captureModulePath || path.join(__dirname, "lib", "capture.js");
-  const capMod = tryRequire(capModPath);
-  if (!capMod || typeof capMod.capture !== "function") {
-    throw new Error("hybrid: capture module (lib/capture.js) is not available yet");
+  if (options && options.captureGraph) {
+    const { combinedCode, primaryPath } = normalizeSources(sources || "");
+    const adapted = adaptPrepackOptions(options, primaryPath);
+    const diagnostics = [];
+    if (!validateUnsupportedPrepackFlags(adapted, diagnostics)) {
+      return {
+        code: adapted.fallbackOnBailout ? combinedCode : null,
+        map: null,
+        stats: { bailedOut: true },
+        diagnostics,
+        bailouts: [],
+        isStandIn: false,
+        verifyResult: null,
+      };
+    }
+    return finishFromCapturePayload({ graph: options.captureGraph }, combinedCode, primaryPath, adapted, diagnostics);
   }
-  const graph = await capMod.capture(normSources, resolveCaptureOptions(options));
-  return finishFromCaptureGraph(graph, normSources, options);
+
+  const { normSources, combinedCode, primaryPath } = normalizeSources(sources);
+  const adapted = adaptPrepackOptions(options, primaryPath);
+  const diagnostics = [];
+
+  if (!validateUnsupportedPrepackFlags(adapted, diagnostics)) {
+    return {
+      code: adapted.fallbackOnBailout ? combinedCode : null,
+      map: null,
+      stats: { bailedOut: true },
+      diagnostics,
+      bailouts: [],
+      isStandIn: false,
+      verifyResult: null,
+    };
+  }
+
+  if (adapted.standIn === "identity") {
+    emitDiagnostic(
+      {
+        severity: "Information",
+        errorCode: "HYB_STANDIN",
+        message: "Using stand-in identity transform",
+      },
+      adapted,
+      diagnostics
+    );
+    return {
+      code: combinedCode,
+      map: null,
+      stats: { standIn: "identity", inputBytes: Buffer.byteLength(combinedCode, "utf8") },
+      diagnostics,
+      bailouts: [],
+      isStandIn: true,
+      verifyResult: null,
+    };
+  }
+
+  const payload = await runAndCaptureInProcess(normSources, {
+    profile: adapted.profile,
+    assume: adapted.assume,
+    allowVolatile: adapted.allowVolatile,
+    tz: adapted.tz,
+    timeout: adapted.timeout,
+  });
+
+  return finishFromCapturePayload(payload, combinedCode, primaryPath, adapted, diagnostics);
 }
 
-// Public API, compatible with Prepack's synchronous prepackSources so bench/run.js can drive it.
-// Pipeline: run -> capture -> emit -> guard -> (verify). See DESIGN.md.
 function prepackSources(sources, options = {}) {
   if (options && options.captureGraph) {
-    const normSources = normalizeSources(sources || "");
-    return finishFromCaptureGraph(options.captureGraph, normSources, options);
+    const { combinedCode, primaryPath } = normalizeSources(sources || "");
+    const adapted = adaptPrepackOptions(options, primaryPath);
+    const diagnostics = [];
+    if (!validateUnsupportedPrepackFlags(adapted, diagnostics)) {
+      return {
+        code: adapted.fallbackOnBailout ? combinedCode : null,
+        map: null,
+        stats: { bailedOut: true },
+        diagnostics,
+        bailouts: [],
+        isStandIn: false,
+        verifyResult: null,
+      };
+    }
+    return finishFromCapturePayload({ graph: options.captureGraph }, combinedCode, primaryPath, adapted, diagnostics);
   }
 
-  const normSources = normalizeSources(sources);
-  const capModPath = options._captureModulePath || path.join(__dirname, "lib", "capture.js");
-  if (!fs.existsSync(capModPath)) {
-    throw new Error("hybrid: capture module (lib/capture.js) is not available yet");
+  const { normSources, combinedCode, primaryPath } = normalizeSources(sources);
+  const adapted = adaptPrepackOptions(options, primaryPath);
+  const diagnostics = [];
+
+  if (!validateUnsupportedPrepackFlags(adapted, diagnostics)) {
+    return {
+      code: adapted.fallbackOnBailout ? combinedCode : null,
+      map: null,
+      stats: { bailedOut: true },
+      diagnostics,
+      bailouts: [],
+      isStandIn: false,
+      verifyResult: null,
+    };
   }
+
+  if (adapted.standIn === "identity") {
+    emitDiagnostic(
+      {
+        severity: "Information",
+        errorCode: "HYB_STANDIN",
+        message: "Using stand-in identity transform",
+      },
+      adapted,
+      diagnostics
+    );
+    return {
+      code: combinedCode,
+      map: null,
+      stats: { standIn: "identity", inputBytes: Buffer.byteLength(combinedCode, "utf8") },
+      diagnostics,
+      bailouts: [],
+      isStandIn: true,
+      verifyResult: null,
+    };
+  }
+
+  // Validate profile name upfront so invalid profile throws synchronously without subprocess overhead
+  resolveProfile(adapted.profile);
 
   const baseTmp = fs.existsSync("/tmp/opencode") ? "/tmp/opencode" : os.tmpdir();
   const reqFile = path.join(
     baseTmp,
-    `hybrid-cap-in-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}.json`
+    `hybrid-cap-in-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}.v8`
   );
-  const resFile = `${reqFile}.out.json`;
+  const resFile = `${reqFile}.out`;
 
   fs.writeFileSync(
     reqFile,
-    JSON.stringify({
-      capModPath,
+    v8.serialize({
       sources: normSources,
-      captureOpts: resolveCaptureOptions(options),
-    }),
-    "utf8"
+      captureOpts: {
+        profile: adapted.profile,
+        assume: adapted.assume,
+        allowVolatile: adapted.allowVolatile,
+        tz: adapted.tz,
+        timeout: adapted.timeout,
+      },
+    })
   );
 
   try {
-    const timeoutMs = (options && options.timeout ? options.timeout : 30000) + 10000;
-    const proc = childProcess.spawnSync(
-      process.execPath,
-      [__filename, "--capture-worker", reqFile, resFile],
-      {
-        timeout: timeoutMs,
-        maxBuffer: 16 * 1024 * 1024,
-        encoding: "utf8",
-      }
-    );
+    const timeoutMs = adapted.timeout + 15000;
+    const proc = childProcess.spawnSync(process.execPath, [__filename, "--capture-worker", reqFile, resFile], {
+      timeout: timeoutMs,
+      maxBuffer: 64 * 1024 * 1024,
+      encoding: "utf8",
+    });
     if (proc.error) {
       throw proc.error;
     }
     if (proc.status !== 0 || !fs.existsSync(resFile)) {
-      const detail = (proc.stderr || "").trim().split("\n").slice(-3).join(" | ");
+      const detail = (proc.stderr || "")
+        .trim()
+        .split("\n")
+        .slice(-3)
+        .join(" | ");
       throw new Error(`hybrid capture worker failed (${proc.status}): ${detail}`);
     }
-    const payload = JSON.parse(fs.readFileSync(resFile, "utf8"));
-    if (!payload.ok) {
-      throw new Error(payload.error || "hybrid capture failed");
+    const workerOut = v8.deserialize(fs.readFileSync(resFile));
+    if (!workerOut.ok) {
+      throw new Error(workerOut.error || "hybrid capture failed");
     }
-    return finishFromCaptureGraph(payload.graph, normSources, options);
+    return finishFromCapturePayload(workerOut, combinedCode, primaryPath, adapted, diagnostics);
   } finally {
     try {
       fs.unlinkSync(reqFile);
@@ -203,29 +268,56 @@ if (require.main === module && process.argv[2] === "--capture-worker") {
   const resFile = process.argv[4];
   (async () => {
     try {
-      const req = JSON.parse(fs.readFileSync(reqFile, "utf8"));
-      const { capture } = require(req.capModPath);
-      const graph = await capture(req.sources, req.captureOpts);
-      fs.writeFileSync(resFile, JSON.stringify({ ok: true, graph }), "utf8");
+      const req = v8.deserialize(fs.readFileSync(reqFile));
+      const out = await runAndCaptureInProcess(req.sources, req.captureOpts);
+      fs.writeFileSync(
+        resFile,
+        v8.serialize({
+          ok: true,
+          graph: out.graph,
+          bakedVolatiles: out.bakedVolatiles,
+          envDiagnostics: out.envDiagnostics,
+        })
+      );
       process.exit(0);
     } catch (err) {
       fs.writeFileSync(
         resFile,
-        JSON.stringify({
+        v8.serialize({
           ok: false,
           error: err && err.message ? err.message : String(err),
-        }),
-        "utf8"
+        })
       );
       process.exit(0);
     }
   })();
 }
 
+const prepackVersion = getHybridVersion();
+
 module.exports = {
-  BailoutError,
-  emit,
   prepackSources,
   prepackSourcesAsync,
-  prepackVersion: `hybrid-${pkg.version}`,
+  prepackVersion,
+  getHybridVersion,
+  getCorpusOptInForLibrary,
+  adaptPrepackOptions,
+  createPrepackSources,
+  BailoutError,
+  run,
+  capture,
+  captureFromRun,
+  emit,
+  PROFILES,
+  resolveProfile,
+  installEnvironment,
+  createBeforeRunHook,
+  emitGuard,
+  measureGuardOverhead,
+  parseEnvFlags,
+  parseAssumeEntry,
+  parseAssumeValue,
+  verify,
+  verifySmoke,
+  verifyMutationProbe,
 };

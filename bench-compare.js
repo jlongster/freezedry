@@ -19,7 +19,8 @@ function parseArgs(argv) {
     hybridJson: null,
     runPrepack: false,
     runHybrid: false,
-    prepackBin: "/tmp/opencode/pp-wt/bench/lib/prepack-node.js",
+    useOptIns: false,
+    prepackBin: "/tmp/opencode/pp-work/lib/prepack-node.js",
     hybridEntry: path.join(HYBRID_DIR, "index.js"),
     only: null,
     runs: 15,
@@ -37,6 +38,7 @@ function parseArgs(argv) {
     else if (a === "--hybrid-json") args.hybridJson = path.resolve(argv[++i]);
     else if (a === "--run-prepack") args.runPrepack = true;
     else if (a === "--run-hybrid") args.runHybrid = true;
+    else if (a === "--opt-ins" || a === "--use-opt-ins") args.useOptIns = true;
     else if (a === "--prepack-bin") args.prepackBin = path.resolve(argv[++i]);
     else if (a === "--hybrid-entry") args.hybridEntry = path.resolve(argv[++i]);
     else if (a === "--only") args.only = argv[++i];
@@ -108,18 +110,23 @@ function runBenchSuite(prepackTarget, outJsonPath, outMdPath, opts) {
     cliArgs.push("--no-snapshot");
   }
 
+  const env = Object.assign({}, process.env, { TZ: "UTC", LANG: "C", LC_ALL: "C" });
+  if (opts.extraEnv) {
+    Object.assign(env, opts.extraEnv);
+  }
   const r = childProcess.spawnSync(process.execPath, cliArgs, {
     cwd: REPO_ROOT,
     stdio: "inherit",
-    env: Object.assign({}, process.env, { TZ: "UTC", LANG: "C", LC_ALL: "C" }),
+    env,
   });
   if (r.status !== 0) {
     throw new Error(`bench/run.js exited with code ${r.status} for ${prepackTarget}`);
   }
 }
 
-function runOracleAudit(onlyIds = null) {
+function runOracleAudit(onlyIds = null, opts = {}) {
   const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, "utf8"));
+  const useOptIns = Boolean(opts.useOptIns);
   const allow = onlyIds
     ? new Set(
         onlyIds
@@ -137,19 +144,35 @@ function runOracleAudit(onlyIds = null) {
     try {
       compiled = prepackSources([{ filePath: `${entry.id}.js`, fileContents: origCode }], {
         compatibility: "browser",
+        useCorpusOptIns: useOptIns,
+        fallbackOnBailout: false,
+        verify: true,
+        verifySmokeSpecId: entry.id,
       });
     } catch (e) {
-      results.set(entry.id, {
-        compiledOk: false,
-        bailedOut: true,
-        error: e.message,
-      });
+      if (e && e.verifyResult) {
+        results.set(entry.id, {
+          compiledOk: true,
+          isStandIn: false,
+          strictIsoOk: false,
+          seededIsoOk: false,
+          firstDiff: e.verifyResult.firstDiff ? e.verifyResult.firstDiff.message : e.message,
+          stats: e.verifyResult.stats || {},
+        });
+      } else {
+        results.set(entry.id, {
+          compiledOk: false,
+          bailedOut: true,
+          error: e.message,
+        });
+      }
       continue;
     }
 
-    // 1. Strict unseeded oracle check (catches unguarded Date.now / new Date() / Math.random)
+    // Also check whether strict unseeded verify passes (distinguishes zero-volatile ISO-OK vs opt-in volatile ISO-SEEDED)
     const strictIso = verify(origCode, compiled.code, {
       profile: "bench",
+      ignoreErrorStack: true,
       specId: entry.id,
     });
 
@@ -160,27 +183,24 @@ function runOracleAudit(onlyIds = null) {
         strictIsoOk: true,
         seededIsoOk: true,
         volatileReason: null,
-        stats: strictIso.stats,
+        stats: compiled.verifyResult ? compiled.verifyResult.stats : strictIso.stats,
       });
       continue;
     }
-
-    // 2. Seeded clock + PRNG oracle check (verifies heap isomorphism when volatile sources are pinned via --assume)
-    const seededIso = verify(origCode, compiled.code, {
-      profile: "bench",
-      mathRandomSeed: "0",
-      fixedTime: 1700000000000,
-      specId: entry.id,
-    });
 
     results.set(entry.id, {
       compiledOk: true,
       isStandIn: Boolean(compiled.isStandIn),
       strictIsoOk: false,
-      seededIsoOk: seededIso.ok,
-      volatileReason: seededIso.ok && strictIso.firstDiff ? strictIso.firstDiff.path : null,
-      firstDiff: seededIso.ok ? null : seededIso.firstDiff ? seededIso.firstDiff.message : strictIso.firstDiff.message,
-      stats: seededIso.stats,
+      seededIsoOk: Boolean(compiled.verifyResult && compiled.verifyResult.ok),
+      volatileReason: strictIso.firstDiff ? strictIso.firstDiff.path : "volatile-init",
+      firstDiff:
+        compiled.verifyResult && compiled.verifyResult.ok
+          ? null
+          : strictIso.firstDiff
+            ? strictIso.firstDiff.message
+            : "mismatch",
+      stats: compiled.verifyResult ? compiled.verifyResult.stats : strictIso.stats,
     });
   }
 
@@ -538,8 +558,11 @@ function main() {
 
   let hybridJsonPath = args.hybridJson || path.join(HYBRID_RESULTS_DIR, "hybrid-latest.json");
   if (args.runHybrid || !fs.existsSync(hybridJsonPath)) {
-    const hybridMdPath = path.join(HYBRID_RESULTS_DIR, "hybrid-latest.md");
-    runBenchSuite(args.hybridEntry, hybridJsonPath, hybridMdPath, args);
+    const hybridMdPath = hybridJsonPath.replace(/\.json$/, ".md");
+    const runOpts = Object.assign({}, args, {
+      extraEnv: args.useOptIns ? { HYBRID_OPTINS: "corpus" } : undefined,
+    });
+    runBenchSuite(args.hybridEntry, hybridJsonPath, hybridMdPath, runOpts);
   }
 
   const prepackReport = JSON.parse(fs.readFileSync(prepackJsonPath, "utf8"));
@@ -548,7 +571,7 @@ function main() {
   let oracleMap = new Map();
   if (args.enableVerify) {
     console.log("Running Heap Isomorphism Oracle audit across selected workloads...");
-    oracleMap = runOracleAudit(args.only);
+    oracleMap = runOracleAudit(args.only, { useOptIns: args.useOptIns });
   }
 
   const comparison = generateComparisonData(prepackReport, hybridReport, oracleMap);
