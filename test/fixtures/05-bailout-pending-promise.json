@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "roots": [
+    { "kind": "global", "key": "x", "value": { "$": "pPending" } }
+  ],
+  "intrinsicPatches": [],
+  "nodes": {
+    "pPending": {
+      "type": "promise",
+      "state": "pending",
+      "value": { "prim": "undefined" }
+    }
+  },
+  "assumptions": [],
+  "bailouts": [
+    { "reason": "pending promise", "where": "pPending" }
+  ]
+}

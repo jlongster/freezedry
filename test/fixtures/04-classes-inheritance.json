@@ -1,0 +1,124 @@
+{
+  "version": 1,
+  "roots": [
+    { "kind": "global", "key": "classes", "value": { "$": "oExport" } }
+  ],
+  "intrinsicPatches": [],
+  "nodes": {
+    "sClassScope": {
+      "type": "scope",
+      "parent": null,
+      "vars": [
+        { "name": "createdCount", "value": { "prim": "number", "value": 1 }, "kind": "let" }
+      ]
+    },
+    "cBase": {
+      "type": "function",
+      "kind": "class",
+      "source": "class Shape { constructor(kind) { createdCount++; this.kind = kind; } describe() { return 'Shape:' + this.kind; } static totalCreated() { return createdCount; } }",
+      "strict": true,
+      "name": "Shape",
+      "scope": "sClassScope",
+      "proto": { "intrinsic": "Function.prototype" },
+      "props": [
+        { "key": "length", "value": { "prim": "number", "value": 1 }, "writable": false, "enumerable": false, "configurable": true },
+        { "key": "name", "value": { "prim": "string", "value": "Shape" }, "writable": false, "enumerable": false, "configurable": true },
+        { "key": "prototype", "value": { "$": "oBaseProto" }, "writable": false, "enumerable": false, "configurable": false },
+        { "key": "totalCreated", "value": { "$": "fTotalCreated" }, "writable": true, "enumerable": false, "configurable": true }
+      ]
+    },
+    "fBaseDescribe": {
+      "type": "function",
+      "kind": "method",
+      "source": "describe() { return 'Shape:' + this.kind; }",
+      "strict": true,
+      "name": "describe",
+      "scope": "sClassScope"
+    },
+    "fTotalCreated": {
+      "type": "function",
+      "kind": "method",
+      "source": "totalCreated() { return createdCount; }",
+      "strict": true,
+      "name": "totalCreated",
+      "scope": "sClassScope"
+    },
+    "oBaseProto": {
+      "type": "object",
+      "proto": { "intrinsic": "Object.prototype" },
+      "props": [
+        { "key": "constructor", "value": { "$": "cBase" }, "writable": true, "enumerable": false, "configurable": true },
+        { "key": "describe", "value": { "$": "fBaseDescribe" }, "writable": true, "enumerable": false, "configurable": true }
+      ]
+    },
+    "cRect": {
+      "type": "function",
+      "kind": "class",
+      "source": "class Rect extends BaseParam { static VERSION = sideEffectInit(); constructor(w, h) { super('rect'); this.w = w; this.h = h; } describe() { return super.describe() + '[' + this.w + 'x' + this.h + ']'; } get area() { return this.w * this.h; } static unit() { return new Rect(1, 1); } }",
+      "strict": true,
+      "name": "Rect",
+      "scope": "sClassScope",
+      "proto": { "$": "cBase" },
+      "props": [
+        { "key": "length", "value": { "prim": "number", "value": 2 }, "writable": false, "enumerable": false, "configurable": true },
+        { "key": "name", "value": { "prim": "string", "value": "Rect" }, "writable": false, "enumerable": false, "configurable": true },
+        { "key": "prototype", "value": { "$": "oRectProto" }, "writable": false, "enumerable": false, "configurable": false },
+        { "key": "unit", "value": { "$": "fUnit" }, "writable": true, "enumerable": false, "configurable": true },
+        { "key": "VERSION", "value": { "prim": "string", "value": "v2.0-captured" }, "writable": true, "enumerable": true, "configurable": true }
+      ]
+    },
+    "fRectDescribe": {
+      "type": "function",
+      "kind": "method",
+      "source": "describe() { return super.describe() + '[' + this.w + 'x' + this.h + ']'; }",
+      "strict": true,
+      "name": "describe",
+      "scope": "sClassScope"
+    },
+    "fRectArea": {
+      "type": "function",
+      "kind": "getter",
+      "source": "get area() { return this.w * this.h; }",
+      "strict": true,
+      "name": "get area",
+      "scope": "sClassScope"
+    },
+    "fUnit": {
+      "type": "function",
+      "kind": "method",
+      "source": "unit() { return new Rect(1, 1); }",
+      "strict": true,
+      "name": "unit",
+      "scope": "sClassScope"
+    },
+    "oRectProto": {
+      "type": "object",
+      "proto": { "$": "oBaseProto" },
+      "props": [
+        { "key": "constructor", "value": { "$": "cRect" }, "writable": true, "enumerable": false, "configurable": true },
+        { "key": "describe", "value": { "$": "fRectDescribe" }, "writable": true, "enumerable": false, "configurable": true },
+        { "key": "area", "get": { "$": "fRectArea" }, "set": null, "enumerable": false, "configurable": true }
+      ]
+    },
+    "oPrebuiltRect": {
+      "type": "object",
+      "proto": { "$": "oRectProto" },
+      "props": [
+        { "key": "kind", "value": { "prim": "string", "value": "rect" }, "writable": true, "enumerable": true, "configurable": true },
+        { "key": "w", "value": { "prim": "number", "value": 6 }, "writable": true, "enumerable": true, "configurable": true },
+        { "key": "h", "value": { "prim": "number", "value": 7 }, "writable": true, "enumerable": true, "configurable": true }
+      ]
+    },
+    "oExport": {
+      "type": "object",
+      "props": [
+        { "key": "Shape", "value": { "$": "cBase" }, "writable": true, "enumerable": true, "configurable": true },
+        { "key": "Rect", "value": { "$": "cRect" }, "writable": true, "enumerable": true, "configurable": true },
+        { "key": "prebuilt", "value": { "$": "oPrebuiltRect" }, "writable": true, "enumerable": true, "configurable": true },
+        { "key": "sharedDescribeRef", "value": { "$": "fRectDescribe" }, "writable": true, "enumerable": true, "configurable": true }
+      ]
+    }
+  },
+  "assumptions": [],
+  "bailouts": []
+}

@@ -1,0 +1,184 @@
+{
+  "version": 1,
+  "roots": [
+    {
+      "kind": "global",
+      "key": "bag",
+      "value": { "$": "oBag" },
+      "descriptor": { "writable": true, "enumerable": true, "configurable": true }
+    }
+  ],
+  "intrinsicPatches": [
+    {
+      "path": "Array.prototype",
+      "key": "__hybridTestPatch",
+      "descriptor": {
+        "value": { "prim": "string", "value": "patched!" },
+        "writable": true,
+        "enumerable": false,
+        "configurable": true
+      }
+    }
+  ],
+  "nodes": {
+    "symUniq": {
+      "type": "symbol",
+      "description": "myUnique",
+      "registered": null
+    },
+    "symReg": {
+      "type": "symbol",
+      "description": "shared.reg",
+      "registered": "shared.reg"
+    },
+    "aHoles": {
+      "type": "array",
+      "length": 5,
+      "extensible": true,
+      "frozen": false,
+      "sealed": false,
+      "props": [
+        { "key": "0", "value": { "prim": "string", "value": "first" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "2", "value": { "prim": "undefined" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "3", "value": { "prim": "number", "value": 99 }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "extra", "value": { "prim": "boolean", "value": true }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": { "symbol": "symUniq" }, "value": { "prim": "string", "value": "onArray" }, "enumerable": true, "writable": true, "configurable": true }
+      ]
+    },
+    "aFrozen": {
+      "type": "array",
+      "length": 3,
+      "extensible": false,
+      "frozen": true,
+      "sealed": true,
+      "props": [
+        { "key": "0", "value": { "prim": "number", "value": 10 }, "enumerable": true, "writable": false, "configurable": false },
+        { "key": "1", "value": { "prim": "number", "value": 20 }, "enumerable": true, "writable": false, "configurable": false },
+        { "key": "2", "value": { "prim": "number", "value": 30 }, "enumerable": true, "writable": false, "configurable": false },
+        { "key": "length", "value": { "prim": "number", "value": 3 }, "enumerable": false, "writable": false, "configurable": false }
+      ]
+    },
+    "oCycKey": {
+      "type": "object",
+      "extensible": true,
+      "frozen": false,
+      "sealed": false,
+      "props": [
+        { "key": "mapRef", "value": { "$": "mCyclic" }, "enumerable": true, "writable": true, "configurable": true }
+      ]
+    },
+    "fKeyFn": {
+      "type": "function",
+      "kind": "normal",
+      "source": "function keyFn(x) { return x + 1; }",
+      "strict": true,
+      "name": "keyFn",
+      "scope": null
+    },
+    "fBound": {
+      "type": "function",
+      "kind": "normal",
+      "source": "function () { [native code] }",
+      "strict": true,
+      "name": "bound keyFn",
+      "scope": null,
+      "bound": {
+        "target": { "$": "fKeyFn" },
+        "this": { "prim": "null" },
+        "args": [{ "prim": "number", "value": 41 }]
+      }
+    },
+    "mCyclic": {
+      "type": "map",
+      "entries": [
+        [{ "$": "oCycKey" }, { "prim": "string", "value": "cyclicKeyVal" }],
+        [{ "$": "fKeyFn" }, { "prim": "string", "value": "fnKeyVal" }],
+        [{ "$": "mCyclic" }, { "prim": "string", "value": "selfMapKey" }]
+      ]
+    },
+    "sItems": {
+      "type": "set",
+      "entries": [
+        { "symbol": "symUniq" },
+        { "symbol": "symReg" },
+        { "$": "sItems" }
+      ]
+    },
+    "dValid": { "type": "date", "time": 1700000000000 },
+    "dInvalid": { "type": "date", "time": null, "special": "NaN" },
+    "rStateful": { "type": "regexp", "source": "ab+c", "flags": "gi", "lastIndex": 7 },
+    "bShared": {
+      "type": "arraybuffer",
+      "bytes": "AQIDBAUGBwg=",
+      "byteLength": 8
+    },
+    "tInt32": {
+      "type": "typedarray",
+      "ctor": "Int32Array",
+      "byteOffset": 0,
+      "length": 2,
+      "buffer": { "$": "bShared" }
+    },
+    "tUint8Slice": {
+      "type": "typedarray",
+      "ctor": "Uint8Array",
+      "byteOffset": 4,
+      "length": 4,
+      "buffer": { "$": "bShared" }
+    },
+    "dvSlice": {
+      "type": "dataview",
+      "byteOffset": 2,
+      "byteLength": 4,
+      "buffer": { "$": "bShared" }
+    },
+    "xNegZero": { "type": "boxed", "primitive": { "prim": "number", "value": 0, "special": "-0" } },
+    "xStr": { "type": "boxed", "primitive": { "prim": "string", "value": "ok" } },
+    "xBig": { "type": "boxed", "primitive": { "prim": "bigint", "value": "77" } },
+    "xSym": { "type": "boxed", "primitive": { "symbol": "symUniq" } },
+    "eType": {
+      "type": "error",
+      "ctor": "TypeError",
+      "message": "bad input",
+      "props": [
+        { "key": "stack", "value": { "prim": "string", "value": "TypeError: bad input\n    at init:1:1" }, "enumerable": false, "writable": true, "configurable": true },
+        { "key": "message", "value": { "prim": "string", "value": "bad input" }, "enumerable": false, "writable": true, "configurable": true },
+        { "key": "code", "value": { "prim": "string", "value": "ERR_BAD" }, "enumerable": true, "writable": true, "configurable": true }
+      ]
+    },
+    "pOk": { "type": "promise", "state": "fulfilled", "value": { "prim": "number", "value": 123 } },
+    "pFail": { "type": "promise", "state": "rejected", "value": { "$": "eType" } },
+    "oBag": {
+      "type": "object",
+      "extensible": true,
+      "frozen": false,
+      "sealed": false,
+      "props": [
+        { "key": "holes", "value": { "$": "aHoles" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "frozenArr", "value": { "$": "aFrozen" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "map", "value": { "$": "mCyclic" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "cycKey", "value": { "$": "oCycKey" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "fnKey", "value": { "$": "fKeyFn" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "bound", "value": { "$": "fBound" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "set", "value": { "$": "sItems" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "dValid", "value": { "$": "dValid" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "dInvalid", "value": { "$": "dInvalid" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "re", "value": { "$": "rStateful" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "i32", "value": { "$": "tInt32" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "u8", "value": { "$": "tUint8Slice" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "dv", "value": { "$": "dvSlice" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "xNegZero", "value": { "$": "xNegZero" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "xStr", "value": { "$": "xStr" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "xBig", "value": { "$": "xBig" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "xSym", "value": { "$": "xSym" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "err", "value": { "$": "eType" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "pOk", "value": { "$": "pOk" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "pFail", "value": { "$": "pFail" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": { "symbol": "symUniq" }, "value": { "prim": "string", "value": "onBag" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": { "intrinsic": "Symbol.toStringTag" }, "value": { "prim": "string", "value": "HybridBag" }, "enumerable": false, "writable": false, "configurable": true }
+      ]
+    }
+  },
+  "assumptions": [],
+  "bailouts": []
+}

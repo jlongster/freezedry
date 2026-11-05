@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "roots": [
+    {
+      "kind": "global",
+      "key": "app",
+      "value": { "$": "oRoot" },
+      "descriptor": { "writable": true, "enumerable": true, "configurable": false }
+    }
+  ],
+  "intrinsicPatches": [],
+  "nodes": {
+    "oNullProto": {
+      "type": "object",
+      "proto": null,
+      "extensible": true,
+      "frozen": false,
+      "sealed": false,
+      "props": [
+        { "key": "dictKey", "value": { "prim": "string", "value": "dictVal" }, "enumerable": true, "writable": true, "configurable": true }
+      ]
+    },
+    "fProtoGetter": {
+      "type": "function",
+      "kind": "getter",
+      "source": "get inherited() { return this._v * 2; }",
+      "strict": true,
+      "name": "get inherited",
+      "scope": null
+    },
+    "fProtoSetter": {
+      "type": "function",
+      "kind": "setter",
+      "source": "set shadowedSetter(_v) { throw new Error('setter must not be called during emit'); }",
+      "strict": true,
+      "name": "set shadowedSetter",
+      "scope": null
+    },
+    "oBaseProto": {
+      "type": "object",
+      "proto": { "intrinsic": "Object.prototype" },
+      "extensible": true,
+      "frozen": false,
+      "sealed": false,
+      "props": [
+        { "key": "inherited", "get": { "$": "fProtoGetter" }, "set": null, "enumerable": true, "configurable": true },
+        { "key": "shadowedSetter", "get": null, "set": { "$": "fProtoSetter" }, "enumerable": true, "configurable": true }
+      ]
+    },
+    "oChild": {
+      "type": "object",
+      "proto": { "$": "oBaseProto" },
+      "extensible": true,
+      "frozen": false,
+      "sealed": false,
+      "props": [
+        { "key": "zFirst", "value": { "prim": "number", "value": 1 }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "_v", "value": { "prim": "number", "value": 21 }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "shadowedSetter", "value": { "prim": "string", "value": "safeOwnData" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "__proto__", "value": { "prim": "string", "value": "ownProtoProp" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "backToRoot", "value": { "$": "oRoot" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "aLast", "value": { "prim": "number", "value": -0, "special": "-0" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "hidden", "value": { "prim": "number", "value": 0, "special": "NaN" }, "enumerable": false, "writable": false, "configurable": true }
+      ]
+    },
+    "oShared": {
+      "type": "object",
+      "proto": { "intrinsic": "Object.prototype" },
+      "extensible": false,
+      "frozen": true,
+      "sealed": true,
+      "props": [
+        { "key": "tag", "value": { "prim": "string", "value": "SHARED" }, "enumerable": true, "writable": false, "configurable": false }
+      ]
+    },
+    "oSealed": {
+      "type": "object",
+      "proto": { "intrinsic": "Object.prototype" },
+      "extensible": false,
+      "frozen": false,
+      "sealed": true,
+      "props": [
+        { "key": "mut", "value": { "prim": "number", "value": 10 }, "enumerable": true, "writable": true, "configurable": false }
+      ]
+    },
+    "oInlineLeaf": {
+      "type": "object",
+      "proto": { "intrinsic": "Object.prototype" },
+      "extensible": true,
+      "frozen": false,
+      "sealed": false,
+      "props": [
+        { "key": "big", "value": { "prim": "bigint", "value": "9007199254740993" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "inf", "value": { "prim": "number", "value": 0, "special": "-Infinity" }, "enumerable": true, "writable": true, "configurable": true }
+      ]
+    },
+    "oRoot": {
+      "type": "object",
+      "proto": { "intrinsic": "Object.prototype" },
+      "extensible": true,
+      "frozen": false,
+      "sealed": false,
+      "props": [
+        { "key": "self", "value": { "$": "oRoot" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "child", "value": { "$": "oChild" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "dict", "value": { "$": "oNullProto" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "s1", "value": { "$": "oShared" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "s2", "value": { "$": "oShared" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "sealed", "value": { "$": "oSealed" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "leaf", "value": { "$": "oInlineLeaf" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "pushRef", "value": { "intrinsic": "Array.prototype.push" }, "enumerable": true, "writable": true, "configurable": true },
+        { "key": "globalRef", "value": { "global": true }, "enumerable": true, "writable": true, "configurable": true }
+      ]
+    }
+  },
+  "assumptions": [],
+  "bailouts": []
+}
