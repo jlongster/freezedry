@@ -286,4 +286,16 @@ describe("End-to-End Integrated Pipeline over bench/libs/dist (run -> capture ->
     assert.equal(vm.runInContext("VaultPkg.initCheck", ctx), "boot:12");
     assert.equal(vm.runInContext("const v = new VaultPkg.Vault(10); v.bump(5) + '|' + v.reveal('ok')", ctx), "35|ok:35");
   });
+
+  it("recomputes pure deterministic TypedArray/ArrayBuffer tables instead of emitting multi-KB base64 (crc-32)", async () => {
+    const crcSrc = fs.readFileSync(path.join(DIST_DIR, "crc-32.js"), "utf8");
+    const res = await prepackSourcesAsync([{ filePath: "crc-32.js", fileContents: crcSrc }], {
+      fallbackOnBailout: false,
+      verify: true,
+      verifySmokeSpecId: "crc-32",
+    });
+    assert.equal(res.stats.verified, true);
+    assert.ok(res.code.length < 10000, `Expected compact recomputed crc-32 (< 10KB), got ${res.code.length} bytes`);
+    assert.equal(res.code.includes("fromBase64"), false, "crc-32 should not need base64 buffer decoding");
+  });
 });
