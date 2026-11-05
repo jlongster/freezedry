@@ -11,7 +11,7 @@
   "intrinsicPatches": [
     {
       "path": "Array.prototype",
-      "key": "__hybridTestPatch",
+      "key": "__freezedryTestPatch",
       "descriptor": {
         "value": { "prim": "string", "value": "patched!" },
         "writable": true,
@@ -175,7 +175,7 @@
         { "key": "pOk", "value": { "$": "pOk" }, "enumerable": true, "writable": true, "configurable": true },
         { "key": "pFail", "value": { "$": "pFail" }, "enumerable": true, "writable": true, "configurable": true },
         { "key": { "symbol": "symUniq" }, "value": { "prim": "string", "value": "onBag" }, "enumerable": true, "writable": true, "configurable": true },
-        { "key": { "intrinsic": "Symbol.toStringTag" }, "value": { "prim": "string", "value": "HybridBag" }, "enumerable": false, "writable": false, "configurable": true }
+        { "key": { "intrinsic": "Symbol.toStringTag" }, "value": { "prim": "string", "value": "freezedryBag" }, "enumerable": false, "writable": false, "configurable": true }
       ]
     }
   },

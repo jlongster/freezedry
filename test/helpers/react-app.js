@@ -1,6 +1,6 @@
 "use strict";
 
-// Helpers for react-hybrid tests: React 18 (production build) from bench/node_modules, and a
+// Helpers for freezedry-react tests: React 18 (production build) from bench/node_modules, and a
 // builder that specializes a small app source and checks it against renderToString.
 
 const path = require("node:path");
@@ -10,7 +10,7 @@ const assert = require("node:assert/strict");
 
 process.env.NODE_ENV = "production";
 
-const NM = path.join(__dirname, "..", "..", "..", "bench", "node_modules");
+const NM = path.join(__dirname, "..", "..", "bench", "node_modules");
 const reactRequire = Module.createRequire(path.join(NM, "index.js"));
 const React = reactRequire("react");
 const RDS = reactRequire("react-dom/server");

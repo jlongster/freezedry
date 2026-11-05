@@ -1,7 +1,8 @@
 "use strict";
 
-// Public API, compatible with Prepack's synchronous prepackSources so bench/run.js can drive it.
-// Pipeline: run (with H3 env membrane) -> capture -> emit -> guard -> (verify). See DESIGN.md.
+// Public API. freeze()/freezeAsync() take the same arguments as Prepack's prepackSources(), and are
+// also exported under those names so bench/run.js can drive freezedry and Prepack alike.
+// Pipeline: run (with environment membrane) -> capture -> emit -> guard -> (verify). See docs/design.md.
 
 const childProcess = require("node:child_process");
 const fs = require("node:fs");
@@ -25,7 +26,7 @@ const {
 } = require("./lib/env");
 const { verify, verifySmoke, verifyMutationProbe } = require("./lib/verify");
 const {
-  getHybridVersion,
+  getVersion,
   getCorpusOptInForLibrary,
   adaptPrepackOptions,
   normalizeSources,
@@ -122,7 +123,7 @@ async function prepackSourcesAsync(sources, options = {}) {
     emitDiagnostic(
       {
         severity: "Information",
-        errorCode: "HYB_STANDIN",
+        errorCode: "FZD_STANDIN",
         message: "Using stand-in identity transform",
       },
       adapted,
@@ -189,7 +190,7 @@ function prepackSources(sources, options = {}) {
     emitDiagnostic(
       {
         severity: "Information",
-        errorCode: "HYB_STANDIN",
+        errorCode: "FZD_STANDIN",
         message: "Using stand-in identity transform",
       },
       adapted,
@@ -209,10 +210,10 @@ function prepackSources(sources, options = {}) {
   // Validate profile name upfront so invalid profile throws synchronously without subprocess overhead
   resolveProfile(adapted.profile);
 
-  const baseTmp = fs.existsSync("/tmp/opencode") ? "/tmp/opencode" : os.tmpdir();
+  const baseTmp = os.tmpdir();
   const reqFile = path.join(
     baseTmp,
-    `hybrid-cap-in-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}.v8`
+    `freezedry-cap-in-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}.v8`
   );
   const resFile = `${reqFile}.out`;
 
@@ -249,11 +250,11 @@ function prepackSources(sources, options = {}) {
         .split("\n")
         .slice(-3)
         .join(" | ");
-      throw new Error(`hybrid capture worker failed (${proc.status}): ${detail}`);
+      throw new Error(`freezedry capture worker failed (${proc.status}): ${detail}`);
     }
     const workerOut = v8.deserialize(fs.readFileSync(resFile));
     if (!workerOut.ok) {
-      throw new Error(workerOut.error || "hybrid capture failed");
+      throw new Error(workerOut.error || "freezedry capture failed");
     }
     return finishFromCapturePayload(workerOut, combinedCode, primaryPath, adapted, diagnostics);
   } finally {
@@ -296,13 +297,19 @@ if (require.main === module && process.argv[2] === "--capture-worker") {
   })();
 }
 
-const prepackVersion = getHybridVersion();
+const version = getVersion();
 
 module.exports = {
+  freeze: prepackSources,
+  freezeAsync: prepackSourcesAsync,
+  version,
+  // Prepack-compatible names, used by bench/run.js.
   prepackSources,
   prepackSourcesAsync,
-  prepackVersion,
-  getHybridVersion,
+  prepackVersion: version,
+  // freezedry ignores Prepack's option profiles, so the benchmark only needs to run "default".
+  benchProfiles: ["default"],
+  getVersion,
   getCorpusOptInForLibrary,
   adaptPrepackOptions,
   createPrepackSources,

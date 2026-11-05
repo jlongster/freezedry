@@ -6,7 +6,7 @@ const { describe, it } = require("node:test");
 const assert = require("node:assert/strict");
 const { verify, verifySmoke, verifyMutationProbe } = require("../lib/verify");
 
-const DIST_DIR = path.resolve(__dirname, "../../bench/libs/dist");
+const DIST_DIR = path.resolve(__dirname, "../bench/libs/dist");
 
 describe("behavioral checks — smoke digests and post-init mutation probes", () => {
   it("matches bench smoke digests in VM and fresh Node on real corpus libraries", () => {

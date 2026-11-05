@@ -6,10 +6,10 @@ const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
 
-const SPECS = require("../../bench/libs/specs.js").SPECS.filter((s) => s.tier !== "large");
+const SPECS = require("../bench/libs/specs.js").SPECS.filter((s) => s.tier !== "large");
 const { installEnvironment, emitGuard, measureGuardOverhead } = require("../lib/env.js");
 
-const DIST_DIR = path.resolve(__dirname, "../../bench/libs/dist");
+const DIST_DIR = path.resolve(__dirname, "../bench/libs/dist");
 
 function readDistLib(id) {
   return fs.readFileSync(path.join(DIST_DIR, `${id}.js`), "utf8");

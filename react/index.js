@@ -1,6 +1,6 @@
 "use strict";
 
-// React-Hybrid: trace-based template specialization of ReactDOMServer.renderToString with guards.
+// freezedry/react: trace-based template specialization of ReactDOMServer.renderToString with guards.
 // Implementation module for react-bench: { name, prepare(appSource, opts) -> renderFn(data) }.
 // See README.md for the design.
 
@@ -51,7 +51,7 @@ function defaultTrainingInputs(opts) {
     for (let i = 0; i < large; i++) out.push(opts.generateSampleInput(0x7a11 + i * 13 + 1, "large"));
     return out;
   }
-  throw new Error("react-hybrid: no training inputs (pass opts.trainingInputs)");
+  throw new Error("freezedry-react: no training inputs (pass opts.trainingInputs)");
 }
 
 // Builds the specialized renderer. Returns { render, code, stats, ... }.
@@ -260,7 +260,7 @@ class StubMiss extends Error {}
 function makeReactStub() {
   const api = {
     createContext(defaultValue) {
-      return { _currentValue: defaultValue, $$hybridStub: true };
+      return { _currentValue: defaultValue, $$freezedryStub: true };
     },
   };
   return new Proxy(api, {
@@ -379,8 +379,8 @@ const IMPL_FILES = ["index.js", "instrument.js", "trace.js", "learn.js", "codege
 function cacheDir(opts) {
   if (opts.cacheDir) return opts.cacheDir;
   const fs = require("fs");
-  const base = fs.existsSync("/tmp/opencode") ? "/tmp/opencode" : require("os").tmpdir();
-  return path.join(base, "react-hybrid-cache");
+  const base = require("os").tmpdir();
+  return path.join(base, "freezedry-react-cache");
 }
 
 // Cache key: FNV-1a over the app source, the implementation files' size+mtime, and the options that
@@ -412,12 +412,12 @@ function codeCacheFile(file) {
 }
 
 module.exports = {
-  name: "react-hybrid (traced templates + guards)",
+  name: "freezedry-react (traced templates + guards)",
   build,
   makeRenderer,
   isPlainData,
   // Builds (or loads from the on-disk cache, keyed by app source + implementation + training
-  // config) the specialized renderer. Set opts.noCache / REACT_HYBRID_NO_CACHE to always build.
+  // config) the specialized renderer. Set opts.noCache / REACT_FREEZEDRY_NO_CACHE to always build.
   prepare(appSource, opts = {}) {
     const fs = require("fs");
     const tm = [];
@@ -427,7 +427,7 @@ module.exports = {
       tm.push(`${n}=${(Number(x - tt) / 1e6).toFixed(2)}`);
       tt = x;
     };
-    const useCache = !opts.noCache && !process.env.REACT_HYBRID_NO_CACHE;
+    const useCache = !opts.noCache && !process.env.REACT_FREEZEDRY_NO_CACHE;
     const file = useCache ? path.join(cacheDir(opts), `${cacheKey(appSource, opts)}.json`) : null;
     mark("key");
     if (file && fs.existsSync(file)) {
@@ -459,7 +459,7 @@ module.exports = {
         mark("load");
         stats.codeCacheRejected = !!rr.cacheRejected;
         stats.prepareTimings = tm.join(" ");
-        if (process.env.REACT_HYBRID_TIMING) process.stderr.write(`[react-hybrid] ${stats.prepareTimings} codeCacheRejected=${stats.codeCacheRejected}\n`);
+        if (process.env.REACT_FREEZEDRY_TIMING) process.stderr.write(`[freezedry-react] ${stats.prepareTimings} codeCacheRejected=${stats.codeCacheRejected}\n`);
         if (!codeCache || rr.cacheRejected) {
           const render0 = rr.render;
           let pending = true;
@@ -487,8 +487,8 @@ module.exports = {
       }
     }
     const r = build(appSource, opts);
-    if (opts.verbose || process.env.REACT_HYBRID_VERBOSE) {
-      process.stderr.write(`[react-hybrid] ${JSON.stringify(r.stats)}\n`);
+    if (opts.verbose || process.env.REACT_FREEZEDRY_VERBOSE) {
+      process.stderr.write(`[freezedry-react] ${JSON.stringify(r.stats)}\n`);
     }
     if (file && !r.stats.disabled) {
       try {

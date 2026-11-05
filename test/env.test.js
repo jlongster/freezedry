@@ -13,7 +13,7 @@ const {
   parseEnvFlags,
 } = require("../lib/env.js");
 
-// Helper: simulates the hybrid pipeline on small scripts whose root state is JSON/primitive globals,
+// Helper: simulates the freezedry pipeline on small scripts whose root state is JSON/primitive globals,
 // then verifies originalSource vs guardedOutput in fresh VM contexts (both when assumptions hold
 // and when assumptions are violated!).
 function compileSimpleGlobalScript(originalSource, profile, assumptions, opts, emitOpts) {
@@ -332,7 +332,7 @@ describe("Volatile APIs, Timezone Pinning, and Math.random Policy", () => {
     assert.equal(allowed.recorder.bakedVolatiles.length, 1);
     assert.equal(allowed.recorder.bakedVolatiles[0].api, "Math.random");
     assert.equal(typeof allowed.recorder.bakedVolatiles[0].value, "number");
-    assert.equal(allowed.recorder.diagnostics[0].code, "HYB_VOLATILE_BAKED");
+    assert.equal(allowed.recorder.diagnostics[0].code, "FZD_VOLATILE_BAKED");
   });
 
   it("wraps Date preserving Date.prototype identity, subclassing, and deterministic UTC operations", () => {

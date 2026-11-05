@@ -8,10 +8,10 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 
-const BENCH = process.env.REACT_BENCH_DIR || "/tmp/opencode/pp-wt/react-bench/react-bench";
+const BENCH = process.env.REACT_BENCH_DIR || path.join(__dirname, "..", "bench", "react");
 const present = fs.existsSync(path.join(BENCH, "data.js")) && fs.existsSync(path.join(BENCH, "app", "app.js"));
 
-describe("react-hybrid on react-bench", { skip: !present && "react-bench not found" }, () => {
+describe("freezedry-react on react-bench", { skip: !present && "react-bench not found" }, () => {
   it("matches renderToString on the check corpus and on fuzzed inputs", () => {
     const util = require(path.join(BENCH, "harness-util.js"));
     const data = require(path.join(BENCH, "data.js"));

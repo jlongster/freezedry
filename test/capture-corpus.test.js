@@ -5,12 +5,12 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
-const SPECS = require("../../bench/libs/specs").SPECS.filter((s) => s.tier !== "large");
+const SPECS = require("../bench/libs/specs").SPECS.filter((s) => s.tier !== "large");
 const { createEnvironment } = require("../lib/run");
 const { capture } = require("../lib/capture");
 const { rebuildInFreshContext } = require("./helpers/rebuild");
 
-const DIST_DIR = path.resolve(__dirname, "../../bench/libs/dist");
+const DIST_DIR = path.resolve(__dirname, "../bench/libs/dist");
 
 test("captures and verifies real-world bench/libs/dist/*.js corpus without crashes", async (t) => {
   for (const spec of SPECS) {

@@ -7,14 +7,14 @@ const path = require("node:path");
 const { instrument } = require("../react/instrument");
 
 // Needs React 18 in bench/node_modules (`node bench/setup.js`); skipped otherwise.
-const REACT_PKG = path.join(__dirname, "..", "..", "bench", "node_modules", "react", "package.json");
+const REACT_PKG = path.join(__dirname, "..", "bench", "node_modules", "react", "package.json");
 const hasReact18 = fs.existsSync(REACT_PKG) && JSON.parse(fs.readFileSync(REACT_PKG, "utf8")).version.startsWith("18.");
 const describe = (name, fn) => describeAll(name, { skip: !hasReact18 && "React 18 not installed in bench/node_modules" }, fn);
 const { specialize, assertSame } = hasReact18 ? require("./helpers/react-app") : {};
 
 const HEADER = 'var React = require("react");\nvar h = React.createElement;\n';
 
-describe("react-hybrid: specialization basics", () => {
+describe("freezedry-react: specialization basics", () => {
   it("text, attributes, escaping and <!-- --> separators come from the template", () => {
     const src = `${HEADER}
 function App(props) {
@@ -163,7 +163,7 @@ module.exports = App;`;
   });
 });
 
-describe("react-hybrid: soundness boundaries", () => {
+describe("freezedry-react: soundness boundaries", () => {
   it("impure helpers poison their frames (always fall back there)", () => {
     const src = `${HEADER}
 var counter = 0;
@@ -229,7 +229,7 @@ module.exports = App;`;
   });
 });
 
-describe("react-hybrid: cached artifacts", () => {
+describe("freezedry-react: cached artifacts", () => {
   it("prepare() reuses the artifact with a React stub and loads React only on fallback", () => {
     const fs = require("node:fs");
     const os = require("node:os");
@@ -242,7 +242,7 @@ describe("react-hybrid: cached artifacts", () => {
 var Ctx = React.createContext({ sep: "," });
 function App(props) { var c = React.useContext(Ctx); return React.createElement("p", null, props.data.ok ? props.data.a + c.sep : "no"); }
 module.exports = App;`;
-    const dir = fs.mkdtempSync(path.join(fs.existsSync("/tmp/opencode") ? "/tmp/opencode" : os.tmpdir(), "rh-test-"));
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "rh-test-"));
     const opts = { require: reactRequire, trainingInputs: [{ ok: true, a: "x" }], cacheDir: dir };
     const first = impl.prepare(src, opts);
     assert.equal(first.stats.stubReact, true);
@@ -262,7 +262,7 @@ module.exports = App;`;
   });
 });
 
-describeAll("react-hybrid: instrumenter", () => {
+describeAll("freezedry-react: instrumenter", () => {
   it("classifies pure helpers and closure variables", () => {
     const { fns } = instrument(`
 var T = [1, 2];

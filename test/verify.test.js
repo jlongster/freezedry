@@ -123,7 +123,7 @@ describe("verify() — equivalent scripts (must pass)", () => {
         const uSym = Symbol("custom");
         const emptySym = Symbol("");
         const bareSym = Symbol();
-        const rSym = Symbol.for("hybrid.shared");
+        const rSym = Symbol.for("freezedry.shared");
         globalThis.prims = [-0, 0, NaN, Infinity, -Infinity, 9007199254740993n, undefined, null];
         globalThis.syms = {
           u1: uSym,
@@ -142,7 +142,7 @@ describe("verify() — equivalent scripts (must pass)", () => {
         const s1 = Symbol("custom");
         const s2 = Symbol("");
         const s3 = Symbol();
-        const sr = Symbol.for("hybrid.shared");
+        const sr = Symbol.for("freezedry.shared");
         globalThis.prims = [-0, +0, 0 / 0, 1 / 0, -1 / 0, BigInt("9007199254740993"), void 0, null];
         globalThis.syms = {
           u1: s1,
@@ -257,8 +257,8 @@ describe("verify() — equivalent scripts (must pass)", () => {
 
   it("passes intrinsic polyfill patches when identical in original and output", () => {
     const orig = `
-      if (!Array.prototype.__hybridTestFirst) {
-        Object.defineProperty(Array.prototype, "__hybridTestFirst", {
+      if (!Array.prototype.__freezedryTestFirst) {
+        Object.defineProperty(Array.prototype, "__freezedryTestFirst", {
           value: function first() { return this[0]; },
           writable: true,
           enumerable: false,
@@ -267,7 +267,7 @@ describe("verify() — equivalent scripts (must pass)", () => {
       }
     `;
     const out = `
-      Object.defineProperty(Array.prototype, "__hybridTestFirst", {
+      Object.defineProperty(Array.prototype, "__freezedryTestFirst", {
         value: function first() { return this[0]; },
         writable: true,
         enumerable: false,

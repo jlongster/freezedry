@@ -1,16 +1,35 @@
 {
-  "name": "prepack-hybrid",
-  "version": "0.0.1",
+  "name": "freezedry",
+  "version": "0.1.0",
   "private": true,
-  "description": "Run initialization in the real engine, capture the heap, emit JS that rebuilds it",
+  "description": "Run JavaScript initialization at build time in V8, capture the heap, and emit plain JS that rebuilds it, with guarded environment assumptions and a heap-isomorphism verifier",
   "main": "index.js",
   "bin": {
-    "hybrid": "bin/hybrid.js"
+    "freezedry": "bin/freezedry.js"
+  },
+  "files": [
+    "index.js",
+    "bin/",
+    "lib/",
+    "react/*.js"
+  ],
+  "engines": {
+    "node": ">=24"
   },
   "scripts": {
-    "test": "node --test --test-concurrency=4 'test/*.test.js'"
+    "pretest": "node bench/setup.js",
+    "test": "node --test --test-concurrency=4 'test/*.test.js'",
+    "test:large": "FREEZEDRY_E2E_LARGE=1 node --test 'test/pipeline-large-e2e.test.js'",
+    "bench:setup": "node bench/setup.js",
+    "bench": "node bench/run.js",
+    "bench:compare": "node bench/compare.js",
+    "bench:react": "node bench/react/check.js --impl freezedry && node bench/react/perf.js --impl freezedry --impl handwritten"
   },
-  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlongster/freezedry.git"
+  },
+  "license": "MIT",
   "dependencies": {
     "acorn": "^8.19.0"
   }

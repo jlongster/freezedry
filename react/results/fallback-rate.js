@@ -1,4 +1,4 @@
-const fs=require("fs");const B="/tmp/opencode/pp-wt/react-bench/react-bench";
+const fs=require("fs");const B=require("path").join(__dirname,"..","..","bench","react");
 const util=require(B+"/harness-util.js"),data=require(B+"/data.js");const {React,ReactDOMServer}=require(B+"/react-deps.js");
 const impl=require("../index.js");
 const App=require(util.APP_JS_PATH);const out={};

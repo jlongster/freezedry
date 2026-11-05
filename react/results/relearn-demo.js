@@ -1,6 +1,6 @@
 // Offline relearning demo: fallback rate on fuzzed inputs before/after retraining with the inputs
 // that fell back on a disjoint fuzz set.
-const fs=require("fs");const B="/tmp/opencode/pp-wt/react-bench/react-bench";
+const fs=require("fs");const B=require("path").join(__dirname,"..","..","bench","react");
 const util=require(B+"/harness-util.js"),data=require(B+"/data.js");const {React,ReactDOMServer}=require(B+"/react-deps.js");
 const impl=require("../index.js");const {mutate,rng}=require("../fuzz.js");
 const App=require(util.APP_JS_PATH);const src=fs.readFileSync(util.APP_JS_PATH,"utf8");

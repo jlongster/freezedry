@@ -2,7 +2,7 @@
 
 // Run the full H4 oracle (heap isomorphism + smoke) for ONE workload and append a JSON line
 // to the given results file. One process per workload avoids OOM/SIGSEGV on large bundles.
-// Usage: node --max-old-space-size=12288 hybrid/tools/oracle-one.js <libId> <out.jsonl> [--zero-config]
+// Usage: node --max-old-space-size=12288 tools/oracle-one.js <libId> <out.jsonl> [--zero-config]
 
 const fs = require("node:fs");
 const path = require("node:path");
@@ -11,7 +11,7 @@ const { prepackSources } = require("../index");
 const id = process.argv[2];
 const outFile = process.argv[3];
 const zeroConfig = process.argv.includes("--zero-config");
-const src = fs.readFileSync(path.resolve(__dirname, "../../bench/libs/dist", `${id}.js`), "utf8");
+const src = fs.readFileSync(path.resolve(__dirname, "../bench/libs/dist", `${id}.js`), "utf8");
 const t0 = Date.now();
 const record = { id, mode: zeroConfig ? "zero-config" : "opt-ins", inputBytes: src.length };
 try {

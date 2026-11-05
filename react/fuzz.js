@@ -6,7 +6,7 @@
 // deleted/nulled fields, wrong primitive types, special numbers, escaping-relevant strings, array
 // truncation/duplication/emptying, extra object keys, objects replaced by arrays/strings.
 //
-//   node hybrid/react/fuzz.js [--n 2000] [--seed 1] [--mutations 3] [--bench /path/to/react-bench]
+//   node react/fuzz.js [--n 2000] [--seed 1] [--mutations 3] [--bench bench/react]
 
 const path = require("path");
 const fs = require("fs");
@@ -112,7 +112,7 @@ function main() {
   const n = Number(opt("n", 2000));
   const seed = Number(opt("seed", 1));
   const muts = Number(opt("mutations", 3));
-  const bench = opt("bench", "/tmp/opencode/pp-wt/react-bench/react-bench");
+  const bench = opt("bench", path.join(__dirname, "..", "bench", "react"));
   const util = require(path.join(bench, "harness-util.js"));
   const data = require(path.join(bench, "data.js"));
   const { React, ReactDOMServer } = require(path.join(bench, "react-deps.js"));
@@ -155,7 +155,7 @@ function main() {
     else {
       bad++;
       if (bad <= 3) {
-        fs.writeFileSync(`/tmp/opencode/fuzz-fail-${i}.json`, JSON.stringify(input, (k, v) => (v === undefined ? "__undefined__" : v)));
+        fs.writeFileSync(path.join(require("os").tmpdir(), `fuzz-fail-${i}.json`), JSON.stringify(input, (k, v) => (v === undefined ? "__undefined__" : v)));
         console.log("MISMATCH", i, JSON.stringify(util.formatFirstDiff(want, got)));
       }
     }

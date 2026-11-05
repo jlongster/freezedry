@@ -15,15 +15,9 @@ function runInFreshVm(code) {
   return ctx;
 }
 
-const LOCAL_CAPTURE = path.join(__dirname, "..", "lib", "capture.js");
-const H1_WT_CAPTURE = "/tmp/opencode/pp-wt/hybrid-capture/hybrid/lib/capture.js";
-const CAPTURE_PATH = fs.existsSync(LOCAL_CAPTURE)
-  ? LOCAL_CAPTURE
-  : fs.existsSync(H1_WT_CAPTURE)
-    ? H1_WT_CAPTURE
-    : null;
+const CAPTURE_PATH = path.join(__dirname, "..", "lib", "capture.js");
 
-describe("hybrid/lib/emit — advanced corner cases & optimizations", () => {
+describe("lib/emit — advanced corner cases & optimizations", () => {
   it("handles Babel-style self-overwriting FunctionDeclaration (_typeof) without NFE infinite recursion", () => {
     const graph = {
       version: 1,
@@ -265,7 +259,7 @@ describe("hybrid/lib/emit — advanced corner cases & optimizations", () => {
     );
   });
 
-  it("wires hybrid/index.js prepackSources errorHandler & fallbackOnBailout contract", () => {
+  it("wires index.js prepackSources errorHandler & fallbackOnBailout contract", () => {
     const seenDiags = [];
     const out = prepackSources("var x = 1;", {
       captureGraph: {
@@ -281,7 +275,7 @@ describe("hybrid/lib/emit — advanced corner cases & optimizations", () => {
     });
     assert.equal(out.code, null);
     assert.equal(seenDiags.length, 1);
-    assert.equal(seenDiags[0].errorCode, "HYB_BAILOUT");
+    assert.equal(seenDiags[0].errorCode, "FZD_BAILOUT");
 
     const fb = prepackSources("var x = 42;", {
       captureGraph: {
@@ -312,14 +306,14 @@ describe("hybrid/lib/emit — advanced corner cases & optimizations", () => {
 });
 
 describe(
-  "hybrid/index.js — live end-to-end integration with H1 capture",
+  "index.js — live end-to-end integration with H1 capture",
   { skip: !CAPTURE_PATH && "H1 capture module not present" },
   () => {
     it("captures, emits, and passes full heap isomorphism on adversarial closures, classes, loops, symbols, and collections", async () => {
       const program = `
         (function() {
           const uniq = Symbol("tag");
-          const reg = Symbol.for("hybrid.e2e");
+          const reg = Symbol.for("freezedry.e2e");
 
           // 1. Shared mutable counter + const object + cycle
           const counterApi = (function() {

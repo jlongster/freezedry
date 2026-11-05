@@ -8,12 +8,12 @@ const childProcess = require("node:child_process");
 const { describe, it } = require("node:test");
 const assert = require("node:assert/strict");
 
-const SPECS = require("../../bench/libs/specs").SPECS.filter((s) => s.tier !== "large");
+const SPECS = require("../bench/libs/specs").SPECS.filter((s) => s.tier !== "large");
 const { prepackSources, prepackSourcesAsync, BailoutError } = require("../index");
 
-const REPO_ROOT = path.resolve(__dirname, "../..");
+const REPO_ROOT = path.resolve(__dirname, "..");
 const DIST_DIR = path.join(REPO_ROOT, "bench/libs/dist");
-const CLI_PATH = path.join(REPO_ROOT, "hybrid/bin/hybrid.js");
+const CLI_PATH = path.join(REPO_ROOT, "bin/freezedry.js");
 
 const ZERO_CONFIG_OK_IDS = new Set([
   "acorn",
@@ -68,7 +68,7 @@ describe("End-to-End Integrated Pipeline over bench/libs/dist (run -> capture ->
           BailoutError,
           `${spec.id} must bail out in zero-config mode`
         );
-        assert.equal(diags[0].errorCode, "HYB_VOLATILE_BAILOUT", `${spec.id} should report HYB_VOLATILE_BAILOUT`);
+        assert.equal(diags[0].errorCode, "FZD_VOLATILE_BAILOUT", `${spec.id} should report FZD_VOLATILE_BAILOUT`);
 
         // Standalone fallback-on-bailout returns original source cleanly
         const fallbackRes = await prepackSourcesAsync(sources, {});
@@ -131,7 +131,7 @@ describe("End-to-End Integrated Pipeline over bench/libs/dist (run -> capture ->
   });
 
   it("supports all CLI flags (--profile, --assume, --allow-volatile, --assume-tz, --verify, --fallback)", () => {
-    const tmpBase = fs.existsSync("/tmp/opencode") ? "/tmp/opencode" : os.tmpdir();
+    const tmpBase = os.tmpdir();
     const dir = fs.mkdtempSync(path.join(tmpBase, "hyb-cli-all-"));
     try {
       const inFile = path.join(dir, "app.js");
@@ -332,7 +332,7 @@ describe("End-to-End Integrated Pipeline over bench/libs/dist (run -> capture ->
         }),
       BailoutError
     );
-    assert.equal(diags[0].errorCode, "HYB_VOLATILE_BAILOUT");
+    assert.equal(diags[0].errorCode, "FZD_VOLATILE_BAILOUT");
     const res = await prepackSourcesAsync(sources, {
       profile: "ecmascript",
       allowVolatile: ["Error.stack"],

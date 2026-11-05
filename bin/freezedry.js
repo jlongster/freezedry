@@ -30,7 +30,7 @@ function parseCliArgs(argv) {
     if (a === "--help" || a === "-h") {
       process.stdout.write(
         [
-          "Usage: node hybrid/bin/hybrid.js <input.js> [options]",
+          "Usage: freezedry <input.js> [options]",
           "  --out <out.js>               Write output JS to file (default: stdout)",
           "  --profile <name>             Target profile: ecmascript|browser|worker|node|bun|hermes|universal",
           "  --assume <NAME=JSON>         Assert global/property value or typeof:PATH=\"type\" (repeatable)",
@@ -89,7 +89,7 @@ function parseCliArgs(argv) {
 
   if (opts.inputs.length === 0) {
     throw new Error(
-      "Usage: node hybrid/bin/hybrid.js <input.js> [--out out.js] [--profile NAME] [--assume NAME=JSON] [--allow-volatile LIST] [--assume-tz ZONE] [--fallback MODE] [--verify]"
+      "Usage: freezedry <input.js> [--out out.js] [--profile NAME] [--assume NAME=JSON] [--allow-volatile LIST] [--assume-tz ZONE] [--fallback MODE] [--verify]"
     );
   }
   return opts;
@@ -114,7 +114,7 @@ if (require.main === module) {
 
   if (result.bailouts && result.bailouts.length > 0) {
     for (const b of result.bailouts) {
-      process.stderr.write(`[hybrid] bailout (emitting fallback): ${b.reason}${b.where ? ` (${b.where})` : ""}\n`);
+      process.stderr.write(`[freezedry] bailout (emitting fallback): ${b.reason}${b.where ? ` (${b.where})` : ""}\n`);
     }
   }
 

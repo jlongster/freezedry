@@ -22,7 +22,7 @@ function runInFreshVm(code) {
   return ctx;
 }
 
-describe("hybrid/lib/emit — JSON fixtures & heap isomorphism", () => {
+describe("lib/emit — JSON fixtures & heap isomorphism", () => {
   it("01-objects-cycles-protos: rebuilds cycles, null/custom protos, shadowed setters, __proto__ own key, descriptors, freeze/seal", async () => {
     const graph = loadFixture("01-objects-cycles-protos.json");
     const referenceScript = `
@@ -157,12 +157,12 @@ describe("hybrid/lib/emit — JSON fixtures & heap isomorphism", () => {
           [symUniq]: "onBag"
         };
         Object.defineProperty(bag, Symbol.toStringTag, {
-          value: "HybridBag",
+          value: "freezedryBag",
           writable: false,
           enumerable: false,
           configurable: true
         });
-        Object.defineProperty(Array.prototype, "__hybridTestPatch", {
+        Object.defineProperty(Array.prototype, "__freezedryTestPatch", {
           value: "patched!",
           writable: true,
           enumerable: false,
@@ -207,7 +207,7 @@ describe("hybrid/lib/emit — JSON fixtures & heap isomorphism", () => {
       true
     );
     // 6. Intrinsic patch applied
-    assert.equal(vm.runInContext("[].__hybridTestPatch", ctxAct), "patched!");
+    assert.equal(vm.runInContext("[].__freezedryTestPatch", ctxAct), "patched!");
   });
 
   it("02-collections-builtins: rejected Promise does NOT trigger UnhandledPromiseRejection in fresh Node process", () => {
@@ -320,7 +320,7 @@ describe("hybrid/lib/emit — JSON fixtures & heap isomorphism", () => {
   });
 });
 
-describe("hybrid/lib/emit — adversarial & bailout edge cases", () => {
+describe("lib/emit — adversarial & bailout edge cases", () => {
   it("avoids generated prefix collisions when user code uses __h$ and __h1$", () => {
     const graph = {
       version: 1,

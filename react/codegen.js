@@ -13,7 +13,7 @@ const TRIVIAL = new Set(["root", "lit", "ref", "re"]);
 const CLASSIFIERS = { tcls: "$tcls", acls: "$acls", scls: "$scls", scls0: "$scls0", hcls: "$hcls", keys: "$keys" };
 
 const RUNTIME = String.raw`
-const $FB = { hybridFallback: true };
+const $FB = { freezedryFallback: true };
 let $fbSite = -1;
 function $fb(site) { $fbSite = site === undefined ? -1 : site; throw $FB; }
 let $o = "";

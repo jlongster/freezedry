@@ -129,7 +129,7 @@ class Learner {
   }
 
   conflict(key, why) {
-    if (process.env.REACT_HYBRID_DEBUG) process.stderr.write(`[conflict ${key}] ${why}\n`);
+    if (process.env.REACT_FREEZEDRY_DEBUG) process.stderr.write(`[conflict ${key}] ${why}\n`);
     this.conflictReasons = this.conflictReasons || new Map();
     if (!this.conflictReasons.has(key)) this.conflictReasons.set(key, why);
     // Two traces disagree on what the same guarded path does: the template for this function is

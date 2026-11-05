@@ -286,7 +286,7 @@ test("captures unique, registered, and well-known Symbols across keys, values, M
   const src = `
     const uniq = Symbol("secret");
     const emptyUniq = Symbol();
-    const reg = Symbol.for("hybrid.test.token");
+    const reg = Symbol.for("freezedry.test.token");
     const obj = {
       [uniq]: "hidden-val",
       [reg]: "reg-val",
@@ -307,7 +307,7 @@ test("captures unique, registered, and well-known Symbols across keys, values, M
     ctx,
     `({
       tag: Object.prototype.toString.call(syms.obj),
-      regMatch: syms.reg === Symbol.for("hybrid.test.token") && syms.obj[Symbol.for("hybrid.test.token")] === "reg-val",
+      regMatch: syms.reg === Symbol.for("freezedry.test.token") && syms.obj[Symbol.for("freezedry.test.token")] === "reg-val",
       uniqIdentity: syms.obj[syms.obj.keepUniq] === "hidden-val",
       closureRead: syms.readSecret(syms.obj),
       emptyDesc: syms.obj.keepEmpty.description === undefined,
